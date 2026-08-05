@@ -1,2 +1,4 @@
 .DS_Store
 *.~undo-tree~
+paragraphs_*.json
+translations_*.json
