@@ -1,0 +1,33 @@
+/* 显式指定列表样式，确保各类 EPUB 阅读器都正确显示列表（项目符号/编号与缩进），
+   避免因默认样式被重置而导致列表被压成一行。 */
+ul, ol {
+  margin: 0.6em 0 0.8em 0;
+  padding-left: 1.6em;
+}
+li {
+  margin: 0.3em 0;
+}
+li > ul, li > ol {
+  margin-top: 0.3em;
+}
+ul {
+  list-style: disc;
+}
+ul ul {
+  list-style: circle;
+}
+ul ul ul {
+  list-style: square;
+}
+ol {
+  list-style: decimal;
+}
+ol ol {
+  list-style: lower-alpha;
+}
+ul li {
+  display: list-item;
+}
+ol li {
+  display: list-item;
+}
