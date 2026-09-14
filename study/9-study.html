@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第九 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中有寻有伺等三地之六</div>
+  <h1>卷第九 · 交互式学习模块</h1>
+  <p class="sub">这一卷是「业力学」的结算大厅与「轮回」的发动机舱：前半卷交代业如何兑现成果报、什么业分量最重、业有多少种分类、造业的代价；后半卷从「生杂染」切入，展开佛教最核心的模型——十二缘起。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 29 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 业的五种果实</a>
+<a href="#s3">③ 现法果·今生就报</a>
+<a href="#s4">④ 重业与三种颠倒</a>
+<a href="#s5">⑤ 业的分类总柜</a>
+<a href="#s6">⑥ 业的七种代价</a>
+<a href="#s7">⑦ 投生这件大事</a>
+<a href="#s8">⑧ 十二缘起发动机</a>
+<a href="#s9">⑨ 收官总纲</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂全卷地图</b><span>先弄清这一卷分哪两幕、每章讲什么——对应第 01 章</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>业的五种果实</b><span>认识业兑现成绩的五个输出端口——对应第 02 章</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>现法果：今生就报</b><span>拨一拨条件模拟器，看什么业不排队——对应第 03 章</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>重业权重与三种颠倒</b><span>做几道归类练习，分清作用、执受、喜乐——对应第 04 章</span></span></label></div>
+<div class="step-item" data-target="#s7"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>投生这件大事</b><span>生的五种差别，与佛算的两笔大账——对应第 07 章（顺路可看第 05、06 章）</span></span></label></div>
+<div class="step-item" data-target="#s8"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>十二缘起与收官</b><span>推演轮回发动机的全流程，最后读总纲颂——对应第 08、09 章</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ 01 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：一间结算大厅，一台轮回发动机</h2></div>
+  <p class="sec-lead">卷八把「什么是善业、什么是不善业」这套零件讲完了，本卷开头紧接一句「复次业门云何」——零件装好后，先讲怎么结算。上半场（01～06 章）是业的结算规则：果实、权重、故障、分类、代价；下半场（07～09 章）镜头转向果报的主体——「生」，并一路追问到轮回的发动机：十二缘起。</p>
+  <div class="card">
+    <h3>这一卷的两幕剧</h3>
+    <div class="quote">复次业门云何。此略有二种。一与果门。二损益门。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">上半场回答「业如何兑现」，下半场回答「兑现出来的生命如何一轮轮运转、又如何停机」。下半场开头立起总问题：「云何生杂染㉗。谓由四种相应知。一由差别故。二由艰辛故。三由不定故。四由流转故。」</div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">上半场 · 章 02-03</span><h4>业门</h4><p>两种门：与果门——业的五种果实；损益门——八损害与八利益通道。</p></div>
+      <div class="yuan-card"><span class="y-tag">上半场 · 章 04</span><h4>业增上</h4><p>六种相，回答「为什么有的业极重」——加行、串习、自性、事、所治一类、所治损害。</p></div>
+      <div class="yuan-card"><span class="y-tag">上半场 · 章 04</span><h4>业颠倒</h4><p>三种系统 bug：作用颠倒（对象搞错）、执受颠倒（否认账本）、喜乐颠倒（情绪倒挂）。</p></div>
+      <div class="yuan-card"><span class="y-tag">上半场 · 章 05</span><h4>业差别</h4><p>十几组分类坐标构成的总柜：作与不作、增长与不增长、故思、黑白四业、曲秽浊清净寂静……</p></div>
+      <div class="yuan-card"><span class="y-tag">上半场 · 章 06</span><h4>业过患</h4><p>以杀生为样本的七种代价：自害、他害、俱害、三种罪、身心忧苦。</p></div>
+      <div class="yuan-card"><span class="y-tag">下半场 · 章 07</span><h4>生杂染</h4><p>生的四张切片：差别、艰辛、不定、流转。佛算了两笔大账：血海与筹算。</p></div>
+      <div class="yuan-card"><span class="y-tag">下半场 · 章 08-09</span><h4>缘起</h4><p>体（三世两重因果）、门（八门）、义（八重递进）、差别（十九种无知）。本卷讲到释词开头，余下在卷十。</p></div>
+    </div>
+  </div>
+  <div class="case"><b>把本卷读成一份结算说明书：</b>上周三晚上小周打游戏连赢三局，结算界面依次弹出评分、经验、掉落、段位分、队友点赞。本卷上半场就是业的结算说明书——「一与果门。二损益门」回答成绩怎么算，业增上与业颠倒回答权重与判卷误差，业过患回答违规的代价；下半场则进入「下一局怎么开局」——生杂染与十二缘起。对应关系：结算规则↔业门，下一局开局↔生流转。</div>
+  <div class="case"><b>地铁上的三十分钟：</b>老陈每天通勤单程四十分钟，他把本页当作「原文导航」：每章先读绿色「一句话」块，再点开蓝色引文对照原词。这正利用了本页概念卡的三件套结构——原文引文、一句话、比喻：先懂大意再回看文言，是啃这类论典最省力的次序。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 02 业的五种果实 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>业的五种果实：兑现成绩的五个端口</h2></div>
+  <p class="sec-lead">「与果门」是业的第一扇门：业造下之后，从五个端口输出成果。同一桩业，可能同时或先后从多个端口发货——换身体、带习惯、改环境、今生到账、利益旁人。</p>
+  <div class="card">
+    <h3>五端口总览</h3>
+    <div class="quote">与果门者。有五种应知。一与异熟果①。二与等流果②。三与增上果。四与现法果③。五与他增上果④。<span class="src">—— 卷九原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">异熟果</div><div class="sub">换一个全新生命体去承受</div><div class="tap">→</div></div><div class="back">杀生等不善业反复串习，果报在另一个生命形态上成熟——「于那洛迦中受异熟果」（那洛迦即地狱）。「异」指异时、异类：果报不在造业的当下、也不以原样身体出现。<em>比喻：角色在大号里犯规到极点，系统不是在原角色身上扣血，而是给你换了个地狱难度的小号从头挨打。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">等流果</div><div class="sub">同款配方，流类相等</div><div class="tap">→</div></div><div class="back">从地狱出来生到人间，仍带着同类的苦与习气：寿短、贫穷、被诽谤、亲友乖离、贪嗔痴增盛……果与因「同类相续」，所以叫等流。<em>比喻：同款手机换了新机，你还是在同一个 App 上刷到凌晨——习惯的「配方」会流到下一台设备。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">增上果</div><div class="sub">环境画质随业改变</div><div class="tap">→</div></div><div class="back">造不善业，感得的外在环境「光泽鲜少」，果实朽败零落、空无果实；善业则相反。业不只改变你，还改变你周围世界的成色。<em>比喻：鱼缸水质——鱼的生活方式决定水的浑浊；业决定你缸里的「水」。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">现法果</div><div class="sub">今生就兑现的一笔</div><div class="tap">→</div></div><div class="back">「有二因缘。善不善业与现法果。一由欲解⑥故。二由事故。」态度拉到极致，或对象足够重大，业就当世报——详见第 03 章。<em>比喻：定期存款到期兑付是常态，但金额够大、手续够重，可以当天到账。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">他增上果</div><div class="sub">大人物的业是公共设施</div><div class="tap">→</div></div><div class="back">佛所住国邑「必无疾疫灾横等起」，转轮圣王、住慈定菩萨亦尔；菩萨以大悲心施饮食财谷，「彼诸众生得安乐住」——他的业力外溢成众生的环境红利。<em>比喻：路灯不收电费也不分你我家，路过的人都照亮。</em></div></div>
+    </div>
+    <div class="plain">异熟果管「你去哪投胎」，等流果管「你带什么出厂设置」，增上果管「世界对你什么画质」，现法果管「哪笔今生就报」，他增上果管「谁沾你的光」。</div>
+  </div>
+  <div class="card">
+    <h3>等流果：从地狱回来，一身「同款配置」</h3>
+    <div class="quote">谓若从彼出来生此间。人同分中寿量短促。资财匮乏。妻不贞良。多遭诽谤。亲友乖离。闻违意声。言不威肃。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">这份清单是十不善业道的「镜像回执」：杀生者人寿短，偷盗者资财乏，邪淫者妻不贞，妄语者多被诽谤，离间者亲友散，粗恶语者闻违意声，绮语者言不威肃，贪嗔痴者贪嗔痴更猛利——造什么业，就流出同类的果。</div>
+    <div class="case"><b>茶水间的「热心人」：</b>小李习惯在 A 同事面前说「B 背后说你坏话」，又在 B 面前换一套说辞。半年后部门聚餐没人叫她——她把别人的关系搅散的同时，自己的关系网先散了。这正对应清单中的「亲友乖离」一条：造离间语，流出的正是同类的疏离之果。</div>
+  </div>
+  <div class="card">
+    <h3>增上果：业连「地图画质」都改</h3>
+    <div class="quote">所感外分光泽鲜少。果不充实果多朽败。果多变改。果多零落。果不甘美。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">增上果落在「外分」——环境与器物层面：土地贫瘠、果实败坏、收成不稳。「当知善业与此相违」，善业感得的是光泽丰饶、果硕味甘的外界。</div>
+    <div class="case"><b>两片苹果园：</b>同一个村子、同样品种，山北果园的苹果年年虫蛀落果、酸涩瘦小，山南果园却果大味甜。人们常只归因于技术和土质，论中指出环境本身也是业的产物——增上果的差别；善业者的世界，连果子都更「光泽鲜洁」。</div>
+  </div>
+  <div class="card">
+    <h3>他增上果与损益门</h3>
+    <div class="quote">犹如如来所住国邑必无疾疫灾横等起。佛神力故。无量众生无疾无疫。无有灾横。得安乐住。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">业的力量可以外溢：圣者的善业成为众生共同享用的环境。「与果门」之外还有第二扇门「损益门」——依十不善业道建立八损害门：「一损害众生。二损害财物。三损害妻妾。四虚伪友证损害。五损害助伴。六显说过失损害。七引发放逸损害。八引发怖畏损害。」与此相违，依十善业道建立八利益门。</div>
+    <div class="case"><b>山区食堂计划：</b>某公益人十年间在山区推动营养午餐，三十七所学校的孩子身高体重曲线明显改善——「由此因缘。彼诸众生得安乐住」。他的善业成了别人的环境红利，这正是「与他增上果」：如同佛所住国邑必无疾疫灾横。</div>
+    <div class="case"><b>两种「好朋友」：</b>阿强出事时，朋友甲替他向警方作假证掩盖，朋友乙天天给他发网赌平台链接「带你回本」。前者对应八损害门的「虚伪友证损害」，后者对应「引发放逸损害」——损益门提醒：损害不只来自刀棒，更来自作伪的信用与放逸的通道。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 03 现法果 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>现法果：什么业今生就报</h2></div>
+  <p class="sec-lead">四种果大多「隔期兑付」，但有一种例外——现法果，今生就能看到回响。原文给出两个触发条件：欲解（态度的极端程度）与事（对象的重不重要）。</p>
+  <div class="card">
+    <h3>开关一：欲解——态度拉到极致</h3>
+    <div class="quote">与现法果者。有二因缘。善不善业与现法果。一由欲解⑥故。二由事故。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">一有顾欲解。二无顾欲解。三损恼欲解。四慈悲欲解。五憎害欲解。六净信欲解。七弃恩欲解。八知恩欲解。<span class="src">—— 卷九原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">有顾欲解</div><div class="sub">顾恋身、财、所有 · 不善</div><div class="tap">→</div></div><div class="back">「由增上欲解。顾恋其身。顾恋财物。顾恋诸有。造不善业。」怕失去身体、钱财、拥有的一切，于是不顾底线。<em>对应案例见下。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">无顾欲解</div><div class="sub">不顾身、财、所有 · 善</div><div class="tap">→</div></div><div class="back">与有顾恰好相反：「不顾其身。不顾财物。不顾诸有。造作善业」——不计个人得失地行善，强度同样拉满，善果今生兑现。</div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">损恼欲解</div><div class="sub">对有情蓄意伤害 · 不善</div><div class="tap">→</div></div><div class="back">「于他有情补特伽罗。以增上品损恼欲解。造不善业」——对具体的人存心损恼，且达到「增上品」的强度。</div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">慈悲欲解</div><div class="sub">对有情极深慈悲 · 善</div><div class="tap">→</div></div><div class="back">同是对有情，翻成「增上品慈悲欲解造作善业」——同一台机器，两个方向。</div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">憎害欲解</div><div class="sub">憎恨三宝等尊重事 · 不善</div><div class="tap">→</div></div><div class="back">「于佛法僧。及随一种尊重处事。以增上品憎害欲解。造不善业」——对大众公认的尊重之处蓄意憎害。</div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">净信欲解</div><div class="sub">于三宝增上净信 · 善</div><div class="tap">→</div></div><div class="back">同一对象翻成「增上品净信欲解。造作善业」——对象重、态度正，善果今生到账。</div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">弃恩欲解</div><div class="sub">背恩、欺诳、酷暴 · 不善</div><div class="tap">→</div></div><div class="back">「于父母所。及随一种恩造之处。以增上品背恩欲解。欺诳欲解。酷暴欲解。造不善业。」对有恩之处反手加害。</div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">知恩欲解</div><div class="sub">知恩、报恩 · 善</div><div class="tap">→</div></div><div class="back">「于父母等。以增上品知恩欲解。报恩欲解。所作善业。」——与弃恩成对，报恩的善业今生受现法果。</div></div>
+    </div>
+    <div class="plain">欲解是对某事的强力执持与取向。八种正好四对，两两相反：顾恋与放下、损恼与慈悲、憎害与净信、背恩与知恩——强度相同，方向相反，果报都「今生到账」。</div>
+    <div class="case"><b>签字之前：</b>某项目主管明知检测数据造假，仍签了字——不是不知道后果，而是「顾恋其身。顾恋财物。顾恋诸有」：怕丢职位、怕还不上房贷、怕失去这一切。这种对身财所有的极端执持就是「有顾欲解」，它是不善业今生受报的第一类加速器。</div>
+    <div class="case"><b>一对兄弟：</b>母亲住院期间，哥哥伪造母亲签名转走存款（「以增上品背恩欲解。欺诳欲解。酷暴欲解。造不善业」），弟弟辞掉外地工作回家陪护（「以增上品知恩欲解。报恩欲解。所作善业」）。同一对父母、同一间病房，两种欲解两种业——原文特意把弃恩与知恩排成一对。</div>
+  </div>
+  <div class="card">
+    <h3>开关二：事故——对象本身重</h3>
+    <div class="quote">五无间业⑦者。一害母二害父。三害阿罗汉。四破僧。五于如来所恶心出血。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">或于天庙衢路市肆。立杀羊法。流行不绝。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">或于有苦贫穷困乏无依无怙。为作归依施无畏已。后返加害。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">五无间业是直接通向无间地狱的五种极重业；「无间业同分」是性质相近的重业——在公共场所立杀生的规矩且让它流行不绝、对施过无畏的人反手加害、劫夺僧门、破坏灵庙等。善业同样「由事重故受现法果」：「谓如有一母无正信。劝进开化安置建立于具信中」「或于起慈定者供养承事」——把母亲劝入正信、供养出定者与圣者僧，都是善的重事。</div>
+    <div class="case"><b>「固定栏目」：</b>某直播间把虐待流浪猫做成每晚八点的收费栏目，观众订阅、打赏、定期「更新」。对应无间业同分中的「立杀羊法。流行不绝」：把伤害做成公开的、制度化的、持续流行的惯例——其重不在一次的伤害量，而在立法定制、流行不绝。</div>
+    <div class="case"><b>借住的朋友：</b>小周把落魄的老同学接进家中住（「为作归依施无畏已」），一年后为争一笔拆迁补偿，抢先举报对方「非法居住」，断了对方生计（「后返加害」）。先给依靠再背后加害，原文将其列为无间业同分——对施过无畏的人反手，属于重事。</div>
+  </div>
+  <div class="card">
+    <h3>条件模拟器：拨一拨，看今生报不报</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">原文的逻辑：增上欲解与重事，二者居其一，业就今生兑现；方向还可翻转。拨动下面的开关试试。</p>
+    <div class="cond-row"><div class="name">增上欲解<small>态度拉满：极端的顾恋、损恼、憎害、背恩（或反方向的无顾、慈悲、净信、知恩）</small></div><label class="switch"><input type="checkbox" id="c1"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">事缘重大<small>对象是重事：五无间及其同分、父母恩处、三宝等尊重事</small></div><label class="switch"><input type="checkbox" id="c2"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">善向翻转<small>同样的强度与重事，转向善的一边：无顾、慈悲、净信、知恩</small></div><label class="switch"><input type="checkbox" id="c3"><span class="slider"></span></label></div>
+    <div id="condResult"></div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 04 重业与三种颠倒 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>什么业最重：六个权重，三种 bug</h2></div>
+  <p class="sec-lead">同样是错，为什么有的业「猛利极重」？本卷给出六种加权重的方式（业增上）；又指出三种让业系统跑偏的故障（业颠倒）——做错了不可怕，可怕的是连「做错了」这个判定都被篡改。</p>
+  <div class="card">
+    <h3>业增上：给业加码的六种方式</h3>
+    <div class="quote">业增上云何。谓猛利极重业。当知此业由六种相。一加行故。二串习⑨故。三自性故。四事故。五所治一类故。六所治损害故。<span class="src">—— 卷九原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">权重一</span><h4>加行</h4><p>发动前的蓄势。「由极猛利贪嗔痴缠。及极猛利无贪无嗔无痴加行。发起诸业」——冲动脱口与蓄谋已久，力道天差地别。</p></div>
+      <div class="yuan-card"><span class="y-tag">权重二</span><h4>串习</h4><p>「于长夜中。亲近修习若多修习不善善业」——重复本身就是重量，无论善习恶习。</p></div>
+      <div class="yuan-card"><span class="y-tag">权重三</span><h4>自性</h4><p>业的种类自带等级：语四支中绮语最轻、妄语最重；身三支中杀生最重；意三支中邪见最重；施不如戒，戒不如修，闻不如思。</p></div>
+      <div class="yuan-card"><span class="y-tag">权重四</span><h4>事</h4><p>对佛法僧及尊重事「为损为益名重事业」——对象重大，损益都加倍。</p></div>
+      <div class="yuan-card"><span class="y-tag">权重五</span><h4>所治一类</h4><p>「一向受行诸不善业。乃至寿尽无一时善」——从始至终一路作恶，恶业一路到底。</p></div>
+      <div class="yuan-card"><span class="y-tag">权重六</span><h4>所治损害</h4><p>「断所对治诸不善业。令诸善业离欲清净」——把对治掉的不善翻成善的力量，是最有力的一种善。</p></div>
+    </div>
+    <div class="quote">于绮语。粗恶语为大重罪。于粗恶语。离间语为大重罪。于离间语。妄语为大重罪。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">于施性戒性无罪为胜。于戒性修性无罪为胜。于闻性思性无罪为胜。<span class="src">—— 卷九原文</span></div>
+    <div class="case"><b>脱口而出与深夜小作文：</b>同样是对同事不满，小赵当场顶了一句就完事；小钱憋了两个月，写下两千字匿名小作文群发，字字诛心。原文说重业起于「极猛利贪嗔痴缠……加行」——加行（发动前的蓄势）越深，业越重。脱口而出的力道，远不如蓄谋已久的精心构造。</div>
+    <div class="case"><b>第一支烟与十年烟枪：</b>戒烟门诊里，抽了三天的人几乎说戒就戒；抽了二十年的人复吸率居高不下。对应「串习故者。谓如有一于长夜中。亲近修习若多修习」——重复本身就是重量，「长夜」级的串习把行为烧进了底层。</div>
+    <div class="case"><b>两个司机：</b>一个常年压线抢行、从不觉得有问题（「一向受行诸不善业。乃至寿尽无一时善」——所治一类，恶习一路到底）；另一个撞人后彻底悔改，从此礼让行人还劝亲友守规（「断所对治诸不善业。令诸善业离欲清净」——所治损害）。前者恶业增长，后者的善业获得「所治损害」的重磅加成。</div>
+    <div class="case"><b>职场语言升级链：</b>从开会讲无聊段子（绮语），到当面讥讽同事口吃（粗恶语），再到分别向两人转述对方的坏话（离间语），最后编造对方收回扣的截图（妄语）——原文升级链在职场里每天重演：越接近「凭空捏造」，罪越重。</div>
+  </div>
+  <div class="card">
+    <h3>业颠倒：三种把系统搞乱的方式</h3>
+    <div class="quote">业颠倒⑩云何。此有三种应知。一作用颠倒。二执受颠倒⑪。三喜乐颠倒。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">于余众生思欲杀害。误害余者。当知此中虽有杀生。无杀生罪。然有杀生种类杀生相似同分罪生。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">谓如有一不善业道现前行时如游戏法极为喜乐。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">作用颠倒——执行时对象搞错：想杀甲误杀乙，或对非有情之物「加刀杖已谓我杀生」，虽无根本罪，但结「同分罪」；执受颠倒——见解层面把账本改掉：主张「无施无爱乃至广说。一切邪见」，无罪无福；喜乐颠倒——情绪层面倒挂：作恶不但不苦，反而「如游戏法极为喜乐」。下面用几道归类练习练一练。</div>
+    <div id="sortArea1"></div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 05 业的分类总柜 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>业的分类总柜：一张不可怕的清单</h2></div>
+  <p class="sec-lead">本卷中段有一大段「业差别」，一口气列了十几组分类坐标。别急着背——先看懂它的结构逻辑：每一组都是一条「查询轴」，任何一桩业都能在每条轴上定位一次。枚举细节放进折叠区，可跳过。</p>
+  <div class="card">
+    <h3>怎么读这张总柜</h3>
+    <div class="quote">作业者。谓若思业。若思已所起身业语业。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">第一条轴就是「作与不作」：动了「思」（决意造作的动机）并由此发起身业语业，才算「作业」——业的主轴是动机，不是动作。其余各轴依次追问：力度（增长与否）、意图（故思与否）、果报排期（定受不定受、现生后受）、性质（善不善无记）、身份（律仪与否）、内容（施戒修）、去向（福非福不动、三界系）、修行位次（学无学、见断修断）与纯度（黑白、曲秽浊）。</div>
+    <details class="dict"><summary>十几组分类坐标总览<span class="hint">可跳过的完整清单</span></summary>
+      <div class="body">
+        <p><b>作 / 不作：</b>思业与思已起身语业为「作」；不思、不起为「不作」。</p>
+        <p><b>增长 / 不增长：</b>除十种例外（见下），其余都是增长业。</p>
+        <p><b>故思 / 不故思：</b>「故思业者。谓故思已若作业若增长业」；非故思所作为不故思业。</p>
+        <p><b>定受 / 不定受：</b>「顺定受业者。谓故思已若作若增长业。顺不定受业者。谓故思已作而不增长业。」</p>
+        <p><b>已熟 / 未熟：</b>已与果为异熟已熟业，未与果为异熟未熟业。</p>
+        <p><b>善 / 不善 / 无记：</b>无贪无嗔无痴为因缘是善；贪嗔痴为因缘是不善；两者都不是，是无记。</p>
+        <p><b>律仪 / 不律仪 / 中间：</b>别解脱、静虑等至、无漏三种律仪所摄；十二种不律仪类所摄；其余一切为「非律仪非不律仪所摄业」。</p>
+        <p><b>施性 / 戒性 / 修性：</b>布施、持戒、禅修三类善业，各由因缘、等起、依处、自性四相界定。</p>
+        <p><b>福 / 非福 / 不动：</b>「福业者。谓感善趣异熟。及顺五趣受善业。非福业者。谓感恶趣异熟。」不动业感色无色界异熟。</p>
+        <p><b>顺乐 / 苦 / 不苦不乐受：</b>福业顺乐受，非福业顺苦受，阿赖耶识异熟业与第四静虑以上不动业顺舍受。</p>
+        <p><b>顺现法受 / 顺生受 / 顺后受：</b>今生报、下一生报、第三生以后报。</p>
+        <p><b>过去 / 未来 / 现在：</b>住习气位为过去，未生未灭为未来，已造已思未谢灭为现在。</p>
+        <p><b>欲系 / 色系 / 无色系：</b>能感欲界、色界、无色界异熟的业。</p>
+        <p><b>学 / 无学 / 非学非无学：</b>有学相续、无学相续中的善业，及其余相续中的三性业。</p>
+        <p><b>见所断 / 修所断 / 无断：</b>受恶趣不善等业、受善趣三性业、世出世诸无漏业。</p>
+        <p><b>黑黑 / 白白 / 黑白黑白 / 非黑非白：</b>四色业，见下表。</p>
+        <p><b>曲 / 秽 / 浊 / 清净 / 寂静：</b>外道之业与圣教中犹豫、决定者的业，见下方词源卡。</p>
+      </div>
+    </details>
+  </div>
+  <div class="card">
+    <h3>十种「不增长」业：业力打折清单</h3>
+    <div class="quote">一梦所作业。二无知所作业。三无故思所作业。四不利不数所作业。五狂乱所作业。六失念所作业。七非乐欲所作业。八自性无记业。九悔所损业。十对治所损业。<span class="src">—— 卷九原文</span></div>
+    <details class="dict"><summary>十种不增长业逐条<span class="hint">展开查看</span></summary>
+      <div class="body">
+        <p><b>一 梦所作业：</b>梦中造作，无真实的故思加行，力弱。</p>
+        <p><b>二 无知所作业：</b>不知情而作——不知是业、不知后果。</p>
+        <p><b>三 无故思所作业：</b>没有经过决意、无意中作。</p>
+        <p><b>四 不利不数所作业：</b>不猛利、不反复——只此一次、力道轻微。</p>
+        <p><b>五 狂乱所作业：</b>精神错乱状态下所作。</p>
+        <p><b>六 失念所作业：</b>失去正念、迷乱中所作。</p>
+        <p><b>七 非乐欲所作业：</b>被逼迫、非出于自己意愿。</p>
+        <p><b>八 自性无记业：</b>行住坐卧、呼吸眨眼——自性非善非恶。</p>
+        <p><b>九 悔所损业：</b>已作之后生起后悔，业的增上力被损减。</p>
+        <p><b>十 对治所损业：</b>被后续的善法对治所损减。</p>
+      </div>
+    </details>
+    <div class="quote">顺定受业者。谓故思已若作若增长业。顺不定受业者。谓故思已作而不增长业。<span class="src">—— 卷九原文</span></div>
+    <div id="sortArea2"></div>
+    <div class="case"><b>两名酒驾者：</b>甲每周精心挑夜路再饮、安排代驾缺口（故思＋作＋增长——顺定受业，果报已「锁定排期」）；乙一次侥幸后立即自省，从此滴酒不沾并主动做代驾志愿者（作而不增长——顺不定受业，尚可变动）。同是酒驾，业的「定与不定」取决于后续的重复与对治。</div>
+    <div class="case"><b>当天的道歉：</b>小吴吵架时骂了好友很难听的话，半小时后当众真诚道歉、澄清事实，并写了一段自省。对应十不增长业中的「九悔所损业」——悔不是抹账，而是把业的利息停掉：已造不失，但增上力被损减。</div>
+  </div>
+  <div class="card">
+    <h3>三种「执照」与四色账本</h3>
+    <div class="quote">谓或别解脱律仪㉖所摄业。或静虑等至果断律仪所摄业。或无漏律仪所摄业。<span class="src">—— 卷九原文</span></div>
+    <details class="dict"><summary>十二种不律仪类<span class="hint">古代的十二种「职业性作恶执照」</span></summary>
+      <div class="body">
+        <p>「一屠羊。二贩鸡。三贩猪。四捕鸟。五罝兔。六盗贼七魁脍。八守狱九谗刺。十断狱十一缚象。十二咒龙。」——宰杀、捕猎、偷盗、屠夫、狱卒、谗言刺探、酷刑断狱、缚象、咒龙等十二类营生：以此为止的「职业身份」本身，就让相关之业持续归入不律仪所摄。</p>
+      </div>
+    </details>
+    <div class="quote">彼因缘者。谓以无贪无嗔无痴为因缘。彼等起者。谓无贪无嗔无痴俱行能舍所施物。能起身语业思。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">施性业从四相界定：因缘（无贪嗔痴）、等起（与之俱行、能舍物起身语业的思）、依处（所施物与受者）、自性（思所起能舍的身语业）。戒性、修性「随其所应」同构——修性业的自性是三摩地本身。</div>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>名相</th><th>出处成员</th><th>通俗理解</th></tr>
+      <tr><td>黑黑异熟业</td><td>非福业</td><td>黑因黑果——染污的业感染污苦果（恶趣）</td></tr>
+      <tr><td>白白异熟业</td><td>不动业</td><td>白因白果——色无色界的善业感清净果</td></tr>
+      <tr><td>黑白黑白异熟业</td><td>福业</td><td>善恶夹杂——尚未断非福时的世间善业，果报苦乐相杂</td></tr>
+      <tr><td>非黑非白无异熟业</td><td>出世间无漏业</td><td>不染黑也不著白，是前三业的断对治，「能尽诸业」</td></tr>
+    </table></div>
+    <div class="ety-grid" style="margin-top:14px">
+      <div class="ety"><div class="zi">曲</div><div class="gc">由邪解行义故名曲</div><div class="bhu">心路拐进了邪见——像把尺子先放弯了，此后一切测量都歪。指外道的善不善业。</div></div>
+      <div class="ety"><div class="zi">秽</div><div class="gc">由此为依。能障所起诸功德义故名秽</div><div class="bhu">以邪见为依处，障碍功德生起——如污垢盖镜，善法起不来。</div></div>
+      <div class="ety"><div class="zi">浊</div><div class="gc">能障通达真如义故。名浊应知</div><div class="bhu">障碍见到真实——水浊则不见底；于圣教中犹豫不决者的业即浊业。</div></div>
+    </div>
+    <div class="case"><b>年终奖的三种花法：</b>拿到年终奖后，老周给孩子母校捐了图书角（施性业），小郑报了戒酒营并坚持持守（戒性业），阿芳每天早晚各打坐二十分钟、坚持了一年（修性业）。原文分析施性业的四相——「彼因缘者。谓以无贪无嗔无痴为因缘」，戒性与修性「随其所应」同构：都是无贪嗔痴发起、各有依处与自性的善业。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 06 业的七种代价 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>业的七种代价：以杀生为例</h2></div>
+  <p class="sec-lead">「业过患」一章用杀生做样本，给出七种代价。这七条像七份文书：三份人身账单（自害、他害、俱害），三份罪状（现法罪、后法罪、现法后法罪），一份精神损害清单（身心忧苦）。</p>
+  <div class="card">
+    <h3>七种代价总览</h3>
+    <div class="quote">谓杀生者。杀生为因。能为自害。能为他害。能为俱害。生现法罪。生后法罪。生现法后法罪。受彼所生身心忧苦。<span class="src">—— 卷九原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">能为自害</div><div class="sub">手段反噬自己</div><div class="tap">→</div></div><div class="back">「谓为害生发起方便。由此因缘。便自被害。若被系缚。若遭退失。若被诃毁。然彼不能损害于他。」发起伤害的手段，先伤到自己。<div class="case"><b>买凶者被套牢：</b>某老板雇中间人「教训」生意对手，定金一付即被录音要挟，被迫不断加钱，最后倾家荡产还被举报——自害的完整链条：被缚、退失、被诃毁。</div></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">能为他害</div><div class="sub">伤到对方而自己未损</div><div class="tap">→</div></div><div class="back">「能损害他。由此因缘。不自被害乃至诃毁。」手段成功、对方受损，这一型里罪业在后法等待——「生后法罪。谓如能为他害」。</div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">能为俱害</div><div class="sub">自他两败</div><div class="tap">→</div></div><div class="back">「能损害他。由此因缘。复被他害。若被系缚乃至诃毁。」伤人又自伤。<div class="case"><b>冲突现场：</b>甲挥拳伤了乙，乙的同伴一拥而上把甲打伤，甲随即被行政拘留、被公司辞退——「复被他害。若被系缚乃至诃毁」：现世的两败俱伤，对应「生现法后法罪」。</div></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">生现法罪</div><div class="sub">今世的罪</div><div class="tap">→</div></div><div class="back">「云何生现法罪。谓如能为自害。」——今世法律、名誉、身心层面的直接损失。</div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">生后法罪</div><div class="sub">后世的罪</div><div class="tap">→</div></div><div class="back">「云何生后法罪。谓如能为他害。」——伤害成功而今生未见报的，罪在后世。</div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">生现法后法罪</div><div class="sub">两世都占</div><div class="tap">→</div></div><div class="back">「云何生现法后法罪。谓如能为俱害。」——自他两败型的业，现世后世都背罪。</div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">受身心忧苦</div><div class="sub">连失败都躲不掉的账</div><div class="tap">→</div></div><div class="back">「又不能办随欲杀事。彼由所欲不会因缘。便受所生身心忧苦。」<div class="case"><b>没整成的「报复」：</b>小冯策划三个月想搞垮对手，对方毫无察觉，计划胎死腹中——此后半年失眠、暴瘦、注意力涣散。原文：所欲不成，忧苦照受，一事无成也逃不掉这一条。</div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>附加条款：犯戒的十过患与「第五条」</h3>
+    <div class="quote">又有十种过患。依犯尸罗。如经广说应知。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">又有四种不善业道。及饮诸酒以为第五。依犯事善男学处。佛薄伽梵说多过患。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">违犯尸罗有十种过患；四种不善业道之外，饮酒被单独列为第五条，同属在家善士的学处——佛说其中有多过患，详见《阐地迦经》。</div>
+    <div class="case"><b>酒桌上的「第五条」：</b>年会上领导挨桌敬酒，「不喝就是不给面子」把饮酒做成了规矩。原文把饮酒列为四种不善业道之外的第五条，并对「事善男学处」广说过患——把饮酒制度化，正是过患清单反复警告的机制：不是一口酒有多重，而是它成了人人维护的惯例。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 07 投生这件大事 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>投生这件大事：生杂染的四张切片</h2></div>
+  <p class="sec-lead">业讲完，镜头转向果报的主体——「生」。原文立起总问题并给四张切片：差别（有多少种生法）、艰辛（生有多苦）、不定（轮回了多久）、流转（怎样一轮接一轮——即十二缘起，见下一章）。</p>
+  <div class="card">
+    <h3>切片一：差别——生法的抽样框</h3>
+    <div class="quote">云何生杂染㉗。谓由四种相应知。一由差别故。二由艰辛故。三由不定故。四由流转故。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">生差别者。当知复有五种。一界差别。二趣差别。三处所差别。四胜生差别㉘。五自身世间差别。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">欲界中有三十六处生差别。色界中有十八处生差别。无色界中有四处生差别。如是总有五十八生。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">五种差别是一张抽样框：按界（三界）、按趣（五趣四生）、按处所（合计五十八种生）、按胜生（出生的优劣等次）、按自身世间（十方无量世界的无量差别）。「胜生差别」在人中分三档：</div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">下档</span><h4>黑胜生生</h4><p>「谓如有一生旃荼罗家」及造车、竹作等家，或「所余下贱贫穷乏少财物饮食等家」——人中薄福德者。</p></div>
+      <div class="yuan-card"><span class="y-tag">上档</span><h4>白胜生生</h4><p>「生刹帝利大富贵家」及婆罗门、长者等豪贵大富之家——人中胜福德者。</p></div>
+      <div class="yuan-card"><span class="y-tag">中档</span><h4>非黑非白胜生生</h4><p>「谓如有一非前二种生处中家者」——生在中等之家。欲界天、色界、无色界也各有三种胜生。</p></div>
+    </div>
+    <div class="case"><b>同一间产房：</b>同一天同一间产房，三个婴儿分别出生在山区别墅的富豪家、棚户区低保家庭、普通工薪家庭。对应「胜生差别」的人中三档——但论中立场是不美化任何一档：三界五趣处处是苦，「出生彩票」只决定苦的口味，不改变苦的性质。</div>
+  </div>
+  <div class="card">
+    <h3>切片二：艰辛——佛算的第一笔账</h3>
+    <div class="quote">汝等长时驰骋生死。身血流注过四大海。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">如血洟泪。如是当知。所饮母乳其量亦尔。<span class="src">—— 卷九原文</span></div>
+    <div class="analogy"><b>量级的修辞：</b>这不是说你真的流过四大海的水，而是像会计只报总额不列明细——轮回以「劫」计次，每次投生都伴随伤害、砍截、别离、哺乳，总量级大到只能拿大海当单位。血、泪、母乳三笔账，算的都是「次数无穷」。</div>
+    <div class="case"><b>母乳账：</b>一位新手妈妈算过：每次喂奶约两百毫升，一天八次，喂到两岁——单这一个孩子就是一千多升。原文说长夜生死中「所饮母乳其量亦尔」——与流过的血、泪同量级。把一个孩子乘以无穷次投生，就是佛说的那笔账。</div>
+  </div>
+  <div class="card">
+    <h3>切片三：不定——佛算的第二笔账</h3>
+    <div class="quote">假使取于大地所有一切草木根茎枝叶等。截为细筹。如四指量。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">四指量筹速可穷尽。而我不说汝等长夜所经父母其量边际。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">若一补特伽罗于一劫中所受身骨。假使有人。为其积集不烂坏者。其聚量高王舍城侧广博胁山。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">把全大地的草木截成四指长的小签来数前世父母——「如是众生曾为我母。我亦长夜曾为彼母」——签子先用完，父母数不完；一个有情一劫的身骨能堆成广博胁山；大地上没有一处未曾经受无量生死。佛用三笔可想象的账，逼出「轮回无始」这个不可想象的结论。</div>
+    <div class="case"><b>族谱数字化：</b>老杨给家族做谱系数字化，扫描、录入、走访，数到第九代时线索全断，他感叹「再往上就是一个名字了」。原文的筹算之喻正是同一体验的无限版：任何有限的工具（签子、记忆、档案）都会先耗尽，而轮回的世代数没有边际——「其量边际」根本无从谈起。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 08 十二缘起 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>十二缘起：轮回的发动机（与它的熄火开关）</h2></div>
+  <p class="sec-lead">全卷的重头戏。「云何缘起？」原文用一首四句纲领领起，再以「前际—中际—后际」的三世框架建立缘起体：怎么从过去生到这一生，怎么从这一生到未来生，以及——如何在今生踩下刹车。</p>
+  <div class="card">
+    <h3>三相框架：三世两重因果</h3>
+    <div class="quote">谓从前际中际生。从中际后际生。中际生已若趣流转。若趣清净究竟。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">谓如有一不了前际无明所摄。无明为缘。于福非福及与不动身语意业。若作若增长。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">由此随业识㉚。乃至命终流转不绝。能为后有相续识因。此识将生果时。由内外贪爱正现在前。以为助伴。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">第一相：不了知（无明）为缘，造作种种业，业熏在识中（随业识）；命终时贪爱现前作助伴，识入母胎，「乃至羯罗蓝等位差别而转」——这一生的身心由此展开。识与名色互为依托，是整台机器的骨架。</div>
+    <div class="quote">识缘名色。名色缘识。犹如束芦㉟。乃至命终。相依而转。<span class="src">—— 卷九原文</span></div>
+    <div class="analogy"><b>两束芦苇：</b>两捆芦苇互相斜靠才能立在田间，抽走任何一捆，另一捆立刻倒下。识与名色（心与身）正是这样互为支点——谁也不是谁的主人，没有一个独立的「我」坐在中间发号施令。</div>
+    <div class="case"><b>合伙创业：</b>两位创始人合伙开公司：一位懂产品一位懂市场，谁也离不开谁，公司却既不是「产品那位」也不是「市场那位」的。识与名色的关系正是「犹如束芦……相依而转」——互相支撑、共同运转，而其中找不到单一的所有者。</div>
+  </div>
+  <div class="card">
+    <h3>流程推演：跟着「小林」走一遍十二支</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">从无明到老死，是这台发动机的一个完整冲程；最后一步是岔路口——熄火开关。</p>
+    <div class="flow-track" id="flowTrack"></div>
+    <div class="flow-detail" id="flowDetail"></div>
+    <div class="flow-ctrl">
+      <button class="tri-btn" id="flowPrev">← 上一步</button>
+      <button class="tri-btn" id="flowNext">下一步 →</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>中际的两条线：流转与清净</h3>
+    <div class="quote">谓中际已生补特伽罗。受二种先业果。谓受内异熟果。及境界所生受增上果。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">由此爱故。或发欲求。或发有求。或执欲取。或执见戒及我语取。由此爱取和合资润。令前引因转名为有。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">由此如理作意为缘。正见得生。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">由此智见。无明及爱。永断无余。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">无明灭故行灭。次第乃至。异熟生触灭故异熟生受灭。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">如是于现法中。诸行不转。由不转故。于现法中。于有余依界。证得现法涅槃㊱。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">同一份人生底账，两条线。流转线：对两份果报愚痴（于二果愚）→ 造新业 → 爱 → 取 → 有 → 生老死；清净线：如理作意 → 正见 → 智见断无明与爱 → 慧解脱、心解脱 → 有余依涅槃；此身寿尽后「无余永灭更不重熟」——「是名无余依涅槃界㊲究竟寂静处」。发动机还在转完最后的惯性，但供油已断。</div>
+    <div class="case"><b>同样被裁员：</b>老张认定「完了，四十五岁没人要了」，越想越怕，一边疯狂投简历一边借钱撑面子，焦虑滚成失眠（爱→取→有，一圈圈加码）；老李如理作意，把「被裁」拆成行业、技能、时机三份因缘，重新规划学习与去向（「由此如理作意为缘。正见得生」）。同一场雪，一个雪崩，一个铺出新路——两条线的入口都在当下这一念的作意方式。</div>
+    <div class="case"><b>走了十年的通勤路：</b>老郑在同一条线上通勤十年，闭着眼都能换乘——习惯刻进了识的底层，自动运行，不需要每次重新决定。原文说「由此随业识㉚。乃至命终流转不绝。能为后有相续识因」：串习成性的业就像这条通勤路，形成「档案袋」，在人不知不觉处决定下一程的方向。</div>
+  </div>
+  <div class="card">
+    <h3>缘起义：八层递进，层层拆掉「我」</h3>
+    <div class="quote">谓离有情义㊴。是缘起义。于离有情。复无常义。是缘起义。于无常。复暂住义。是缘起义。<span class="src">—— 卷九原文</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">一 离有情</div><div class="d">缘起中找不到一个恒常的「有情」主演——只有相续的过程，没有老板。</div></div>
+      <div class="tl-item"><div class="t">二 无常</div><div class="d">这相续本身刹那生灭，从不静止。</div></div>
+      <div class="tl-item"><div class="t">三 暂住</div><div class="d">虽无常，却并非顿起顿灭——有一期暂时的安住，才显出「一生」的轮廓。</div></div>
+      <div class="tl-item"><div class="t">四 依他</div><div class="d">暂住的每一刻都依靠条件而立，不能自足自持。</div></div>
+      <div class="tl-item"><div class="t">五 离作用</div><div class="d">既然只是依条件而起，就没有一个「能作者」在操控——无我而有运行。</div></div>
+      <div class="tl-item"><div class="t">六 因果相续不断</div><div class="d">无作者，链条却不断：前支为缘，后支得起。</div></div>
+      <div class="tl-item"><div class="t">七 因果相似转</div><div class="d">后一期与前一期相似相续——不是同一个「我」，也非全然无关。</div></div>
+      <div class="tl-item"><div class="t">八 自业所作</div><div class="d">「于因果相似转。复自业所作义。是缘起义」——各人只吃自己业的饭，账不会记错人头。</div></div>
+    </div>
+    <div class="quote">为显因缘所摄染污清净义故。<span class="src">—— 卷九原文</span></div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 09 收官 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：八门、无知地图与总纲颂</h2></div>
+  <p class="sec-lead">卷末三件事：缘起在哪八类事物中运转（门）；无明到底有哪几张面孔（差别——十九种无知、七愚、五愚）；以及一首四句颂，预告接下来几卷的路线图。</p>
+  <div class="card">
+    <h3>缘起门：八类运转现场</h3>
+    <div class="quote">缘起门㊳云何。谓依八门缘起流转。<span class="src">—— 卷九原文</span></div>
+    <details class="dict"><summary>八门清单<span class="hint">可跳过，每门一句话</span></summary>
+      <div class="body">
+        <p><b>一 内识生门：</b>识依根境等缘而生——念头与认识都是缘起的。</p>
+        <p><b>二 外稼成熟门：</b>种子、水土、阳光到谷熟——庄稼是看得见的缘起。</p>
+        <p><b>三 有情世间死生门：</b>有情的死此生彼，即本章的主戏。</p>
+        <p><b>四 器世间成坏门：</b>山河大地的成、住、坏，也有其缘起节奏。</p>
+        <p><b>五 食任持门：</b>段食、触食等四食任持有情——吃饭也是缘起的支撑件。</p>
+        <p><b>六 自所作业增上势力受用随业所得爱非爱果门：</b>自业自受——爱与非爱的果都按业的账本来。</p>
+        <p><b>七 威势门：</b>大威德者的业力现前，如佛所住国邑无疾疫灾横。</p>
+        <p><b>八 清净门：</b>依圣道断除杂染——缘起同样通向解脱这一端。</p>
+      </div>
+    </details>
+    <div class="case"><b>阳台上的番茄：</b>上个月小敏在阳台种下小番茄：育苗、换盆、控水、追肥，六周后第一颗果实转红。种子不会「决定」结果，人也造不出没有阳光的果实——每一步都依赖上一环。这正是「外稼成熟门」：缘起不只是玄理，就在花盆里运转。</div>
+  </div>
+  <div class="card">
+    <h3>无明的面孔：从十九种收敛到一种</h3>
+    <div class="quote">谓于过去诸行。起不如理分别。谓我于过去为曾有耶。为曾无耶。曾何体性。曾何种类。所有无知。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">如是略说十九种无知㊵。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">复有七种无知。一世愚。二事愚。三移转愚。四最胜愚。五真实愚。六染净愚。七增上慢愚。<span class="src">—— 卷九原文</span></div>
+    <div class="quote">当知义愚通摄一切。<span class="src">—— 卷九原文</span></div>
+    <div class="plain">无明的面孔有细目（对前际、后际、内外、业、异熟、佛、法、僧、苦集灭道、因等的十九种无知），再收拢为七愚、五愚——而「义愚」（对缘起义本身的愚痴）通摄一切。归根结底，所有无明是同一件事：没看懂「缘起」。此外还有六种无明差别（无知、无见、无有现观、黑闇、愚痴、无明闇），配闻思修三慧与其软中上品来对治。</div>
+    <div class="case"><b>凌晨两点的搜索框：</b>小宋失眠到凌晨两点，在搜索框里敲下「人死后到底去哪里」「我真的存在吗」。这种对过去未来的茫然打转，正是「于前际无知」「于后际无知」的现代画像——问题本身不是病，执着于以「我」为坐标去问，才是论中所说的「不如理分别」；而它的总病根，是可以被「义愚」一词收编的。</div>
+  </div>
+  <div class="card">
+    <h3>总纲颂与全卷回顾</h3>
+    <div class="quote">云何缘起。嗢拖南㉙曰。<span class="src">—— 卷九原文</span></div>
+    <div class="gatha">
+      <div class="lines">体门义差别　　次第难释词<br>缘性分别缘　　摄诸经为后</div>
+      <div class="mean">体——缘起的体性（三世两重因果，本卷已说）；门——八门；义——八重递进；差别——十九种无知，本卷均已说完。<br>次第、难、释词——十二支的次第、深难处与名词解释，本卷开讲（身行、语行、意行、识、名色、六处、触、受诸支的定义已在卷末给出），其余待卷十继续；<br>缘性、分别缘——后文专题；摄诸经为后——最后以摄诸经要义收尾。</div>
+    </div>
+    <div class="plain">全卷闭环：业门（五果＋损益）→ 业增上（六种权重）→ 业颠倒（三种 bug）→ 业差别（十几组坐标）→ 业过患（七种代价）→ 生杂染（差别、艰辛、不定）→ 缘起体（流转与清净两条线）→ 门、义、差别 → 释词开头。读通了这条线，就握住了「有寻有伺等三地」论业部分的全部骨架。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第九（output/9.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga9-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+
+/* 条件模拟器：现法果（今生就报） */
+function condUpdate(){
+  const a=document.getElementById('c1').checked,
+        b=document.getElementById('c2').checked,
+        c=document.getElementById('c3').checked,
+        el=document.getElementById('condResult');
+  el.classList.remove('fail');
+  if(!a&&!b){
+    el.classList.add('fail');
+    el.innerHTML='<b>普通业 · 照常排队。</b>没有增上欲解，事缘也不重——原文只给两种因缘「一由欲解⑥故。二由事故」，两个都没占。这样的业照样有果，但按常规排期（顺生受、顺后受），今生未必看得见。';
+  }else if(c){
+    el.innerHTML='<b>现法受 · 善向。</b>同样的强度与重事，翻到善的一边：无顾、慈悲、净信、知恩。原文例证：「谓如有一母无正信。劝进开化安置建立于具信中」「或于起慈定者供养承事」——善的增上欲解、善的重事，同样今生兑现。';
+  }else if(a&&b){
+    el.innerHTML='<b>现法受 · 重上加重。</b>既有增上欲解，又撞上重事（五无间及其同分）——态度极端加对象重大，今生兑现几乎无可商量。';
+  }else if(a){
+    el.innerHTML='<b>现法受 · 由欲解。</b>态度本身够极端：「谓如有一由增上欲解。顾恋其身。顾恋财物。顾恋诸有。造不善业。」不需要重事，这份执持的强度就足以让业今生到账。';
+  }else{
+    el.innerHTML='<b>现法受 · 由事故。</b>对象是重事——五无间业「一害母二害父。三害阿罗汉。四破僧。五于如来所恶心出血」及其同分。事本身重到压过排期，今生就报。';
+  }
+}
+document.getElementById('c1').addEventListener('change',condUpdate);
+document.getElementById('c2').addEventListener('change',condUpdate);
+document.getElementById('c3').addEventListener('change',condUpdate);
+condUpdate();
+
+/* 流程推演：跟着小林走一遍十二支 */
+initStepper('flowTrack','flowDetail','flowPrev','flowNext',[
+  {t:'无明',d:'<b>无明（不了知）：</b>小林从没认真想过「生命是怎么回事、我死后去哪」，对过去未来一片模糊——「谓如有一不了前际无明所摄」。在这个糊涂里，人会随习性行事。'},
+  {t:'行（造业）',d:'<b>行（造作）：</b>糊涂中他造了种种业：损人利己，也偶尔行善——「无明为缘。于福非福及与不动身语意业。若作若增长」。业一旦造下，就以习气形式存进识里。'},
+  {t:'识（随业识）',d:'<b>识（携业之识）：</b>「由此随业识㉚。乃至命终流转不绝。能为后有相续识因。」一生所造的业熏在识中，这只「档案袋」将决定下一次投生的起点。'},
+  {t:'名色（胎中）',d:'<b>名色（身心胎胚）：</b>命终时「此识将生果时。由内外贪爱正现在前。以为助伴」，识入母胎，「乃至羯罗蓝等位差别而转」——从受精卵起，名（心）与色（身）次第生长。'},
+  {t:'六处（成形）',d:'<b>六处（六根长成）：</b>眼耳鼻舌身意渐渐成形——感知世界的「出厂配置」装好了。'},
+  {t:'触（接触）',d:'<b>触（三和合）：</b>出生后，根、境、识三者一碰，接触世界——婴儿第一次被光线刺眼、被声音惊到。'},
+  {t:'受（领受）',d:'<b>受（苦乐）：</b>接触产生感受：舒服的、难受的、不好不坏的。到此为止是「结果区」——内异熟果与境界增上果两份先业果报都已到账。'},
+  {t:'爱（贪爱）',d:'<b>爱（要更多）：</b>岔路口到了：对舒服的感受生起贪爱——「由此爱故。或发欲求。或发有求」。小林长大后拼命追逐一切让自己舒服的东西。'},
+  {t:'取（抓取）',d:'<b>取（执取）：</b>爱升级为抓取：「或执欲取。或执见戒及我语取」——抓住欲乐、观点、「我」。爱取和合，反过来滋润旧业种。'},
+  {t:'有（业熟）',d:'<b>有（后有成熟）：</b>「由此爱取和合资润。令前引因转名为有。」被滋润过的业彻底成熟，成为下一期生命的「出生资格」。'},
+  {t:'生与老死',d:'<b>生 → 老死：</b>「有为缘故生。生为缘故。老病死等诸苦差别。」小林再次出生，新一轮的糊涂与追逐重新开始——除非某天他在岔路口转弯。'},
+  {t:'岔路：趣清净',d:'<b>熄火开关：</b>同样是受果报的人，「先集资粮」者遇到善知识，「由此如理作意为缘。正见得生」，看清两份果报皆是愚痴所起——「由此智见。无明及爱。永断无余」：不再添新的爱取，发动机转完惯性即停——有余依涅槃，身尽之后是无余依涅槃界的「究竟寂静处」。'}
+]);
+
+/* 归类练习：三种业颠倒 */
+initSorter('sortArea1',[
+  {a:'猎人瞄准鹿开枪，却误杀了旁边吃草的山羊（本意只想打鹿）',opts:['作用颠倒','执受颠倒','喜乐颠倒'],ans:'作用颠倒',exp:'「于余众生思欲杀害。误害余者」——虽有杀生却无杀生罪，但结杀生种类同分罪。'} ,
+  {a:'对着稻草人挥刀砍了半天，并向朋友吹嘘「我今天杀了一个敌人」',opts:['作用颠倒','执受颠倒','喜乐颠倒'],ans:'作用颠倒',exp:'原文：「然于非情加刀杖已谓我杀生。当知此中无有杀生。无杀生罪。然有杀生种类杀生相似同分罪生。」对象非有情，无根本罪而有同分罪。'},
+  {a:'有人坚称「布施、行善、因果全是编的，反正没有罪也没有福」',opts:['作用颠倒','执受颠倒','喜乐颠倒'],ans:'执受颠倒',exp:'「无施无爱乃至广说。一切邪见」「由此因缘。无罪无福」——见解层面把业的账本整个否认。'},
+  {a:'某团体宣扬「清除异己是功德，清除得越多福报越大」',opts:['作用颠倒','执受颠倒','喜乐颠倒'],ans:'执受颠倒',exp:'对应「憎梵憎天。憎婆罗门」「杀彼因缘唯福无罪」——把杀害判成福德，价值观整个倒挂。'},
+  {a:'欺凌弱小的同学时，像打游戏通关一样越干越兴奋',opts:['作用颠倒','执受颠倒','喜乐颠倒'],ans:'喜乐颠倒',exp:'「不善业道现前行时如游戏法极为喜乐」——作恶不以为苦反以为乐，是情绪层面的颠倒。'}
+]);
+
+/* 归类练习：增长业 / 不增长业 */
+initSorter('sortArea2',[
+  {a:'睡梦里与人争吵，骂了对方几句',opts:['增长业','不增长业'],ans:'不增长业',exp:'十不增长业第一「梦所作业」——梦中无真实故思加行，业力微弱。'},
+  {a:'分不清两把相同的伞，误把邻居的伞当自己的拿走了',opts:['增长业','不增长业'],ans:'不增长业',exp:'「无知所作业」——不知情、无窃心，业不增长。'},
+  {a:'被上级胁迫签了违规文件，内心一百个不愿意',opts:['增长业','不增长业'],ans:'不增长业',exp:'「非乐欲所作业」——非出己意，第七不增长业。'},
+  {a:'连续三个月，每天下班后精心策划并散布对同行的诽谤',opts:['增长业','不增长业'],ans:'增长业',exp:'故思＋作＋增长：「故思业者。谓故思已若作业若增长业」——顺定受业。'},
+  {a:'行住坐卧的呼吸、眨眼等日常生理活动',opts:['增长业','不增长业'],ans:'不增长业',exp:'「自性无记业」——非善非恶，第八不增长业。'}
+]);
+
+renderPath();
+</script>
+</body>
+</html>

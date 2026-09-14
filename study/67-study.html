@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷67 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 摄决择分中修所成慧地 · 声闻地之一</div>
+  <h1>卷第六十七 · 交互式学习模块</h1>
+  <p class="sub">这一卷上半给「修」开出一张十六格的分类总表——修行到底在操作什么；下半开讲声闻地决择：一场「是否人人皆可解脱」的归谬辩论、十种声闻画像、出门前的三道检查，最后落到身体这块杂染与清净共用的地基，以及四圣谛的边界考题。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 24 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 十六种修</a>
+<a href="#s3">③ 修的四种操作</a>
+<a href="#s4">④ 种性之争</a>
+<a href="#s5">⑤ 十种声闻</a>
+<a href="#s6">⑥ 出门检查</a>
+<a href="#s7">⑦ 身体地基</a>
+<a href="#s8">⑧ 名与四谛</a>
+<a href="#s9">⑨ 收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂全卷地图</b><span>先分清上下两半：十六种修的收尾，与声闻地决择的开场。</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>认识十六种修</b><span>记住「对象 × 目标 × 手法」的分类结构，翻卡片认领每一格。</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>掌握修的四种操作</b><span>得、习、除去、对治——重点看「如楔出楔」与四步对治流程。</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>看一场种性辩论</b><span>六个回合的归谬推演，学会「汝何所欲」式的两难反诘。</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>给修行人画像</b><span>十种声闻、慧眼四档，以及末法时生声闻这面反光镜。</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官：身体、名与四谛</b><span>穿过身体地基与四谛边界考题，用卷中偈颂收束全卷。</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ 01 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：这一卷在说什么</h2></div>
+  <p class="sec-lead">《瑜伽师地论》的主体「本地分」像一部教材正文；后面的「摄决择分」则是配套的答疑与深挖集。上一卷（卷六十六）刚讲完思所成慧地的决择，本卷开篇即接棒：先给修所成慧地收尾——把「修」这个字拆成十六种；再开启声闻地决择的第一站——谁能修行、修行人长什么样、修的对象与底线在哪里。</p>
+
+  <div class="card">
+    <h3>「决择」是什么</h3>
+    <div class="quote">如是已说思所成慧地决择。修所成慧地①决择我今当说。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">「决择」就是追问与裁决：正文给纲要，决择把每个名词掰开，把每条异议摆平。</div>
+    <div class="analogy"><b>比喻：</b>读完教材正文（本地分），再翻开作者本人的答疑实录（摄决择分）——满页都是「有人问……应当答……」的问答体，卷67正是这册答疑集中的一章。</div>
+  </div>
+
+  <div class="card">
+    <h3>全卷四站</h3>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">上半</span><h4>十六种修</h4><p>给「修」字做全面分类：为谁修、在什么材料上修、用什么手法修——全卷开头一节讲完。</p></div>
+      <div class="yuan-card"><span class="y-tag">下半 · 声闻地之一</span><h4>种性之争</h4><p>「是否存在永远没有解脱可能的人」——连破五个类比，演示归谬式反诘。</p></div>
+      <div class="yuan-card"><span class="y-tag">下半 · 声闻地之一</span><h4>十种声闻与出门检查</h4><p>修行人的分类画像、末法反光镜，以及去居士家之前的行前检查表。</p></div>
+      <div class="yuan-card"><span class="y-tag">下半 · 声闻地之一</span><h4>身体与四谛</h4><p>身体是杂染与清净共用的地基；「名映于一切」的偈颂；四圣谛的一串边界考题。</p></div>
+    </div>
+    <div class="plain">上半回答「修是什么」，下半回答「谁在修、修的人长什么样、修的底层逻辑是什么」。</div>
+  </div>
+
+  <div class="case"><b>菜谱与灶台：</b>小周把红烧肉的菜谱背得滚瓜烂熟，能一字不差讲给朋友听——这是「思所成慧」（想清楚了）；直到他真的在灶台前炒糊了三次、第四次闭着眼也知道何时收汁，才算「修所成慧」（练上身了）。卷67开头说「已说思所成慧地决择」，正是在问：想清楚之后，怎么把它练上身？</div>
+  <div class="case"><b>课前答疑：</b>研究生小陈听完导师的课程报告（本地分），真正的理解发生在下周的答疑会（摄决择分）——有人抬杠、有人钻牛角尖，导师逐条裁决。卷67通篇正是「云何……是名……」的问答体，几乎每一节都在替读者把概念问透。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 02 十六种修 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>十六种修：一张修行分类总表</h2></div>
+  <p class="sec-lead">「当知略有十六种修」——十六种不是十六门课，而是给同一个「修」字建立的分类坐标：按你为谁修（乘种）、在什么材料上修（所缘）、用什么手法修（行相与档位）。先记住结构，再逐格认领；看不全的条目收在字典区，可跳过。</p>
+
+  <div class="card">
+    <h3>三根分类轴</h3>
+    <div class="quote">谓于过去未来现在内外粗细下劣胜妙近远等法作意思惟。<span class="src">—— 卷67原文（事边际修）</span></div>
+    <p><b>轴一 · 为谁修：</b>声闻乘相应作意修——「唯观自利益事」，所缘有量有分别，行相是厌离、离欲、解脱；大乘相应作意修——自他双观，「缘无量无分别法为境」，大悲增上，摄受有情。</p>
+    <p><b>轴二 · 在什么材料上修：</b>影像修（定心中的影像）、事边际修（一切法或真如：尽所有性、如所有性）、所作成办修（已证入根本静虑等至）。</p>
+    <p><b>轴三 · 手法与档位：</b>得、习、除去、对治、少分、遍行、动转、有加行、已成办、非修所成法、修所成法——后三格见本页字典区。</p>
+    <div class="plain">修不是一种动作，而是「对象 × 目标 × 手法」的组合拳；本卷先给对象和目标定坐标。</div>
+    <div class="analogy"><b>比喻：</b>像健身房里同一个「训练」动作，可以按目的（增肌、减脂、复健）、按器械（杠铃、跑道、泳池）、按手法（递增重量、组间拉伸）各建一张登记表——十六种修就是佛法训练房的入库登记表。</div>
+  </div>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">影像修</div><div class="sub">在心里的高清投影上修</div><span class="tap">点击展开</span></div><div class="back">定中所现影像与所知事「同分」（同类相似），在影像上作意思惟；分有分别的毗钵舍那品（观）与无分别的奢摩他品（止）。<em>像飞行员在模拟舱里练降落——舱是假的，动作是真的。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">事边际修</div><div class="sub">把对象盘到边界</div><span class="tap">点击展开</span></div><div class="back">于一切法（过未现、内外、粗细、近远）或真如作意思惟：一件不漏是「尽所有性」，看透本性是「如所有性」。<em>仓库管理员点清每件货是「尽」，质检员研究钢材成分是「如」。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">所作成办修</div><div class="sub">定境到手，修事成办</div><span class="tap">点击展开</span></div><div class="back">「谓已证入根本静虑或诸等至。」——或世间定或出世定，功夫已经落地的那些修。<em>驾照到手后的真实上路，不再是驾校模拟。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">声闻乘作意修</div><div class="sub">只为自己出离的修</div><span class="tap">点击展开</span></div><div class="back">住声闻法性，不观他利益、唯观自利益；由安立谛作意门内观真如，为尽贪爱，以厌离离欲解脱行相修习。<em>一个人独自登山的路线图。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">大乘作意修</div><div class="sub">自他一起渡的修</div><span class="tap">点击展开</span></div><div class="back">观自观他诸利益事，由安立非安立谛作意门，缘无量无分别法为境；大悲增上力故，为尽自他贪爱，以摄受有情的方便行相修习。<em>不但自己会游泳，还沿线架设救生圈的人。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">少分修</div><div class="sub">只抓一种善法</div><span class="tap">点击展开</span></div><div class="back">「谓于无常想等。随一善法。作意思惟诸所有修。」——一段时间专攻一格。<em>整月只练三分球，别的不碰。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">遍行修</div><div class="sub">一味真如，无处不遍</div><span class="tap">点击展开</span></div><div class="back">「谓于诸法一味真如。作意思惟诸所有修。」——在一味真如上修，遍于一切法。<em>像水在江、在井、在杯里味道都一样——换容器不换味。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">动转修 · 有加行修</div><div class="sub">通往无相路上的走走停停</div><span class="tap">点击展开</span></div><div class="back">无相修作方便时，「时时有相间隔而修」名动转修；由有加行相间隔而修名有加行修——功夫还没连成片，需要垫脚石。<em>学自行车时的辅助轮：还没到撒把的阶段。</em></div></div>
+  </div>
+
+  <details class="dict">
+    <summary>十六种修全清单<span class="hint">完整条目，可跳过</span></summary>
+    <div class="body">
+      <p><b>1 声闻乘相应作意修：</b>为自利修，缘有量有分别法，厌离、离欲、解脱行相。</p>
+      <p><b>2 大乘相应作意修：</b>自他双利，缘无量无分别法，大悲增上，摄受有情。</p>
+      <p><b>3 影像修：</b>于定心影像（所知事同分）上思惟，分观（有分别）与止（无分别）。</p>
+      <p><b>4 事边际修：</b>于一切法或真如思惟——尽所有性／如所有性。</p>
+      <p><b>5 所作成办修：</b>已证入根本静虑或等至（世间定或出世定）之修。</p>
+      <p><b>6 得修：</b>修其余不现前诸想，令增盛清净，当来于彼获得自在成就。</p>
+      <p><b>7 习修：</b>于无常等善想现前反复串习。</p>
+      <p><b>8 除去修：</b>如楔出楔，以轻安身除粗重身。</p>
+      <p><b>9 对治修：</b>厌患、断、持、远分四种对治。</p>
+      <p><b>10 少分修：</b>随一善法专意思惟。</p>
+      <p><b>11 遍行修：</b>于诸法一味真如作意思惟。</p>
+      <p><b>12 动转修：</b>无相修方便时，时时有相间隔而修。</p>
+      <p><b>13 有加行修：</b>方便修时，由有加行相间隔而修。</p>
+      <p><b>14 成办修：</b>三乘已得一切转依、于诸法得自在之修。</p>
+      <p><b>15 非修所成法修：</b>不定地中布施、持戒等善法修。</p>
+      <p><b>16 修所成法修：</b>定地中诸善法修。</p>
+    </div>
+  </details>
+
+  <div class="case"><b>脑内彩排：</b>产品经理老林在发布会前一晚闭着眼，把整场演示在脑中过了一遍又一遍：幻灯片、提问、甚至自己手心出汗的画面——他「看」的只是影像，练的却是真本事。这正是「影像修」：定中所现影像与所知事同分，在影像上思惟，观与止各有一条轨道。</div>
+  <div class="case"><b>盘点与质检：</b>年底仓库盘点，小郑逐箱清点，三千件一件不漏（尽所有性：把「有多少」盘到边界）；同一周，工程师小吴把一块钢锭送进光谱仪，只为弄清它到底由什么构成（如所有性：把「是什么」看到底）。「事边际修」说的正是这两类思惟，合起来才完成对世界的完整丈量。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 03 修的四种操作 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>修的四种操作：得、习、除去、对治</h2></div>
+  <p class="sec-lead">同一份材料，可以「装上」（得修）、「焐热」（习修）、「卸下」（除去修）、「打擂」（对治修）。这一章看修的四只手，重点拆开最精巧的一招——如楔出楔。</p>
+
+  <div class="card">
+    <h3>得修与习修</h3>
+    <div class="quote">皆能修彼令其增盛清净当生于彼获得自在成就。<span class="src">—— 卷67原文（得修）</span></div>
+    <div class="plain">习修是「反复练现前的」，得修是「把还没上场的本领练到呼之即来」。</div>
+    <div class="analogy"><b>比喻：</b>习修像每天到岗打卡；得修像把一门外语练到不用复习、随时能开口——功夫沉淀成了随时可调用的资产。</div>
+    <div class="case"><b>单词与自在：</b>小方每天早上背三十个单词（习修：现前反复串习）；半年后她听英文播客不用暂停、看到生词敢直接猜——那些当初背过的词已经「增盛清净」，需要时自然现前（得修：于彼获得自在成就）。</div>
+  </div>
+
+  <div class="card">
+    <h3>除去修：如楔出楔</h3>
+    <div class="quote">如楔出楔⑪方便除遣。<span class="src">—— 卷67原文</span></div>
+    <div class="quote">以轻安身除粗重身。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">驱除粗重的办法不是空手硬拔，而是打进一根更细的楔，把它顶出来。</div>
+    <div class="analogy"><b>比喻：</b>木匠取断在木头里的螺钉，不是用手抠，而是紧着一根更细的钻头把周围扩松——粗楔（粗重的执取）被细楔（轻安的定相）顶出去，最后连细楔也不留。</div>
+    <div class="case"><b>睡前刷手机：</b>阿凯想戒掉睡前刷短视频，靠意志硬扛总失败；后来改成「十一点后手机放客厅充电，床头放一本小说」——用阅读这根细楔把刷手机那根粗楔顶出去。对应「如楔出楔」：不空手拔楔，以楔遣楔。</div>
+  </div>
+
+  <div class="card">
+    <h3>对治修：跟烦恼打擂台的四步战术</h3>
+    <div class="quote">谓烦恼断已于对治道更多修习。<span class="src">—— 卷67原文（远分对治）</span></div>
+    <div class="plain">对治修分四步：先看清（厌患）、再根除（断）、守成果（持）、加练防复发（远分）。</div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">厌患对治</div><div class="d">一切世间善道所摄（除四无量与神通作意）：先对过患生起深深的厌倦——原文又以「闻思修道」为厌患对治。</div></div>
+      <div class="tl-item"><div class="t">断对治</div><div class="d">缘真如为境作意：以根本智慧直取实相，把烦恼从根上断掉——原文又以「出世间道」为断对治。</div></div>
+      <div class="tl-item"><div class="t">持对治</div><div class="d">断后所得的世出世间道、解脱道：守住成果，稳定「转依」（心识格局的整体转变）。</div></div>
+      <div class="tl-item"><div class="t">远分对治</div><div class="d">烦恼断已，对治道更多修习，或多修上地之道：把烦恼越推越远，防止复发。</div></div>
+    </div>
+    <div class="case"><b>四步拆掉错别字：</b>小文写作总把「的地得」用错：她先系统学一遍语法，对旧毛病生起厌倦（厌患）；把规则真正吃透（断）；写完用校对工具固定检查（持）；半年后仍坚持每篇稿后自查（远分）。四步走完，毛病再没回来——对治修的完整闭环。</div>
+  </div>
+
+  <div class="card">
+    <h3>流程推演：用对治修戒掉每天三杯奶茶</h3>
+    <p style="font-size:.93rem;color:var(--ink-soft)">点节点或用按钮，看四步对治如何在一件日常小事上走完。</p>
+    <div class="flow-track" id="dzTrack"></div>
+    <div class="flow-detail" id="dzDetail"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="dzPrev">上一步</button> <button class="tri-btn" id="dzNext">下一步</button></div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 04 种性之争 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>种性之争：一场归谬辩论</h2></div>
+  <p class="sec-lead">声闻地决择开场第一题火药味十足：经里说有人「毕竟无般涅槃法」——永远没有解脱可能。有人不服：凭什么判一个人「永久出局」？本卷不喊口号，而是连破五个类比，每一问都以「汝何所欲」开头，把对方的论证逼进两头都不通的死角。</p>
+
+  <div class="card">
+    <h3>第一难：两难陷阱</h3>
+    <div class="quote">诸有情类种种界性。无量界性。下劣界性。胜妙界性。为有耶为无耶。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">你若说「界性有」，就否定了「毕竟无般涅槃法」；你若说「无」，又跟经文打架——两头皆「不应道理」。</div>
+    <div class="analogy"><b>比喻：</b>归谬法像拆弹：不制造新炸弹，只把对方的引线接到他自己的炸药上。</div>
+  </div>
+
+  <div class="card">
+    <h3>辩论回合推演（六个回合）</h3>
+    <div class="flow-track" id="debTrack"></div>
+    <div class="flow-detail" id="debDetail"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="debPrev">上一回合</button> <button class="tri-btn" id="debNext">下一回合</button></div>
+  </div>
+
+  <div class="card">
+    <h3>胜负手：一个可检验的点</h3>
+    <div class="quote">彼遇佛法僧已。于现法中为能起顺解脱分善根耶。为不能耶。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">整场辩论押在一个可检验的点上：遇见佛法僧时，能不能生起「顺解脱分善根」（能随顺走向解脱的善根）。</div>
+    <p style="font-size:.92rem;color:var(--ink-soft)">此生就能转成，则遇佛即起善根，何须先判为「无」；要等后生，则要么前生已积善根（此生就该能起），要么前后都未积善根（凭什么偏偏后生能起）——原文最后两个字：「不应道理」。</p>
+  </div>
+
+  <div class="case"><b>二选一陷阱：</b>主管质问小唐：「项目延期，是流程问题还是态度问题？」小唐发现答哪个都挨批——论主用的正是这种结构：把对方逼到「为有耶为无耶」两扇门之间，门后各有一个坑（不应道理）。</div>
+  <div class="case"><b>类比失灵：</b>朋友劝小蔡：「你看隔壁小区原来没有幼儿园，去年建了一个——所以人的天赋也能后天长出来。」小蔡反问：「照这么说，建成的幼儿园也会消失吗？那入学资格还怎么定？」——对应金矿一喻：若种性能如地方所种性无中生有，定种性岂不也得而复失，「立定种性」便成空话。</div>
+  <div class="case"><b>辩论队的功课：</b>辩论队新队员小尹复盘时发现：驳倒对方最好的办法，不是急着下自己的结论，而是逐个检验对方的类比是否「相似」——本卷五个回合正是这套功夫的古典示范，每一回合都以「如是诘已」收束。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 05 十种声闻 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>十种声闻：修行人的十种画像</h2></div>
+  <p class="sec-lead">同一个名字「声闻」，本卷给出十种身份：前六种按「出身与际遇」分——种性、遇不遇缘、生在什么世界、生在什么时代；后四种按「慧眼等级」分——看破真相的能力分四档。最扎眼的是「末法时生声闻」的完整画像，几乎是一份反面教材的体检报告。</p>
+
+  <div class="card">
+    <h3>慧眼四档</h3>
+    <div class="quote">若诸异生声闻名未得眼。预流一来及不还等名已得眼。<span class="src">—— 卷67原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">未得眼</div><div class="sub">异生（凡夫）声闻</div><span class="tap">点击展开</span></div><div class="back">还没睁开法眼，仍在凡夫位打转。<em>没入门的学员：动作全靠模仿。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">已得眼</div><div class="sub">预流、一来、不还</div><span class="tap">点击展开</span></div><div class="back">已见圣谛、入了圣流，但尚有学处未竟。<em>能独立弹完整首曲子的学员。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">清净眼</div><div class="sub">慧解脱阿罗汉</div><span class="tap">点击展开</span></div><div class="back">「慧解脱阿罗汉名清净眼。」——烦恼永尽。<em>技术娴熟的老手。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">极清净眼</div><div class="sub">具三明、俱分解脱</div><span class="tap">点击展开</span></div><div class="back">定慧双圆、三明具足的阿罗汉，四档之巅。<em>既娴熟又能上台示范教学的教练。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>十种声闻的结构</h3>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">种性与缘</span><h4>清净界 · 已遇缘</h4><p>安住声闻种性是第一；已入法者名第二——先有资质，再逢因缘。</p></div>
+      <div class="yuan-card"><span class="y-tag">世界</span><h4>杂染界生 · 清净界生</h4><p>所生世界多苦、容有五浊（寿浊乃至有情浊）为杂染界生；与此相违即清净界生。</p></div>
+      <div class="yuan-card"><span class="y-tag">时代</span><h4>末法时生 · 贤善时生</h4><p>法末时即「大师般涅槃后圣教没时」；与此相违的不染污法成就者，生在佛世或涅槃后不久，多往生善趣。</p></div>
+      <div class="yuan-card"><span class="y-tag">慧眼</span><h4>四眼等级</h4><p>未得眼、已得眼、清净眼、极清净眼——从凡夫到俱解脱阿罗汉的段位表。</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>末法画像：反光镜</h3>
+    <div class="quote">内实腐败外现贤善。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">判断一个修行人，不看外相，看他的心到底被什么缠住。</div>
+    <div class="analogy"><b>比喻：</b>像一家装修豪华的餐厅：菜单精美、服务员微笑（外现贤善），后厨却早已停火、端出的全是预制加热的菜（内实腐败）——堂皇的外表恰恰是需要核查的对象。</div>
+    <details class="dict">
+      <summary>末法时生声闻画像清单<span class="hint">完整条目，可跳过</span></summary>
+      <div class="body">
+        <p><b>贪着利养：</b>多分爱重利养恭敬，违背妙法；贪恚痴与不正法一并增盛。</p>
+        <p><b>六悭具足：</b>处悭、家悭、利悭、恭悭、誉悭、法悭；谄诳矫诈恒现在前。</p>
+        <p><b>动机不纯：</b>为活命故而求出家，非为涅槃；忧苦虽多不生厌患。</p>
+        <p><b>喜乐聚杂：</b>弃阿练若与边际卧具，来入众中习近村侧；喜乐谈谑、諠众、猥杂，自举纵逸。</p>
+        <p><b>弃正逐末：</b>舍甚深空相应、缘起经典；对世间聪慧的绮饰文章恭敬受持、深生欢喜。</p>
+        <p><b>颠倒法想：</b>于似正法妄生法想，于正法起非法想；诽谤正法及毗奈耶，视说正法者为怨家。</p>
+        <p><b>犯戒虚伪：</b>多犯尸罗；发露是「或为他知而行发露」，非实意乐；结好亲友家与施食家。</p>
+        <p><b>蓄积经营：</b>多乐蓄积家产资具，假存法式以之为胜；度人出家以染污心为充供事。</p>
+        <p><b>势利眼：</b>见多亲属广招利养者便恭敬供养，见少欲具德者反生轻蔑。</p>
+        <p><b>朋党与名声：</b>好摄犯戒、乐结朋党；听受皆为声誉利养，不为调伏身心。</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="case"><b>办公室六悭：</b>组里技术最强的同事：代码从不共享（法悭）、内部岗位信息只留给「自己人」（处悭）、帮忙先看回报（利悭）、排行榜必须是他（恭悭、誉悭）。本卷把「悭」细分六处，正是提醒：心里的占有欲不能只查钱包一处。</div>
+  <div class="case"><b>段位自查：</b>吉他教室四个学员：一个只会瞎扫弦（未得眼），一个能完整弹唱（已得眼），一个熟到能改编指法（清净眼），还有一个既熟又能上台教人（极清净眼）。「四眼」分级提醒修行人：别拿入门当终点，先看清自己站在哪一级。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 06 出门检查 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>出门前的三道检查</h2></div>
+  <p class="sec-lead">声闻要往居士家乞食说法，论里给出一份行前检查表：三种随烦恼没断，不出门。同时引《月喻经》列出四种净妙之法——让别人见到你就由身语意生福。这一章是一堂「修行人的社交仪表课」。</p>
+
+  <div class="card">
+    <h3>四种净妙之法（月喻经）</h3>
+    <div class="quote">虽复实有种种功德而不欲求令他知有。<span class="src">—— 卷67原文（第四法）</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">具戒</div><div class="sub">住具足尸罗</div><span class="tap">点击展开</span></div><div class="back">守别解脱律仪——行为层面的底线装备。<em>像车辆年检合格证：上路的前提。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">具德</div><div class="sub">少欲喜足</div><span class="tap">点击展开</span></div><div class="back">广说乃至诸漏永尽——内在品质一路通到漏尽。<em>像发动机的真实工况，不是漆面。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">柔和</div><div class="sub">易可共住</div><span class="tap">点击展开</span></div><div class="back">不恼有智同梵行者，令诸比丘喜乐同处，成就四种证净。<em>像室友的「好相处系数」。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">善法</div><div class="sub">不耽利敬，覆善露恶</div><span class="tap">点击展开</span></div><div class="back">怜愍于他，覆藏己善。发露己恶——不想让人知道「我成就如是功德」。<em>做好事不发朋友圈的定力。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>行前检查表：三种随烦恼（条件模拟器）</h3>
+    <div class="quote">应先断除三随烦恼然后当往。<span class="src">—— 卷67原文</span></div>
+    <p style="font-size:.93rem;color:var(--ink-soft)">把开关拨向右边，表示这条随烦恼<b>还没断</b>；三条全拨到左边（已断），才能安心出门。</p>
+    <div id="visitSim">
+      <div class="cond-row">
+        <div class="name">结亲友家随烦恼<small>数数串门、对可爱事执取生贪、以邪行追求衣服等物</small></div>
+        <label class="switch"><input type="checkbox" id="visitC1"><span class="slider"></span></label>
+      </div>
+      <div class="cond-row">
+        <div class="name">家悭随烦恼<small>对利养恭敬染着；自得赞美、他得毁呰</small></div>
+        <label class="switch"><input type="checkbox" id="visitC2"><span class="slider"></span></label>
+      </div>
+      <div class="cond-row">
+        <div class="name">染心法施随烦恼<small>希求他人对自己生净信——带钩子的分享</small></div>
+        <label class="switch"><input type="checkbox" id="visitC3"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div id="condResult"></div>
+  </div>
+
+  <div class="card">
+    <h3>三种纯善意乐：说法的正确动机</h3>
+    <div class="quote">谓引发乐故除遣苦故。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">说法施法的动机只有三种纯善：给对方添乐、帮对方除苦、引人恭敬听受法随法行而得真实利益（为苦所恼者令脱苦；已解脱者则为令正法久住而宣说）。</div>
+    <div class="quote">于自他诸利养中其心平等。<span class="src">—— 卷67原文（断家悭六相之一）</span></div>
+    <p style="font-size:.92rem;color:var(--ink-soft)">断家悭的六相可记成一条线：对有情事、利养事、恭敬事不染不着；于无利不生忧苦（不恭敬亦尔）；自他利养心平等；不自赞美、不毁呰他。三种随烦恼各断其一，分别以<b>无猥杂住、正受用财、正受用法</b>为究竟。</p>
+  </div>
+
+  <div class="case"><b>带钩子的分享：</b>小许在读书会上分享一本书，讲完不断瞄群消息，等的是「讲得真好」的夸奖——这就是「以有染心而行法施」。后来她按「不悕望他于己净信」自查：把内容发完就放下手机；动机纯了，讲得反而更稳。</div>
+  <div class="case"><b>同学会的心平：</b>聚会上有人晒出升职加薪，小宋心里咯噔一下，随即想起「于自他诸利养中其心平等」：不贬低对方，也不自我贬低，敬一杯酒如实祝福。家悭随烦恼，就是在这样的瞬间被识别并放下的。</div>
+  <div class="case"><b>好事留名与否：</b>小付帮同事顶了一周班，同事要在群里公开感谢，他摆手婉拒——对应「覆藏己善。发露己恶。」：自己的善行不必广播，自己的过失却要坦白。第四种净妙之法，量的是「被看见的渴望」有多强。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 07 身体地基 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>身体：杂染与清净共用的地基</h2></div>
+  <p class="sec-lead">《伐他迦经》问：想要对染污与清净都善巧，先要在三处遍知——所依（这个身体）、杂染、清净。惊人之语在第一处：同一个身体，既是愚夫的杂染所依，也是智者的清净所依。</p>
+
+  <div class="card">
+    <h3>所依：中性基建</h3>
+    <div class="quote">谓即此身有色粗重。广说如经。此是愚夫无有智慧趣无明者杂染所依。亦是聪明有大智慧趣于明者清净所依。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">身体不背锅，也不加分——全看谁在用、怎么用。</div>
+    <div class="analogy"><b>比喻：</b>同一部智能手机：装课程 App 就是学习机，装赌博 App 就是老虎机——设备没变，天地悬隔。</div>
+    <div class="case"><b>同款手机：</b>小高和室友买同一天发布的同款手机：小高用它听课、记单词，室友用它通宵打牌欠了债。对应的正是「杂染清净所依」：色身粗重同款，愚夫与智者却走出两条路。</div>
+  </div>
+
+  <div class="card">
+    <h3>杂染：一条标准流水线</h3>
+    <div class="quote">先寻思已后以身语造作所有净不净业。<span class="src">—— 卷67原文</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">先寻思</div><div class="d">心里先把「净不净业」预演一遍——念头是第一道工序。</div></div>
+      <div class="tl-item"><div class="t">身语造作</div><div class="d">再借身体和语言把业造出来——行动是第二道工序。</div></div>
+      <div class="tl-item"><div class="t">感自体</div><div class="d">由此因缘，在五趣生死中感得爱非爱、有恼无恼的自体——果报是出厂设置。</div></div>
+    </div>
+    <div class="plain">杂染不是玄学，是「念头 → 行动 → 果报」的标准流水线。</div>
+    <div class="case"><b>路怒一步曲：</b>早高峰被加塞，老郑先在心里骂了十秒（寻思），随后摇下车窗别了回去（身语造作）——事情过去，险情与纠纷的代价却真实留档。原文「感爱非爱有恼无恼自体」，说的就是这条流水线的终点。</div>
+  </div>
+
+  <div class="card">
+    <h3>清净：二种学与五因</h3>
+    <p><b>二种学：</b>第一学——以真如智为依止，能有所作；第二学——令烦恼皆得离系。</p>
+    <p><b>五因显示清净：</b>正说者（如来）、正行者（根熟声闻，亦名聪慧者）、正行（谛智所摄）、增上心学所治随烦恼断、增上慧学所治随烦恼断。</p>
+    <div class="plain">清净不是一种感觉，而是一张可核查的清单：讲的人对、行的人对、行的方法对，再把定慧两学各自的障断干净。</div>
+    <details class="dict">
+      <summary>增上心学五随烦恼 · 增上慧学三随烦恼<span class="hint">清单条目，可跳过</span></summary>
+      <div class="body">
+        <p><b>心学五：</b>① 居远离者所有诸盖；② 于教授教诫不堪忍者所有忿恼；③ 于利养恭敬深贪著者所有悭嫉；④ 于先所用所受境界发起邪念；⑤ 顺舍所学分别贪爱。</p>
+        <p><b>慧学三：</b>① 于世俗理门不了法义者所有无明；② 已了法义诸异生者，于诸谛犹豫疑惑未断；③ 已见谛迹有学，修道所摄慧所对治的所有我慢。</p>
+        <p><b>断尽之后：</b>证得最善清净的增上心学、增上慧学——阿罗汉果，名为最极清净。</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>过患：苦性与无常性</h3>
+    <div class="quote">昔会今乖名为离散。散已变坏最后都尽名为磨灭。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">身体终身在打补丁（苦性），且从出厂就注定报废（无常性）——这就是「过患」两个字的意思。</div>
+    <div class="analogy"><b>比喻：</b>像一部官方从不承诺永久使用的手机：冬天怕冻、夏天怕烫，每天充电贴膜清灰都是在为苦性做对治，而电池健康度逐年下滑（无常性）从未停过。</div>
+    <p style="font-size:.92rem;color:var(--ink-soft)">苦性的账单：寒时求覆障、热时求沐浴、劳作后求按摩——原文把这些日常补救统统归入「苦性」；无常性则更彻底：手块杖刀一触即坏，死后埋地、火烧、虫食、风日暴燥，皆是「散坏磨灭法性」。</p>
+  </div>
+
+  <div class="case"><b>暖气与空调：</b>北方家庭每年冬天交采暖费、装窗帘「覆障」，夏天开空调做全屋「沐浴式」降温，一趟下来几千块——原文说「若于寒时为治寒苦。追求覆障以为对治。若于热时为治热苦。追求沐浴以为对治。」，这些花销正是身体「苦性」的年度账单。</div>
+  <div class="case"><b>毕业合影：</b>翻出十年前的毕业照：当年朝夕相处的室友如今散在五个城市，有人已失联——「昔会今乖名为离散」。照片纸面未变，合影里的人身早已各奔离散，走向「散已变坏最后都尽」的结局。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 08 名与四谛 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>名、偈与四圣谛的边界考题</h2></div>
+  <p class="sec-lead">本卷藏着一首四句偈，讲「名」（概念、标签）的双重身份：执著它就流转，看破它就还灭。随后是四圣谛的一串边界考题：外道的邪见算不算谛？道谛无常为何不苦？八苦怎么归三类？为什么烦恼无量，佛单说一个「爱」字？</p>
+
+  <div class="card">
+    <h3>名映于一切</h3>
+    <div class="quote">名映于一切㉚无有过名者由此名一法皆随自在行。<span class="src">—— 卷67原文</span></div>
+    <div class="quote">若过四无色蕴诸我相事定不可得。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">了知「名」只是安立在四无色蕴上的标签（补特伽罗无我）、安立在世俗言说上的假名（法无我），一切境相杂染就失去了抓手。</div>
+    <div class="analogy"><b>比喻：</b>情绪管理有个通行做法：「给情绪起名字」，焦虑被叫出名字就减了半价。本卷走得更远：不但「焦虑」是名，连「我」这个最大的名字也只是四蕴上安立的标签——标签的边界找对了，缠缚就松了。</div>
+    <div class="case"><b>标签与本体：</b>小何被同事贴上「效率低」的标签后愈发畏缩；导师让她把「我效率低」改写成「我在四件事上各花了多少时间」——四件实事一件件列出来，那个「低效之我」竟找不到落脚点。对应「若过四无色蕴诸我相事定不可得」：离开具体诸蕴，「我相」无处安放。</div>
+  </div>
+
+  <div class="card">
+    <h3>边界考题一：邪见也是「谛」吗？</h3>
+    <div class="quote">然即此邪性相。是真是实皆不颠倒。是苦性故是苦因故。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">四圣谛不说「你的观点正确」，只说「这确实是苦、确实是苦因」——外道的邪见虽是颠倒，它招来的苦却真实不虚，所以归入苦集二谛。</div>
+    <div class="case"><b>错误但真实：</b>老莫坚信「抽烟能减压」，这个看法是错的；但在这个错误见解驱动下，一天一包烟带来的咳嗽与体检异常真实不虚——观点错，苦因真，这正是把邪见也收进苦集二谛的道理。</div>
+  </div>
+
+  <div class="card">
+    <h3>边界考题二：道谛无常，为何不苦？</h3>
+    <div class="quote">诸苦皆无常。有无常非苦。谓道谛。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">会变的不都苦——道谛也在变（不断进步），但它不摄苦受（非苦苦）、不会变坏（非坏苦）、能解脱粗重违逆生死（非行苦），所以三苦都不沾。</div>
+    <p style="font-size:.92rem;color:var(--ink-soft)">四相分配表：原文「苦集谛具四种。道谛有三。灭谛有二。」——道谛独缺「苦」相，灭谛连「无常」也不具。</p>
+    <div class="table-wrap">
+      <table class="nine">
+        <tr><th>名相</th><th>具足哪几相</th><th>通俗理解</th></tr>
+        <tr><td>苦谛、集谛</td><td>无常、苦、空、无我（四相）</td><td>流转 side 的每一法，四张标签全贴满</td></tr>
+        <tr><td>道谛</td><td>无常、空、无我（三相，非苦）</td><td>会进步的道在变，却不是苦的循环</td></tr>
+        <tr><td>灭谛</td><td>空、无我（二相，非无常非苦）</td><td>寂灭无为，连「变」都谈不上</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>边界考题三：八苦归三类（归类练习）</h3>
+    <div class="quote">前五显苦苦性。<span class="src">—— 卷67原文</span></div>
+    <p style="font-size:.93rem;color:var(--ink-soft)">八苦可归三签：生老病死怨憎会（前五）是<b>苦苦</b>——苦上加苦；爱别离、求不得是<b>坏苦</b>——好东西变坏的苦；总略五取蕴苦是<b>行苦</b>——迁流不息本身。用下面五个日常场景练一遍：</p>
+    <div id="kuSorter"></div>
+  </div>
+
+  <div class="card">
+    <h3>边界考题四：为什么佛单说一个「爱」</h3>
+    <div class="quote">此爱能起取故。能发业故。遍诸事故。<span class="src">—— 卷67原文</span></div>
+    <div class="plain">烦恼无量，佛偏在集谛里单立「爱」——因为它是能生取、能发业、遍诸事的总开关；爱生起时，普能发起十五种无义利。</div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">三爱之一</span><h4>顺后有爱</h4><p>想继续存在下去的爱：缘后有境，或为后有之因——怕「断档」。</p></div>
+      <div class="yuan-card"><span class="y-tag">三爱之二</span><h4>喜贪俱行爱</h4><p>对已得可意境界的黏着：正在受用中不愿分离。</p></div>
+      <div class="yuan-card"><span class="y-tag">三爱之三</span><h4>彼彼喜乐爱</h4><p>对未得所求境界的渴望：为和合、为不离、为增益。</p></div>
+    </div>
+    <p style="font-size:.92rem;color:var(--ink-soft)">一个细心的例外：「谓于上解脱悕求欲证。」——希求解脱的爱虽然也名「爱」，却不属三爱所摄（四句分别的第一句）。爱还要依界分为欲爱、色爱、无色爱；依常见、断见，又建立有爱与无有爱——所以此爱「名遍诸事」。</p>
+  </div>
+
+  <details class="dict">
+    <summary>爱生起时的十五种无义<span class="hint">完整条目，可跳过</span></summary>
+    <div class="body">
+      <p><b>一：</b>令随眠（潜伏的烦恼种）坚固。</p>
+      <p><b>二：</b>由缠故染恼一切心心所法。</p>
+      <p><b>三：</b>令心相续于所缘境颠倒而转。</p>
+      <p><b>四：</b>发起取所摄的其余烦恼。</p>
+      <p><b>五：</b>能安立自类相续。</p>
+      <p><b>六、七：</b>随顺生起未生的恶不善法；随顺已生的恶不善法使其增广。</p>
+      <p><b>八、九：</b>障碍未生善法令不得生；障碍已生善法令不得安住、不忘、倍增、广大。</p>
+      <p><b>十：</b>令行恶行，结集一切诸恶趣苦。</p>
+      <p><b>十一：</b>悕求后有，结集生老病死等苦。</p>
+      <p><b>十二：</b>能令有情怖畏涅槃。</p>
+      <p><b>十三：</b>能令有情爱乐生死、邪执其功德胜利。</p>
+      <p><b>十四：</b>如于生死，于境界亦尔。</p>
+      <p><b>十五：</b>能令有情思为自害、思为害他。</p>
+    </div>
+  </details>
+
+  <div class="case"><b>三爱刷屏：</b>深夜的小尤滑动短视频：「再刷一条」是怕快乐中断（喜贪俱行爱），收藏了十部「以后看」的教程（彼彼喜乐爱），而那句「下辈子还这样活着也行」的错觉，正是顺后有爱的底色。爱不是单一按钮，是一整排开关。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 09 收官 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：偈颂与结构回顾</h2></div>
+  <p class="sec-lead">走完全卷，回望四站：修的分类表（怎么修）、种性的辩论（谁能修）、声闻的画像与检查表（修的人长什么样）、身体与四谛（修的底层逻辑）。最后以卷中偈颂收束。</p>
+
+  <div class="gatha">
+    <div class="lines">执法自性故　　执我性而转<br>觉此故觉彼　　由觉故还灭</div>
+    <div class="mean">执著诸法有自性，便执著「我」而在生死中流转；觉悟了「此」，就能觉悟「彼」；由觉悟而还归寂灭。——从十六种修到四谛决择，全卷都在为这四句做注脚。</div>
+  </div>
+
+  <div class="card">
+    <h3>四站回顾</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">第一站 · 十六种修</div><div class="d">对象 × 目标 × 手法的分类总表：影像、事边际、所作成办；得、习、除去、对治。</div></div>
+      <div class="tl-item"><div class="t">第二站 · 种性之争</div><div class="d">五个回合的归谬示范：不许笼统，每个类比都要经得起「汝何所欲」的反诘。</div></div>
+      <div class="tl-item"><div class="t">第三站 · 十种声闻与出门检查</div><div class="d">从种性际遇到慧眼四档；末法画像是一面反光镜；行前三随烦恼是社交检查表。</div></div>
+      <div class="tl-item"><div class="t">第四站 · 地基与边界</div><div class="d">身体是杂染与清净共用所依；四圣谛的边界考题：邪见亦谛、道谛非苦、佛唯说爱。</div></div>
+    </div>
+    <div class="plain">修是精确的操作，修行人是可检核的画像，身体是共用的地基，而「爱」与「名」是流转与还灭的两个总开关。</div>
+  </div>
+
+  <div class="case"><b>一卷走完的学习曲线：</b>小荟学投资：先啃教材（思所成慧），开模拟盘推演（影像修），逐日复盘每笔交易（事边际修与习修），用交易纪律顶掉追涨冲动（除去修），按「厌患—断—持—远分」四步管理情绪化操作（对治修）——最后明白「必胜公式」这个「名」也须放下（名映于一切）。卷67的板块顺序，恰是一条完整的成长路径。</div>
+  <div class="case"><b>偈颂的午夜版：</b>凌晨一点，小柯又在「再刷五分钟」：认定「放松」必须是刷手机（执法自性），认定「不刷就不是我」（执我性而转）；当他觉察到「放松」只是个名相、散步一样能放松（觉此），连「我是刷手机的人」这个标签也松动了（觉彼）——手机放下，心里安静（由觉故还灭）。</div>
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第六十七（output/67.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga67-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* 流程推演 1：对治修四步（以戒奶茶为例） */
+initStepper('dzTrack','dzDetail','dzPrev','dzNext',[
+ {t:'第1步 · 厌患对治',d:'<b>厌患对治（先看清它有多坑）：</b>小唐把一年奶茶订单拉出来：七百多杯、一万余元，加上体检报告上的血糖箭头。他第一次对这杯奶茶生起真实的厌倦——对应原文「厌患对治者。谓一切世间善道。」：先在思想上跟它划清界限。'},
+ {t:'第2步 · 断对治',d:'<b>断对治（动它的根）：</b>小唐发现自己馋的不是糖，是下午三点的倦怠与焦虑。他改在犯困时下楼快走十分钟、抽屉常备无糖茶——把触发链条从根上换掉。对应「断对治者。谓缘真如为境作意。」：直取本质，而非表面硬忍。'},
+ {t:'第3步 · 持对治',d:'<b>持对治（守住成果）：</b>两周过去，新习惯立住了：同事递奶茶时有固定话术，下午茶时间有了替代动作。这份守护把已断的链条稳定住——对应「持对治者。谓此后得世出世道若解脱道。」'},
+ {t:'第4步 · 远分对治',d:'<b>远分对治（加练防复发）：</b>三个月后小唐已经不馋了，仍坚持快走与定期体检。原文说「谓烦恼断已于对治道更多修习」——戒断之后还要多修，把复发的可能越推越远。'}
+]);
+
+/* 流程推演 2：种性之争的六个回合 */
+initStepper('debTrack','debDetail','debPrev','debNext',[
+ {t:'回合① · 界性有无',d:'<b>对方难：</b>凭什么说有人毕竟无般涅槃法？<b>反诘：</b>「诸有情类种种界性。无量界性。下劣界性。胜妙界性。为有耶为无耶。」——说「有」，就没有毕竟无般涅槃法的人；说「无」，又与经文相违。两头皆「不应道理」。'},
+ {t:'回合② · 无根喻',d:'<b>对方难：</b>世间没有无根的有情，那为何不能有无般涅槃法的人？<b>反诘：</b>「诸无根者为是有情为非有情。」——是有情，则外界的无根之物也该算有情，荒谬；非有情，则这个类比从一开始就不成立。'},
+ {t:'回合③ · 种姓互换喻',d:'<b>对方难：</b>刹帝利可改作婆罗门，那落迦众生可生天——身份都能换，种性为何不能换？<b>反诘：</b>能互换者本来就「有一切界」；若说无般涅槃法界者独有一界，那他又拿什么去换？'},
+ {t:'回合④ · 相违不相违',d:'<b>对方难：</b>为何无般涅槃法界里长不出般涅槃法界？<b>反诘：</b>二界若互相违，一身上不能并存；若不互相违，一身就同时既是有般涅槃法又是无般涅槃法——两头皆不通。'},
+ {t:'回合⑤ · 金矿喻',d:'<b>对方难：</b>某地先无金种性，后来探出金矿——种性为何不能无中生有？<b>反诘：</b>照此则声闻、大乘定种性也会得而复失：「立定种性」成了空话，顺解脱分善根也应空无果。'},
+ {t:'回合⑥ · 此生与后生',d:'<b>最后一问：</b>无涅槃法者要在此生还是后生转成涅槃法？此生转成，则他遇佛即能起善根，何须先判为「无」；后生转成，则要么前生已积善根（此生就该能起），要么前后都未积善根（凭什么偏偏后生能起）——「不应道理」。'}
+]);
+
+/* 条件模拟器：出门前的三道检查 */
+function updateVisit(){
+  var c1=document.getElementById('visitC1').checked;
+  var c2=document.getElementById('visitC2').checked;
+  var c3=document.getElementById('visitC3').checked;
+  var box=document.getElementById('condResult');
+  var n=(c1?1:0)+(c2?1:0)+(c3?1:0);
+  var html='';
+  if(n===0){
+    box.classList.remove('fail');
+    html='三随烦恼全断：结亲友家断故，<b>无猥杂住</b>以为究竟；家悭断故，<b>正受用财</b>以为究竟；染心法施断故，<b>正受用法</b>以为究竟。现在可以安心前往他家了。';
+  }else if(n===1){
+    box.classList.add('fail');
+    if(c1)html='<b>结亲友家未断：</b>还惦记着串门与受用——先修「时时往不应数往」，可爱相现前时暂生贪爱即便羞耻。';
+    else if(c2)html='<b>家悭未断：</b>到别人家难免比较得失——先练「于自他诸利养中其心平等」，不自赞美、不毁呰他。';
+    else html='<b>染心法施未断：</b>若为求净信而说，说法即成交易——先回到三种纯善意乐：「谓引发乐故除遣苦故。」';
+  }else if(n===2){
+    box.classList.add('fail');
+    html='带着两条随烦恼出门，乞食说法必被牵动：'+(c1?'结亲友家的瘾；':'')+(c2?'家悭的酸；':'')+(c3?'法施的钩子；':'')+'至少斩断一条再上路。';
+  }else{
+    box.classList.add('fail');
+    html='三条全占：数数串门、计较利养、带钩说法——这正是「末法时生声闻」的画像。行前检查表全红，暂缓出门。';
+  }
+  box.innerHTML=html;
+}
+document.querySelectorAll('#visitSim input').forEach(function(cb){cb.addEventListener('change',updateVisit);});
+updateVisit();
+
+/* 归类练习：八苦归三类 */
+initSorter('kuSorter',[
+ {a:'牙疼到整夜睡不着。',opts:['苦苦','坏苦','行苦'],ans:'苦苦',exp:'苦受现前，苦上加苦——对应「前五显苦苦性」。'},
+ {a:'追了两年的剧被平台下架，大结局再也看不成。',opts:['苦苦','坏苦','行苦'],ans:'坏苦',exp:'已得所爱变坏——爱别离、求不得所显的坏苦性。'},
+ {a:'体检一切正常，但你清楚身体每一秒都在走向衰老。',opts:['苦苦','坏苦','行苦'],ans:'行苦',exp:'迁流不息、为粗重所摄受——总略五取蕴所显的行苦性。'},
+ {a:'和最好的朋友闹翻，联系方式全部拉黑。',opts:['苦苦','坏苦','行苦'],ans:'坏苦',exp:'已得所爱变坏之故——坏苦。'},
+ {a:'连续四小时的周会让浑身不适、坐立难安。',opts:['苦苦','坏苦','行苦'],ans:'苦苦',exp:'苦受现前即苦苦，痛感直接可指。'}
+]);
+
+renderPath();
+</script>
+</body>
+</html>

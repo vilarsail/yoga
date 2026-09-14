@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第十五 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中闻所成地第十之三</div>
+  <h1>卷第十五 · 交互式学习模块</h1>
+  <p class="sub">这一卷是「闻所成地」的收官讲：先用八、九、十三组数法为修行清单交卷，再用整整半卷把古印度的一门显学——因明（逻辑辩论学）——从辩什么、凭什么、风度、输赢到该不该辩，一层层拆给你看，最后带过声明学与十二种职业技能。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 25 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 修行成绩单</a>
+<a href="#s3">③ 懈怠的八个时刻</a>
+<a href="#s4">④ 去处与考验</a>
+<a href="#s5">⑤ 数法收官·医方明</a>
+<a href="#s6">⑥ 因明·六论</a>
+<a href="#s7">⑦ 因明·论所依</a>
+<a href="#s8">⑧ 因明·庄严与堕负</a>
+<a href="#s9">⑨ 收官·声明与工业明</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>先弄清这一卷的两大板块：数法清单交卷 + 五明处之后三明（对应第①章）</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>查修行成绩单</b><span>三种修法怎么分组、四向四果是什么、布施的七种过失与一种无过失（对应第②章）</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>对号入座懈怠</b><span>拨动模拟器，看看自己此刻正处在四个懈怠处所的哪几个时刻里（对应第③章）</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>看清去处与考验</b><span>八种可爱生处、如来四众、世间八法与引发神通的八胜解（对应第④章）</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>数法收官与医方明</b><span>九、十两组数法交卷，再用「看病四步」理解医方明（对应第⑤章）</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>攻下因明，跑完全程</b><span>六论、论所依三量、庄严与堕负出离（第⑥-⑧章），最后声明、工业明与收官偈颂（第⑨章）</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ ① 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：一卷看两件事</h2></div>
+  <p class="sec-lead">「闻所成地」讲的是靠听闻佛法而成就的正见，卷十三、十四、十五是它的连续三讲。本卷是第三讲，也是最后一讲：前半把「佛教所应知处」的数法清单从八种数到十种，正式交卷；后半一口气讲完五明里的医方明、因明、声明、工业明——其中因明独占一半篇幅。</p>
+
+  <div class="card">
+    <div class="quote">已说七种佛教所应知处。次说八种。<span class="src">—— 卷十五原文</span></div>
+    <p>「佛教所应知处」是一份按数字编排的学习清单：七种（上卷已讲）、八种（本卷展开）、九种、十种（本卷点到即收）。数法交卷之后，话题转向「明处」——佛教承认的五类世间学问。前四卷已讲内明，本卷补齐其余四明。</p>
+    <div class="plain">本卷结构 = 一张交卷清单（八、九、十）+ 两门半实用学问：医方明、因明（重头戏）、声明、工业明。前半讲修行人，后半讲「佛教徒该掌握的知识地图」。</div>
+  </div>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">八法收官</div><div class="sub">八支圣道·布施八相·懈怠八时·八胜解</div><div class="tap">点开 ▸</div></div><div class="back">第八组数法的展开：圣道归并为三种修法；布施分七种过失与一种无过失；懈怠有四处八时；还有八种可爱生处、如来四众的建立因缘与八胜解。<em>本卷着墨最多的数法，占前半全部篇幅。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">九法与十法</div><div class="sub">九结·九生处·十遍处·十无学支</div><div class="tap">点开 ▸</div></div><div class="back">九结只报名目，细账留给〈摄事分〉；九种生处=三界中除去恶趣；十遍处是「诸解脱所作成就」；十无学支归入无学五蕴。<em>原文自己说「如摄事分当广建立」——本卷只交目录。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">医方明处</div><div class="sub">古印度的医学纲要</div><div class="tap">点开 ▸</div></div><div class="back">四种善巧：知病相、知病因、断已生之病、防病复发——与现代临床的「诊断—病因—治疗—预防」一一对应。<em>寥寥数行，却是一整套医学骨架。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">因明处</div><div class="sub">本卷重头戏，约一半篇幅</div><div class="tap">点开 ▸</div></div><div class="back">一套完整的逻辑辩论学，分七科：论体性（辩什么）、论处所（在哪辩）、论所依（凭什么）、论庄严（风度）、论堕负（输点）、论出离（该不该辩）、论多所作法（辩才三宝）。</div></div>
+    <div class="fn-card"><div class="front"><div class="cn">声明处·工业明处</div><div class="sub">语言学与十二种职业技能</div><div class="tap">点开 ▸</div></div><div class="back">声明把语言拆成法、义、人、时、数、处所根栽六相；工业明列出营农、商估、营造、音乐等十二种职业——佛法把谋生技艺也正式列入「所应知处」。</div></div>
+  </div>
+
+  <div class="case"><b>季终集读法：</b>2026年9月的一个晚上，你追完一部剧的季终集：主线收尾，同时埋下续集伏笔。本卷正是「闻所成地」的季终集——数法清单说到九结、十遍处时反复写「如摄事分当广建立」，等于字幕打出「细账后算」。看清这一点，你就不会在前半卷奇怪「怎么只报名词不解释」：不是漏了，是分流了。</div>
+  <div class="case"><b>现代人的知识清单：</b>一位想系统自我提升的上班族会列出：专业课、医学常识、批判性思维、外语、办公技能。佛教给修行人列的清单叫五明：内明（教义本身）、医方明（医学）、因明（逻辑辩论）、声明（语言文字）、工业明（职业技术）。本卷告诉你这不是现代才有的人才培养方案——两千年前就成体系了，而因明这一项，占了半卷。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ② 修行成绩单 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>八法·修行人的成绩单</h2></div>
+  <p class="sec-lead">第八组「佛教所应知处」先给修行人建档案：八支圣道按功能归并为三个专业；清净修行人按四向四果分八档；然后检查一个最日常的行为——布施——的八种相貌：七种带着染污，一种干净。</p>
+
+  <div class="card">
+    <h3>三种修法：八支圣道的分组方式</h3>
+    <div class="quote">谓有八支圣道①所摄。令诸苾刍究竟断结。三种修法。谓修戒修定修慧。正语正业正命。名为修戒。正念正定。名为修定。正见正思惟正精进。名为修慧。<span class="src">—— 卷十五原文</span></div>
+    <p>八支圣道不是八门并列的课，而是按功能分进三个专业：戒管身口，定管心，慧管见地与推动力。「究竟断结」——结，即烦恼结缚，三个专业合起来才能把它彻底解开。</p>
+    <div class="plain">正语、正业、正命归修戒；正念、正定归修定；正见、正思惟、正精进归修慧——八支圣道的「课程表」。</div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">修戒</div><div class="sub">正语 · 正业 · 正命</div><div class="tap">点开 ▸</div></div><div class="back">管住嘴（不妄语不恶口）、管住行为（不杀不盗）、管住谋生方式（不靠伤害他人赚钱）。<em>像一家公司的合规部门：不直接创造业绩，但保证日常操作不出格。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">修定</div><div class="sub">正念 · 正定</div><div class="tap">点开 ▸</div></div><div class="back">念是时时记得不忘失，定是心安住不散乱——两件事互相成全：记得才安得住，安得住才记得牢。<em>像手机的专注模式：先屏蔽干扰（念），再锁定在一件事情上（定）。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">修慧</div><div class="sub">正见 · 正思惟 · 正精进</div><div class="tap">点开 ▸</div></div><div class="back">见地要正（正见），还要反复如理推演（正思惟），并持续使劲不松劲（正精进）。<em>像做研究：先有正确的理论框架，再反复推演验证，还得长年投入。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>清净品八种补特伽罗：证果路上的八档</h3>
+    <div class="quote">建立清净品八种补特伽罗②。谓行四向住四果者。<span class="src">—— 卷十五原文</span></div>
+    <p>补特伽罗即「有情、修行人」。清净品修行人分八档：正在走向四个果位的叫「四向」，已经安住四个果位的叫「四果」。四果依次为：预流果（初入圣流）、一来果（还须再来人间一次）、不还果（不再还生欲界）、阿罗汉果（究竟断结）。</p>
+    <div class="analogy"><b>比喻：</b>像学位进程——「在读硕士」是向，「已获硕士学位」是果。同一座山，八种位置：四个在路上，四个到了站。数字对上了：四向加四果，恰好八种。</div>
+  </div>
+
+  <div class="card">
+    <h3>布施八相：七种有过失，一种无过失</h3>
+    <div class="quote">无过失施者。谓回向涅槃③故。为彼资粮故。无染污心为往善趣故。为得大财故。而行布施。<span class="src">—— 卷十五原文</span></div>
+    <p>同样是给钱给物，论中按「心的成色」分出八种相貌。前七种带着过失：懈怠所损（懒得用心给）、不随所欲（怕穷求富才给）、顾恋过去（给了就懊悔）、悕望未来（赌下辈子的回报）、有轻慢过（居高临下地给）、悕求富乐（只求发财）、求他知闻（生怕别人不知道）。最后一种无过失：回向涅槃、以无染污心而行布施。</p>
+    <div class="quote">不随所欲故有过失。谓有染心者怖畏贫穷悕求富乐而行布施。<span class="src">—— 卷十五原文</span></div>
+    <div class="plain">布施的好坏不看钱数，看心：被懒惰拖累、出于恐惧、黏在过去、赌在未来、看不起人、只求发财、求出名——七种都染污；只有回向解脱、心无染污的布施才干净。</div>
+    <div class="analogy"><b>比喻：</b>像一份没有对账单的转账：金额人人看得见，「备注栏」（动机）只有你自己写得出来。七种过失就是七种备注，无过失施的备注只有一行——「回向涅槃，无染污心」。</div>
+    <div class="case"><b>深夜捐款：</b>小周深夜刷到筹款链接，捐了五十元，截图发朋友圈配文「积德行善」，第二天每隔十分钟偷偷看一次有多少赞。这正对应原文的「求他知闻故有过失」——布施的动作完成了，但备注栏里写的是「让别人知道」。</div>
+    <div class="case"><b>招财布施：</b>小李月底钱紧，听人说「布施能改运」，赶紧往功德箱塞两百，指望下个月工资翻倍。原文精准描述了这种心：「怖畏贫穷悕求富乐而行布施」——把布施当风险投资，怕穷又贪富，正是「不随所欲故有过失」。</div>
+    <div class="case"><b>施舍的语气：</b>某人对楼下收废品的老人心存轻视，扔下零钱时丢一句「拿去吧」。对应第七种相貌「有轻慢过故有过失」：施舍夹着傲慢，东西送到了，心的成色是浊的，受者也受伤。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：这是哪一种布施？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">六个现代场景，请判断是有过失施还是无过失施。选对了会显示对应原文依据。</p>
+    <div id="sortShi"></div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ③ 懈怠的八个时刻 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>八法·懈怠的八个时刻</h2></div>
+  <p class="sec-lead">讲完布施，论文突然转向一个非常「人间」的问题：什么样的人属于懈怠种性？它给出的判据极具操作性——在四种处所、八个时刻里，你是发精进还是发懈怠。口号不算数，场景才算数。</p>
+
+  <div class="card">
+    <h3>四处八时：懈怠的高发场景表</h3>
+    <div class="quote">趣入懈怠。不发精进。当知如是补特伽罗。是懈怠类非精进类。谓依乞食处。依所作处。依游行处。依界不平等处。<span class="src">—— 卷十五原文</span></div>
+    <div class="quote">八时差别多食精美身沉重时。少食粗恶身劣顿时。将欲所作护惜力时。<span class="src">—— 卷十五原文</span></div>
+    <p>四种处所各辖两个时刻，合计八个「懈怠高发时刻」。原文对懈怠者的判词非常冷静：「未遇懈怠所依。少似精进。」——没遇到这些场景时，他看起来还挺精进；一遇到，立刻垮掉。</p>
+    <div class="plain">懒不懒，不看口号看场景：吃撑了、吃差了、要干活前、干完活后、要出门前、走完长途后、病中、病刚好怕复发——这八个时刻才是真正的考场。</div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">乞食处 · 饮食时刻 ×2</div><div class="d">多食精美身沉重时（吃太饱犯困）；少食粗恶身劣顿时（吃太差没劲）。一顿饭就能决定今天用不用功。</div></div>
+      <div class="tl-item"><div class="t">所作处 · 做事时刻 ×2</div><div class="d">将欲所作护惜力时（干活前先想省力气）；已有所作身疲倦时（干完活喊累瘫倒）。</div></div>
+      <div class="tl-item"><div class="t">游行处 · 出行时刻 ×2</div><div class="d">将欲游行护惜力时（出发前不想动）；已涉长涂身疲倦时（赶完长途路就瘫着）。</div></div>
+      <div class="tl-item"><div class="t">界不平等处 · 身体时刻 ×2</div><div class="d">正为病苦所缠扰时（病中）；所病已愈恐更发时（病刚好，怕复发——最隐蔽的一个）。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>两种人：懈怠种类与勤精进种类</h3>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">懈怠种类</span><h4>一遇就垮</h4><p>原文判词：「若得遇已。速发懈怠。是故名为懈怠种类。」平时顺境里的用功是「少似精进」——像而已，没经过考验。<b>现代版：</b>办了健身卡的人，天气好、心情好就打卡；一到加班、降温、朋友聚餐，立刻缺席，且理由永远充分。</p></div>
+      <div class="yuan-card"><span class="y-tag">勤精进种类</span><h4>专在难处用功</h4><p>原文判词：「虽遇懈怠所依。亦能发勤精进。何况不遇。是故名为勤精进类。」注意方向反了：精进类的标志恰恰是<b>最难的时刻照做不误</b>——八个时刻不是他的漏洞，是他的主场。<b>现代版：</b>同样加班到九点，他仍在地铁上听完当天该听的课。</p></div>
+    </div>
+    <div class="quote">于八时中。发勤精进。当知如是补特伽罗。能伏懈怠勤精进类。<span class="src">—— 卷十五原文</span></div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：此刻你落在哪个时刻？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">拨动开关，模拟你此刻的状态，看论中如何判词。前四个开关对应四处所的懈怠时刻，最后一个开关代表你是哪类人。</p>
+    <div class="cond-row"><div class="name">乞食处<small>刚吃太饱 / 或饿得没力气</small></div><label class="switch"><input type="checkbox" id="cShi"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">所作处<small>正要干活护惜力 / 干完活身疲倦</small></div><label class="switch"><input type="checkbox" id="cZuo"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">游行处<small>将欲出行 / 已涉长途疲倦</small></div><label class="switch"><input type="checkbox" id="cYou"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">界不平等处<small>正病着 / 病刚好怕复发</small></div><label class="switch"><input type="checkbox" id="cBing"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">我按「勤精进类」要求自己<small>虽遇所依，也要发勤精进</small></div><label class="switch"><input type="checkbox" id="cJing"><span class="slider"></span></label></div>
+    <div id="condResult">拨动上方开关，看看此刻的判词。</div>
+  </div>
+
+  <div class="case"><b>火锅之夜：</b>小郑坚持减脂餐三周，周五同事聚餐火锅吃撑，回家瘫在沙发上刷手机到凌晨，健身计划当晚停摆——这正是乞食处的第一时刻「多食精美身沉重时」。论中把「一顿好饭」列为头号懈怠所依，精准得像监控录像。</div>
+  <div class="case"><b>加班之后：</b>程序员小林计划下班后学英语，连续加班三天后说「太累了，明天再说」——「已有所作身疲倦时」，所作处的标准场景。同组的老陈同样加班，仍在地铁上听完了当天的课程：论中说这种人「虽遇懈怠所依，亦能发勤精进，何况不遇」。</div>
+  <div class="case"><b>病愈第一周：</b>小赵感冒痊愈，以「怕复发、先养着」为由取消了晨跑，之后再没去过。这是界不平等处的第八时刻「所病已愈恐更发时」——懈怠最隐蔽的入口，因为它听起来根本不像懈怠，像养生。原文把这一条单列，正是提醒：借口最合理的时候，最要自查。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ④ 去处与考验 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>八法·去处、处众与八胜解</h2></div>
+  <p class="sec-lead">修行人往哪里去？论中先给不求解脱、只求「欲界好去处」的人排了八档；再讲如来四众为何建在人趣；然后话锋一转：无论生在哪里，只要在世间三处运转，就恒常被世间八法触碰——而圣者用八胜解练出了真本事。</p>
+
+  <div class="card">
+    <h3>八种可爱生处：不求解脱者的段位表</h3>
+    <div class="quote">能令于诸欲中乐增上生。不求永离一切欲者。当生八种可爱生处。<span class="src">—— 卷十五原文</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">第1档 · 人中卑恶种类</div><div class="d">愿生人中普通的、低下的种类——门槛最低的「可爱生处」，靠修小施戒二福业事。</div></div>
+      <div class="tl-item"><div class="t">第2档 · 人中尊贵种类</div><div class="d">愿生人中富贵尊荣之家。同样是人，愿力不同，落点不同。</div></div>
+      <div class="tl-item"><div class="t">第3-5档 · 地居与空居诸天</div><div class="d">四大王天、三十三天（地居），夜摩天、睹史多天、乐化天（空居）——一层比一层享乐殊胜。</div></div>
+      <div class="tl-item"><div class="t">第8档 · 他化自在天</div><div class="d">欲界顶端：自在受用他人化现的欲乐。八档全部靠「修小施戒二福业事」。</div></div>
+    </div>
+    <div class="quote">谓愿人中卑恶种类。修小施戒二福业事。<span class="src">—— 卷十五原文</span></div>
+    <div class="plain">不求出离的人，修小小的布施和持戒，愿力指向哪一档就生在哪一档——但这整套叫「增上生」，仍在诸欲里升级，不等于解脱。</div>
+    <div class="analogy"><b>比喻：</b>像游戏的段位系统：不冲通关（解脱），只求更好的地图和皮肤（更好的欲界生处）。施与戒是通用点数，愿是落点选择器。但段位再高也没离开这张地图——原文「于诸欲中乐增上生」一语道破。</div>
+    <div class="case"><b>只囤皮肤不冲关：</b>玩家小周从不开排位，只收集限定装扮和地图——朋友问他图什么，他说「图个舒服」。论中说的「不求永离一切欲者」正是这种玩法：小施小戒攒点数，愿力决定落点。八种可爱生处是欲界的八种「舒适档位」，但原文的措辞提醒你：舒服不等于通关。</div>
+  </div>
+
+  <div class="card">
+    <h3>如来四众：为什么建在人趣</h3>
+    <div class="quote">最增上故。世间共许为福田故。受用资财不由他故。弃舍一切世资财故。<span class="src">—— 卷十五原文</span></div>
+    <p>由四种因缘，如来四众（比丘、比丘尼、优婆塞、优婆夷）建立于人趣：一、人趣修行最增上（最有力量）；二、世间公认这是福田（值得供养）；三、受用资财不必仰仗他人；四、能弃舍一切世间资财。而天趣建立四众只有三缘：依地边际、欲界边际、语行边际——诸天处在欲界的尽头，供养与出离的张力都弱于人间。</p>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">人趣 · 四缘</span><h4>最有条件修行的一层</h4><p>苦乐参半、有取舍自由、能持戒舍财——所以佛的四众建在这里。<b>通俗理解：</b>修行需要「够痛但还能动」的环境；人间正好。</p></div>
+      <div class="yuan-card"><span class="y-tag">天趣 · 三缘</span><h4>欲界尽头的四众</h4><p>依地边际、欲界边际、语行边际——诸天享乐太厚，出离的动力被稀释，四众只能立于边际处。<b>通俗理解：</b>天堂太舒服，修行班只能开在边境线上。</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>世间八法：躲不掉的三处触碰</h3>
+    <div class="quote">恒常世间八法所触。谓乐欲处。功用处。众缘处。<span class="src">—— 卷十五原文</span></div>
+    <p>「于世间三处转时」——只要你在下面三个场景里运转，八种触碰轮番上线，恒常不断。这不是运气差，是结构。</p>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>三处</th><th>原文</th><th>通俗理解</th></tr>
+      <tr><td>乐欲处</td><td>或触于利或触非利</td><td>想要的东西到手还是落空：利与衰</td></tr>
+      <tr><td>功用处</td><td>于背面位触于毁誉。于现前位触于称讥</td><td>做了事，当面被夸还是被讥，背后被赞还是被毁</td></tr>
+      <tr><td>众缘处</td><td>或由先世。或由现法苦乐众缘。触于苦乐</td><td>顺逆因缘聚拢来：苦受与乐受轮番报到</td></tr>
+    </table></div>
+    <div class="plain">世间八法即利、衰、毁、誉、称、讥、苦、乐——原文用三处统摄：欲望场给得失，做事场给毁誉称讥，因缘场给苦乐。想只领好处不领坏处，等于想只站在正面不站在背面。</div>
+    <div class="case"><b>职场一年：</b>2026年春天，小吴升职（利）；秋天项目被砍（非利）；会上被点名表扬（称）；职场匿名区有人吐槽他「爱出风头」（毁）。一整年，八法被轮流触碰了个遍——他一度怀疑自己水逆。原文说，在三处运转就「恒常世间八法所触」：这不是命，是身在三处的必然配置。</div>
+    <div class="case"><b>匿名区时代：</b>你在职场论坛被匿名吐槽，永远不知道是谁、也永远删不掉。原文两千年前就分好了通道：「于背面位触于毁誉。于现前位触于称讥。」——当面给称讥，背后给毁誉。今天的社交媒体只是把这个古老结构放大了：毁誉有了永久记录，而结构没变过。</div>
+  </div>
+
+  <div class="card">
+    <h3>八胜解：从自在于色到想受灭</h3>
+    <div class="quote">又八胜解④能引不还⑤或阿罗汉诸圣神通及最胜住。<span class="src">—— 卷十五原文</span></div>
+    <p>八胜解是八种深刻的决定性认许（胜解=经审决之后不再动摇的认清），分两组：前三组关于「色」，能引发圣神通；后五组层层超越，能引发想受灭等至——三界中最深的定。</p>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">外无染污色胜解</div><div class="sub">第一 · 未伏内色想</div><div class="tap">点开 ▸</div></div><div class="back">原文：「谓未伏内色想。外无染污色胜解。是名第一。」内心对色的想还没降服，但已能对外在色相作无染污的认清——入门第一课。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">已伏内色想</div><div class="sub">第二</div><div class="tap">点开 ▸</div></div><div class="back">原文：「已伏内色想。是名第二。」连内心对色的构想也降服了——对色不粘着的功夫又深一层。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">色第一舍胜解</div><div class="sub">第三 · 净不净非二</div><div class="tap">点开 ▸</div></div><div class="back">于净相、不净相、非净非不净相，都作「第一义舍」的胜解——不选边，全放下。这三种解脱「于一切色得自在」，便能引发诸圣神通。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">空无边胜解</div><div class="sub">第四 · 越色入空</div><div class="tap">点开 ▸</div></div><div class="back">认清「空无边」的胜解——从色法转向无边空间。五胜解之一，是通往无色界的次第。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">识无边胜解</div><div class="sub">第五</div><div class="tap">点开 ▸</div></div><div class="back">连「空」也放下，认清「识无边」——心识本身广大无边，不再依托空间相。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">无所有胜解</div><div class="sub">第六</div><div class="tap">点开 ▸</div></div><div class="back">进一步认清「无所有」——连识的广大相也舍掉，安住于一无所有。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">非想非非想胜解</div><div class="sub">第七</div><div class="tap">点开 ▸</div></div><div class="back">有想不对，无想也不对——安住于「非想非非想」的极细境界，三界顶端的认清。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">微微任运心胜解</div><div class="sub">第八 · 通向灭尽</div><div class="tap">点开 ▸</div></div><div class="back">极微细、任运（不加造作）的心。原文总结：「此五胜解。次第善修治故。能引想受灭等至最胜住。」——五层依次修治，最终能入想受灭定。</div></div>
+    </div>
+    <div class="quote">谓诸神通不与一切异生共有。<span class="src">—— 卷十五原文</span></div>
+    <div class="plain">前三胜解是「于色得自在」的基本功，练成才能引发圣神通；后五胜解像五级台阶，一级级把「相」放下，直到想受灭最胜住。圣神通不与凡夫外道共有——底子不同，产物不同。</div>
+    <div class="analogy"><b>比喻：</b>像先练熟「对照片不粘着」（前三胜解于色得自在），再把取景框一级级拓宽：空间无边（空无边）→ 心识无边（识无边）→ 连「有」也放掉（无所有）→ 极细任运（微微任运心）。次第乱了不行——原文强调「次第善修治」。</div>
+    <div class="case"><b>摄影学徒：</b>小夏学摄影，头三个月只练一件事：不看滤镜、不修图，把眼前东西拍准。老师说基本功不牢，风格都是浮的。这正对应前三胜解的次第——先「于色得自在」，后才谈得上引发本事；原文说神通「不与一切异生共有」，跳过基本功直接求神通的，是异生（凡夫）的玩法，不是圣者的路径。</div>
+    <div class="case"><b>通关后仍会挨打：</b>一位升到管理层的项目经理发现：段位高了，毁誉称讥只是换了频道——下属的当面称赞与背后的匿名吐槽同时变多。对应本章前两节的合观：可爱生处是「去处」，世间八法是「处众的常态」，八胜解才是「不靠场地吃饭的真本事」——三件事说的是同一个道理的不同层面。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑤ 数法收官与医方明 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>数法收官与医方明</h2></div>
+  <p class="sec-lead">第八组讲完，本卷用一页纸把九、十两组点完——大多只报目录，细账留给〈摄事分〉。随后一问「云何医方明处」，四种善巧寥寥数行，却是一整套临床医学的骨架。清单交卷的地点，也标志着「内明」部分的终结。</p>
+
+  <div class="card">
+    <h3>九与十：目录页式的交卷</h3>
+    <div class="quote">谓有九结⑧。如摄事分当广建立。<span class="src">—— 卷十五原文</span></div>
+    <p>九种：九结（九种系缚人的烦恼结）——本卷只报名目，详细建立留给〈摄事分〉；另有九种生处：受生有情共同居止的地方，即三界中除去恶趣这些可厌处（「谓三界中。除诸恶趣可厌处故」）。十种：十遍处，「当知即诸解脱所作成就」——遍处是前面诸解脱修成的果，其余解脱、胜处、遍处的详辨同样在摄事分。</p>
+    <div class="quote">又有十无学支。当知无学五蕴⑩所摄。谓戒蕴。定蕴。慧蕴。解脱蕴。解脱知见蕴。<span class="src">—— 卷十五原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">戒蕴</div><div class="sub">无学五蕴之一</div><div class="tap">点开 ▸</div></div><div class="back">无学位者圆满的戒行全体——已无需再学、不会再犯的品行总集。<em>像毕业生的「品行档案」：不是待改的清单，是定格的成绩。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">定蕴</div><div class="sub">无学五蕴之二</div><div class="tap">点开 ▸</div></div><div class="back">无学位者圆满的定——心不再散动，安住已成常态。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">慧蕴</div><div class="sub">无学五蕴之三</div><div class="tap">点开 ▸</div></div><div class="back">无学位者圆满的智慧——如实知见，无需再修正的世界观。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">解脱蕴</div><div class="sub">无学五蕴之四</div><div class="tap">点开 ▸</div></div><div class="back">已证得的解脱本身——结缚已断，这不是能力，是事实。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">解脱知见蕴</div><div class="sub">无学五蕴之五</div><div class="tap">点开 ▸</div></div><div class="back">解脱之后「如实知道自己已解脱」的知见——不但解脱了，而且清清楚楚知道解脱了。</div></div>
+    </div>
+    <div class="plain">无学=毕业，不用再学。十无学支打包成五蕴，像一份学位档案里的五份成绩单：戒、定、慧三份是课程，解脱与解脱知见两份是学位证书和领证确认书。</div>
+    <div class="quote">当知皆是内明处摄。<span class="src">—— 卷十五原文</span></div>
+    <p>至此作者收拢线头：八、九、十种所应知处（连同前面诸种）全部属于「内明处」——佛学本身。下面三明，是佛教知识人的工具箱。</p>
+  </div>
+
+  <div class="card">
+    <h3>医方明：看病四步</h3>
+    <div class="quote">谓于病相善巧。于病因善巧。于已生病断灭善巧。于已断病后更不生方便善巧。<span class="src">—— 卷十五原文</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">第一步 · 于病相善巧</div><div class="d">善于认识病的相状——相当于诊断：看症状、辨病灶。</div></div>
+      <div class="tl-item"><div class="t">第二步 · 于病因善巧</div><div class="d">善于认识病因——不停留在症状，找到根子。</div></div>
+      <div class="tl-item"><div class="t">第三步 · 于已生病断灭善巧</div><div class="d">善于使已生之病断灭——治疗。</div></div>
+      <div class="tl-item"><div class="t">第四步 · 于已断病后更不生方便善巧</div><div class="d">善于掌握病愈后不再复发的方便——预防复发，单独立为一门善巧。</div></div>
+    </div>
+    <div class="plain">医方明四善巧 = 诊断、病因、治疗、预防——两千年前的一套完整临床框架，与现代医学「查症状—找病因—治病—防复发」完全同构。</div>
+    <div class="case"><b>一次胃病就诊：</b>小徐胃痛去医院：先做胃镜看病灶（病相），查出幽门螺杆菌（病因），服药杀菌（断灭），医生叮嘱分餐、忌辛辣防复发（更不生方便）。四步走完，正好对应原文的四种善巧——这不是巧合，是「病」这件事的结构本来就如此。</div>
+    <div class="case"><b>止痛药式养生：</b>小杜头痛就吃止痛药，三年没查过原因，也从不调整作息。对照四善巧：他只做了第三步的一半（暂时压制，未必断灭），跳过了病因与防复发——所以病「更生」。佛典把「防复发」单列为一门善巧，正是现代慢病管理最强调的一环：治病治到「不再生」才算数。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑥ 因明·六论与论场 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>因明·六论与论场</h2></div>
+  <p class="sec-lead">从这一章起是本卷重头戏：因明。「云何因明处？谓于观察义中，诸所有事。」——凡为了考察义理而进行的种种言论活动，都是因明。它共七科，先看目录，再讲第一科「论体性」：世上的言论按性质分六种，以及第二科「论处所」：在哪里辩。</p>
+
+  <div class="gatha">
+    <div class="lines">论体论处所　　论据论庄严<br>论负论出离⑮　　论多所作法</div>
+    <div class="mean">嗢拖南（总纲颂）：论体性、论处所、论所依（论据）、论庄严、论堕负、论出离、论多所作法——因明七科的目录页，也是接下来三章的路线图。</div>
+  </div>
+
+  <div class="card">
+    <h3>六论：一切言论的六种体性</h3>
+    <div class="quote">一言论。二尚论。三诤论⑰。四毁谤论⑱。五顺正论⑲。六教导论⑳。<span class="src">—— 卷十五原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">言论</div><div class="sub">一切言说的总类</div><div class="tap">点开 ▸</div></div><div class="back">原文：「言论者。谓一切言说。言音。言词。是名言论。」凡开口说话都算——中性的言论总类，本身无善恶。<em>案例：妈妈在厨房喊「开饭了」——是言论，谈不上善恶，属于「应当分别」的一类。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">尚论</div><div class="sub">世人应当听闻的言论</div><div class="tap">点开 ▸</div></div><div class="back">原文：「尚论者。谓诸世间随所应闻。所有言论。」有益的世间教诲——长辈根据你的处境讲你确实该听的道理，即属此类。同样「应当分别」对待。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">诤论</div><div class="sub">为争而起的斗诤之论</div><div class="tap">点开 ▸</div></div><div class="back">三个来源：依诸欲起（争自己或所爱之人的所欲被侵夺）、依恶行起（恶行互讥）、依诸见起（邪见互遮）。原文点出心相：「因坚执故。因缚着故。因耽嗜故。因贪爱故。发愤乖违。喜斗诤者。兴种种论。兴怨害论。故名诤论。」<em>标志：言论的目标从「求真」换成了「压人」。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">毁谤论</div><div class="sub">以染污心贬斥攻击</div><div class="tap">点开 ▸</div></div><div class="back">原文：「毁谤论者。谓怀愤发者。以染污心。振发威势。更相摈毁。」粗恶话、不逊话、花言巧语都算，甚至宣扬恶法邪说、煞有介事地「教授教诫」——形式越正规越唬人。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">顺正论</div><div class="sub">宣说正法，引人向解脱</div><div class="tap">点开 ▸</div></div><div class="back">原文：「为断有情所疑惑故。为达甚深诸句义故。为令知见毕竟净故。随顺正行。随顺解脱。是故此论名顺正论。」三个目标：断疑、通达深义、令知见彻底清净——方向始终朝着正行与解脱。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">教导论</div><div class="sub">手把手教修定修慧</div><div class="tap">点开 ▸</div></div><div class="back">原文：「谓教修习增上心学㉑。增上慧学。补特伽罗心未定者。令心得定。心已定者。令得解脱。」比顺正论更具体：不只在「说」，还在「教」——教你把心定下来，再教你从定中解脱。</div></div>
+    </div>
+    <div class="quote">答最后二论。是真是实。能引义利。所应修习。中间二论。不真不实。能引无义。所应远离。初二种论。应当分别。<span class="src">—— 卷十五原文</span></div>
+    <div class="plain">判定表：顺正论、教导论——真实，应修习；诤论、毁谤论——不真实，应远离；言论、尚论——本身中性，看内容分别对待。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：这段话属于六论中的哪种？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">六个现代场景，点击你认为正确的论名。</p>
+    <div id="sortLun"></div>
+  </div>
+
+  <div class="card">
+    <h3>论处所：在哪辩，和辩给谁听</h3>
+    <div class="quote">一于王家。二于执理家。三于大众中。四于贤哲者前。五于善解法义沙门婆罗门前。六于乐法义者前。<span class="src">—— 卷十五原文</span></div>
+    <p>六种正规论场：王家（有最高裁断）、执理家（有公正裁判）、大众中（公共监督）、贤哲者前（有智者听众）、善解法义的沙门婆罗门前（有内行）、乐法义者前（有真心求理的听众）。共同点：场内有懂行的裁断者或听众——辩论的价值由场地决定。</p>
+    <div class="analogy"><b>比喻：</b>同行评审的学术会议 vs 网络评论区。把论文拿到评审会上答辩，是「于贤哲者前」「于善解法义者前」；在评论区对喷，场地本身就不合格——不是辩得不好，是不该在那辩。</div>
+    <div class="case"><b>评审会现场：</b>公司方案评审会上，老工程师指出新人方案的漏洞并给出替代思路，新人红着脸记了一页笔记。有裁断（执理家式的评委）、有内行听众、奔着把事做对去——这场讨论落在「论处所」的合格区，其中的技术指正属于顺正论，而非诤论：同一个反对意见，换个场地、换个心相，体性就换了。</div>
+    <div class="case"><b>热搜骂战复盘：</b>两派粉丝在热搜下对喷，从作品吵到长相再到人身攻击，三天不下场。用六论一照：起点是「所爱有情所摄诸欲，更相侵夺」——典型诤论；手段是粗恶不逊——叠加毁谤论；场地是既无裁断也无善巧听众的评论区——处所不合格。看清类别就明白这类对话为何永远没有出口：它从起点就不是为了义理。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑦ 因明·论所依 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>因明·论所依：宗因喻与三量</h2></div>
+  <p class="sec-lead">论所依是因明的发动机：你要成立什么（所成立义，两种），拿什么去成立（能成立法，八种）。这一科占了因明最大的篇幅——因为它回答的是那个根本问题：凭什么信你。</p>
+
+  <div class="card">
+    <h3>所成立义：你要成立的是什么</h3>
+    <div class="quote">所成立义有二种者。一自性。二差别所成立。<span class="src">—— 卷十五原文</span></div>
+    <p>自性：「有立为有，无立为无」——先确认对象本身是什么、有没有。差别：「有上立有上，无上立无上；常立为常，无常立无常」——再说它有什么属性；原文还列出一长串差别门：有色无色、有见无见、有对无对、有漏无漏、有为无为。</p>
+    <div class="analogy"><b>比喻：</b>自性像先确认「桌上有一杯东西」；差别像接着描述「这杯是热的、满的、能喝的」。顺序不能乱——对象都没立住，属性无从谈起。</div>
+    <div class="plain">立论的两层结构：第一层立「是什么」（自性），第二层立「是怎样的」（差别）。所有辩论，拆开都是这两层的攻防。</div>
+  </div>
+
+  <div class="card">
+    <h3>能成立法八种：凭什么成立</h3>
+    <div class="quote">一立宗㉔。二辩因㉕。三引喻㉖。四同类㉗。五异类㉘。六现量㉙。七比量㉚。八正教量㉛。<span class="src">—— 卷十五原文</span></div>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>名相</th><th>原文要点</th><th>通俗理解</th></tr>
+      <tr><td>立宗</td><td>建立宗义</td><td>一句话亮出主张：先让所有人知道你要成立什么</td></tr>
+      <tr><td>辩因</td><td>建立顺益道理言论</td><td>给出理由：依现见之事，把「凭什么」说成立</td></tr>
+      <tr><td>引喻</td><td>引因所依。诸余世间串习共许易了之法比况言论</td><td>打比方：用双方都熟悉的事物比况，把道理讲透</td></tr>
+      <tr><td>同类</td><td>其相展转少分相似</td><td>找正面参照：与所立法相似的例证，共五种相似</td></tr>
+      <tr><td>异类</td><td>其相展转。少不相似</td><td>找反面参照：与所立法不相似的例证，划清边界</td></tr>
+      <tr><td>现量</td><td>非不现见。非已思应思。非错乱境界</td><td>直接经验：亲见亲历、未经推理加工、感知不错乱</td></tr>
+      <tr><td>比量</td><td>与思择俱已思应思所有境思</td><td>推理：与思择俱起，由已知推未知</td></tr>
+      <tr><td>正教量</td><td>谓一切智所说言教。或从彼闻。或随彼法</td><td>可靠权威的言教：佛所说、或从佛闻、或随其法</td></tr>
+    </table></div>
+    <div class="quote">辩因者。谓为成就所立宗义。依所引喻。同类异类。现量比量。及与正教。建立顺益道理言论。<span class="src">—— 卷十五原文</span></div>
+    <p>原文在问答里交代了顺序的理由：先立宗，「为欲显示自所爱乐宗义故」；次辩因——「答为欲开显依现见事决定道理。令他摄受所立宗义故」；再次引喻，是为了把理由安立在现见的事实上。</p>
+    <div class="plain">一场论证的流水线：立宗（亮观点）→ 辩因（给理由）→ 引喻（打比方）→ 同类异类（找参照）→ 三量（验证据）。八种能成立法，就是这条流水线的八个工位。</div>
+  </div>
+
+  <div class="card">
+    <h3>现量：直接经验的三道门槛</h3>
+    <div class="quote">一非不现见。二非已思应思。三非错乱境界。<span class="src">—— 卷十五原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">非不现见</div><div class="sub">门槛一 · 真的看见了</div><div class="tap">点开 ▸</div></div><div class="back">原文要求「谓诸根不坏。作意现前」——感官完好、注意力在线；还要「无障碍」（不被覆障、隐障、映障、惑障所碍）与「非极远」（「一处极远。二时极远。三损减极远。」——空间、时间、损减三种远都不隔）。<em>映障的现代版：白天的星星还在天上，只是被日光「映夺故不可得」——原文：「所谓日光映星月等。又如月光映夺众星。」</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">非已思应思</div><div class="sub">门槛二 · 未经加工</div><div class="tap">点开 ▸</div></div><div class="back">两种例外情形恰好是「来不及思考」的直接把握：其一「才取便成取所依境」——原文比喻「犹如良医授病者药。色香味触。皆悉圆满。有大势力。」药一入口，药性随即起效，没有中间推理；其二「建立境界取所依境」——瑜伽师「如瑜伽师于地思惟水火风界。若住于地。思惟其水。即住地想。转作水想。」观想所依的境，正在显现中。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">非错乱境界</div><div class="sub">门槛三 · 感知没出错</div><div class="tap">点开 ▸</div></div><div class="back">见下方的七种错乱清单。感觉本身不可靠——醉眼、眩目、幻觉里「看见」的东西不算量。原文列出惑障：「目眩惛梦。闷醉放逸。或复颠狂。」</div></div>
+    </div>
+    <details class="dict">
+      <summary>七种错乱境界（现量的反面清单）<span class="hint">可跳过，建议对照生活经验逐条看</span></summary>
+      <div class="body">
+        <p><b>一、想错乱：</b>对不是那个相的东西起了那个相的想。原文例：「如于阳焰鹿渴相中起于水想。」——现代版：盛夏柏油路远处的「水洼」，其实是热气蒸腾。</p>
+        <p><b>二、数错乱：</b>把少看成多。原文例：「如医眩者于一月处见多月像。」——现代版：熬夜后揉眼，把一个月亮看成三个。</p>
+        <p><b>三、形错乱：</b>把一个形看成另一个形。原文例：「如于旋火见彼轮形。」——现代版：点燃的香快速转圈，看到一个完整光轮；视频帧率让车轮「倒转」。</p>
+        <p><b>四、显错乱：</b>颜色看错。原文例：迦末罗病损坏眼根，「于非黄色悉见黄相」——现代版：戴久了某色调滤镜的眼睛，看什么都带那个色；黄疸病人看纸发黄。</p>
+        <p><b>五、业错乱：</b>对没有动作的事以为有动作。原文例：「如结拳驰走见树奔流」——现代版：高铁上邻线列车启动，误以为自己坐的车在后退。</p>
+        <p><b>六、心错乱：</b>对上述五种错乱「心生喜乐」——不但看错，还看得津津有味。</p>
+        <p><b>七、见错乱：</b>更进一步「忍受显说生吉祥想。坚执不舍」——不但喜欢，还四处宣扬「这是真的」，把错乱当吉祥坚持到底。现代版：坚信伪科学养生法并热心安利全家。</p>
+      </div>
+    </details>
+    <p style="margin-top:12px">原文还问「现量谁所有」：四种所有——「一色根现量。二意受现量。三世间现量。四清净现量。」前两种合并为世间现量；而清净现量里最特别的是出世智：「谓出世智于所行境。有知为有。无知为无。」——不共世间的清净现量，凡夫没有。</p>
+  </div>
+
+  <div class="card">
+    <h3>比量：五种推理</h3>
+    <div class="quote">一相比量。二体比量。三业比量。四法比量。五因果比量。<span class="src">—— 卷十五原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">相比量</div><div class="sub">由相推境</div><div class="tap">点开 ▸</div></div><div class="back">原文例：「如见幢故比知有车。由见烟故比知有火。」——现代版：门口一地儿童鞋，比知这家有小孩；工位上护腰靠垫，比知主人久坐。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">体比量</div><div class="sub">由一分推全体、由现在推过未</div><div class="tap">点开 ▸</div></div><div class="back">原文：「现见彼一分自体。比类余分。」——现代版：试喝一勺汤知道整锅咸淡；看到今天的玉兰花开了，推知整树花期已到。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">业比量</div><div class="sub">由作用推所依</div><div class="tap">点开 ▸</div></div><div class="back">原文例：远处之物不动、鸟栖其上，「比知是杌」（树桩）；「水中见碍比知有地。」——现代版：快递箱瘪了一角还带着水痕，比知运输途中被雨淋过、受过挤压。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">法比量</div><div class="sub">由相属之法推相属之法</div><div class="tap">点开 ▸</div></div><div class="back">原文：「谓以相邻相属之法。比余相邻相属之法。如属无常比知有苦。」——概念链条上的推理。现代版：合同条款写「可随时终止且不担责」，比知它没有长期保障。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">因果比量</div><div class="sub">由因推果、由果推因</div><div class="tap">点开 ▸</div></div><div class="back">原文例双向推导：「见有静虑比知离欲。见离欲者比有静虑。」——现代版：见人常年晨跑（因），比知体力好（果）；见体检单各项正常（果），比知近期作息规律（因）。</div></div>
+    </div>
+    <div class="plain">比量=与思择俱起的推理，五种路数：看相、看全体与部分、看作用、看概念链、看因果。原文的例子从见烟知火到以王比国，覆盖了日常推断的几乎所有套路。</div>
+  </div>
+
+  <div class="card">
+    <h3>正教量：权威言教的三道检验</h3>
+    <div class="quote">谓一切智所说言教。或从彼闻。或随彼法。此复三种。一不违圣言。二能治杂染。三不违法相。<span class="src">—— 卷十五原文</span></div>
+    <p>不违圣言：辗转流传至今而不违正法正义——版本可靠。能治杂染：随此法修习，「能永调伏贪嗔痴等一切烦恼及随烦恼」——真能解决问题。不违法相：不歪曲法相。原文以「违法相」反衬：在无相上增益（「谓于无相增为有相。如执有我有情命者生者等类。」）、在决定上立为不定（明明「一切行皆是无常」，却妄立「一分是常一分无常」）——像今天说的断章取义与和稀泥。</p>
+    <div class="analogy"><b>比喻：</b>正教量像引用权威文献——但引用前查三件事：原文没被篡改（不违圣言）、真能解决问题（能治杂染）、没断章取义（不违法相）。三查全过，引用才有效力。</div>
+    <div class="case"><b>识破紧迫感话术：</b>短信说「您的积分今天到期」，催你立刻点链接。用本卷的秤称一称：它「于不定建立为定」——把不紧急的事说成紧急，正是不违法相要防的歪曲；而核实官网、拨打官方客服，用的是现量（亲见官网）与正教量（官方渠道，不违圣言、能治杂染）。三量齐备才算数——因明就是古代版「信源核查三件套」。</div>
+    <div class="case"><b>一次临床决策：</b>医生下诊断：化验单数据是现量（直接检测，「诸根不坏。作意现前」级别的严谨）；「年轻患者通常恢复快」是比量（体比量/法比量）；诊疗指南是正教量（不违圣言、能治杂染、不违法相三关都过才被写进去）。一条医嘱里三量俱全——你第一次发现，看病就是一堂因明课。</div>
+    <div class="case"><b>地铁错觉：</b>早高峰，你明确「感到」列车开动了，抬头一看，是隔壁站台的车在动。这正落在原文惑障清单里——与「如结拳驰走见树奔流」同构的业错乱。所以现量设第三道门槛「非错乱境界」：感觉本身不够格，剔除了错乱才算量。你刚才那次「现量」，没过审。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑧ 因明·庄严与堕负 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>因明·庄严、堕负与出离</h2></div>
+  <p class="sec-lead">会论证还不够。这一章讲三件事：赢要赢得有风度（论庄严五支），输要输得知道怎么输的（论堕负三种），以及最重要的——开辩之前先判断该不该辩（论出离三观察）。最后附上辩者的三块蓄电池：论多所作法。</p>
+
+  <div class="card">
+    <h3>论庄严五支：辩者的仪表</h3>
+    <div class="quote">一善自他宗。二言具圆满。三无畏。四敦肃。五应供。<span class="src">—— 卷十五原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">善自他宗</div><div class="sub">专业要精，对手也要通</div><div class="tap">点开 ▸</div></div><div class="back">对自家宗旨「读诵受持。听闻思惟。纯熟修行」；对不信的他家宗旨，也要读诵受持、闻思纯熟（虽不修行）。<em>像高水平的辩手：己方论点倒背如流只是及格线，对方文献同样熟悉才敢上场。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">言具圆满</div><div class="sub">语言的五德</div><div class="tap">点开 ▸</div></div><div class="back">原文五德：「一不鄙陋。二轻易。三雄朗。四相应。五义善。」——不用鄙俗方言、用通行语、雄壮明晰、前后一致、导向善果。另有九种相（不杂乱、不粗犷、辩了、限量、与义相应、以时、决定、显了、相续）。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">无畏</div><div class="sub">大庭广众心不怯场</div><div class="tap">点开 ▸</div></div><div class="back">原文画像：「其心无有下劣恒惧。身无战汗。面无怖色。音无謇吃。语无怯弱。」——心、身、脸、声音、语气五关全过，才算无畏。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">敦肃</div><div class="sub">等时机，不抢话</div><div class="tap">点开 ▸</div></div><div class="back">原文：「谓如有一待时方说而不嚵速。是名敦肃。」——话要等合适的时机说，不仓促抢答。<em>会议里的最佳辩手往往不是最快开口的，而是最会说「在刚才基础上我想补充一点」的那个。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">应供</div><div class="sub">不恼人，如对善友</div><div class="tap">点开 ▸</div></div><div class="back">原文：「谓如有一为性调善不恼于他。终不违越诸调善者调善之地。随顺他心而起言说。」——性情调柔、随顺对方、应时如实、言词柔软「如对善友」。赢了辩论，不输风度。</div></div>
+    </div>
+    <details class="dict">
+      <summary>二十七种称赞功德<span class="hint">可跳过：五庄严具足者自然感得的二十七项好评</span></summary>
+      <div class="body">
+        <p>原文开篇：「一众所敬重。二言必信受。三处大众中都无所畏。」后续包括：于他宗旨深知过隙、于自宗旨知殊胜德、无有僻执、于自正法无能引夺、速能了悟领受酬对、具语言德令众爱乐、身心无倦、言不謇涩、辩才无尽、念无忘失、咽喉无损、分明易了、善护自心无忿怒、善顺他心无愤恚、令对论者心生净信、不招怨对、广大名称声流十方。</p>
+        <p>原文收尾的比喻：「如受欲者以末尼真珠琉璃等宝。厕环钏等宝庄严具以自庄严。」——受欲者用珠宝璎珞装扮身体，论者以这二十七种功德装扮言论：庄严不在首饰，在修养。</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>论堕负三种：怎么输的，输在哪儿</h3>
+    <div class="quote">一舍言㉜。二言屈㉝。三言过㉞。<span class="src">—— 卷十五原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">舍言</span><h4>干脆认输</h4><p>以十三种词谢对论者。原文样例：「我论不善汝论为善。我不善观。汝为善观。我论无理汝论有理。我论无能汝论有能。我论屈伏汝论成立。」——被攻破，堕在他后，是为堕负。<b>现代版：</b>答辩会上坦承「这一点我没有研究，会后查证再回复您」。输得体面，但确实输了。</p></div>
+      <div class="yuan-card"><span class="y-tag">言屈</span><h4>输不起，开始耍赖</h4><p>十三种丑态：「或托余事方便而退。或引外言。或现愤发。或现嗔恚。或现憍慢。或现所覆。或现恼害。或现不忍。或现不信。或复默然。或复忧戚。或竦肩伏面。或沉思词穷。」原文归为「前二妄行矫乱。中七发起邪行。后四计行穷尽。」<b>现代版：</b>吵输了就转移话题、人身攻击、「懒得理你」摔门走人。</p></div>
+      <div class="yuan-card"><span class="y-tag">言过</span><h4>表达失格，未输先败</h4><p>九种过：「一杂乱。二粗犷。三不辩了。四无限量。五非义相应。六不以时。七不决定。八不显了。九不相续。」<b>现代版：</b>开会发言东拉西扯（杂乱）、音量轰炸（粗犷）、满口黑话（不辩了）、车轱辘话（无限量）、答非所问（非义相应）、抢话（不以时）、立场横跳（不决定）、没人听懂（不显了）、话说一半断了（不相续）。</p></div>
+    </div>
+    <div class="plain">舍言是认输，言屈是输不起还要赖，言过是还没到输赢先把表达搞砸。原文判定：三者都「堕在负处」——但性质大不相同：第一个输在论点，第二个输在人格，第三个输在基本功。</div>
+    <div class="case"><b>两种输法：</b>同一场学术答辩，甲被问住后说「您说得对，我收回这个论点，会后补实验」（舍言：堕负，但风度存）；乙被问住后反讥「您这个问题本身没水平」（言屈之「现憍慢」：同样堕负，还搭上了信誉）。原文把「怎么输」分出三档，就是提醒：负处不可避免，失态可以避免。</div>
+    <div class="case"><b>组会汇报现场：</b>某同学汇报十分钟，PPT三页没到重点（非义相应）、同一句话换了三种说法（无限量）、导师提问后他答了上句忘了下句（不相续）——言过九种过，两千年前就写进了今日的汇报评分表。修法也现成：逐条反着做，就是「言具圆满」的九种相。</div>
+  </div>
+
+  <div class="card">
+    <h3>论出离三观察：该不该辩，先过三关</h3>
+    <div class="quote">立论者。先应以彼三种观察。观察论端。方兴言论。或不兴论。名论出离。<span class="src">—— 卷十五原文</span></div>
+    <div class="quote">一观察得失。二观察时众。三观察善巧及不善巧。<span class="src">—— 卷十五原文</span></div>
+    <p>第一观察·得失：开辩前先自问「我立是论。将无自损损他及俱损耶。」——会不会自损损他、生罪生苦？会，就「不应立论」；能引天人义利安乐，才「当立正论」。第二观察·时众：现前大众若唯偏执、不贤正、不善巧，便不应立论；无偏执、贤正、善巧，才应当立论。第三观察·善巧：我于论体、论处、论依、论严、论负、论出离善巧吗？有力量立自论摧他论、解脱论负处吗？无，便不应立论。</p>
+    <div class="plain">佛教辩论学的第一守则不是「怎么赢」，而是「该不该辩」——三关全过才出手；任何一关不过，沉默就是最优解。「或不兴论」四个字，与「方兴言论」同等分量。</div>
+    <div class="case"><b>退出群聊之前：</b>群里有人曲解你的观点，你深呼吸打了三百字长文，又逐字删掉，退出群聊。对照三观察：对方唯不贤正、无善巧（观察时众不过关），说了只生忧苦（观察得失不过关）——「便自思勉，于是众中不应立论」。不辩不是怂，是本卷的正修法：论出离。</div>
+  </div>
+
+  <div class="card">
+    <h3>流程推演：一场如法辩论的完整流程</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">把前两章的零件装回去，从「要不要辩」到「怎么收场」走一遍。</p>
+    <div class="flow-track" id="flowTrack"></div>
+    <div class="flow-detail" id="flowDetail"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="flowPrev">上一步</button> <button class="tri-btn" id="flowNext">下一步</button></div>
+  </div>
+
+  <div class="card">
+    <h3>论多所作法：辩者的三块蓄电池</h3>
+    <div class="quote">一善自他宗。二勇猛无畏。三辩才无竭。<span class="src">—— 卷十五原文</span></div>
+    <div class="quote">能善了知自他宗故。于一切法能起谈论。勇猛无畏故。处一切众能起谈论。辩才无竭故。随所问难皆善酬答。<span class="src">—— 卷十五原文</span></div>
+    <div class="plain">三法对应三种能力：知识储备（什么都能谈）、心理素质（在哪都能谈）、临场反应（问不倒）。庄严是仪表，堕负是雷区，出离是开关，多所作法是电池——四科合起来，才是一个完整的辩者。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑨ 收官·声明与工业明 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：声明、工业明与全卷回顾</h2></div>
+  <p class="sec-lead">最后两门明处轻快收尾：声明处把「语言」拆成六个安装包，工业明处列出十二种职业。然后合上这一卷——闻所成地，正式讲完。</p>
+
+  <div class="card">
+    <h3>声明处：语言的六个安装包</h3>
+    <div class="quote">一法施设建立相。二义施设建立相。三补特伽罗施设建立相。四时施设建立相。五数施设建立相。六处所根栽施设建立相。<span class="src">—— 卷十五原文</span></div>
+    <div class="gatha">
+      <div class="lines">法义数取趣　　时数与处所<br>若根栽所依　　是略声明相</div>
+      <div class="mean">声明六相口诀：法（名句文）、义（语义）、数取趣（人称）、时（时态）、数（单复数）、处所根栽（词根格律）——六行字记住一整门语言学。</div>
+    </div>
+    <details class="dict">
+      <summary>六相逐条速览<span class="hint">可跳过：声明学清单</span></summary>
+      <div class="body">
+        <p><b>法施设建立：</b>原文「谓名身句身文身㊱。及五德相应声。」——词汇（名身）、句子（句身）、字母（文身），加上好语言的五条标准：不鄙陋、轻易、雄朗、相应、义善。</p>
+        <p><b>义施设建立：</b>十种义（根、大种、业、寻求、非法、法、兴盛、衰损、受用、守护——如「根建立：见义闻义嗅义尝义触义知义」）再加六种义（自性、因、果、作用、差别相应、转）——一整套语义分类学。</p>
+        <p><b>补特伽罗施设建立：</b>「谓建立男女非男非女声相差别。」——人称与身份的语法表达，另有初士、中士、上士的声相差别。</p>
+        <p><b>时施设建立：</b>「谓有三时声相差别。一过去过去殊胜。二未来未来殊胜。三现在现在殊胜。」——过去、未来、现在的时态系统。</p>
+        <p><b>数施设建立：</b>「一者一数。二者二数。三者多数。」——单数、双数、复数。</p>
+        <p><b>处所根栽施设建立：</b>处所有五——相续、名号、总略、彼益、宣说；「若界颂等名为根栽。」——词根词变与诗歌格律。</p>
+      </div>
+    </details>
+    <div class="plain">声明处 ≈ 语言学全套：词汇学＋语义学＋人称/时态/数＋词源格律。佛教徒学它不为考级，为了读懂经典、讲清法义——语言是闻所成地的载具。</div>
+  </div>
+
+  <div class="card">
+    <h3>工业明处：十二种职业技能</h3>
+    <div class="quote">谓于十二处。略说工业所有妙智。名工业明处。<span class="src">—— 卷十五原文</span></div>
+    <div class="quote">谓营农工业。商估工业。事王工业。书算计度数印工业。占相工业。咒术工业。营造工业。生成工业。防那工业。和合工业。成熟工业。音乐工业。<span class="src">—— 卷十五原文</span></div>
+    <p>十二种职业，逐一对应今天大致是：营农≈农业种植；商估≈商业定价买卖；事王≈政务与公共管理；书算计度数印≈文书、会计、统计与用印；占相≈占察相法（当时的咨询业）；咒术≈咒术技艺；营造≈建筑土木；生成≈养殖繁育；防那≈纺织缝纫；和合≈调和配制（如和合汤药）；成熟≈烹饪成熟饮食；音乐≈奏乐歌唱。原文仅列名目，今解供参照。</p>
+    <div class="plain">工业明=职业技能总表。佛法不轻视谋生技艺——本卷把它们与因明、声明并列，正式纳入「所应知处」。</div>
+    <div class="case"><b>一位现代居士的一天：</b>早上用书算计度数印工业做报表（会计），中午用成熟工业给家人做饭（烹饪），下午用商估工业谈一笔采购（商业），晚上用音乐工业哄孩子入睡（音乐）。原文十二工业，几乎能给一份简历的技能栏直接分类——五明里的后两明，把「好好生活所需的世俗知识」也收进了佛教的知识地图。</div>
+  </div>
+
+  <div class="card">
+    <h3>全卷回顾：一张表收束</h3>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>板块</th><th>内容</th><th>一句话带走</th></tr>
+      <tr><td>八法</td><td>三修法·四向四果·布施八相·懈怠八时·可爱生处·四众·世间八法·八胜解</td><td>修行人的检查表：修什么、给什么、防什么、去哪里、考什么</td></tr>
+      <tr><td>九法十法</td><td>九结九生处·十遍处十无学支</td><td>目录式交卷，细账在摄事分；无学五蕴是毕业档案</td></tr>
+      <tr><td>医方明</td><td>病相·病因·断病·防复发</td><td>四步临床框架，「不再生」才算治好</td></tr>
+      <tr><td>因明</td><td>体·处·依·庄严·堕负·出离·多所作</td><td>从「该不该辩」到「怎么赢、怎么输」的完整辩论学</td></tr>
+      <tr><td>声明·工业明</td><td>语言六相·职业十二处</td><td>语言是载具，技艺是生活——世俗知识同样纳入所应知处</td></tr>
+    </table></div>
+    <div class="case"><b>合卷一问：</b>读完这卷再回头看学习路径，你会发现一个隐藏结构：前半（八法）全部围绕「修行人自身」——修法、布施、懈怠、去处、考验；后半（诸明）全部围绕「佛教徒与世间打交道」——医学、辩论、语言、职业。闻所成地用这种方式回答了它该回答的问题：靠听闻成就正见的人，需要什么样的完整装备。下一站，细账都在〈摄事分〉等着。</div>
+  </div>
+
+  <div class="card">
+    <h3>收官归类：这句话出自哪一明？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">最后一组练习，把四个场景归回它们所属的明处。</p>
+    <div id="sortMing"></div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第十五（output/15.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga15-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+
+/* 翻转卡点击展开 */
+document.querySelectorAll('.fn-card').forEach(c=>{
+  c.addEventListener('click',function(){this.classList.toggle('open');});
+});
+
+/* 归类练习一：布施八相 */
+initSorter('sortShi',[
+  {a:'小王怕失业没钱，听信「布施能改运」，急匆匆捐了一大笔求财运。',opts:['有过失施','无过失施'],ans:'有过失施',exp:'对应「怖畏贫穷悕求富乐而行布施」——不随所欲故有过失，心被贫富恐惧与贪求染污。'},
+  {a:'小陈捐款后把截图发到三个群，配文「日行一善」，坐等点赞。',opts:['有过失施','无过失施'],ans:'有过失施',exp:'对应「求他知闻故有过失」——布施的动机是让别人知道。'},
+  {a:'老周捐完款一路后悔，反复想「那笔钱本来能换个新手机」。',opts:['有过失施','无过失施'],ans:'有过失施',exp:'对应「顾恋过去故有过失」——对已施的财物恋恋不舍，心是黏着的。'},
+  {a:'阿梅盘算着「这次布施，下辈子能投个好人家」。',opts:['有过失施','无过失施'],ans:'有过失施',exp:'对应「悕望未来故有过失」——把布施当期货，赌来世回报。'},
+  {a:'小赵把家里过期的零食打包捐给灾区，十分钟搞定。',opts:['有过失施','无过失施'],ans:'有过失施',exp:'对应「懈怠所损故有过失」——布施懒于用心，物品敷衍，施的成色被懒惰打了折。'},
+  {a:'小郑默默资助一名山区学生，不署名不声张，只愿她安心读书。',opts:['有过失施','无过失施'],ans:'无过失施',exp:'对应「无染污心……而行布施」——不图名不图报，心无染污，正是最后一种无过失施。'}
+]);
+
+/* 条件模拟器：懈怠八时 */
+function renderCond(){
+  const ids=['cShi','cZuo','cYou','cBing'];
+  const names={cShi:'乞食处（吃太饱/吃太差）',cZuo:'所作处（干活前后护惜力、身疲倦）',cYou:'游行处（出行前后护惜力、身疲倦）',cBing:'界不平等处（病中/病愈怕复发）'};
+  const hit=ids.filter(id=>document.getElementById(id).checked);
+  const jing=document.getElementById('cJing').checked;
+  const box=document.getElementById('condResult');
+  if(hit.length===0&&!jing){
+    box.className='';
+    box.innerHTML='此刻四种懈怠所依一个都没遇到。注意：论中说懈怠类之人这时「未遇懈怠所依。少似精进」——顺境里的用功只是「像」，不算数。真正的考场，在你还没拨开的那些时刻。';
+  }else if(hit.length===0&&jing){
+    box.className='';
+    box.innerHTML='未遇懈怠所依，正是养精蓄锐的好时候。但要记得精进类的标志是「虽遇懈怠所依。亦能发勤精进。何况不遇」——别只做容易的时候精进的人。';
+  }else if(!jing){
+    box.className='fail';
+    box.innerHTML='你已遇到 '+hit.length+' 个懈怠所依：<div class="obstacle-tags">'+hit.map(h=>'<span>'+names[h]+'</span>').join('')+'</div>懈怠类的人「若得遇已。速发懈怠」——此刻正是垮掉的标准场景。这不算失败，是诊断：看清自己在哪个时刻最脆弱。';
+  }else{
+    box.className='';
+    box.innerHTML='已遇 '+hit.length+' 个懈怠所依仍按「勤精进类」行事：<div class="obstacle-tags">'+hit.map(h=>'<span>'+names[h]+'</span>').join('')+'</div>论中判词：「能伏懈怠勤精进类……何况不遇。」在最难的时刻照做不误——这才是真精进，平时不用说了。';
+  }
+}
+['cShi','cZuo','cYou','cBing','cJing'].forEach(id=>{
+  document.getElementById(id).addEventListener('change',renderCond);
+});
+
+/* 归类练习二：六论体性 */
+initSorter('sortLun',[
+  {a:'小区业主群里，两家人为一个车位互相揭短、翻旧账，越吵越凶。',opts:['言论','尚论','诤论','毁谤论','顺正论','教导论'],ans:'诤论',exp:'依诸欲所起——争「所摄受诸欲」被侵夺；因坚执贪爱「兴怨害论」，是典型诤论。'},
+  {a:'营销号为流量编造谣言，用粗俗字眼抹黑竞争对手。',opts:['言论','尚论','诤论','毁谤论','顺正论','教导论'],ans:'毁谤论',exp:'「怀愤发者。以染污心。振发威势。更相摈毁」——粗恶所引、绮言所引皆属毁谤论。'},
+  {a:'佛学社的师兄逐句讲解经典，解开你对「无常」的困惑。',opts:['言论','尚论','诤论','毁谤论','顺正论','教导论'],ans:'顺正论',exp:'「为断有情所疑惑故……随顺正行。随顺解脱」——宣说正法、断人疑惑，是应修习的顺正论。'},
+  {a:'禅修营导师手把手教你数息法，让散乱的心一步步安定下来。',opts:['言论','尚论','诤论','毁谤论','顺正论','教导论'],ans:'教导论',exp:'「教修习增上心学……心未定者。令心得定」——不止说法，还教你修定，是教导论。'},
+  {a:'妈妈在厨房喊：「开饭了，今天有你爱吃的红烧鱼。」',opts:['言论','尚论','诤论','毁谤论','顺正论','教导论'],ans:'言论',exp:'「一切言说。言音。言词」皆名言论——本身中性，属于「应当分别」对待的初二论。'},
+  {a:'长辈根据你目前的处境，讲了一番你确实应该听的为人道理。',opts:['言论','尚论','诤论','毁谤论','顺正论','教导论'],ans:'尚论',exp:'「谓诸世间随所应闻。所有言论」——世人应当听闻的教诲，即尚论。'}
+]);
+
+/* 流程推演：一场如法辩论 */
+initStepper('flowTrack','flowDetail','flowPrev','flowNext',[
+  {t:'出发前：三观察',d:'<b>论出离（该不该辩）：</b>先问三关——会不会自损损他（观察得失）、听众行不行（观察时众）、我行不行（观察善巧）。任一不过，「或不兴论，名论出离」——不辩，也是因明的正修。'},
+  {t:'选场地：论处所',d:'<b>六种处所：</b>王家、执理家、大众中、贤哲者前、善解法义沙门婆罗门前、乐法义者前——要选有裁断、有懂行听众的场子。场地不合格，赢了也白赢。'},
+  {t:'亮观点：立宗',d:'<b>立宗（建立宗义）：</b>依自性、差别两种所成立义，一句话摆明主张——「先显示自所爱乐宗义」，让所有人知道你要成立什么。'},
+  {t:'给理由：辩因',d:'<b>辩因（建立顺益道理言论）：</b>依现见之事给出决定性理由，「令他摄受所立宗义」——让对方有台阶、有依据地接受你的宗。'},
+  {t:'打比方：引喻',d:'<b>引喻：</b>「引因所依。诸余世间串习共许易了之法比况言论」——用双方都熟悉、公认易懂的事物作比况，把道理讲透。'},
+  {t:'验证据：三量',d:'<b>同类异类、现量比量正教量：</b>检查因与喻站不站得住——「不相违者……能为正量故名为量」，相违的（不决定、同所成）不能为量。证据链在这里过堂。'},
+  {t:'全程风度：庄严与堕负',d:'<b>五庄严护身，三堕负避坑：</b>善自他宗、言具圆满、无畏、敦肃、应供；绝不落入舍言（干脆认输）、言屈（输不起耍赖）、言过（表达失格）——这就是「多所作法」的辩者。'}
+]);
+
+/* 归类练习三：哪一明 */
+initSorter('sortMing',[
+  {a:'医生看化验单、查病因、开药并叮嘱防复发。',opts:['内明','医方明','因明','声明','工业明'],ans:'医方明',exp:'病相、病因、断病、更不生四善巧——医方明的四步临床框架。'},
+  {a:'辩论会上先立宗，再辩因、引喻，用现量比量正教量检验证据。',opts:['内明','医方明','因明','声明','工业明'],ans:'因明',exp:'立宗、辩因、引喻与三量都是因明「论所依」的内容——本卷的重头戏。'},
+  {a:'语言学家分析一部经典的名身、句身、时态与单复数。',opts:['内明','医方明','因明','声明','工业明'],ans:'声明',exp:'名句文身、三时声、三数声、处所根栽——声明六相里的法、时、数诸相。'},
+  {a:'农民种稻、商人定价、工匠营造房屋、乐师奏乐。',opts:['内明','医方明','因明','声明','工业明'],ans:'工业明',exp:'营农、商估、营造、音乐——十二工业处的日常对应。'}
+]);
+
+renderCond();
+renderPath();
+</script>
+</body>
+</html>

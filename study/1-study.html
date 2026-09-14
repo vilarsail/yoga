@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第一 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分 · 五识身相应地第一 · 意地之一</div>
+  <h1>卷第一 · 交互式学习模块</h1>
+  <p class="sub">全书第一卷做两件事：先给出整部论的「总目录」（十七地），然后从最直观的五感（眼耳鼻舌身识）开始解剖心智，并开启「意地」——一直讲到死亡与受生。</p>
+  <div class="tagline">8 个主题 · 6 个学习步骤 · 20 组生活案例</div>
+</header>
+
+<nav class="toc" id="toc">
+  <a href="#s1">① 十七地总目录</a>
+  <a href="#s2">② 五识身</a>
+  <a href="#s3">③ 三种所依</a>
+  <a href="#s4">④ 五识的所缘</a>
+  <a href="#s5">⑤ 识的生起</a>
+  <a href="#s6">⑥ 意地</a>
+  <a href="#s7">⑦ 死与生</a>
+  <a href="#s8">⑧ 后序彩蛋</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+    <div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>拿到全书地图</b><span>十七地是什么、按什么顺序学（章节①）</span></span></label></div>
+    <div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>认识「五识身」</b><span>眼耳鼻舌身五识的统一公式与三种所依（章节②③）</span></span></label></div>
+    <div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>看清「所缘」</b><span>每种识的对象是什么，显色形色表色怎么分（章节④）</span></span></label></div>
+    <div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>弄懂「识的生起」</b><span>三个条件 + 三心接力，这是五识地的心脏（章节⑤）</span></span></label></div>
+    <div class="step-item" data-target="#s6"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>进入「意地」</b><span>心、意、识三义，意识凭什么比五识高级（章节⑥）</span></span></label></div>
+    <div class="step-item" data-target="#s7"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>读完「死与生」</b><span>卷一最震撼的部分：人怎么死、怎么再去投胎（章节⑦⑧）</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 6</div>
+</div>
+
+<!-- ============ ① 十七地总目录 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>十七地：整部论的总目录</h2></div>
+  <p class="sec-lead">「瑜伽师地」= 瑜伽师（修行者）走过的十七个阶段/领域。整部百卷大论，就是沿着这十七站展开的。第一卷开头先用一首偈把目录背了一遍。</p>
+
+  <div class="gatha">
+    <div class="lines">五识相应意　　有寻伺等三<br>三摩地俱非　　有心无心地<br>闻思修所立　　如是具三乘<br>有依及无依　　是名十七地</div>
+    <div class="mean">目录诗：五识身相应地、意地 → 有寻有伺等三地 → 三摩地俱非（三摩呬多/非三摩呬多）→ 有心无心地 → 闻思修三地 → 三乘（声闻独觉菩萨）→ 有余依、无余依。</div>
+  </div>
+
+  <div class="card">
+    <h3>十七地的分组（不必背，看结构）</h3>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>分组</th><th>地</th><th>通俗理解</th></tr>
+      <tr><td>境体（1-2）</td><td>五识身相应地、意地</td><td>解剖台：先把心和感官拆开看个明白</td></tr>
+      <tr><td>境相（3-5）</td><td>有寻有伺、无寻唯伺、无寻无伺</td><td>按「思维粗细」给心理活动分层</td></tr>
+      <tr><td>境用（6-9）</td><td>三摩呬多、非三摩呬多、有心、无心</td><td>专注与不专注、有心与无心的四种状态</td></tr>
+      <tr><td>修行（10-12）</td><td>闻所成、思所成、修所成地</td><td>学习三部曲：听懂 → 想通 → 做到</td></tr>
+      <tr><td>果乘（13-15）</td><td>声闻地、独觉地、菩萨地</td><td>三条修行路线的实操手册</td></tr>
+      <tr><td>余依（16-17）</td><td>有余依地、无余依地</td><td>终点站的两种形态</td></tr>
+    </table></div>
+    <div class="case"><b>课程表：</b>可以把十七地想象成一所修行大学的专业目录——第 1-9 地是「基础课」（把心识这台机器拆开研究），第 10-12 地是「方法课」（听、想、练），第 13-15 地是「三个专业方向」，第 16-17 地是「毕业去向」。而卷一、卷二就是最基础的两门课：《五识》《意》。</div>
+    <div class="case"><b>为什么从五识开始讲？</b>因为它离生活最近——你现在正「用眼睛看着这行字」，这个「看」就是五识地的研究对象。论从你最有把握的经验讲起，再一步步走向深的。</div>
+    <div class="plain">「云何瑜伽师地？所谓十七地。」——第一卷开门见山：全书 = 十七地的修行地图，本卷先讲第 1 地（五识）并开启第 2 地（意）。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ② 五识身 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>五识身：五个感官「频道」</h2></div>
+  <p class="sec-lead">五识地定义五识只用一个统一公式，五个识全部套用——先记住公式，再看五个实例。</p>
+
+  <div class="card">
+    <h3>统一公式：依 X 了别 Y</h3>
+    <div class="quote">「云何五识身相应地？就是五识身的自性、它所依止的、它所缘取的、它的助伴以及它的作用，这些总称为五识身相应地。」<span class="src">—— 卷一原文</span></div>
+    <p>每个识都从五个角度研究（这组框架叫「五事」，全书通用）：<b>自性</b>（它是什么）、<b>所依</b>（靠什么生起）、<b>所缘</b>（对象是什么）、<b>助伴</b>（带哪些心理员工）、<b>作业</b>（干什么活）。</p>
+    <div class="fn-grid">
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">眼 识</div><div class="sub">依眼 · 了别色</div><div class="tap">→</div></div><div class="back">视觉频道。注意「眼」是眼根（视觉器官），「眼识」是依它生起的看的能力。<em>依眼了别色。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">耳 识</div><div class="sub">依耳 · 了别声</div><div class="tap">→</div></div><div class="back">听觉频道。<em>依耳了别声。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">鼻 识</div><div class="sub">依鼻 · 了别香</div><div class="tap">→</div></div><div class="back">嗅觉频道。<em>依鼻了别香。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">舌 识</div><div class="sub">依舌 · 了别味</div><div class="tap">→</div></div><div class="back">味觉频道。<em>依舌了别味。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">身 识</div><div class="sub">依身 · 了别触</div><div class="tap">→</div></div><div class="back">触觉频道——不只皮肤，还包括冷、饥、渴、饱、病、累等全身感受。<em>依身了别触。</em></div></div>
+    </div>
+    <div class="plain">「识」不是眼睛本身，而是<b>依眼根生起的了别功能</b>——眼睛是摄像头，眼识是「正在看」这件事。</div>
+  </div>
+
+  <div class="card">
+    <h3>细节：净色根与「无见有对」</h3>
+    <p><b>净色</b>：眼根不是肉眼可见的眼球，而是「四大种所造、眼识所依的清净色」——一种精微的感官组织。论中给一切五根的定位是「无见有对」：</p>
+    <div class="analogy"><b>无见有对：</b>「无见」= 看不见（你看不见自己的视网膜视角背后的神经组织）；「有对」= 有质碍、占空间（它确实在那里、有物理定位）。</div>
+    <div class="case"><b>摄像头类比：</b>眼球 = 镜头外壳；净色根 = 感光传感器（藏在里面，肉眼看不见，但真实占位）；眼识 = 「正在成像」这件事。论文对感官的解剖，精确到把「器官」与「功能」分开——这是它与现代常识最接近的地方。</div>
+    <div class="case"><b>身识不只是皮肤：</b>原文列身识的所缘「触」：地水火风、轻、重、滑、涩、冷、饥、渴、饱、力、劣、缓、急、病、老、死、痒、闷、粘、疲、息、软、怯、勇——「饿了」「累了」「病了」都是身识了别的对象。你现在感受到的椅子硌腰，正是一次标准的身识活动。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ③ 三种所依 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>三种所依：识靠什么生起</h2></div>
+  <p class="sec-lead">每个识生起，论文说它需要三层「依靠」。这一组概念是唯识学的地基，请务必拿下。</p>
+
+  <div class="card">
+    <h3>三层依靠（点击卡片翻转）</h3>
+    <div class="fn-grid">
+      <div class="fn-card" onclick="this.classList.toggle('open')">
+        <div class="front"><div class="cn">俱有依</div><div class="sub">同时俱在的器官</div><div class="tap">点击展开 →</div></div>
+        <div class="back">眼识的俱有依是眼根——识生起的那一刻，根就在旁边同时运作。<em>比喻：放映必须依赖放映机，机器和画面同时在场。</em></div>
+      </div>
+      <div class="fn-card" onclick="this.classList.toggle('open')">
+        <div class="front"><div class="cn">等无间依</div><div class="sub">前一念让位</div><div class="tap">点击展开 →</div></div>
+        <div class="back">「意」指眼识<b>无间过去</b>的那念识——前一念灭、开出位置，后一念才能生。<em>比喻：单行道上，前车不让位，后车进不来。</em></div>
+      </div>
+      <div class="fn-card" onclick="this.classList.toggle('open')">
+        <div class="front"><div class="cn">种子依</div><div class="sub">阿赖耶识</div><div class="tap">点击展开 →</div></div>
+        <div class="back">一切种子异熟识——无始以来乐着戏论、熏习成的一切习气种子，都存放在这个「根本识」里。<em>比喻：云端硬盘，存着从生命开始以来的全部「记录」。</em></div>
+      </div>
+    </div>
+    <div class="plain">一句话：识的生起 = <b>设备（根）</b> + <b>让位（前念）</b> + <b>存档（种子）</b>，三层缺一不可。</div>
+    <div class="case"><b>等无间依：</b>电影 24 格/秒，前一格胶片必须移开，下一格才能到放映窗口——你看到「连续画面」其实是无数「前一念灭、后一念生」。论文说的「眼识无间过去识」就是这层让位关系：心也是一格一格放映的。</div>
+    <div class="case"><b>种子依：</b>为什么你在语言课上听一遍就记得住法语发音，而室友怎么学都跑调？同样的课堂（俱有依相同）、同样的当下（等无间依相似），差别全在种子——过去熏习攒下的「存档」不同。论文说种子「无始时来乐着戏论，熏习为因」，每个人的阿赖耶识里存着一套独一无二的习气库。</div>
+  </div>
+
+  <div class="card">
+    <h3>五识的四个比喻（原文自带的）</h3>
+    <div class="quote">「应当观察五识的所依，如同前往他方者所乘的车乘；所缘如同所要做的事情；助伴如同同行伴侣；作用如同自身功能。」<span class="src">—— 卷一原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">喻一</span><h4>所依如车乘</h4><p>出远门要靠车——识生起要靠根（+ 意 + 种子）。</p></div>
+      <div class="yuan-card"><span class="y-tag">喻二</span><h4>所缘如所办的事</h4><p>出门有目的地——识总对着一个对象。</p></div>
+      <div class="yuan-card"><span class="y-tag">喻三</span><h4>助伴如同伴</h4><p>路上有同行者——作意触受想思跟着一起上。</p></div>
+      <div class="yuan-card"><span class="y-tag">喻四</span><h4>作用如自功能</h4><p>你自己的本事——了别就是识的功能。</p></div>
+    </div>
+    <p style="font-size:.9rem;color:var(--ink-soft);margin-top:10px">原文还给了第二套比喻：所依如<b>家</b>，所缘如<b>受用之物</b>，助伴如<b>仆使</b>，业如<b>作用</b>。两套比喻只是角度不同：出门喻与居家喻。</p>
+    <div class="case"><b>套用一遍：</b>你下班开车去超市买菜——车 = 眼根等所依；「买晚饭食材」= 所缘（货架上的菜）；副驾的家人 = 助伴（作意触受想思）；「挑选比价」= 作业（了别）。一次寻常采购，五事俱全。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ④ 五识的所缘 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>五识的所缘：每种识「看」什么</h2></div>
+  <p class="sec-lead">五识的对象各有各的世界：眼识缘色、耳识缘声、鼻识缘香、舌识缘味、身识缘触。其中眼识的「色」被拆得最细——显色、形色、表色。</p>
+
+  <div class="card">
+    <h3>色的三分法（点击翻转）</h3>
+    <div class="fn-grid">
+      <div class="fn-card" onclick="this.classList.toggle('open')">
+        <div class="front"><div class="cn">显 色</div><div class="sub">颜色明暗</div><div class="tap">点击展开 →</div></div>
+        <div class="back">青黄赤白、光影明暗、云烟尘雾——纯粹的色相显现。<em>你看到「红色」的那一刻，是显色。</em></div>
+      </div>
+      <div class="fn-card" onclick="this.classList.toggle('open')">
+        <div class="front"><div class="cn">形 色</div><div class="sub">长短方圆</div><div class="tap">点击展开 →</div></div>
+        <div class="back">长短、方圆、粗细、正不正、高下——形状轮廓差别。<em>你看出「这是个方块」，是形色。</em></div>
+      </div>
+      <div class="fn-card" onclick="this.classList.toggle('open')">
+        <div class="front"><div class="cn">表 色</div><div class="sub">动作表情</div><div class="tap">点击展开 →</div></div>
+        <div class="back">取舍屈伸、行住坐卧——由身体动作表达的色。<em>你看出「他在挥手」，是表色。</em></div>
+      </div>
+    </div>
+    <div class="plain">显色 = 属性（颜色），形色 = 形状（轮廓），表色 = 动态（行为）。看任何东西，这三层同时到场。</div>
+    <div class="case"><b>红绿灯：</b>路口那盏灯——「红颜色本身」是显色；「圆形轮廓」是形色；「由黄变红的切换过程」是表色。你一眼读出「该停了」，三层数据同时处理完毕。</div>
+    <div class="case"><b>为什么「表色」重要：</b>论文把「行住坐卧」也归入眼识的所缘——也就是说，看一个人走路，你看到的不是一堆颜色像素，而是「行为」。古人早就意识到：视觉天然自带「动作识别」功能。</div>
+  </div>
+
+  <div class="card">
+    <h3>动手归类：显色 · 形色 · 表色</h3>
+    <div id="sortArea"></div>
+  </div>
+
+  <div class="card">
+    <h3>声音的三分法（原文的精细分类）</h3>
+    <p>耳识所缘的「声」略分三种——按声源是「有情身体」（执受大种）还是「无情物体」（不执受大种）：</p>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">执受大种声</span><h4>从身体发出</h4><p>说话声、掌声、哭笑声——「唯内缘声」。</p></div>
+      <div class="yuan-card"><span class="y-tag">不执受大种声</span><h4>从物体发出</h4><p>雷声、风声、流水声——「唯外缘声」。</p></div>
+      <div class="yuan-card"><span class="y-tag">俱大种声</span><h4>身体 + 物体</h4><p>敲鼓、弹琴——「内外缘声」。</p></div>
+    </div>
+    <div class="case"><b>音乐会：</b>同一晚你听到三种声——歌唱家的嗓音（执受大种声，从身体来）、空调的低鸣（不执受大种声，纯机械）、鼓槌击鼓（俱大种声，人手 + 鼓皮合作）。你的耳朵天然分得清这三类，论文只是把这个能力写成了清单。</div>
+    <div class="plain">原文对声、香、味、触各列长长的清单（螺贝声、江河声、根茎花果香、苦酢辛甘咸淡……），本页不详列——重点是方法：<b>每个识的对象都可按属性清单化</b>，这是修行时「观照当下」的备查表。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑤ 识的生起 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>识的生起：三个条件 + 三心接力</h2></div>
+  <p class="sec-lead">这是五识地的核心机制：看（或听）不是自动发生的——需要条件，而且「看见」内部还有一套接力流程。</p>
+
+  <div class="card">
+    <h3>条件模拟器：眼识为什么此刻没有生起？</h3>
+    <div class="cond-row">
+      <div class="name">① 眼根不坏<small>眼根没有损坏羸弱</small></div>
+      <label class="switch"><input type="checkbox" id="c1" checked onchange="condUpdate()"><span class="slider"></span></label>
+    </div>
+    <div class="cond-row">
+      <div class="name">② 色现在前<small>对象实际呈现在眼前</small></div>
+      <label class="switch"><input type="checkbox" id="c2" checked onchange="condUpdate()"><span class="slider"></span></label>
+    </div>
+    <div class="cond-row">
+      <div class="name">③ 能生作意正起<small>注意力正确转向它</small></div>
+      <label class="switch"><input type="checkbox" id="c3" checked onchange="condUpdate()"><span class="slider"></span></label>
+    </div>
+    <div id="condResult"></div>
+    <div class="quote">「虽然眼根没有损坏，色境现前，能生起作意，但如果作意不能正起，所生的眼识必定不能生起。」<span class="src">—— 卷一原文</span></div>
+    <div class="case"><b>课堂走神：</b>老师板书写满黑板（色现在前），你视力 5.2（眼根不坏），但心想着中午吃什么（作意未正起）——「眼识不生」，你对着整块黑板什么也没「看见」。直到老师喊你名字，作意一转，黑板上的字才突然「出现」。</div>
+  </div>
+
+  <div class="card">
+    <h3>三心接力：一次「看见」的内部流水线（点击推进）</h3>
+    <div class="flow-track" id="flowTrack"></div>
+    <div class="flow-detail" id="flowDetail"></div>
+    <div class="flow-ctrl">
+      <button class="btn ghost" id="flowPrev">← 上一步</button>
+      <button class="btn" id="flowNext">下一步 →</button>
+    </div>
+    <div class="case"><b>闪光灯瞬间：</b>拍照闪光灯一亮——第一刹那你「看见了」（率尔心，眼识纯领受），第二刹那你在想「刚才那是什么」（寻求心，意识接管），第三刹那你确定「是有人拍照」（决定心）。论文说这三心里只有第一刹那在眼识，后两步全是意识的活——「看见」从来是团队作业。</div>
+    <div class="plain">决定心之后才分染净（喜欢/讨厌），此后眼识才随善恶相续流转——而且它自己没有分别力，全被意识牵着走：「随意识转」。</div>
+  </div>
+
+  <div class="card">
+    <h3>五识作业的边界（六种业）</h3>
+    <p>论文总结眼识（余识同理）的六种作用：<b>只了别自己的对象、只了别自相（细节相）、只了别现在、只一刹那了别、随意识转随善恶转、能取爱非爱果</b>。</p>
+    <div class="case"><b>为什么五识「记不住」：</b>五识「唯了别现在、唯一刹那了别」——它只在当下闪一下，没有跨时间的记忆能力。你看电影时眼睛一直在看，但让你记住剧情、产生感动的全是意识；五识像每帧就报废的传感器，意识才是负责剪辑和存档的剪辑师。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑥ 意地 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>意地：意识登场</h2></div>
+  <p class="sec-lead">五识讲完，卷一后半开启第 2 地「意地」。意地同样按五事展开，但对象换成那个真正做主的「意识」。</p>
+
+  <div class="card">
+    <h3>心 · 意 · 识：意自性的三个名字</h3>
+    <div class="quote">「什么是意的自性？就是心、意、识。心，是指一切种子所随的依止性……异熟所摄的阿赖耶识。意，是指恒行意以及六识身无间灭意。识，是指现前了别所缘境界。」<span class="src">—— 卷一原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">心</span><h4>仓库</h4><p>一切种子所随依止的阿赖耶识——存储层，收藏全部习气种子。</p></div>
+      <div class="yuan-card"><span class="y-tag">意</span><h4>让位机制</h4><p>恒行意 + 六识无间灭意——前念灭位即是后念生门。</p></div>
+      <div class="yuan-card"><span class="y-tag">识</span><h4>现前工作台</h4><p>「现前了别所缘境界」——当下正在进行的了别活动。</p></div>
+    </div>
+    <div class="case"><b>电脑类比：</b>心 = 硬盘（存着所有文件和系统习气）；意 = 内存总线的时钟节拍（前一拍结束才有后一拍）；识 = 屏幕上正在运行的窗口（此刻的了别）。同一颗心的三个角色：存储、节拍、显示。</div>
+  </div>
+
+  <div class="card">
+    <h3>意识凭什么比五识高级？——胜作业清单</h3>
+    <p>五识只能「了别现在、一刹那、自相」；意识的能力清单长得多：<b>分别所缘、审虑所缘、醉、狂、梦、觉、闷、醒、发起身业语业、离欲（或退）、断善根（或续）、死、生</b>——全都是五识做不到的。</p>
+    <div class="case"><b>七种分别里的日常：</b>「任运分别」——走夜路时你的脚自动避开坑洼，不假思索，心「随境势力任运而转」；「染污分别」——睡前复盘白天的争吵，越想越气（对过去顾恋、对现在执着），论文明确把这类归为染污。原来「内耗」在千年前就被列了分类编号。</div>
+    <div class="case"><b>梦、醉、闷、醒：</b>论文逐一给出成因——醉由「过量饮」等四种；梦由疲倦、吃得沉重、串习睡眠、药物等引发；闷（晕厥）由风热乱、捶打、泻泄、极勤劳。这份一千多年前的「异常意识状态成因表」，与现代常识惊人地兼容。</div>
+    <div class="case"><b>发起身语业的流程：</b>原文给出行动五步：智先行 → 欲生 → 功用起 → 随顺功用 → 身语业风转。对照你发一条重要消息：先想清楚（智）→ 想发（欲）→ 动手打字（功用）→ 措辞顺畅（随顺）→ 按下发送（业成）。任何身口行为背后都有这条隐形流水线。</div>
+  </div>
+
+  <div class="card">
+    <h3>53 心所总表（意识员工的第一次集体点名）</h3>
+    <p style="font-size:.93rem;color:var(--ink-soft)">意地的「助伴」一段，一口气点出五十三种心所有法——这是全书心理学的花名册：</p>
+    <details class="dict"><summary>展开完整名单 <span class="hint">同一所缘，非同一行相</span></summary><div class="body">
+      <p><b>五遍行：</b>作意、触、受、想、思。<b>五别境：</b>欲、胜解、念、三摩地、慧。</p>
+      <p><b>善十一：</b>信、惭、愧、无贪、无嗔、无痴、精进、轻安、不放逸、舍、不害。</p>
+      <p><b>根本烦恼六：</b>贪、恚（嗔）、无明、慢、见、疑。<b>随烦恼二十：</b>忿、恨、覆、恼、嫉、悭、诳、谄、憍、害、无惭、无愧、惛沉、掉举、不信、懈怠、放逸、邪欲、邪胜解、忘念、散乱、不正知。</p>
+      <p><b>不定四：</b>恶作（悔）、睡眠、寻、伺。</p>
+      <p>关系要点（原文）：同一所缘、非同一行相、一时俱有、一一而转、各自种子所生、更互相应——像同一间办公室的同事：盯着同一块白板（同一所缘），但各自负责不同任务（非同一行相）。</p>
+    </div></details>
+    <div class="case"><b>开会的会议室：</b>你此刻读这段文字：意识盯着同一个屏幕（同一所缘），但「想」（认出这是心所表）、「受」（有点枯燥）、「念」（想起卷三也见过）、「精进」（决定读完）同时在岗、各干各的活（非同一行相）。心所不是排队出场，而是一间屋子里的协作团队。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑦ 死与生 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>死与生：卷一最震撼的部分</h2></div>
+  <p class="sec-lead">意地的「作业」清单里有一项五绝做不到的：死与生。论文用整整一组问答，把死亡过程、中阴、入胎讲到了今天仍在流传的程度。</p>
+
+  <div class="card">
+    <h3>死有三种（时死与非时死）</h3>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">寿尽故死</span><h4>寿量满尽</h4><p>该活的年头活完了——「时死」，自然终。</p></div>
+      <div class="yuan-card"><span class="y-tag">福尽故死</span><h4>资具缺乏</h4><p>维持生活的资源耗尽而死。</p></div>
+      <div class="yuan-card"><span class="y-tag">不避不平等</span><h4>九种非时死</h4><p>食无度量、食所不宜、不消复食、生而不吐、熟而持之、不近医药、不知损益、非时非量行非梵行等——本可避免。</p></div>
+    </div>
+    <div class="case"><b>九因九缘的现代读法：</b>「食无度量」= 暴饮暴食；「食所不宜」= 天天重油重辣；「不消复食」= 上一顿没消化又吃自助；「不近医药」= 小病拖成大病；「不知于己若损若益」= 熬夜刷手机明知伤身。论文把「不作死就不会死」写成了九条检查清单。</div>
+  </div>
+
+  <div class="card">
+    <h3>临终三态：善心死、不善心死、无记心死</h3>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>状态</th><th>过程</th><th>体验</th></tr>
+      <tr><td>善心死</td><td>自忆或他令忆平生善法，信等善法现行</td><td>安乐而死，见不乱色相</td></tr>
+      <tr><td>不善心死</td><td>自忆或他令忆串习恶法，贪嗔现行</td><td>苦恼而死，极重苦受，见纷乱色相</td></tr>
+      <tr><td>无记心死</td><td>自不能忆，无他令忆</td><td>既非安乐亦非苦恼</td></tr>
+    </table></div>
+    <div class="plain">决定临终心态的规则很朴素：<b>多次串习、力量最强者先现行</b>；若善恶势力平等，则「随初自忆或他令忆，唯此不舍」——第一念抓住什么，就沿着走。</div>
+    <div class="case"><b>从明趣暗，从暗趣明：</b>论文用日出日落打比方——造恶者临终如日落后山峰影子层层覆盖（从明趣暗）；修善者如夜尽天明（从暗趣明）。这就是「临终关怀」的古老版本：让临终者安住在善的忆念里，是此时此刻能给出的最实在的帮助。</div>
+    <div class="case"><b>解肢节与冷触：</b>论文描述死亡的身体过程：造恶者识从头顶开始舍、冷触从上向下蔓延；造善者从脚下开始舍、冷触从下向上——最终都收敛到肉心处，最后一点暖觉在心口消失。这与现代医学对死亡过程中核心体温最后消失于躯干中部的描述，方向上一致。</div>
+  </div>
+
+  <div class="card">
+    <h3>中有：死与生之间的「过渡态」</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">死生同时</div><div class="d">「死与生是同时的，如同秤的两头，一头低下去另一头就翘起来」——没有空档。</div></div>
+      <div class="tl-item"><div class="t">中有现起</div><div class="d">中有（又称健达缚/寻香、意行、趣生）必具诸根，眼如天眼，能见同类及将生之处。</div></div>
+      <div class="tl-item"><div class="t">七日一生死</div><div class="d">未得生缘，极七日住；满七日未生则「死而复生」，辗转至多七七四十九日，此后决定得生缘。</div></div>
+      <div class="tl-item"><div class="t">形相随业</div><div class="d">造恶业者中有如黑羊光色或阴暗夜；作善业者如白衣光色或晴朗夜。</div></div>
+    </div>
+    <div class="case"><b>健达缚「寻香」：</b>中有的别名之一是「寻香行」——以香气为资养。民俗里「烧香能利益亡者」的观念，源头正在于此：论文说的中阴有情，寻找的就是气味资养。民俗与义理之间隔着一层，但你能看到那个古老的出处。</div>
+    <div class="case"><b>秤两头：</b>「死生同时如秤两头，低昂时等」——想象一杆秤：这头（死有）落下的同一瞬间，那头（生有）翘起。论文强调死亡不是「断灭之后等一等再重来」，而是同一时刻的交接班。</div>
+  </div>
+
+  <div class="card">
+    <h3>入胎：三个条件 + 三个障碍 + 颠倒想</h3>
+    <p><b>三处现前才能入胎：</b>① 母亲身体调适且恰逢其时；② 父母和合、俱起爱染；③ 健达缚（中有）正现在前。</p>
+    <p><b>三种过患则挡住入胎：</b>产处过患（产门形状、麻麦果等异物）、种子过患（父精母血朽烂不出）、宿业过患（父母与子女之间没有相应的感生之业）。</p>
+    <div class="case"><b>「条件 + 障碍」的双清单：</b>入胎像一扇双重锁的门——三个条件是三把钥匙（都齐才开门），三个过患是三道锁（有一道就锁死）。论文的因果观从不含糊：任何一件事生起，正面条件与负面障碍都要清点。</div>
+    <p style="margin-top:10px"><b>和合依托：</b>两滴浓厚精血和合，「犹如熟乳凝结之时」，阿赖耶识和合依托其中，名为羯罗蓝位。识最初依托之处即肉心，「识于此处最初托，即从此处最后舍」——与死亡时的冷触终点严丝合缝。</p>
+    <div class="case"><b>熟乳凝结：</b>论文选的比喻是「熟乳凝结之时」——温热的牛奶放凉结成奶皮。受精与结胎的过程被浓缩在这个厨房可见的意象里：柔软、温热、正在凝固成形。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑧ 后序彩蛋 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>后序彩蛋：玄奘与翻译天团</h2></div>
+  <p class="sec-lead">卷一末尾附有一篇后序（中书令许敬宗奉诏撰写），记录了这部论的来历——它其实是一部「国家翻译工程」的竣工报告。</p>
+
+  <div class="card">
+    <h3>玄奘西行（后序原文的叙述）</h3>
+    <div class="quote">「访道周游，共十七年；所经路途，横亘一百余国。异方之语言，借助一音而全部贯通；未译之经典，罄尽五财而全部抄写。」<span class="src">—— 后序原文</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">束发出家</div><div class="d">「奚初束发，即事抽簪」——刚到束发之年就披剃出家，研求四谛，感叹真宗中的谬误旨趣。</div></div>
+      <div class="tl-item"><div class="t">裂裳裹足</div><div class="d">「裂裳裹足，直趣迦维」——撕衣裹足，径直西行印度。</div></div>
+      <div class="tl-item"><div class="t">十七年 · 百余国</div><div class="d">周游访道，语言全通，经典抄尽，半句半偈随白马俱返。</div></div>
+      <div class="tl-item"><div class="t">贞观十九年</div><div class="d">携舍利 150 粒、佛像 7 躯、圣教要文 657 部回到长安，奉敕安置于弘福寺。</div></div>
+      <div class="tl-item"><div class="t">贞观二十一年启译</div><div class="d">五月十五日开始译《瑜伽师地论》：梵本四万颂，每颂 32 字，共五分。</div></div>
+      <div class="tl-item"><div class="t">贞观二十二年绝笔</div><div class="d">整整一年译成百卷。弥勒菩萨下睹史多天宫为无著菩萨所说。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>翻译流水线：二十一人的分工</h3>
+    <p>后序列出了译场的完整岗位表：<b>笔受</b>（记录译文，灵会、灵隽等）、<b>证梵语</b>（校对梵文，玄暮）、<b>正字</b>（勘正文字，玄应）、<b>详证大义</b>（审定义理，神泰、道深等）、各分卷的<b>受旨证文</b>（道智、行友、玄赜、玄忠、靖迈、辩机、处衡、明浚），最后许敬宗奉诏监阅。</p>
+    <div class="case"><b>现代对照：</b>这配置就是今天的大型本地化项目——原典校对（证梵语）、文字编辑（正字）、多轮审稿（详证大义）、分册负责人（受旨证文）、项目经理兼出品人（监阅）。你手里这部一百卷的译本，是一支 21 人团队 + 皇家预算、耗时一年的成果；而开头那篇辞采华美的后序，就是工程的「竣工铭」。</div>
+    <div class="case"><b>为什么后序要写大唐气象：</b>后序先用大段文字颂扬唐太宗「偃洪流而恢地络」「移浇反璞」，再引出玄奘——这是当时的官方文体惯例：先谢投资人，再讲项目。读懂这层结构，卷末那些「瑞露祯云」就不会读着突兀了。</div>
+    <div class="plain">这部你正在读的论，翻译动因是玄奘发现「真宗有谬旨、实相有讹文」——为了拿到未经转手的原文，他走了十七年。<b>你现在读的每一卷，都是那趟旅行的直接产物。</b></div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第一（output/1.md 重译校对版）制作 · 交互式学习模块<br>
+比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga1-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+
+/* 眼识生起条件模拟器 */
+function condUpdate(){
+  const a=document.getElementById('c1').checked,
+        b=document.getElementById('c2').checked,
+        c=document.getElementById('c3').checked,
+        el=document.getElementById('condResult');
+  el.classList.remove('fail');
+  if(a&&b&&c){
+    el.innerHTML='<b>眼识生起 →</b> 第一刹那纯领受（率尔心），随后意识无间接手：寻求 → 决定 → 染净 → 等流。一次「看见」就此完成——继续看下面的三心流水线。';
+  }else if(!a){
+    el.classList.add('fail');
+    el.innerHTML='<b>眼识不生。</b>眼根损坏或羸弱，是第一道门槛——设备坏了，对象再显眼、心再专注，也无处成像。';
+  }else if(!b){
+    el.classList.add('fail');
+    el.innerHTML='<b>眼识不生。</b>色境必须现在前——对象不在眼前，识无处生起（这就是为什么闭眼时没有「看见」，只有回忆与想象）。';
+  }else{
+    el.classList.add('fail');
+    el.innerHTML='<b>眼识不生。</b>作意未正起——心在别处。眼根好好的、东西就在眼前，但没有注意，识依然不生。<br>这就是「视而不见」：三个条件，缺一不可。';
+  }
+}
+condUpdate();
+
+/* 三心接力流程推演 */
+initStepper('flowTrack','flowDetail','flowPrev','flowNext',[
+  {t:'率尔心',d:'<b>率尔心（第一刹那）：</b>眼识猛然领受对象——「有东西！」纯然的看，还不知道是什么。原文：「初是眼识」。'},
+  {t:'寻求心',d:'<b>寻求心（第二刹那）：</b>意识无间生起，开始搜寻比对——「这是什么？在哪见过？」此时已在意识，不在眼识。'},
+  {t:'决定心',d:'<b>决定心（第三刹那）：</b>「是一只猫。」认定完成。「由此寻求决定二意识故，分别境界」——真正完成辨认的是意识。'},
+  {t:'染 净',d:'<b>染净生：</b>决定之后好恶心才起——「好可爱」或「真烦人」。原文：「决定心后，方有染净」。'},
+  {t:'等流眼识',d:'<b>等流眼识：</b>意识不转移的话，眼识继续随善染相续而转——你于是「一直在看」。注意：眼识自己没有分别力，全程「随意识转」，像跟着导演走位的演员。'}
+]);
+
+/* 显形表归类练习 */
+initSorter('sortArea',[
+  {a:'夕阳的橙红色',opts:['显色','形色','表色'],ans:'显色',exp:'颜色明暗属于显色——「青黄赤白，光影明闇，云烟尘雾」。'},
+  {a:'一只方形礼盒',opts:['显色','形色','表色'],ans:'形色',exp:'长短方圆、粗细高下属于形色——轮廓形状的差别。'},
+  {a:'朋友挥手道别',opts:['显色','形色','表色'],ans:'表色',exp:'取舍屈伸、行住坐卧属于表色——由动作表达的色。'},
+  {a:'路口红灯亮起',opts:['显色','形色','表色'],ans:'显色',exp:'「红色」这一色相本身是显色；灯罩的圆形是形色，变色过程才涉及表色。'},
+  {a:'舞者的一个旋转',opts:['显色','形色','表色'],ans:'表色',exp:'「以业用为依的转动差别」——身体的运转变化正是表色的定义。'},
+  {a:'篮球场三分线的弧形',opts:['显色','形色','表色'],ans:'形色',exp:'线的高低屈曲是形状差别——形色；地板的颜色才是显色。'}
+]);
+
+renderPath();
+</script>
+</body>
+</html>

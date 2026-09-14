@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第七 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中有寻有伺等三地之四</div>
+  <h1>卷第七 · 交互式学习模块</h1>
+  <p class="sub">这一卷是一座「错误理论档案馆」：弥勒菩萨连续拆解十一种外道异论——从「一切皆前世注定」到「神创造世界」，再到「杀生祭祀能升天」「洗澡洗罪」「日月星辰定吉凶」。每种都先还原它为什么诱人，再用同一个两难句式请君入瓮。读完你会发现：两千年前的思维谬误，今天仍在朋友圈直播。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 28 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 宿作因论</a>
+<a href="#s3">③ 自在等作者论</a>
+<a href="#s4">④ 害为正法论</a>
+<a href="#s5">⑤ 边无边·不死矫乱</a>
+<a href="#s6">⑥ 无因·断见</a>
+<a href="#s7">⑦ 空见论</a>
+<a href="#s8">⑧ 三种妄计</a>
+<a href="#s9">⑨ 收官总纲</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>这一卷在拆什么？先记住一个万能句式「汝何所欲」，对应第 1 章。</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>宿作因论：都是命吗</b><span>破完宿命论，还顺手收下本卷唯一的正面清单「苦的真实成因」，对应第 2 章。</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>自在等作者论：神造世界吗</b><span>连续四问，问得造物主无路可退，对应第 3 章。</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>害为正法论：杀生祭祀能升天吗</b><span>顺手拿走一份「什么是恶」的七条清单，对应第 4 章。</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>中段连读五论</b><span>边无边·不死矫乱·无因·断见·空见——从第 5 章一路读到第 7 章。</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官：三种妄计与十六论合观</b><span>血统·洗澡·水星逆行，再回头看十六论的共同软肋，对应第 8-9 章。</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ s1 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：一座「错误理论档案馆」</h2></div>
+  <p class="sec-lead">先弄清两件事：这一卷在整部论里的位置，以及它拆解问题的固定套路。套路一旦看清，后面八章就是同一台机器在转。</p>
+
+  <div class="card">
+    <h3>本卷在整套书中的位置</h3>
+    <p>本卷属于〈本地分·有寻有伺等三地〉的第四部分。从上一卷起，论主开始逐一审查十六种<b>异论</b>——即与佛法不同的理论主张，提出者被称为<b>外道</b>（佛教以外的思想学派，此处特指持错误因果观的立论者）。本卷是下半场，一口气处理剩下的十一种；卷末一句话为整场审查收尾。</p>
+    <div class="quote">如是十六种异论。由二种门。发起观察。由正道理。推逐观察。于一切种皆不应理。<span class="src">—— 卷第七原文</span></div>
+    <p>「二种门」指<b>教</b>与<b>理</b>：每种异论都既有一套师徒相传的教条，又有一套自己的观察推理。本卷的审查方式就是两步——先问「你们为什么这么想」（还原它的来路），再问「你们真的想清楚了吗」（用逻辑推破它）。</p>
+    <div class="plain">十六种异论，每一种都从「教」与「理」两扇门生起，也都在正理推求下两头不通。</div>
+    <div class="analogy"><b>比喻：</b>这像一份质检报告——不是骂产品难看，而是逐台拆机：先说明这台机器当初为什么吸引人（设计动机），再指出它哪个零件必然失灵（逻辑死穴）。比喻里的「拆机」对应原文的「推逐观察」。</div>
+  </div>
+
+  <div class="card">
+    <h3>万能流水线：每种异论都被这样拆</h3>
+    <p>本卷十一种论的破斥共用一个句式模板，先在流程推演里走一遍，后面各章你会反复认出它。</p>
+    <div class="quote">今应问彼汝何所欲。<span class="src">—— 卷第七原文</span></div>
+    <div class="quote">是故此论非如理说。<span class="src">—— 卷第七原文</span></div>
+    <div class="flow-track" id="flow1"></div>
+    <div class="flow-detail" id="flowDetail1"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="flowPrev1">上一步</button> <button class="tri-btn" id="flowNext1">下一步</button></div>
+    <div class="plain">「汝何所欲」=「那你到底要哪头？」——给对手摆一个二选一，两头都通向矛盾，理论就塌了。</div>
+    <div class="analogy"><b>比喻：</b>像辩论赛里的「二难提问」：对方说「公司福利不好」，你问「那降薪你走吗？不降薪你留下吗？」——两个答案都拆他的台。原文的「汝何所欲」正是这套追问的标准开场白。</div>
+  </div>
+
+  <div class="card">
+    <h3>十一种异论速览（本卷清单）</h3>
+    <div class="table-wrap">
+    <table class="nine">
+      <tr><th>名相</th><th>一句话主张</th><th>今天像什么</th></tr>
+      <tr><td>宿作因论</td><td>现在受的苦全是前世恶业注定</td><td>「都是命」的宿命论</td></tr>
+      <tr><td>自在等作者论</td><td>万物由大自在天变化所生</td><td>「一切是神的安排」</td></tr>
+      <tr><td>害为正法论</td><td>咒术祭祀中杀生，参与者皆得生天</td><td>「目的正当，手段免谈」</td></tr>
+      <tr><td>边无边论</td><td>世间有边或无边（四种说法）</td><td>拍脑袋的宇宙观</td></tr>
+      <tr><td>不死矫乱论</td><td>被问到善不善、四谛就打太极</td><td>答非所问的「太极大师」</td></tr>
+      <tr><td>无因见论</td><td>我与世间皆无因而生</td><td>「爆红没有原因」的偶然论</td></tr>
+      <tr><td>断见论</td><td>死后断灭，一了百了</td><td>「人死如灯灭」</td></tr>
+      <tr><td>空见论</td><td>无布施果报、无真阿罗汉、无法体</td><td>「善良无用」的虚无主义</td></tr>
+      <tr><td>妄计最胜论</td><td>婆罗门种姓天生最胜</td><td>血统论</td></tr>
+      <tr><td>妄计清净论</td><td>五欲、禅悦、沐浴、苦行即解脱</td><td>「仪式感洗白一切」</td></tr>
+      <tr><td>妄计吉祥论</td><td>日月薄蚀、星宿失度决定成败</td><td>占星运势</td></tr>
+    </table>
+    </div>
+    <p style="margin-top:10px;font-size:.9rem;color:var(--ink-soft)">术语备注：原文中的「补特伽罗」是音译词，指一个个流转生死的有情，可粗解为「这个人」；「异熟」指造业之后隔一段时间才成熟的果报，像种子慢慢长成果实。</p>
+  </div>
+
+  <div class="case"><b>深夜刷手机：</b>凌晨十二点，小李先刷到一条「你的命出生时就写好了」，点赞十万；往下一滑是「逆天改命，努力为王」，也是点赞十万。到底听谁的？本卷干的就是这种「技术鉴定」——不站队，而是把每种说法的推理摊开检验。</div>
+  <div class="case"><b>事故定责会：</b>项目延期复盘会上，有人说「全怪市场行情」，有人说「全怪执行的人」。弥勒在下一章给出的答案更细：有的苦纯是旧因，有的纯是现因，多数是混着算——先分账，再定责。</div>
+  <div class="case"><b>吃灰的收藏夹：</b>很多人收藏过《常见的十一种思维谬误》却从未打开。本卷正文就是那样一份清单的加强版——不但列出谬误，还给每一种附上「为什么错」的完整证明。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s2 宿作因论 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>宿作因论：苦乐全是前世定的？</h2></div>
+  <p class="sec-lead">档案馆第一件展品，也是最像佛教的一件——因为它也讲业、讲前世。正因如此，弥勒先把「宿命版的业力说」拆干净，再给出一份正确版清单：苦到底有几种成因。</p>
+
+  <div class="card">
+    <h3>它主张什么、开什么药方</h3>
+    <div class="quote">凡诸世间所有士夫②补特伽罗③所受者。谓现所受苦。皆由宿作为因者。谓由宿恶为因。<span class="src">—— 卷第七原文</span></div>
+    <div class="quote">由勤精进吐旧业故者。谓由现法极自苦行现在新业。<span class="src">—— 卷第七原文</span></div>
+    <p>术语备注：「士夫」即人；「现法」指今生现世。这套理论的完整版是：今生一切苦都由前世恶业注定，出路是往死里苦行——用今天的酷苦把旧业「吐」出来，从此不再造新恶业，苦就尽了。</p>
+    <div class="plain">宿作因论=把现在的一切苦全记在「前世」账上，药方是自讨苦吃去还债。</div>
+    <div class="analogy"><b>比喻：</b>把人生想成一笔只进不出的旧账，还债方式是拼命克扣自己。但弥勒反问：你今天挨的每一顿苦行，究竟是还旧账，还是又记了一笔新账？比喻里「新旧账不分」正对应原文本卷的两难。</div>
+  </div>
+
+  <div class="card">
+    <h3>它是怎么想出来的</h3>
+    <div class="quote">由见现法士夫作用不决定故。<span class="src">—— 卷第七原文</span></div>
+    <div class="quote">彼见世间虽具正方便而招于苦。虽具邪方便而致于乐。<span class="src">—— 卷第七原文</span></div>
+    <p>外道的观察起点其实很诚实：他们看到努力的人招苦、乱来的人得乐——现世作用「不决定」。于是推断：既然今生手段与结果对不上，背后一定另有一个决定者，那就是前世之业。观察没错，结论跳步了。</p>
+    <div class="plain">「努力不一定成功」是真的，但从它推出「一切早已注定」是跳跃。</div>
+  </div>
+
+  <div class="card">
+    <h3>破法 + 正面清单：苦的真实成因</h3>
+    <p>破法一句话：你们说现法方便所招之苦也要算宿业，可你们又教人靠现世苦行消业——两说必砍一头（本卷原文的原话是「皆不应道理」）。破完之后，弥勒给出<b>如实因相</b>——苦与乐的真实成因清单，这是本卷少有的正面立论，值得抄下来。</p>
+    <div class="quote">或有诸苦唯用宿作为因。犹如有一自业增上力故生诸恶趣或贫穷家。<span class="src">—— 卷第七原文</span></div>
+    <div class="quote">或复有法纯由现在功用因得。如新所造引余有业或听闻正法于法觉察。<span class="src">—— 卷第七原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">纯旧账</span><h4>唯宿作为因</h4><p><b>出身与境遇类：</b>生在恶趣、生在贫家——由宿业力增上决定，当下怎么选都改不了起点。</p></div>
+      <div class="yuan-card"><span class="y-tag">混合账</span><h4>杂因所生</h4><p><b>做事与经营类：</b>原文举「因邪事王不获乐果而反致苦」——同样侍奉君主，手段不正，乐果变苦果；经商、务农、劫盗同理。旧缘与现方便各占一股。又「若有福者获得富乐。若无福者虽设功用而无果遂」——同一段现功，宿福不同，结果两样。</p></div>
+      <div class="yuan-card"><span class="y-tag">纯新账</span><h4>唯现在功用</h4><p><b>学与做类：</b>新造的业、听闻正法、修学工巧业处——原文断言「唯因现在士夫功用」，今天努力今天见效。</p></div>
+    </div>
+    <div class="plain">苦乐不是单一因：有纯旧因、纯现因，多数是新旧混账——这正是宿作因论「一刀切」的死穴。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习 · 三笔账记在哪一栏？</h3>
+    <p>用弥勒的清单给下面五个场景分账。</p>
+    <div id="sorter1"></div>
+  </div>
+
+  <div class="case"><b>健身房的宿命论者：</b>小赵练了三个月没瘦，宣布「我天生肥胖是命」。他看到的正是原文说的「现法士夫作用不决定」（努力了没结果）——宿作因论就从这种观察起步。教练带他记录饮食，才发现每晚的宵夜：先分清「纯旧因／杂因／纯现因」，再谈改命。</div>
+  <div class="case"><b>减肥的两本账：</b>基础代谢低、易胖体质是「旧账」（宿业），今天是否吃动平衡是「新账」（现法方便）。多数人的体重是两本账混算的结果——对应原文「杂因所生」的结构，而不是任何单一决定者。</div>
+  <div class="case"><b>裁员复盘：</b>老吴被裁，怨「命不好」也怨「老板没眼光」。按本卷分账：行业收缩是旧缘，项目线选错、技能没更新是现方便——「杂因所生」。分清后他就知道哪些该认账，哪些今天就能动手改。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s3 自在等作者论 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>自在等作者论：世界是「祂」造的？</h2></div>
+  <p class="sec-lead">第二件展品是神创论：万物由大自在天（或其他「大丈夫」）变化而生。它的诱人之处与宿作因论同源——都是被「因果不听话」逼出来的想象。</p>
+
+  <div class="card">
+    <h3>它怎么来的</h3>
+    <div class="quote">彼由现见于因果中世间有情不随欲转故作此计。<span class="src">—— 卷第七原文</span></div>
+    <div class="quote">现见世间有情。于彼因时欲修净业。不遂本欲。反更为恶。<span class="src">—— 卷第七原文</span></div>
+    <p>外道看见：想修善偏偏造恶，愿生善趣偏偏堕落——世间有情「不随欲转」。意志与结果对不上，他们就想象背后必有一位「万物之父」在操纵，那就是自在天或其余大能者。</p>
+    <div class="plain">「想做好事偏偏做砸」是真实观察；从它跳到「有一位总作者」，是替因果虚拟了一个遥控器。</div>
+    <div class="analogy"><b>比喻：</b>团建结果和策划案完全对不上，有人猜「一定有个神秘的最终拍板者」。其实每个环节各有各的因，不需要一个全能拍板人——比喻里「硬造一个总拍板」对应原文「别有作者生者及变化者」的想象。</div>
+  </div>
+
+  <div class="card">
+    <h3>四条攻击路线</h3>
+    <p>弥勒不辩论「神存不存在」，而是让「神创说」自己在逻辑里打结，共四问（细节可展开下方折叠区）。</p>
+    <details class="dict">
+      <summary>四问细目<span class="hint">想深究再展开，可跳过</span></summary>
+      <div class="body">
+        <p><b>① 功能无体性：</b>自在天的「变化功能」本身要因吗？若要以业方便为因，为何唯独它有此因而世间万物没有——原文判「不应道理」；若说无因，为何唯独它无因而万物有因，也不成话。</p>
+        <p><b>② 摄不摄相违：</b>大自在天属不属于世间？属于——那它同是世间法，却能遍生世间，不通；不属于——那它就是解脱者，解脱者却要生起世间，也不通。</p>
+        <p><b>③ 有用及无用：</b>变现有目的——那他对「那个目的」也不自在（被目的绑住）；变现无目的——无所需求却造出世间，更不通。</p>
+        <p><b>④ 为因成过失：</b>若唯独以自在天为因，则「有大自在」与「有出生」必须同时——因与果同时，因果就不成立；若还取乐欲等为因，乐欲又取谁为因？推到无始常有出生，还是不通。</p>
+      </div>
+    </details>
+    <div class="quote">若有用者。则于彼用无有自在。而于世间有自在者。不应道理。<span class="src">—— 卷第七原文</span></div>
+    <div class="plain">第四问最锋利：连「造不造世界」都由不得自己、被目的推着走的作者，谈何「自在」？</div>
+  </div>
+
+  <div class="gatha">
+    <div class="lines">功能无体性　　摄不摄相违<br>有用及无用　　为因成过失</div>
+    <div class="mean">嗢拖南（纲领偈）＝本卷破神创论的路线图：逐句对应上方四问——功能要因吗／属不属于世间／变现有用还是无用／以它为因处处成过失。背下这四句，就背下了整场破斥。</div>
+  </div>
+
+  <div class="case"><b>全能老板神话：</b>某公司年会上，所有业绩都归功于老板「天纵英明」。可老板也要看财报、听市场、被董事会约束（取余为因）；若说他连每个决定都不假思索就能定（无用而能生），更没人信。对应原文「唯大自在为因」与「有用无用」两问在职场里的翻版。</div>
+  <div class="case"><b>指挥不动手指的人：</b>凌晨一点，小郑明知该睡却停不下刷手机——他连自己的手指都不完全自在，却相信某个存在对整个世界完全自在。对应「于彼用无有自在。而于世间有自在者。不应道理」的质疑角度。</div>
+  <div class="case"><b>怪运气的考生：</b>考试失利，小周把原因全推给「老天爷不帮忙」，从不检查复习方法。本卷的提醒：现法功用确实是一类真实因（原文「修学工巧业处」等唯因现在功用）——把可控的现因塞进后台，才是真正的颠倒。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s4 害为正法论 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>害为正法论：杀生祭祀能升天？</h2></div>
+  <p class="sec-lead">第三件展品最惊悚：在祭祀中念咒杀生，主祭、被杀的、帮手的全部升天。弥勒这次不只拆逻辑，还顺手给出一份「什么是恶」的判定清单——本卷第二个正面收获。</p>
+
+  <div class="card">
+    <h3>主张与来路</h3>
+    <div class="quote">若于彼祠中。咒术为先害诸生命。若能祀者。若所害者。若诸助伴。如是一切皆得生天。<span class="src">—— 卷第七原文</span></div>
+    <div class="quote">此违理论。谄诳所起。不由观察道理建立。<span class="src">—— 卷第七原文</span></div>
+    <p>原文交代来路毫不客气：这不是推理推错了，而是<b>谄诳所起</b>——斗诤恶劫的时代，婆罗门违反古法，为了想吃肉，才倒推出「杀生=功德」的说辞。论证在这里是给欲望打工的。</p>
+    <div class="plain">先有想吃肉的欲望，再发明一套让杀生显得正当的理论——动机在前，论证在后。</div>
+    <div class="analogy"><b>比喻：</b>像先决定要买奢侈品，再去研究「这其实是投资」——结论先行，理由是后配的。比喻对应原文「为欲食肉妄起此计」：妄计，即先有欲、后立计。</div>
+  </div>
+
+  <div class="card">
+    <h3>破法速记</h3>
+    <p>弥勒先问：咒术本身是「法」还是「非法」？说是法——离开杀生它感不得可爱果，却能「把非法转成正法」，不通；说是非法——自身招不爱果的法，却能帮人转舍不爱果，也不通。外道补一个救场比喻「如世间毒咒术所摄不能为害」，弥勒顺势追杀：那咒术能息内心贪嗔痴三毒吗？说能——世上从无一人因此静息三毒；说不能——那「亦能息除非法业者」就自倒。（各问细目见原文。）</p>
+    <div class="plain">一个比喻救不了一个理论：咒术连自己门内的贪嗔痴都息不了，凭什么息杀生的罪？</div>
+  </div>
+
+  <div class="card">
+    <h3>正面清单：七种非法之相</h3>
+    <p>拆完理论，弥勒给出判定「什么是恶」的七条标准。点卡片看白话版。</p>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">损他不治</div><div class="sub">伤了人还不收手</div><div class="tap">点击展开</div></div><div class="back">损害他人，又不对治这个现行过失，即成立非法——原文第一相「若业损他而不治现过是名非法」。<em>类比：撞了人不停车，反而踩油门。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">众目共睹</div><div class="sub">修行人都摇头</div><div class="tap">点击展开</div></div><div class="back">有修道经验的人共同了知：这种行为会感召不可爱的果报。<em>像老司机们公认的「这么开必出事」。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">智者定判</div><div class="sub">最清醒的人一致否定</div><div class="tap">点击展开</div></div><div class="back">一切智者（彻底的觉悟者）决定宣说为不善——不是有争议的灰色地带，而是定论。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">自所不欲</div><div class="sub">己所不欲，勿施于人</div><div class="tap">点击展开</div></div><div class="back">你自己绝不希望被这样对待，却对别人做——原文「又若业自所不欲」，一票判恶。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">染心所起</div><div class="sub">从贪嗔痴出发</div><div class="tap">点击展开</div></div><div class="back">行为的起心动念是染污的，后续怎么包装都洗不白——动机决定业的成色。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">待咒成验</div><div class="sub">靠邪咒才「灵」</div><div class="tap">点击展开</div></div><div class="back">必须借助邪咒、仪式才见效的手段——原文「又若业待邪咒术方备功验」，祭祀杀生正属此类。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">自性无记</div><div class="sub">本身非善非恶</div><div class="tap">点击展开</div></div><div class="back">有些行为本属无记（说不上善恶），把它包装成能带来解脱的圣事——原文判词「诸如是等皆是非法」。</div></div>
+    </div>
+    <div class="plain">七条标准合起来是一台「测谎仪」：损他吗？智者怎么判？你自己愿受吗？起心干净吗？——一测便知。</div>
+  </div>
+
+  <div class="case"><b>「为了上线，甩锅怎么了」：</b>项目组有人提议把事故责任推给测试同事，「反正项目成功最重要」。目标正当不等于手段正当——对应第一相「损他而不治现过」：伤了人还不想办法改正，行为本身已成立非法。</div>
+  <div class="case"><b>「我就插这一次队」：</b>地铁站，有人念叨着「大家都不认识我」插到了长队最前面。他被人插队时会暴怒——对应第四相「自所不欲」：自己不想要的，加给别人，就是恶，不需要更多理论。</div>
+  <div class="case"><b>先排污后捐款：</b>某厂先偷排污水，再捐一笔巨款发公关通稿。对应第五相「染心所起」：起心是利己的染污，后续的包装改变不了业的成色；所谓「用善行洗白恶行」，正是原文批判的「待邪咒术方备功验」式思维——靠额外仪式求洗白。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s5 边无边论与不死矫乱论 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>边无边论与不死矫乱论：拍脑袋的宇宙观与打太极的答客问</h2></div>
+  <p class="sec-lead">本章两位被告性格不同：一位真修出了禅定境界，却把所见当成宇宙答案；另一位什么都不懂，专靠绕圈子保全自己。</p>
+
+  <div class="card">
+    <h3>边无边论：把定中所见当宇宙全貌</h3>
+    <div class="quote">若忆念坏劫⑩于世间起有边想。若忆念成劫⑪则于世间起无边想。<span class="src">—— 卷第七原文</span></div>
+    <p>术语备注：<b>静虑</b>即禅定；<b>劫</b>是极长的时间单位，世界历经成、住、坏、空——成劫是生成期，坏劫是毁坏期。这些外道真有世间静虑的功夫，入定后见到某些「境界」，就把一时所见升级成四种结论：世间有边、无边、亦有边亦无边、非有边非无边。他们的推法见时间轴。</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">路线一：从「成坏」入手（断边际）</div><div class="d">忆念坏劫——世界毁坏烧尽，于是起「有边」想：世界有尽头。</div></div>
+      <div class="tl-item"><div class="t">同一路线，换个记忆</div><div class="d">忆念成劫——世界正不断新生，于是起「无边」想：世界无穷无尽。</div></div>
+      <div class="tl-item"><div class="t">路线二：从「方位」入手（方域）</div><div class="d">向下探过无间地狱、向上探过第四静虑，都到了头——上下「有边」；旁侧一切处探不到边——四方「无边」。</div></div>
+      <div class="tl-item"><div class="t">第四种说法</div><div class="d">为对治上述执着，换一套文句说「非有边非无边」——只是换个措辞，义理没变。</div></div>
+    </div>
+    <div class="plain">四种结论不是推理的结果，而是「我看到哪一段，就以为宇宙是哪样」。</div>
+    <div class="analogy"><b>比喻：</b>情绪低谷的深夜断定「人生到头了」，事业巅峰的白天断定「人生无限可能」——把一个阶段当成全貌。这正对应坏劫（毁坏期）起有边想、成劫（生成期）起无边想的机制。</div>
+  </div>
+
+  <div class="card">
+    <h3>不死矫乱论：四种「打太极」的答客问</h3>
+    <p>术语备注：有人依<b>最胜生道</b>（人天善趣之路）问善不善，依<b>决定胜道</b>（解脱之路）问苦集灭道——这些外道答不上来，却自称「依不死净天不乱」，实际是三招：矫乱其言、托事回避、随问者言辞打转。原文总结他们的底色——</p>
+    <div class="quote">或托余事方便避之。或但随问者言辞而转。<span class="src">—— 卷第七原文</span></div>
+    <div class="quote">由彼外道多怖畏故。依此见住。若有人来有所诘问。即以谄曲而行矫乱。<span class="src">—— 卷第七原文</span></div>
+    <div class="plain">驱动他们的不是观点，而是恐惧：怕说错、怕被看穿、怕承担立场——于是宁可永远含糊。</div>
+    <p>四种人各怕各的，来对号入座。</p>
+    <div id="sorter2"></div>
+  </div>
+
+  <div class="case"><b>牛市与熊市：</b>大盘连涨三个月时，老钱断言「这次不一样，永远涨」；连跌半年后改口「股市要完了，再无牛市」。把一个阶段当成永恒答案——对应忆念成劫起无边想、忆念坏劫起有边想的机制。</div>
+  <div class="case"><b>会上的太极大师：</b>被问到预算盲区，张经理答「这个问题很好，不过要先看另一个维度……」十分钟后，原问题在会议室里蒸发了。对应「托余事方便避之」——用转移话题保全自己。</div>
+  <div class="case"><b>评论区懂王：</b>网络争论里有人从不给立场，你说东他「对对对，但也别忽略西」，你说西他「没错，不过东也有道理」。对应原文末一种人：不亮观点、专随你的话头打转，把你也绕晕——恐惧被拆穿，就用含糊当铠甲。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s6 无因见论与断见论 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>无因见论与断见论：没原因 &amp; 灯灭论</h2></div>
+  <p class="sec-lead">这两个被告一个否认「因」，一个否认「果的延续」：前者说万物爱怎么冒就怎么冒，后者说人死一了百了。它们是一对——都不给因果留位置。</p>
+
+  <div class="card">
+    <h3>无因见论：把「没看到因」当成「没有因」</h3>
+    <div class="quote">我及世间。皆无因生。<span class="src">—— 卷第七原文</span></div>
+    <p>他们的「证据」是一串骤起骤灭的现象：大风忽然刮起又忽然停息、暴涨的河忽然干涸、繁茂的果树忽然衰败——找不到原因，就断定没有原因。原文点出他们的观察盲区：「见诸因缘空无果报」——有些因缘久久不显果，他们等不及。</p>
+    <div class="quote">或时欻尔大风卒起。于一时间寂然止息。<span class="src">—— 卷第七原文</span></div>
+    <div class="plain">「我找不到原因」与「世上没有原因」之间，隔着一整个观察半径。</div>
+    <div class="analogy"><b>比喻：</b>只刷到「一夜爆红」的短视频，没看到背后三年的脚本积累，就断言「运气毫无理由」——比喻对应原文的骤起骤灭观察：不是没有因，是因在你看不见的地方。</div>
+  </div>
+
+  <div class="card">
+    <h3>破无因：无因反而解释不了「有时不生」</h3>
+    <p>弥勒先攻他们的「宿住念」（对宿世的记忆）：念的对象若是无体之法，从未经历过却能记得，不通；若是自我，又说「我先无后欻然生」，同样不通。再攻总纲——若无因，万物应当恒常任运生起，为何有时不生？</p>
+    <div class="plain">无因论最怕一句反问：既然无因，为什么它不一直发生？——「有时不生。不应道理」。</div>
+  </div>
+
+  <div class="card">
+    <h3>断见论：人死如灯灭？</h3>
+    <div class="quote">若我死后。断坏无有。尔时我善断灭。<span class="src">—— 卷第七原文</span></div>
+    <div class="quote">犹如瓦石若一破已不可还合。彼亦如是。<span class="src">—— 卷第七原文</span></div>
+    <p>断见论者的推理也自有一番苦恼：若死后「我」还有身，那不作业也能得异熟果，讲不通；若「我」彻底永无，又没人受业果，也讲不通——两难之下他们选了后者。原文还列出断灭点的七个版本，见下方卡片。</p>
+    <p>破法直取要害：问他们，是「蕴」断灭还是「我」断灭？（蕴：构成身心的积聚——色、受、想、行、识。）说蕴断——蕴体无常，因果展转生起从不间断，谈不上断；说我断——那你们列的七种「断灭现场」就全都自相矛盾。</p>
+    <div class="plain">断见论像一个只有「关机键」的系统模型——可因果流水线明明还在一帧一帧往前走。</div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">粗色人身</div><div class="sub">肉身一坏，一切结束</div><div class="tap">点击展开</div></div><div class="back">最原始版：认为「我」就是四大所造的身体，死后随身体断灭。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">欲界诸天</div><div class="sub">天福享尽即断灭</div><div class="tap">点击展开</div></div><div class="back">承认有天界之身，但认为那个「我」死后彻底断灭——断灭点设在天上。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">色界诸天</div><div class="sub">禅定之身也断灭</div><div class="tap">点击展开</div></div><div class="back">同上，只是把断灭点再往上挪一层。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">空无边处</div><div class="sub">无色界第一层</div><div class="tap">点击展开</div></div><div class="back">无色界四个站牌的起点：认为「我」到这一层死后断灭。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">识无边处</div><div class="sub">乃至略举</div><div class="tap">点击展开</div></div><div class="back">原文以「乃至」概括，义同前：断灭点安放在无色界第二层。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">无所有处</div><div class="sub">乃至略举</div><div class="tap">点击展开</div></div><div class="back">同上，无色界第三层。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">非想非非想处</div><div class="sub">三有的天花板</div><div class="tap">点击展开</div></div><div class="back">三界最高的地方，也被立为断灭点——「到顶了，之后没有」。七种断见，只是把句号画在不同楼层。</div></div>
+    </div>
+  </div>
+
+  <div class="case"><b>「素人一夜爆红」：</b>刷到无任何背景的博主三天涨粉百万，小安感叹「这世界毫无道理」。他没看到的是对方三年的剪辑练习。对应无因见论的起点：只见骤起骤灭，不见其中因缘——「没看到因」不等于「没有因」。</div>
+  <div class="case"><b>没有日志的宕机：</b>服务器凌晨崩溃，没人写日志，值班同事宣布「无缘无故就挂了」。清晨工程师查到散热故障——「暂时没找到因」与「没有因」是两个命题。对应本卷对无因见的第一刀。</div>
+  <div class="case"><b>「反正都会死」：</b>有人以「人死如灯灭」为由随意毁约：「承诺人都没了，留它干嘛」。这正是断见论的实践版本——把「死后断灭」当免罪牌。原文的追问恰是：若无后世受果，「应不作业而得果异熟」的两难怎么解？把人生的账本在死亡那天硬撕掉，账并不因此消失。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s7 空见论 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>空见论：什么都没有？</h2></div>
+  <p class="sec-lead">这里的「空」不是佛法说的空性，而是虚无主义：没有布施果报、没有此世彼世、没有真阿罗汉，甚至「没有一切诸法的体相」。它是本卷否定得最彻底的一论，也是由最朴素的失望长出来的。</p>
+
+  <div class="card">
+    <h3>主张与来路：失望如何长成「断灭论」</h3>
+    <div class="quote">无有施与无有爱养。无有祠祀㉓。<span class="src">—— 卷第七原文</span></div>
+    <div class="quote">见世施主一期受命恒行布施无有断绝。从此命终生下贱家贫穷匮乏。<span class="src">—— 卷第七原文</span></div>
+    <p>来路是一张「证据清单」：见一生布施的人转生贫家，便断定没有施与果报；见行善行恶者果报交错，便断定无妙行恶行；见种姓流转、母女父子互换，便断定无父无母；见有人命终去向无处可寻，便断定无化生众生；见增上慢者临终现出生相，便断定世间无真阿罗汉。清单全文收进折叠区。</p>
+    <details class="dict">
+      <summary>空见论的六条「证据」<span class="hint">可跳过的枚举</span></summary>
+      <div class="body">
+        <p><b>① 布施者生贫家</b>→ 判「定无施与爱养祠祀」——以个案推翻整条定律。</p>
+        <p><b>② 行善作恶者果报交错</b>→ 判定没有妙行恶行，也没有它们的果报——把果报的复杂性当成不存在。</p>
+        <p><b>③ 刹帝利与婆罗门种姓互生</b>→ 判定没有此世与彼世的来去。</p>
+        <p><b>④ 母终生为女、女还作母</b>→ 判「世间毕定无父无母」——被角色互换绕晕，索性否认关系本身。</p>
+        <p><b>⑤ 命终生于无想、无色、涅槃处，寻不可见</b>→ 判「决定无有化生众生」——看不见就当没有。</p>
+        <p><b>⑥ 增上慢者自称阿罗汉，临终却现生相</b>→ 判「世间必无真阿罗汉」——把假货泛滥当成正品不存在。</p>
+      </div>
+    </details>
+    <div class="plain">空见论的全部证据都是「局部反例」：由个案失望，升级为对整条因果律的全称否定。</div>
+    <div class="analogy"><b>比喻：</b>抽奖箱前连投十次没中，就宣布「这个箱是空的」——你没抽中的那些，不等于不存在。比喻对应原文的推理缺口：一期生命的样本，量不出三世因果的全貌。</div>
+  </div>
+
+  <div class="card">
+    <h3>进阶版：「连一切法的体相都没有」</h3>
+    <p>更猛的一支主张「无有一切诸法体相」。来路原文点明：对佛经中<b>相似甚深的离言说法</b>（本为破执的遮诠之语）当了真，以为「说离言就是什么都没有」；又对安立的法相不如理思惟，于是生起空见。弥勒的破法：问他们佛法的三相——<b>遍计所执相</b>（妄加执实的错觉层）、<b>依他起相</b>（依缘而起的现相层）、<b>圆成实相</b>（去妄后的真实层）——到底有还是没有？说有，「无有一切诸法体相」就倒；说无——</p>
+    <div class="quote">若言无者。应无颠倒亦无染净。不应道理。<span class="src">—— 卷第七原文</span></div>
+    <div class="plain">若一切法无体，连「颠倒」「染净」都无从谈起——可你们分明在颠倒、在计较染净，一出声就自证其妄。</div>
+  </div>
+
+  <div class="case"><b>「好人没好报」：</b>见义勇为者反被讹上，围观者宣布「做好人没用，以后别帮人」。对应空见论的起点——见施主一生布施却生贫家，便断定「定无施与爱养祠祀」：用一期个案，否决整条因果律。</div>
+  <div class="case"><b>「慈善都是作秀」：</b>某基金会爆出丑闻，评论区宣布「所有慈善都是假的」。把部分假货推广成全称否定，与「世间无有真阿罗汉」是同一条推理线路——本卷的回答：有假货，恰说明有正品可仿。</div>
+  <div class="case"><b>收音机与天线：</b>老收音机没了信号，孙子断言「电台关门了」；爷爷换根天线，声音回来了。「收不到」不等于「没有」。对应原文第五条：命终生于无想、无色等处「求彼生处不能得见」，便断定无化生众生——不可见不是不存在的证据。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s8 三种妄计 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>三种妄计：血统、洗澡与水星逆行</h2></div>
+  <p class="sec-lead">压轴三件展品都与「自我拔高」有关：我的出身最尊贵、我的洗法能洗净、我的星象能定吉凶。共同点——都把「我想怎样」包装成「世界就是怎样」。</p>
+
+  <div class="card">
+    <h3>妄计最胜论：我的种姓天生高贵</h3>
+    <div class="quote">婆罗门是最胜种类。刹帝利等是下劣种类。<span class="src">—— 卷第七原文</span></div>
+    <p>斗诤劫时的婆罗门宣称：自己种姓最胜、色类白净、唯婆罗门可得清净，且是梵王口腹所生、梵天所变化的后裔。动机原文说得直白：见真婆罗门本性具戒，又贪著名利恭敬，于是作此计。弥勒的破法极日常：你们难道不是母亲生的吗？「世间现见诸婆罗门。从母产生。汝谤现事。不应道理」；更狠的是以其人之矛攻其盾——你们自己的规矩也写明「于祠祀中。若戒闻等胜取之为量」，以戒行学问定优劣，那「天生最胜」就自打脸。</p>
+    <div class="plain">连你自己都在用「能力表」评级——「出身表」只在给别人打分时才拿出来，这不叫传承，叫双标。</div>
+    <div class="analogy"><b>比喻：</b>评委给自己人打分用能力表，给别人打分换成出身表——比喻对应原文抓住对方「戒闻等胜取之为量」的自相矛盾。</div>
+    <div class="case"><b>家族企业的「只招自家人」：</b>某公司明文：管理层必须是创始家族成员。可同一家公司在招聘技术岗时又写着「唯才是举」——对应妄计最胜论的内部矛盾：真按「戒闻等胜」取人，「血统最胜」就站不住；真按血统取人，又谤了自己也在用的能力标准。</div>
+  </div>
+
+  <div class="card">
+    <h3>妄计清净论：洗澡洗罪与「现法涅槃」</h3>
+    <div class="quote">谓于诸天微妙五欲。坚着摄受。嬉戏娱乐。随意受用。是则名得现法涅槃㉝第一清净。<span class="src">—— 卷第七原文</span></div>
+    <p>术语备注：<b>现法涅槃</b>＝「活着就已解脱」的宣言。本卷列出四种套餐：① 在妙五欲里纵情享乐，说这就是解脱；② 住四静虑的禅悦，说这就是解脱；③ 到圣河沐浴，说诸恶除灭；④ 持狗戒牛戒等苦行戒，说这样清净。弥勒的破法是一连串「二选一」：说已离欲——那为何还在五欲里嬉戏受乐？说未离欲——凭什么叫解脱清净？清净由内还是由外？由内——河里沐浴算什么；由外——内具贪嗔痴一切垢秽，只除外垢就叫净？</p>
+    <div class="quote">内具贪嗔痴等一切垢秽。但除外垢便计为净。不应道理。<span class="src">—— 卷第七原文</span></div>
+    <div class="plain">洗澡洗的是外面，贪嗔痴长在里面——外面再干净，里面没换水。</div>
+    <details class="dict">
+      <summary>圣河名单与奇戒名单<span class="hint">可跳过的枚举</span></summary>
+      <div class="body">
+        <p><b>五条圣河：</b>孙陀利迦河、婆湖陀河、伽耶河、萨伐底河、殑伽河——入水沐浴，宣称「所有诸恶皆悉除灭」。</p>
+        <p><b>七种奇戒：</b>狗戒（学狗食）、牛戒（学牛行）、油墨戒、露形戒（裸身）、灰戒（涂灰）、自苦戒、粪秽戒——各以自苦为清净。原文另有「计由自苦身故。自恶解脱。或造过恶。过恶解脱」：把吃苦本身当成赎罪券。</p>
+      </div>
+    </details>
+    <div class="case"><b>「转了这个手串就顺」：</b>小美买下昂贵的开光手串，觉得霉运已洗净，工作上照旧抢功甩锅。对应妄计清净论的第四种：只除外垢、不换内存——原文判词正是「但除外垢便计为净。不应道理」。</div>
+    <div class="case"><b>「吃苦就是赎罪」：</b>小超效率极低却天天熬夜加班，坚信「吃足够的苦就能抵掉之前的错」。对应原文「计由自苦身故。自恶解脱」——苦不等于对治；不改方法、只重复受苦，赎不了任何罪。</div>
+    <h3>条件模拟器 · 「现法涅槃」质检台</h3>
+    <p>外道宣称的「清净」由三个条件决定。拨动开关，看原文怎么判：</p>
+    <div class="cond-row"><div class="name">已离五欲贪<small>对享乐不再上头（原文第一问：为离欲贪。为未离耶）</small></div><label class="switch"><input type="checkbox" id="pureA"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">内心无垢<small>贪嗔痴止息（原文问：由内清净故究竟清净。为由外清净故究竟清净）</small></div><label class="switch"><input type="checkbox" id="pureB"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">只靠外物<small>沐浴圣河、持怪戒、咒术等外缘</small></div><label class="switch"><input type="checkbox" id="pureC"><span class="slider"></span></label></div>
+    <div id="condResult">拨动开关，看看这套「清净」能不能通过检验。</div>
+  </div>
+
+  <div class="card">
+    <h3>妄计吉祥论：日月星辰是我的项目经理</h3>
+    <div class="quote">若世间。日月薄蚀㊳。星宿失度。所欲为事。皆不成就。<span class="src">—— 卷第七原文</span></div>
+    <p>术语备注：薄蚀即日月食。历算者主张：日食月食、星宿失度则事不成，天象顺遂则事皆成——于是精勤供养日月星、祠火诵咒、安置茅草。他们的来路：获得了世间静虑，世人以为他们是阿罗汉，有求必问；他们却「不如实知业果相应缘生道理」，只看见天象运行之时恰有众生的业果成熟，就把账记到日月头上，再向信众公开宣讲。</p>
+    <div class="plain">星象至多是一份日历，历算者把日历当成了驾驶员——日历翻到哪页，不决定车往哪开。</div>
+    <div class="analogy"><b>比喻：</b>看到日历翻到七月就中暑，便宣布「七月导致中暑」——把伴随出现的时间标签当成了原因。比喻对应原文的判词：尽寿造福非福业感兴衰苦乐果，与日月薄蚀只是同时出现。</div>
+    <div class="case"><b>水逆与签约：</b>小林打开星座 App，看到「水星逆行，不宜签约」，把准备了半月的合同压了一周；同一天没看 App 的同事签下同款合同顺利启动。对应妄计吉祥论：兴衰苦乐由净不净业感，原文判「计日等作。不应道理」。</div>
+    <div class="case"><b>「转发这条锦鲤」：</b>考试前夜，整个宿舍轮流转发锦鲤图片，唯独复习扎实的小陈直接睡了。分数出来，差距与锦鲤无关——对应本卷的观察法：现见尽寿造福非福业、感兴衰苦乐果，吉凶的账要记在「业」上，不是记在图上。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s9 收官 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：十六论合观</h2></div>
+  <p class="sec-lead">走出档案馆之前，把十一种论放进一句话里，再看它们共同的软肋——学会这个，以后遇到变体也能自己拆。</p>
+
+  <div class="card">
+    <h3>全卷一句话</h3>
+    <div class="quote">由正道理。推逐观察。于一切种皆不应理。<span class="src">—— 卷第七原文</span></div>
+    <p>十六种异论（含上一卷的五种），无论「教」的门面多么庄严、「理」的观察多么真诚，用正理逐层推求，在一切情形下都站不住。而本卷给正面答案的只有两处：宿作因论章的「如实因相」（苦的三种真实成因），与害为正法论章的「非法之相」——一表一里，恰是本卷最值得带走的两页。</p>
+    <div class="plain">全卷结构＝一台破斥流水线 + 两份正面清单：破的是「找错因」，立的是「怎么找对因」。</div>
+  </div>
+
+  <div class="card">
+    <h3>四种共同软肋（点卡片）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">以偏概全</div><div class="sub">个案当定律</div><div class="tap">点击展开</div></div><div class="back">看到一部分反例，就废除整条定律——宿作、空见、无因都栽在这里：<em>一期生命的三五次观察，量不出因果的全貌。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">不可见≠不存在</div><div class="sub">我看不见，就当没有</div><div class="tap">点击展开</div></div><div class="back">空见论以「天眼不见」拨无化生；无因见以一时骤起骤灭的现象拨无因缘——观察半径的边界，被当成了世界的边界。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">唯一因强迫症</div><div class="sub">非要一个总开关</div><div class="tap">点击展开</div></div><div class="back">宿作把万因归为前世，自在天论归为神，吉祥论归为星象——「如实因相」恰好相反：因果是混账的，纯旧、纯新、新旧杂揉三种都存在。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">论证为欲望打工</div><div class="sub">先有结论后找理</div><div class="tap">点击展开</div></div><div class="back">想吃肉才发明杀生功德（害为正法），贪名利恭敬才神化种姓（妄计最胜）——原文一律点破「谄诳所起」「贪名利及恭敬故」：<em>动机污染论证。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>把「汝何所欲」带回生活</h3>
+    <p>本卷的追问技术不必只用来读古书：任何把复杂因果压成「全靠某个单一原因」的说法，都可以请它回答二选一。对照下方案例练一遍，这一卷就读完了。</p>
+    <div class="case"><b>爆款文的绝对化归因：</b>朋友转发《成功全靠风口》并附言「努力无用」。你不必争论，借用本卷句式反问：那没赶上风口却成事的人怎么算？赶上了风口仍失败的人怎么算？——两头一问，「全靠X」当场塌方，对应宿作因论、自在天论被拆的同一手法。</div>
+    <div class="case"><b>年终复盘的四选一陷阱：</b>项目失败后，小周在「全怪命」「全怪老板」「全怪运气」「彻底摆烂」之间打转。按本卷指南：既不作单一归因（软肋三），也不拨无因果就此躺平（断见论），而是照「如实因相」分三栏记账——旧缘、杂因、纯现功——把今天能动手的那一栏划出来。</div>
+    <div class="card" style="margin-top:14px">
+      <p><b>收官口诀（自编助记，非原文）：</b>宿作·自在·害法·边矫——无因·断见·空见——最胜·清净·吉祥。十一种论、四个软肋、一句「汝何所欲」——档案馆闭馆，钥匙带走。全卷唯一真正的纲领偈（嗢拖南）已在第 3 章给出，那里是本卷破斥神创论的四条路线图。</p>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第七（output/7.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga7-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* s1 流程推演：异论破斥流水线 */
+initStepper('flow1','flowDetail1','flowPrev1','flowNext1',[
+ {t:'① 立论', d:'<b>外道立宗：</b>凡人所受的一切苦，都以宿世恶业为因——把现在的一切苦，全推给前世。'},
+ {t:'② 问因', d:'<b>问何因缘：</b>他为什么这么想？因为他看到「努力的人招苦、乱来的人得乐」，现法作用不决定——于是断定背后另有真因。'},
+ {t:'③ 两难', d:'<b>汝何所欲：</b>那你今天苦行所受的辛苦，到底算前世因，还是现在因？算前世——你教人苦行消业就自相矛盾；算现在——「一切皆前世」当场崩塌。'},
+ {t:'④ 判决', d:'<b>是故此论非如理说：</b>两头都不通，理论作废。本卷十一种论全部走完这条流水线，句式一字不改。'}
+]);
+
+/* s2 归类练习：如实因相三栏 */
+initSorter('sorter1',[
+ {a:'小陈一出生体质就弱，家里也穷，谈不上他做过什么。', opts:['纯宿业所致','杂因所生','纯现在功用'], ans:'纯宿业所致', exp:'对应「自业增上力故生诸恶趣或贫穷家」——出身境遇不由当下的选择结算。'},
+ {a:'老周伺候上司专走歪路，没捞到好处反被记过处分。', opts:['纯宿业所致','杂因所生','纯现在功用'], ans:'杂因所生', exp:'对应「因邪事王不获乐果而反致苦」——旧缘遇上现在错误的方便，两头一起算。'},
+ {a:'小林今天从零开始学做菜，一周后已能炒出像样的两个菜。', opts:['纯宿业所致','杂因所生','纯现在功用'], ans:'纯现在功用', exp:'对应「或复修学工巧业处」与「唯因现在士夫功用」。'},
+ {a:'阿花坚持晨跑一年，体检指标全面转好。', opts:['纯宿业所致','杂因所生','纯现在功用'], ans:'纯现在功用', exp:'现法方便现受果——努力当下就在结账。'},
+ {a:'大刘的店赶上行业下行，加上自己选错供货商，今年亏损。', opts:['纯宿业所致','杂因所生','纯现在功用'], ans:'杂因所生', exp:'对应「若无福者虽设功用而无果遂」——宿缘与现功互相掺杂，不是单一因。'}
+]);
+
+/* s5 归类练习：四种不死矫乱者 */
+initSorter('sorter2',[
+ {a:'被问「什么是善」：答错丢人，说不知道更丢人，于是含糊道「只可意会，不可言传」。', opts:['①怖畏妄语','②增上慢','③悟而未决','④愚钝反问'], ans:'①怖畏妄语', exp:'对应「怖畏妄语。及怖畏他人知其无智故。不分明答言我无所知」——怕说错，更怕被看穿无知。'},
+ {a:'他确实有一点修行体会，便处处暗示「我已证得圣果」，被追问细节就顾左右而言他。', opts:['①怖畏妄语','②增上慢','③悟而未决','④愚钝反问'], ans:'②增上慢', exp:'对应「于所证法。起增上慢」——把浅证当成圆满，怕露馅。'},
+ {a:'道理他大概明白了但不敢确定，被问就答「也许对吧，不过也可能……」。', opts:['①怖畏妄语','②增上慢','③悟而未决','④愚钝反问'], ans:'③悟而未决', exp:'对应「觉已开悟。而未决定」——怖畏邪见，怕说错成邪见，索性不表态。'},
+ {a:'他什么都不懂，被问就反问「那你说是为什么？」然后顺着你的话头打转。', opts:['①怖畏妄语','②增上慢','③悟而未决','④愚钝反问'], ans:'④愚钝反问', exp:'对应「第四唯惧他诘」「但反问彼。随彼言辞。而转以矫乱彼」——羸劣愚钝，专靠反问脱身。'}
+]);
+
+/* s8 条件模拟器：现法涅槃质检台 */
+function updatePurity(){
+  const a=document.getElementById('pureA').checked; /* 已离五欲贪 */
+  const b=document.getElementById('pureB').checked; /* 内心无垢 */
+  const c=document.getElementById('pureC').checked; /* 只靠外物 */
+  const el=document.getElementById('condResult');
+  let txt='',fail=true;
+  if(a&&c){
+    txt='<b>判词：</b>自称已离欲，却仍在五欲里嬉戏受乐——原文：「若已离者于世五欲。嬉戏受乐。不应道理。」';
+  }else if(c&&!b){
+    txt='<b>判词：</b>未离欲贪、内垢未除，只靠沐浴圣河与怪戒求净——两连判：「若未离者。计为解脱清净。不应道理」＋「但除外垢便计为净。不应道理。」';
+  }else if(c&&b){
+    txt='<b>判词：</b>内心既已澄净，却把功劳记在河水与仪式头上——原文：「若由内者。计于河中沐浴而得清净。不应道理。」';
+  }else if(!a&&!b){
+    txt='<b>判词：</b>五欲未离、贪嗔痴炽盛——这是离「清净」最远的组合：起点都没到，谈不上终点。';
+  }else if(a&&!b){
+    txt='<b>判词：</b>嘴上说已离欲，贪嗔却照常生起——口清净不等于心清净，声明无法代替实证。';
+  }else if(!a&&b){
+    txt='<b>判词：</b>定中暂时澄净，五欲却未远离——禅悦可能只是定境。原文提醒：仅住四静虑便计为究竟解脱清净，「不应道理」。';
+  }else{
+    fail=false;
+    txt='<b>通过初检：</b>已离欲贪、内心无垢、不倚外物——这正是「由内清净」的方向。但别急着贴「究竟」标签：本卷提醒，禅悦也只是中途站，不是终点站。';
+  }
+  el.classList.toggle('fail',fail);
+  el.innerHTML=txt;
+}
+['pureA','pureB','pureC'].forEach(function(id){
+  document.getElementById(id).addEventListener('change',updatePurity);
+});
+updatePurity();
+
+renderPath();
+</script>
+</body>
+</html>

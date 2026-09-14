@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第五十二 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 摄决择分中五识身相应地意地之二</div>
+  <h1>卷第五十二 · 交互式学习模块</h1>
+  <p class="sub">这一卷是"意地"决择的下篇：把四缘、三世、生老住无常、得、命根、众同分、名句文身、时、数等一长串概念逐个过堂，问的始终是同一句话——"它真是实有的吗？"最后落在种子的真相与转依。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 31 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 四缘配方</a>
+<a href="#s3">③ 缘无之识</a>
+<a href="#s4">④ 三世密意</a>
+<a href="#s5">⑤ 四相假名</a>
+<a href="#s6">⑥ 无常字典</a>
+<a href="#s7">⑦ 人生标签</a>
+<a href="#s8">⑧ 语言坐标</a>
+<a href="#s9">⑨ 种子收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>弄清这一卷在整部论中的位置，以及"决择"这个动作到底在干什么 → 第①章</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>掌握四缘配方</b><span>一件事生起需要的四种缘，配一台条件模拟器亲手玩 → 第②章</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>理解"缘无之识"</b><span>心为什么能想不存在的东西，五种道理如何证明 → 第③章</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>破解三世密意</b><span>过去与未来的"有"是什么意思，钥匙只有一把：种子相续 → 第④章</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>拆解生老住无常</b><span>四相只是假名，顺手推演"一个念头的一生" → 第⑤⑥章</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官：种子与转依</b><span>全卷最深处——种子不是实物，转依是心的新地基 → 第⑨章</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ 01 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：这一卷在做什么</h2></div>
+  <p class="sec-lead">《瑜伽师地论》前半的"本地分"负责立论，后半的"摄决择分"负责追问。卷五十一到五十三是对"意地"的决择专场，本卷是第二讲：四缘、三世、生老住无常、得、命根、众同分、异生性、名句文身、流转、时、数……一长串名字被逐一拎出来过堂，问的始终是同一句话：<b>"它真是实有的吗？"</b></p>
+
+  <div class="card">
+    <h3>"决择"这把刀</h3>
+    <div class="quote">复次云何等无间缘①。谓此诸心心所无间。彼诸心心所生。说此为彼等无间缘。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">"决择"就是决断、简择——对已经立起的法一条条审问：你是实有，还是安立在别的东西上的假名？</div>
+    <div class="analogy"><b>比喻：</b>像海关开箱查验：申报单上写着"过去业""命根""时间"……查验不问它有没有用，只问一件事——箱子里这个东西，是它自己，还是别的东西贴上去的标签？</div>
+    <div class="case"><b>发布会与问答环节：</b>把《瑜伽师地论》想成一场大型产品发布会："本地分"是发布会正文，负责把一件件法相立起来；"摄决择分"是随后的记者问答，专挑概念里的含糊处发难。本卷正是"意地"专场问答的第二节——所以满页都是"问：……答：……"的句式。</div>
+    <div class="case"><b>"大熊猫"这个词住在哪：</b>一个孩子问："'大熊猫'这个词住在哪儿？"它在字典里、在嘴上、在脑海里，却找不出一个叫"大熊猫"的实物是"词"本身。本卷对"得""命根""生老住无常"做的就是同款检查——证明它们像"词"一样，是安立在真实事物上的标签，例如原文直接判定"当知得是假有"。</div>
+  </div>
+
+  <div class="card">
+    <h3>本卷六个关键词（点击卡片翻面）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">四缘</div><div class="sub">事情生起的完整配方</div><div class="tap">点击展开</div></div><div class="back">因缘、等无间缘、所缘缘、增上缘。本卷当场判了主次：只有因缘是"生因"，其余三缘只是"方便因"——所以诸行总是一念接一念地生，没有同时顿生的道理。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">缘无之识</div><div class="sub">心能攀"不存在的东西"</div><div class="tap">点击展开</div></div><div class="back">回忆、预想、"无我"之观、乃至邪见，攀的都是"非有"之境。本卷用五种言论道理证明：意识确实能缘无——这不是漏洞，恰是修行可能的起点。<em>想"无我"时，你正缘着一个"无"。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">三世密意</div><div class="sub">过去与未来的"有"</div><div class="tap">点击展开</div></div><div class="back">佛说"有过去业""有未来行"，不是说它们实存，而是：过去"与果故有"，未来"摄因故有"——三世只是同一串种子相续的三种状态标签。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">有为四相</div><div class="sub">生老住无常是假名</div><div class="tap">点击展开</div></div><div class="back">离开诸行的变化过程，找不到一个叫"生"、叫"灭"的实物。生不能生（诸行各有自己的种子因），四相只是过程上的四个名字。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">人生标签群</div><div class="sub">得·命根·众同分·异生性</div><div class="tap">点击展开</div></div><div class="back">这一批概念（旧称"不相应行"）像简历上的虚拟字段：得是假有、命根是限量、众同分是相似性、异生性是"尚未断"的刻度——个个被拆成假有。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">种子与转依</div><div class="sub">全卷的落点</div><div class="tap">点击展开</div></div><div class="back">种子不是藏在某处的一粒"东西"，而是诸行自身的潜能状态；出世间法另有真如所缘缘种子；转依对治阿赖耶识，名无漏界——全卷拆了一路的"假"，最后立起一个真实的转向。</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 02 四缘 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>四缘配方：一件事为什么能发生</h2></div>
+  <p class="sec-lead">本卷开篇连问三个"云何"：什么是等无间缘、所缘缘、增上缘。加上暗中的因缘，一共四张"缘"的清单——随后立刻判主次：只有因缘是亲生之因，其余三缘都只是方便。</p>
+
+  <div class="card">
+    <h3>四缘的主次判决</h3>
+    <div class="quote">因缘一种望所生法能为生因。余三种缘望所生法。当知但为方便因。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">四缘里只有"因缘"（种子）能亲生诸法，等无间缘、所缘缘、增上缘都只是助缘；所以诸行总是一念接一念地生，"无有同时顿生起义"。</div>
+    <div class="analogy"><b>比喻：</b>种子（因缘）决定长出的是稻子还是麦子；田地、肥料、水（增上缘）决定长得成不成。没有种子，浇成池塘也长不出稻子——论文自己就举了"田粪水"的例子。</div>
+    <div class="case"><b>田粪水与苗稼：</b>论文原文举例："若田粪水等。与诸苗稼为成办增上缘。"田、肥、水帮庄稼成办，但它们不决定"长出稻子还是麦子"——决定者是有无那种子。这提醒我们：别把帮场子的都当成亲生父母。</div>
+  </div>
+
+  <div class="card">
+    <h3>四缘翻卡（点击翻面）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">因缘</div><div class="sub">生因——种子亲生</div><div class="tap">点击展开</div></div><div class="back">诸行各自"别有自种子因"，种子遇缘便生起诸行。本卷判它"能为生因"，其余三缘"但为方便因"——亲生与帮忙，层级不同。<em>比喻：种子之于禾苗。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">等无间缘①</div><div class="sub">前念让位，后念方生</div><div class="tap">点击展开</div></div><div class="back">"谓此诸心心所无间。彼诸心心所生。"心识是单行道：前一念灭，后一念才能挤进来。六识互为等无间缘时，这个"让位者"就安立为意根、意处、意界。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">所缘缘②</div><div class="sub">识所攀的对象</div><div class="tap">点击展开</div></div><div class="back">"五识身以色等五境。如其次第为所缘缘"——眼缘色、耳缘声，各按次第；意识最广，一切内外十二处都是它的所缘缘（包括过去、未来这些"非有"之境，见第③章）。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">增上缘③</div><div class="sub">助力配置</div><div class="tap">点击展开</div></div><div class="back">眼根之于眼识（俱生增上缘）、作意之于诸识（引发增上缘）、田粪水之于苗稼（成办增上缘）、工巧智之于工巧业——不亲生结果，却决定成与不成、顺与不顺。<em>净不净业感爱非爱果，也是先所作增上缘。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：一次"看见"需要几样东西</h3>
+    <p style="font-size:.93rem;color:var(--ink-soft)">大街上你看见一块路牌。把下面四个开关想象成"看见"的生成条件——逐个关掉，体会每种缘各自负责什么。</p>
+    <div class="cond-row"><div class="name">眼根完好<small>眼等处为眼识"俱生增上缘"</small></div><label class="switch"><input type="checkbox" id="condYG" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">面前有色<small>色境按次第为"所缘缘"</small></div><label class="switch"><input type="checkbox" id="condSJ" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">心念作意<small>作意为诸识"引发增上缘"</small></div><label class="switch"><input type="checkbox" id="condZY" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">前念已灭<small>此心无间，彼心方生（等无间缘）</small></div><label class="switch"><input type="checkbox" id="condDJ" checked><span class="slider"></span></label></div>
+    <div id="condResult"></div>
+    <div class="case"><b>嘈杂咖啡店：</b>下午三点，有人隔两桌喊你的名字。声波早就送到耳朵（所缘缘一直在），你耳聪目明（增上缘俱在），可前几声你毫无反应——"作意"还没把心推过去；名字一入耳、前念让位（等无间缘），"听见"才轰然生起。这正是"作意于所缘境。为诸识引发增上缘"的日常版本。</div>
+    <div class="case"><b>早高峰的地铁：</b>站台上前一个人不挪步，后一个人就上不了车——心识生起也是这样：前念不灭，后念无处安身。"谓此诸心心所无间。彼诸心心所生"，等无间缘就是这条必须"空出位置"的规则。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 03 缘无之识 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>缘无之识：心能想"不存在的东西"</h2></div>
+  <p class="sec-lead">佛法常说"由二种缘诸识得生"——根与境，境必须是实有的吗？可回忆、预想、"我"的错觉，攀的都是根本不存在的东西，这矛盾吗？本卷正面回答：意识确实能缘取"非有"之境，并给出五种言论道理作证。</p>
+
+  <div class="card">
+    <h3>佛的密意：为什么"缘意及法意识得生"</h3>
+    <div class="quote">由能执持诸五识身所不行义故。佛世尊假说名法。是故说言缘意及法意识得生。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">五识只能攀当下的色声香味触；意识却能"执持"五识到不了的东西——过去、未来、无我、假名——世尊把这些统称为"法"，所以说缘意及法，意识得生。</div>
+    <div class="analogy"><b>比喻：</b>五识像只能拍"此刻实景"的摄像头，意识却像一台放映机——能播放记忆、预演未来，连"不存在"的片子也能放。放映机不需要胶片此刻在场。</div>
+    <div class="case"><b>拆迁的母校：</b>晚上十点，你路过已被拆平的老校区，脑子里却清清楚楚"看见"了当年的教学楼——楼十年前就没了，此念所缘的境界纯属"非有"，可它照样现起。这正是"由彼意识亦缘去来识为境界世现可得"。</div>
+  </div>
+
+  <div class="card">
+    <h3>五种言论道理（点击翻面）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">第一道理</div><div class="sub">无我之观</div><div class="tap">点击展开</div></div><div class="back">"若内若外及二中间都无有我"——这个"我"的无性，不属于有为也不属于无为，但以共相观照的识照样缘着它转。想"无我"时，你正在缘一个"无"。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">第二道理</div><div class="sub">集合假名之物</div><div class="tap">点击展开</div></div><div class="back">饮食、车乘、衣服、室宅、军林，离开色香味触"都无所有"——但以自相观照的识仍能缘着"那辆车""那栋房"。日常指认的一切物品，都是缘"无"。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">第三道理</div><div class="sub">断见亦缘无</div><div class="tap">点击展开</div></div><div class="back">"无施无爱亦无祠祀"的邪见本身也是一念心，它所缘的正是"不存在"。若心根本不能缘无，这种邪见生都生不起来——反证缘无之识实有。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">第四道理</div><div class="sub">无常之观</div><div class="tap">点击展开</div></div><div class="back">诸行中"常恒不变"的无性，正是厌离→离欲→解脱的起点：不观察则不生厌，不厌则不离欲，不离欲则无解脱、无涅槃。观无常若不是缘无，整条解脱之路都无从谈起。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">第五道理</div><div class="sub">随观未来</div><div class="tap">点击展开</div></div><div class="back">"又未来行尚无有生。何况有灭。然圣弟子于未来行非不随观生灭而住。"未来连生都没有，圣弟子却对它随观生灭——修行本身就包含缘无。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：此刻这念心，缘的是"有"还是"无"？</h3>
+    <p style="font-size:.93rem;color:var(--ink-soft)">五个日常场景，判断意识所缘的是现存之事，还是"非有"之境。（点选答案看解释）</p>
+    <div id="sort3"></div>
+    <div class="case"><b>面试前夜：</b>明天上午九点面试，今晚十二点你躺在床上预演面试官的每个表情。未来行"尚无有生。何况有灭"，但你的心跳已经为它加速——意识缘无，还能牵动身体。</div>
+    <div class="case"><b>深夜的自我审判：</b>被同事当面纠正一个错误，你整晚翻来覆去想"他是不是觉得我不行"。那个恒常的、会被看扁的"我"，在身内身外、身心中间都找不到，可心整夜围着它转——第一道理说的"缘无"，你亲身演了一遍。</div>
+    <div class="case"><b>评论区断见：</b>某条公益新闻下有人留言："捐款都是作秀，根本没有善报这回事。"这句"无施无爱"的断见本身也是一念心，它所缘的正是"不存在"——若心不能缘无，这种话根本说不出、也想不成。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 04 三世密意 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>三世密意：过去与未来的"有"</h2></div>
+  <p class="sec-lead">世尊说过"有过去业""有过去行""有未来行""有三世界"。过去已灭、未来未生，凭什么说"有"？本卷连续三问三答，答案共用一把钥匙：<b>种子相续</b>。说"有"，不是说三世实存，而是遮两边——既不许执实有，也不许拨无。</p>
+
+  <div class="card">
+    <h3>总钥匙：与果故有，摄因故有</h3>
+    <div class="quote">过去诸行与果故有。未来诸行摄因故有。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">过去的"有"，是因为它已经把果交付出来了；未来的"有"，是因为它的因已经摄藏在现在的相续里。佛这样说，是为了遮止"过去未来实有执"和"一切都无"的拨无执。</div>
+    <div class="analogy"><b>比喻：</b>昨天的快递显示"已签收"（与果故有），下个月的订阅显示"已下单待发货"（摄因故有）——订单系统说"有"这两笔，不是说要你现在能摸到货，而是账上确实有这两条状态。</div>
+    <div class="case"><b>三年前的自行车：</b>你小学三年级学会骑车，摔的跤早忘了。昨天骑车下班，稳稳当当——那门"本事"从过去一直递到今天。论文说过去业"已起已灭"却"能感当来爱不爱果"，靠的正是"此业种子⑦摄受熏习⑧。于行相续展转不断"：跤过去了，种子一直在。</div>
+  </div>
+
+  <div class="card">
+    <h3>现在：三世交汇的收发室</h3>
+    <div class="quote">现在诸行三相所显。一是过去果性故。二是未来因性故。三自相相续不断故。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">现在这一刹那同时是：过去之果、未来之因、以及自相念念相续——它是三世账目的唯一交汇点。</div>
+    <div class="analogy"><b>比喻：</b>正在上客的车厢：乘客从上一站来（过去之果），也将去往下一站（未来之因），而车厢本身正一路行驶、没有中断（自相相续）。</div>
+  </div>
+
+  <div class="card">
+    <h3>三个"密意"问答（点击翻面）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">问一 · 过去业</div><div class="sub">凭什么说"有过去业"？</div><div class="tap">点击展开</div></div><div class="back">业已起已灭，但业种子摄受熏习、于行相续展转不断。佛这样说有双重用意：遮止不平等因论（说福祸来自大自在天、帝释、梵王等），也遮止无因论（说一切无因自然而有）。<em>善报恶报既非天赐，也非无端，是自己相续里的种子在说话。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">问二 · 去来行</div><div class="sub">圣弟子为何于去来行"无顾恋住""无希望住"？</div><div class="tap">点击展开</div></div><div class="back">过去"与果故有"、未来"摄因故有"——所以既不该对过去顾恋（它已交付完毕），也不必对未来空盼（该做的因在现在做）。若去来诸行实有，就不该由"去来之性"说有；若拨无，又会否认现在。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">问三 · 三世界</div><div class="sub">过去界·未来界·现在界</div><div class="tap">点击展开</div></div><div class="back">"若已与果种子相续⑨。名过去界。若未与果当来种子相续。名未来界。若未与果现在种子相续。名现在界。"三世是给同一串种子贴的三种状态标签；对此得善巧，就名"诸界善巧"。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：这颗"种子"，该贴哪张界的标签？</h3>
+    <p style="font-size:.93rem;color:var(--ink-soft)">判断下列事情对应过去界、未来界还是现在界（按"与果与否、何时与果"来判断）。</p>
+    <div id="sort4"></div>
+    <div class="case"><b>明天的报告：</b>你明天上午要交季度报告，此刻文档还空着。"明天的报告"并不存在，可你今晚的烦躁、翻找资料的手、列好的提纲，全都被它安排着——这正是"未来诸行摄因故有"：果虽未现，因已摄藏在当下的相续里。</div>
+    <div class="case"><b>一张银行卡的三本账：</b>同一个账户，上月已到账的利息是"已与果"（过去界）；此刻正在计息的本金是"未与果、相续现在"（现在界）；下月才会入账的那笔是"未与果、当来感果"（未来界）。钱是同一串，三世界只是按"与果状态"贴上的三种标签——论文原话："若已与果种子相续⑨。名过去界。若未与果当来种子相续。名未来界。若未与果现在种子相续。名现在界。"</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 05 四相假名 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>生老住无常：四张假名的标签</h2></div>
+  <p class="sec-lead">生、老、住、无常（灭）——佛说这是一切有为法的四种"相"。本卷追问：这四相是实有的东西吗？结论：都不是。它们只是诸行变化过程上的四个名字，而且"生"根本生不出东西——每个法都有自己的种子因。</p>
+
+  <div class="card">
+    <h3>"生"生不起来的怪圈</h3>
+    <div class="quote">未来世生自无所有。云何能生所余诸行。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">未来的"生"自己都还不存在，怎么去生别的东西？现在的"生"也生不了现在的诸行——因为"又一切法各各别有自种子因。何须计有异生能生"。若把"生"当成诸行之外的另一个能生者，一法便有"二生"，自相矛盾。</div>
+    <div class="analogy"><b>比喻：</b>把日历翻到三月那一页，不会让任何花开放——让花开的是种子、土壤和水。"三月"只是时间标签，"生"也只是过程的名目，不是躲在幕后的发动机。</div>
+    <div class="case"><b>春分与花店：</b>朋友圈每年春分都被"春分到了，万物生长"刷屏。但花店老板最清楚：腊月里没进温室催花的种球，春分那天一枝也不会开。"节气"（时间相）从不生产任何东西，生产者永远是各各种子与诸缘——这正是本卷对"生实有"的否定。</div>
+  </div>
+
+  <div class="card">
+    <h3>四相的真正含义</h3>
+    <div class="quote">由有因故诸行非本自相始起说名为生。后起诸行与前差别说名为老。即彼诸行生位暂停说名为住。生刹那后诸行相尽说名为灭。亦名无常。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">生＝有因而起；老＝与前面有了差别；住＝现起后暂时的持相；灭＝生刹那之后相尽。四个名字，描述同一段过程，故说"于诸行中假施设"。</div>
+    <div class="analogy"><b>比喻：</b>一杯泡开的茶：注水时茶叶舒展是"生"，滋味稳定那几分钟是"住"，越泡越淡是"老（异）"，凉透倒掉是"灭"——你从没买到过一个叫"生"或"灭"的东西，买到的只是这串变化。</div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">生</div><div class="sub">本无今有</div><div class="tap">点击展开</div></div><div class="back">"本无今有。是名为生。"从未来世的"本无"中冒出来——但"生"不是另一个能生的东西，只是这个冒起过程的名字。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">老（异）</div><div class="sub">与前差别</div><div class="tap">点击展开</div></div><div class="back">后起的诸行和前面不一样了。身体衰变是老，心的希望变失望也是老，处境跌落还是老（详见第⑥章的五种老）。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">住</div><div class="sub">生位暂停</div><div class="tap">点击展开</div></div><div class="back">现起后暂时的持相——从刹那住到相续住，看似停驻，其实仍在流动（详见第⑥章的五种住）。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">灭（无常）</div><div class="sub">有已还无</div><div class="tap">点击展开</div></div><div class="back">"有已还无是名为灭。"生刹那后诸行相尽——灭与无常，就是"有过、然后没有了"。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>佛为何只说三相：生、灭、住异</h3>
+    <div class="quote">从未来世本无而生。是故世尊由未来世于有为法。说生有为相。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">依未来世说"生"（本无而生），依过去世说"灭"（落谢过去），住与异都只在现在，合说为一——三相配三世，各归其位，四相并不重复。观行时只取生灭二品，因为观无常"能起厌患离欲解脱"。</div>
+    <div class="analogy"><b>比喻：</b>三张座位表：未来那栏写"将到场"（生），过去那栏写"已离场"（灭），现在这栏写"在座、且有变动"（住异）——一张不多，一张不少。</div>
+    <div class="case"><b>候诊大厅的叫号屏：</b>你在医院候诊，屏幕上的号码不停地"出现—变灰"。圣弟子"于诸蕴中随观生灭而住"就像这个姿势：不跟着某一个号走、不抢不躲，只是看着生灭本身——本无今有、有已还无，看久了，对"轮到自己"的紧抓自然松动，厌患、离欲、解脱次第生起。</div>
+  </div>
+
+  <div class="card">
+    <h3>流程推演：一个念头的完整一生</h3>
+    <div class="flow-track" id="stp5Track"></div>
+    <div class="flow-detail" id="stp5Detail"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="stp5Prev">← 上一步</button> <button class="tri-btn" id="stp5Next">下一步 →</button></div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 06 无常字典 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>无常人生字典：生老住的 N 种面孔</h2></div>
+  <p class="sec-lead">四相是假名，但佛为什么要把它们细分？因为每种"相"都对应人生里真实可辨的变化类型：生有十一种、老有五种、住有五种、无常有六种。清单本身可折叠跳过——重点是看清清单背后的分类逻辑，以及最后那组关键的对比：三种观无常的人。</p>
+
+  <div class="card">
+    <h3>先看一个最小的"生"</h3>
+    <div class="quote">此中诸行刹那刹那新新而起。名刹那生。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">最小的生是"刹那生"：每一个刹那，诸行都是崭新的、刚生起的。往下数，才有相续生（一期生命）、增长生（从婴孩到衰老）等等更大的尺度。</div>
+    <div class="analogy"><b>比喻：</b>视频其实是逐帧播放——你以为画面在"动"，其实每秒只是几十张静止帧"新新而起"。所谓连续的人生，也是刹那帧的连播。</div>
+    <div class="case"><b>24 帧的电影：</b>影院里一个纵马飞驰的镜头，放映机其实每秒只放 24 张静止画面。观众看到"奔腾"，帧与帧之间却是"刹那刹那新新而起"——旧帧灭、新帧生，从无停留。论文把"生"拆到最小单位，就是为了让你看清：所谓稳定的"现在"，也是帧率极高的生灭连播。</div>
+  </div>
+
+  <div class="card">
+    <h3>生·老·住·无常 差别字典（清单主体，可跳过）</h3>
+    <details class="dict">
+      <summary>生的十一种差别<span class="hint">刹那生、相续生、增长生……</span></summary>
+      <div class="body">
+        <p><b>刹那生：</b>诸行刹那刹那新新而起。</p>
+        <p><b>相续生：</b>从一有情聚没、往另一有情聚，诸蕴续生。</p>
+        <p><b>增长生：</b>从婴孩、童子等位，一路到衰老等位。</p>
+        <p><b>心差别生：</b>昼夜刹那之间种种心起——或乐、或苦、或不苦不乐；或有贪、或离贪；乃至善解脱心、不善解脱心。</p>
+        <p><b>不可爱生：</b>生于那落迦⑭、傍生、饿鬼等苦趣。</p>
+        <p><b>可爱生：</b>生于人天乐趣。</p>
+        <p><b>下劣生：</b>欲界之生；三种入胎中的"最初入胎"；染污法及染污果之生。</p>
+        <p><b>处中生：</b>色界之生；"中二入胎"；除善不善果外其余无记法之生。</p>
+        <p><b>胜妙生：</b>无色界之生；"最后入胎"；善法及善果之生。</p>
+        <p><b>有上生：</b>依三界说，从欲界乃至无所有处；依刹那相续说，除阿罗汉最后终位外的一切行生。</p>
+        <p><b>无上生：</b>非想非非想处⑮之生；阿罗汉等最后终位的行生。</p>
+      </div>
+    </details>
+    <details class="dict">
+      <summary>老的五种差别<span class="hint">身老、心老、尽老……</span></summary>
+      <div class="body">
+        <p><b>身老：</b>衰变乃至身坏——看得见的衰老。</p>
+        <p><b>心老：</b>乐受心变苦受心转；善心变染污心转；对可爱事的希望心变"希望不果"心转。</p>
+        <p><b>尽老：</b>寿量在昼夜刹那中渐渐转减，乃至都尽。</p>
+        <p><b>变坏老⑯：</b>富贵兴盛退失，无病、色力、充悦等变——处境与荣华的跌落。</p>
+        <p><b>自体转变老⑰：</b>从善趣增盛聚中没、往恶趣下劣聚中生——整个自体的下坠。</p>
+        <p><b>总缘之老：</b>还有一老为缘，能成以上一切老——"诸行刹那刹那转异性老"：最底层的迁变，才是所有老的引擎。</p>
+      </div>
+    </details>
+    <details class="dict">
+      <summary>住的五种差别<span class="hint">刹那住、相续住……</span></summary>
+      <div class="body">
+        <p><b>刹那住：</b>已生诸行，生时暂停。</p>
+        <p><b>相续住：</b>众生依食乃至寿住；外器世间大劫量住。</p>
+        <p><b>缘相续住：</b>乐、苦、不苦不乐受，善、不善、无记法——各别缘现在前的这段时间里住持。</p>
+        <p><b>不散乱住：</b>定心由三摩地⑲正起现前——专注状态。</p>
+        <p><b>立轨范住：</b>国城村落、王都王宫、商估邑义诸大众中，"古昔轨范建立随转"——传统与规范代代运转。</p>
+      </div>
+    </details>
+    <details class="dict">
+      <summary>无常的六种差别<span class="hint">坏灭、生起、变易……</span></summary>
+      <div class="body">
+        <p><b>坏灭无常：</b>一切行生已寻灭。</p>
+        <p><b>生起无常：</b>一切行本无今有。</p>
+        <p><b>变易无常：</b>可爱诸行异相行起——还在，但变了样。</p>
+        <p><b>散坏无常：</b>不变坏的可爱众具及增上位离散退失——持有物与地位的失去。</p>
+        <p><b>当有无常⑳：</b>上述四无常在未来时。</p>
+        <p><b>现堕无常㉑：</b>上述四无常现在正现前时。</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>关键对比：三种观无常的人</h3>
+    <div class="quote">但能思惟变易无常散坏无常现堕无常。广起悲叹愁愦忧悴。然于诸行不能厌离。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">差别不在"看不看得见无常"，在看得全不全：只看局部就只剩哀叹，看全了才通向厌离与解脱。</div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">悲叹派 · 放逸者</span><h4>受用欲尘多放逸者</h4><p>只思惟变易、散坏、现堕三种无常，于是"广起悲叹愁愦忧悴。然于诸行不能厌离"——哭完，继续过原来的日子。</p></div>
+      <div class="yuan-card"><span class="y-tag">半途派 · 外道</span><h4>多起思惟者</h4><p>对无常多有思惟，"少能方便厌患离欲"——只对诸行厌离一分，不能究竟。看得多了，方法不对。</p></div>
+      <div class="yuan-card"><span class="y-tag">圆满派 · 圣弟子</span><h4>圆满思惟者</h4><p>"若圣弟子圆满思惟诸无常性。于一切行究竟厌患乃至解脱。"——对一切行都看到生灭，厌离才彻底，解脱才打开。</p></div>
+    </div>
+    <div class="case"><b>心老的一夜：</b>55 岁的张叔年轻时通宵打球，第二天照样上班；如今同学聚会散场，要缓两天才缓过劲——这还是身老。更隐蔽的是心：以前网购到货前满心期待，现在拆箱前先想"多半又不合适"。论文对心老的描述正是"若乐受相应心变。苦受相应心转"、希望心变"希望不果心转"——身体的老看得见，心的老藏在期待变形里。</div>
+    <div class="case"><b>市值与"变坏老"：</b>某创业者 40 岁公司上市、45 岁市值缩水七成、从核心董事会退居顾问。体检一切正常，可人人都说他"老了"。论文里这不是身老，是"变坏老"——"若诸富贵兴盛退失。无病色力充悦等变。名变坏老。"：老不只发生在皮肤上，也发生在处境与光环上。</div>
+    <div class="case"><b>三部手机三种观：</b>同样面对用了三年、越来越卡的手机——放逸者骂骂咧咧换新机，为卡顿忧愤，却从不反思"为什么总在换"（悲叹不厌离）；外道式的用户认定"这品牌注定短命"，做到少买少换，但贪总在（一分厌离）；圣弟子式的用户看清新机"本无今有"、用久"有已还无"，连对"新"的贪一起松开（究竟厌患乃至解脱）。同一部卡手机，照出三种心。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 07 人生标签 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>人生说明书上的虚拟标签：得·命根·众同分·异生性</h2></div>
+  <p class="sec-lead">从这一章起，本卷进入一串"归档类"概念——它们像写在人生说明书上的字段：你得过什么、你的寿限、你属于哪一类人、你还是不是凡夫。本卷的决择结论高度一致：这些字段都不是身上多出的零件，而是安立在身心相续上的假有或计量。</p>
+
+  <div class="card">
+    <h3>"得"是假有：本卷的正面拆解</h3>
+    <div class="quote">生缘摄受增盛之因说名为得。由此道理当知得是假有。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">"得"不是一件实物。若"得"是诸行的生因，从未得者将永不生；若是诸法的"不离散因"，善、不善、无记法之得既同时具有，相违之法应顿现行——两种都不通，所以"得"只是假立的增盛之因。</div>
+    <div class="analogy"><b>比喻：</b>"我拥有这套房"里的"拥有"，不是墙、不是地契纸、也不是你的手——是产权系统里的一条状态记录。记录在，即名"得"；本卷说它是"假有"，恰如记录并非房子本身。</div>
+    <div class="case"><b>抽屉里的驾照：</b>你说"我有驾照"，可那张卡片已在抽屉里躺了十年。这个"有"既不是卡片，也不是你的手，而是"随时能合法引发驾驶这件事"的势力自在——"虽彼彼法已起已灭。若欲希彼复现在前。便能速疾引发诸缘令得生起"。原文把这种自在假立为"得"，正是给能力状态贴的状态标签。</div>
+  </div>
+
+  <div class="card">
+    <h3>三种成就（点击翻面）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">种子成就㉒</div><div class="sub">后台在，就名成就</div><div class="tap">点击展开</div></div><div class="back">染污法、无记法、生得善法的种子，只要"未为奢摩他之所损伏。若未为圣道之所永害"，善法也不被邪见损伏——无论现行不现行，都名成就。<em>后台进程在，程序就算"装着"。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">自在成就㉓</div><div class="sub">加行练出的势力</div><div class="tap">点击展开</div></div><div class="back">加行所生的善法及一分无记法，其生缘所摄受的增盛因种子——由修练获得的自在力。想用时，"便能速疾引发诸缘令得生起"。<em>练出来的肌肉记忆。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">现行成就㉔</div><div class="sub">正在发生的</div><div class="tap">点击展开</div></div><div class="back">"若现在诸法自相现前转。名现行成就。"此刻正现前运作——前台正在运行，一目了然，无需追问。</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器："会钢琴"此刻算不算"得"？</h3>
+    <p style="font-size:.93rem;color:var(--ink-soft)">以"某人会弹钢琴"为例，拨动三个开关，看本卷把这种"得"安放在哪一层。</p>
+    <div class="cond-row"><div class="name">种子未被损伏、永害<small>未为奢摩他所损伏，未为圣道所永害</small></div><label class="switch"><input type="checkbox" id="achSeed" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">有加行练出的自在势力<small>多年习琴，肌肉记忆犹在</small></div><label class="switch"><input type="checkbox" id="achMastery" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">此刻正坐在琴前弹奏<small>自相现前转</small></div><label class="switch"><input type="checkbox" id="achNow"><span class="slider"></span></label></div>
+    <div id="condResultB" style="margin-top:16px;padding:16px 20px;border-radius:14px;background:#e0eee5;color:#3d6b4f;font-size:.98rem"></div>
+  </div>
+
+  <div class="card">
+    <h3>命根·众同分·异生性（点击翻面）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">命根㉕</div><div class="sub">住时限量势分</div><div class="tap">点击展开</div></div><div class="back">由先业所感，这一期生命的时限势用——不是某个器官，而是"限量"。差别有：定与不定（赡部洲人寿不定，余处决定；北拘卢洲寿量随转、无中夭）；少寿（赡部洲人十岁时寿、一分傍生一日夜）与多寿（非想非非想处八万大劫）；有边际寿（阿罗汉等、现法般涅槃者、住最后有的异生）与无边际寿；自势力转（阿罗汉、如来、菩萨"于寿行中延促自在"）与非自势力转。<em>像电池的续航预估：不是零件，是限量。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">众同分㉖</div><div class="sub">互相似性</div><div class="tap">点击展开</div></div><div class="back">"同界同趣同生同类位性形等。由彼彼分互相似性。是名众同分。"它让你能被归入各种类别：界同分、趣同分、生同分、类同分、分位容色形貌音声同分，乃至过失功德同分——杀生者与杀生者同分，正见者与正见者同分；预流至阿罗汉彼此同分，菩萨望菩萨，如来望如来。<em>相似性不是身上多出的零件。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">异生性㉗</div><div class="sub">"还没"的刻度</div><div class="tap">点击展开</div></div><div class="back">"谓三界见所断法种子。唯未永害量名异生性。"凡夫性不是一种实体，是"尚未断"的计量。依障的差别分四种：无般涅槃法种性㉘所摄（有毕竟障种子）、声闻种性随逐、独觉种性随逐、如来种性随逐。<em>像成绩单上"尚未通过"一栏：它不加分，只如实记下你还没什么。</em></div></div>
+    </div>
+    <div class="case"><b>电池健康度：</b>手机设置里的"电池续航预估"：它不是电池里某个能拆下来的零件，而是按当前用量算出的"还能撑多久"的限量势分。命根亦然——"所生自体所有住时限量势分"（说名为寿），由先业决定，不是身中另有一颗"寿命珠"。</div>
+    <div class="case"><b>相亲角的分类夹：</b>公园相亲角，大爷把女儿资料夹进"90 后·本硕·有房"那一栏。同分位、同容色、同学历的人们被归入同一格，靠的是"互相似性"——可你把格子翻遍，也找不到一个叫"90 后性"的实物挂在谁身上。众同分，就是这种让分类成立的相似性本身。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 08 语言与坐标 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>语言与坐标：名句文身与八个形式词</h2></div>
+  <p class="sec-lead">拆完人生标签，本卷又立起一批更"抽象"的概念：和合、名身句身文身、流转、定异、相应、势速、次第、时、数。它们不描摹任何一件具体事物，描摹的是<b>关系与形式</b>——条件如何凑齐、语言如何指物、变化如何排序、时间如何安立。决择的刀法不变：全是安立，不是实体。</p>
+
+  <div class="card">
+    <h3>和合：条件凑齐这件事本身</h3>
+    <div class="quote">谓能生彼彼诸法诸因诸缘。总略为一说名和合。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">能生诸法的诸因诸缘，总略为一，名为和合，亦名"同事因"。它有六种差别——从感受到生死，从生计到修行，都是"凑齐"的不同场景。</div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">领受和合</span><h4>感受如何凑齐</h4><p>六处缘触、或色等缘或作意等缘、触缘受——一次"感觉到"的完整条件组。</p></div>
+      <div class="yuan-card"><span class="y-tag">引生后有和合</span><h4>下一期生命如何凑齐</h4><p>无明缘行、受缘爱、爱缘取，乃至生缘老死——十二支的连环扣。</p></div>
+      <div class="yuan-card"><span class="y-tag">六处住和合</span><h4>活着如何凑齐</h4><p>四食及命根——维系一期身心运转的供给组。</p></div>
+      <div class="yuan-card"><span class="y-tag">工巧成办和合</span><h4>作品如何凑齐</h4><p>工巧智、相应的业具、士夫作用——技能加工具加人，成品才成办。</p></div>
+      <div class="yuan-card"><span class="y-tag">清净和合</span><h4>修行如何凑齐</h4><p>十二种无杂集会，即自他圆满等——修道的条件包。</p></div>
+      <div class="yuan-card"><span class="y-tag">世俗和合</span><h4>团队如何凑齐</h4><p>诸有情依等意乐增上力，互不相违、无诤无讼、亦不乖离——一群人和睦共处。</p></div>
+    </div>
+    <div class="case"><b>一场求婚：</b>戒指、提前订好的露台、当晚的天气、两人的心意、单膝落地时说出口的那句话——少一样都可能不成。事后朋友问"你怎么成的？"你只能把这些条件一起指出来：论中叫"总略为一"，名和合。世上并没有一个单独叫"和合"的东西藏在戒指里。</div>
+  </div>
+
+  <div class="card">
+    <h3>名句文身：语言的三层装置</h3>
+    <div class="quote">极略相是文。若中是名。若广是句。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">名身：为随顺言说、对诸法自性自相"唯建立想"——只是概念标签；句身：对差别的施设，建立功德、过失、杂染、清净等戏论；文身：名与句所依止的字。只依"文"仅了达音韵，依"名"能了达自性，依"句"才能了达一切差别。名句文身依五明处㉛建立：内明、因明、声明、医方明、世间工巧事业处明。</div>
+    <div class="analogy"><b>比喻：</b>快递面单上的三样东西：条形码的一小段笔画（文——只有音形）、"收件人"两个字（名——指向某物）、"本件须本人签收、逾期退回"（句——建立规则与差别）。</div>
+    <div class="case"><b>发消息的三个层级：</b>你给朋友发去一段 3 秒语音，对方只听清一个音节，不明其意——这是"文"的层面（"若唯依文但可了达音韵而已"）；接着你补了个字："面"——对方立刻知道你约的是吃饭，这是"名"了达自性；最后你补全："面馆十点打烊，只能九点前到"——判断、条件、取舍全出来了，这是"句"了达差别。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：文 · 名 · 句</h3>
+    <p style="font-size:.93rem;color:var(--ink-soft)">五个场景，判断它们停留在语言的哪一层。</p>
+    <div id="sort8"></div>
+  </div>
+
+  <div class="card">
+    <h3>八个"形式词"速览（可跳过）</h3>
+    <details class="dict">
+      <summary>流转 · 定异 · 相应 · 势速 · 次第 · 时 · 数<span class="hint">七个概念的清单与差别</span></summary>
+      <div class="body">
+        <p><b>流转：</b>"诸行因果相续不断性"。差别有：种子流转、自在势力流转、种果流转；名流（四非色蕴）与色流；欲界流、色界流、无色界流；乐流、苦流、不苦不乐流；善流、不善流、无记流；顺流（顺缘起）与逆流（逆缘起）。</p>
+        <p><b>定异：</b>"无始时来种种因果决定差别无杂乱性"，"如来出世若不出世。诸法法尔"。差别有：流转还灭定异（顺逆缘起）、一切法定异（十二处摄，无过无增）、领受定异（三受所摄）、住定异（内分寿量、外分大劫）、形量定异（有情身形与四大洲的量决定）。</p>
+        <p><b>相应：</b>为等言说、等建立、等开解的诸胜方便——即从观待、作用、因成、法尔㉝四种道理来相应地理解诸法。</p>
+        <p><b>势速㉞：</b>"诸行生灭相应速运转性"。差别九种：诸行流转势速；地行有情轻健势速（人象马）；空行有情势速（飞禽药叉诸天）；言音势速（词韵捷利）；流润势速（江河流注）；烧然势速（猛焰飙转）；引发势速（放箭转丸）；智慧势速（修观者简择迅速慧性）；神通势速。</p>
+        <p><b>次第：</b>"于各别行相续中。前后次第一一随转"。差别有：流转次第（无明缘行……）、还灭次第（无明灭故行灭……）、在家行住次第（"陵旦而起澡饰其身。被带衣服修营事业"）、出家行住次第（乞食、洗钵、读诵、宴坐经行）、增长次第（婴孩童子等八位）、现观次第（四圣谛次第现观）、入定次第（九次第定）、修学次第（戒→心→慧）。</p>
+        <p><b>时：</b>由日轮出没安立时节，由诸行生灭安立世位——时、年、月、半月、昼夜、刹那、腊缚⑬、牟呼栗多等位，以及过去、未来、现在。时间也是安立，不是流淌的实体之河。</p>
+        <p><b>数：</b>"安立显示各别事物。计算数量差别"。一数、二数，从此已去皆名多数；数的边际名阿僧企耶——一切算数所不能转，故名不可数。连"无穷"也被安放在数自身的边界上。</p>
+      </div>
+    </details>
+    <div class="quote">谓增上戒学为依。次生增上心学。增上心学为依。后生增上慧学。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">"次第"清单里藏着修行路线图：戒为依止生定（增上心学），定为依止生慧（增上慧学）——学佛不是知识堆叠，是有先后的工程。</div>
+    <div class="case"><b>被跳过的晨间流程：</b>你有一套固定晨间顺序：闹钟响→烧水→拉伸→淋浴→早餐→出门。某天先吃了早饭再拉伸，胃胀得没法继续——顺序本身成了条件之一。论文把这种"前后一一随转"立为"次第"：它不描述任何一件物品，却真实约束着诸行的运行；连"戒定慧"三学，也是一条不许跳步的次第。</div>
+    <div class="case"><b>高铁与直觉：</b>早八的高铁以 350 公里时速掠过站台（引发势速般的"放箭转丸"），主播语速三倍速念完一条新闻（言音势速），而你深夜刷题时突然秒懂一道错题（"智慧势速"——修观者简择所知的迅速慧性）。论文连"快"本身都立为一法：快不是虚构，是诸行运转的一种可安立性质。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 09 收官：种子真相与转依 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：种子真相与转依</h2></div>
+  <p class="sec-lead">全卷拆了一路的"假"，最后两板斧落在最深处：<b>种子到底是什么</b>，以及<b>出世间法从何而生</b>。这也是整个"意地决择"的落点——种子不是实物，却是轮回的机制；转依不是神话，是与阿赖耶识正面对治的新地基。</p>
+
+  <div class="card">
+    <h3>种子不是一粒"东西"</h3>
+    <div class="quote">非析诸行别有实物名为种子。亦非余处。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">不要在诸行之外找一个叫"种子"的实物，它也不在别处——"然即诸行如是种性如是等生如是安布。名为种子亦名为果"。种子是诸行自身的潜能状态，不是潜能之外的库存。</div>
+    <div class="analogy"><b>比喻：</b>像"风"——你拆解空气，找不到一个叫"风"的零件；风就是空气的流动状态本身。种子之于诸行，也是这种"状态"而非"库存"。</div>
+    <div class="case"><b>磨坊里的求证：</b>论文自带的实验：抓一把谷麦去磨、捣、分析，想找出一粒"芽的种子"，"了不可得。亦非余处"——可整粒谷遇水土就能发芽。种子不是一个被藏起来的小物体，而是谷麦"能为彼缘令彼得生"的那种安布状态。</div>
+    <div class="case"><b>找不到"烟瘾"的解剖课：</b>拍 CT、验血，医生找不到你身上有一颗叫"烟瘾"的细胞；但每次点烟都在为它"如是安布"，它便一次次现行。戒烟时的反复（种子被损伏）与彻底断除（圣道永害）也因此说得通——论文说九种种子中就有"被损伏""不被损伏"的分别，习惯的存亡是程度与断舍的问题，不是删除一个文件的问题。</div>
+  </div>
+
+  <div class="card">
+    <h3>望过去名果，望未来名种子</h3>
+    <div class="quote">若望过去诸行即此名果。若望未来诸行即此名种子。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">同一法，面对过去叫"果"，面对未来叫"种子"，"果与种子不相杂乱"——名字随参照系换，法体只是那一念相续。</div>
+    <div class="analogy"><b>比喻：</b>站在桥的这头，那是"来路"；站在桥的那头，这是"去路"。路没变，"来/去"随你站的桥墩换名。</div>
+    <div class="case"><b>一笔存款的双重身份：</b>月底对账时，账户里那笔钱是"上月工作的果"；月初做预算时，同一笔钱是"下月计划的种子"。钱没有变，"果／种"随你面对哪一头而换名——本卷用这句"若望过去诸行即此名果。若望未来诸行即此名种子"，把三世账目的记账规则一次讲透。</div>
+  </div>
+
+  <div class="card">
+    <h3>安立种子与出世间法的来源</h3>
+    <div class="quote">谓于阿赖耶识㉟中。一切诸法遍计自性妄执习气。是名安立种子。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">一切法的种子，安立在阿赖耶识的习气里；这习气"是实物有。是世俗有"，与诸法不可定说是一是异，"犹如真如"，又名"遍行粗重㊱"。那么出世间法从何而生？——"诸出世间法从真如所缘缘种子㊲生。非彼习气积集种子所生。"</div>
+    <div class="analogy"><b>比喻：</b>染净是两套账户：世间法的流水都从"习气账户"进出；出世间法却另有一个"真如所缘缘账户"作本——而且一切众生都开着这个户，差别只在有没有"毕竟障"挡着通道。</div>
+    <div class="case"><b>同一间图书馆：</b>班里每个学生都坐在同一间图书馆里（一切皆有真如所缘缘）。有人办了借书证、书一本本读完（出世间法生起）；有人始终没进过阅览区，倒不是图书馆拒收，而是被自己积欠的滞纳金与杂念挡在门外（有毕竟障种子者，建立为不般涅槃法种性；障的浅深，又分出声闻、独觉、如来种性之所随逐）。差别不在图书馆，在障与无障。</div>
+  </div>
+
+  <div class="card">
+    <h3>转依：心的新地基</h3>
+    <div class="quote">然此转依与阿赖耶识互相违反。对治阿赖耶识。名无漏界㊵离诸戏论。<span class="src">—— 卷五十二原文</span></div>
+    <div class="plain">出世间法生起后能持续运转，靠"转依之力所任持"。转依与阿赖耶识互相违反、正面对治它——这是全卷一路"拆假"之后，唯一被正面立起的转向。</div>
+    <div class="analogy"><b>比喻：</b>不是给旧系统打补丁，而是把整台机器换到另一套底层架构上运行——旧架构（阿赖耶识）与新架构（转依／无漏界）互斥，此消彼长。</div>
+    <div class="case"><b>戒瘾第三年：</b>戒酒第三年，老李说"现在闻到酒味像闻到别人的事"。最初靠硬扛（损伏），后来在新的生活圈里找到了完全不靠酒也能放松的整套方式（出世间法生已随转，由转依力任持）——不是压住了旧习惯，而是长出了一个对治它的新地基。转依不是旧我的改良，是依止的更换。</div>
+  </div>
+
+  <div class="card">
+    <h3>流程推演：一个习惯的种子生涯</h3>
+    <div class="flow-track" id="stp9Track"></div>
+    <div class="flow-detail" id="stp9Detail"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="stp9Prev">← 上一步</button> <button class="tri-btn" id="stp9Next">下一步 →</button></div>
+  </div>
+
+  <div class="gatha">
+    <div class="lines">
+      非析诸行别有实物名为种子。亦非余处。<br>
+      若望过去诸行即此名果。若望未来诸行即此名种子。<br>
+      然此转依与阿赖耶识互相违反。对治阿赖耶识。名无漏界㊵离诸戏论。
+    </div>
+    <div class="mean">本卷没有卷末总颂，特以三句原文作收官总纲：种子不在诸行之外、另有一实物；果与种子只是同一相续的两面称呼；而修行的终点，是转依——一套对治阿赖耶识、离诸戏论的无漏新地基。</div>
+  </div>
+
+  <div class="card">
+    <h3>全卷回顾表</h3>
+    <div class="table-wrap">
+      <table class="nine">
+        <tr><th>名相</th><th>卷中决择结论</th><th>通俗理解</th></tr>
+        <tr><td>四缘</td><td>因缘为生因，余三为方便因</td><td>事情生起的完整配方，种子才是主角</td></tr>
+        <tr><td>缘无之识</td><td>意识能缘非有之境，五种道理证成</td><td>心能想不存在的东西</td></tr>
+        <tr><td>三世密意</td><td>过去与果故有，未来摄因故有</td><td>过去＝已签收，未来＝已下单</td></tr>
+        <tr><td>生老住无常</td><td>于诸行假施设，离蕴无别实有</td><td>变化过程的四个阶段标签</td></tr>
+        <tr><td>得·命根·众同分·异生性</td><td>得是假有；命根是限量；众同分是相似性；异生性是未永害量</td><td>人生说明书上的四行虚拟字段</td></tr>
+        <tr><td>名句文身</td><td>极略是文、中是名、广是句</td><td>字、词、句三层语言装置</td></tr>
+        <tr><td>时·数·次第等</td><td>由日轮与诸行生灭安立；计算数量差别；前后一一随转</td><td>时间、数量、顺序都是安立的形式坐标</td></tr>
+        <tr><td>种子</td><td>非析诸行别有实物；望过去名果，望未来名种</td><td>习惯在相续中的"安布"，不是库存</td></tr>
+        <tr><td>转依</td><td>对治阿赖耶识，名无漏界离诸戏论</td><td>给心换一套底层架构</td></tr>
+      </table>
+    </div>
+    <div class="plain">全卷的同一把刀：问"它是实有的吗"——找到它安立的条件，证明离开条件一无所有，于是假名成立、恰好可用，而执著随之松动。</div>
+    <div class="case"><b>学完这卷的用法：</b>下次焦虑"过去的错误毁了我"或"未来一定会糟"时，用本卷的工具拆：过去业只在种子相续中"与果故有"，它已交付完毕；未来行"摄因故有"，该做的因只在现在。过去与未来都是相续的状态标签——能拆开看的地方，抓得最紧的那只手就会松一扣。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第五十二（output/52.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga52-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+
+/* 翻转卡片开合 */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
+/* —— 02 四缘：眼识生起条件模拟器 —— */
+function setupEyeSim(){
+  var box=document.getElementById('condResult');
+  var defs={
+    condYG:'<b>缺俱生增上缘：</b>眼根是"场地"，场地塌了，再亮的境也进不来——"眼等处为眼识等俱生增上缘"。',
+    condSJ:'<b>缺所缘缘：</b>对象不在，识无可攀——闭眼或一片漆黑时，"看"无从生起。',
+    condZY:'<b>缺引发增上缘：</b>作意没把心推过去——你在走神，眼前人来人往却"视而不见"。',
+    condDJ:'<b>缺等无间缘：</b>前念不让位，后念挤不进来——心识这条单行道，同一时刻只容一念。'
+  };
+  var tags={condYG:'眼根（俱生增上缘）',condSJ:'色境（所缘缘）',condZY:'作意（引发增上缘）',condDJ:'前念已灭（等无间缘）'};
+  function update(){
+    var miss=['condYG','condSJ','condZY','condDJ'].filter(function(id){return !document.getElementById(id).checked;});
+    if(miss.length===0){
+      box.className='';
+      box.innerHTML='<b>✓ 眼识生起——你"看见了"。</b>四缘配方齐全：眼根在场（俱生增上缘）、色境当前（所缘缘）、作意把心推过去（引发增上缘）、前念刚让位（等无间缘）。至于"看见的内容为何长这样"，还要靠各自的种子（因缘）——所以诸行总是一念接一念地生，"无有同时顿生起义"。';
+    }else{
+      box.className='fail';
+      box.innerHTML='<b>✗ 识未生起，或视而不见。</b>'+miss.map(function(id){return defs[id];}).join('')+
+        '<div class="obstacle-tags">'+miss.map(function(id){return '<span>'+tags[id]+'</span>';}).join('')+'</div>';
+    }
+  }
+  ['condYG','condSJ','condZY','condDJ'].forEach(function(id){
+    document.getElementById(id).addEventListener('change',update);
+  });
+  update();
+}
+
+/* —— 05 流程推演：一个念头的完整一生 —— */
+initStepper('stp5Track','stp5Detail','stp5Prev','stp5Next',[
+  {t:'未生',d:'<b>未来行（尚无有生）：</b>这个念头还在因缘的储备里，连"生"本身都还不存在——"未来世生自无所有。云何能生所余诸行"。'},
+  {t:'生',d:'<b>生（本无今有）：</b>前念让位（等无间缘）、作意转向（增上缘）、所缘现前（所缘缘）、种子遇缘（因缘）——念头忽然现起。本无今有，是名为生。'},
+  {t:'住异',d:'<b>住异（生位暂停，前后变异）：</b>念头延续的这一小段看似"停住"，实则刹那刹那都在变——住与异都只在现在世，所以佛把两相合说为一。'},
+  {t:'灭',d:'<b>灭（有已还无）：</b>念头消失，落谢过去——"有已还无是名为灭"。它成了过去行，只在相续中留下影响。'},
+  {t:'观',d:'<b>随观生灭而住：</b>圣弟子不追逐某一个念头，只看着"生—住异—灭"的循环——于诸行中观无常相，能起厌患、离欲、解脱。这正是四相讨论的修行出口。'}
+]);
+
+/* —— 03 归类练习：缘有 / 缘无 —— */
+initSorter('sort3',[
+  {a:'此刻正端起桌上的水杯喝水，眼看着杯身、手感着杯温。',opts:['缘有之事','缘无之事'],ans:'缘有之事',exp:'眼识缘现前色境、身识缘触——所缘当下实有，五识只攀"有"。'},
+  {a:'夜里躺在床上，回想早已拆迁消失的老家院子。',opts:['缘有之事','缘无之事'],ans:'缘无之事',exp:'过去诸行非有，意识仍能缘取——"由彼意识亦缘去来识为境界世现可得"。'},
+  {a:'面试前夜，脑补明天面试官可能的每个表情。',opts:['缘有之事','缘无之事'],ans:'缘无之事',exp:'未来行尚无有生、何况有灭，意识照样缘它——第五道理所摄。'},
+  {a:'坚信有一个恒常不变的"我"在贯穿一生。',opts:['缘有之事','缘无之事'],ans:'缘无之事',exp:'"若内若外及二中间都无有我"——我无性非有为摄非无为摄，共相观识缘"无"而转（第一道理）。'},
+  {a:'跟着导航的实时定位，找眼前这条街的入口。',opts:['缘有之事','缘无之事'],ans:'缘有之事',exp:'现前境为缘——五识与意识正攀实有之事。'}
+]);
+
+/* —— 04 归类练习：三世界 —— */
+initSorter('sort4',[
+  {a:'你三年前种下的果树，去年已经开花结果——那批种子。',opts:['过去界','未来界','现在界'],ans:'过去界',exp:'已与果的种子相续，名过去界。'},
+  {a:'已报名两个月后的驾照科目三，训练计划已在进行。',opts:['过去界','未来界','现在界'],ans:'未来界',exp:'未与果、当来才感果的种子相续，名未来界。'},
+  {a:'手上正在写的这份周报——因在当前相续中，果尚未与。',opts:['过去界','未来界','现在界'],ans:'现在界',exp:'未与果、现在种子相续，名现在界。'},
+  {a:'上周已经发出并送达的那封邮件。',opts:['过去界','未来界','现在界'],ans:'过去界',exp:'已与果——业已起已灭，种子摄受熏习于相续，是过去界。'},
+  {a:'立了"明年跑完全马"的目标，训练已启动、比赛还远。',opts:['过去界','未来界','现在界'],ans:'未来界',exp:'未与果、当来种子相续——未来界。'}
+]);
+
+/* —— 07 条件模拟器："会钢琴"算不算"得" —— */
+function setupAchieveSim(){
+  var box=document.getElementById('condResultB');
+  function setLook(ok){
+    box.style.background=ok?'#e0eee5':'#f3e2dd';
+    box.style.color=ok?'#3d6b4f':'#9a3b2e';
+  }
+  function update(){
+    var seed=document.getElementById('achSeed').checked,
+        mastery=document.getElementById('achMastery').checked,
+        now=document.getElementById('achNow').checked;
+    if(now){
+      setLook(true);
+      var extra=seed&&mastery?'此刻三种成就齐全：种子在后台、自在随时可引发、现行正在上演。':(seed?'种子虽在，却没有练出的自在——这只是生得本钱的现行。':'不过种子已被损伏或永害——这一现前如无源之水，过后难以为继。');
+      box.innerHTML='<b>现行成就。</b>"若现在诸法自相现前转。名现行成就。"弹奏正在发生，"得"根本不用追问——它就在眼前这一刻。'+extra;
+    }else if(mastery&&seed){
+      setLook(true);
+      box.innerHTML='<b>自在成就。</b>虽然此刻没在弹，但加行练出的势力自在还在——想弹时"便能速疾引发诸缘令得生起"，论中就把这种自在假立为"得"。';
+    }else if(seed&&!mastery){
+      setLook(true);
+      box.innerHTML='<b>种子成就。</b>种子未被损伏、未被永害，无论现在弹不弹都名成就——这是自然熏成的本钱（生得），不是练出来的自在。';
+    }else if(mastery&&!seed){
+      setLook(false);
+      box.innerHTML='<b>自相矛盾的一组开关。</b>论中的自在成就也是"生缘所摄受增盛因种子"——种子既已被损伏或永害，自在便无处安放。';
+    }else{
+      setLook(false);
+      box.innerHTML='<b>三种成就都不成立。</b>"得"本是"生缘摄受增盛之因"的假名——后台清空，"会钢琴"这张标签也就随之撤销。这正是"由此道理当知得是假有"。';
+    }
+  }
+  ['achSeed','achMastery','achNow'].forEach(function(id){
+    document.getElementById(id).addEventListener('change',update);
+  });
+  update();
+}
+
+/* —— 08 归类练习：文 / 名 / 句 —— */
+initSorter('sort8',[
+  {a:'一段外语语音，你能跟着哼出音节，完全不懂含义。',opts:['文','名','句'],ans:'文',exp:'"若唯依文但可了达音韵而已"——只有音形，不达事义。'},
+  {a:'菜单上单独一个"面"字，你知道指的是哪种食物。',opts:['文','名','句'],ans:'名',exp:'依名便能了达诸法自性自相——一个词指向一类事物。'},
+  {a:'绩效评语写道："该员工近三月业绩持续下滑。"',opts:['文','名','句'],ans:'句',exp:'句建立功德过失等差别施设——"若依止句。当知一切皆能了达"。'},
+  {a:'通讯录里"王建国"这个姓名条目。',opts:['文','名','句'],ans:'名',exp:'名是依诸法自性施设的标签，指到那个人。'},
+  {a:'生词本上只注了发音、还没背下意思的单词。',opts:['文','名','句'],ans:'文',exp:'只了达音韵——尚在"文"的层面。'}
+]);
+
+/* —— 09 流程推演：一个习惯的种子生涯 —— */
+initStepper('stp9Track','stp9Detail','stp9Prev','stp9Next',[
+  {t:'现行',d:'<b>现行成就：</b>第一次通宵刷短视频——"若现在诸法自相现前转。名现行成就"，行为当下现前。'},
+  {t:'安布',d:'<b>安立种子：</b>这次体验在阿赖耶识中留下习气——不是身上藏了一颗实物种子，而是诸行"如是种性如是等生如是安布"。'},
+  {t:'与果',d:'<b>与果（果正现前）：</b>下次无聊时手自动摸向手机——种子遇缘生起现行。望过去它是果，望未来它又是新种子，果与种子不相杂乱。'},
+  {t:'增盛',d:'<b>增盛（软品→中品→上品）：</b>反复熏习，势力渐增——"若修若练善不善法未到究竟。名中品"，已到究竟名上品。习惯越用越自动化。'},
+  {t:'损伏',d:'<b>被损伏：</b>开始正念训练、以相违的善法常加对治——种子未断，势力被压住，行为大幅减少但仍会反复（"未为奢摩他之所损伏"的反面即其被损伏之时）。'},
+  {t:'永害',d:'<b>永害与转依：</b>圣道将染种永断；出世间法生已随转，由转依力任持——转依对治阿赖耶识，名无漏界，离诸戏论。习惯的整套地基被更换。'}
+]);
+
+setupEyeSim();
+setupAchieveSim();
+
+renderPath();
+</script>
+</body>
+</html>

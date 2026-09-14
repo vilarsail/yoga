@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第二十八 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中声闻地第二瑜伽处之三</div>
+  <h1>卷第二十八 · 交互式学习模块</h1>
+  <p class="sub">这一卷是《声闻地》的总纲与总目录：先立三胜学（戒、定、慧），讲清它为何恰好是三个、如何环环相连；再列出修学的十种障碍与十副解药、四种失坏的警示牌；然后装上信、欲、精进、方便四件动力组，配好四档作意变速器；最后发放完整训练菜单——想修与三十七菩提分，并把四念住拆到可操作。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 26 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 三胜学</a>
+<a href="#s3">③ 次第门径</a>
+<a href="#s4">④ 学法敌友</a>
+<a href="#s5">⑤ 瑜伽坏</a>
+<a href="#s6">⑥ 四瑜伽引擎</a>
+<a href="#s7">⑦ 作意四档</a>
+<a href="#s8">⑧ 想修·四念住</a>
+<a href="#s9">⑨ 收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>本卷在声闻地里的位置：上一卷讲「练什么」，这一卷讲「学制总表」（对应第①章）</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>认识三胜学</b><span>戒、心、慧各自管什么，为何恰好是三个，「增上」增在哪里（对应第②章）</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>走通因果链</b><span>从戒清净到涅槃的九环链条，与三种人证三果、三解脱门（对应第③章）</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>分清敌与友</b><span>十种违逆学法、十副对治药、十种随顺学法（对应第④章）</span></span></label></div>
+<div class="step-item" data-target="#s6"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>避开失坏、装上引擎</b><span>先认四种瑜伽坏，再把信、欲、精进、方便四件套装上（对应第⑤⑥章）</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>掌握操作台并收官</b><span>作意四档、九胜解、想修与四念住训练菜单，最后总纲回顾（对应第⑦⑧⑨章）</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ ① 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：从「练什么」到「学制总表」</h2></div>
+  <p class="sec-lead">卷二十六、二十七讲的是「所依」与「所缘」——禅修者的资格、靶子和对症药；本卷（第二瑜伽处之三）换了问题：修行这件事，到底要「学」什么？整卷像一份学校发的学制文件：先立三学总纲，再给风险清单（违逆学法、瑜伽坏），再配动力系统（四瑜伽）与操作档位（四作意），最后发完整训练菜单（想修＋三十七菩提分）。先看清这张地图，后面八章才不迷路。</p>
+
+  <div class="card">
+    <h3>本卷开篇第一问</h3>
+    <div class="quote">云何为学。谓三胜学①。一增上戒学②。二增上心学③。三增上慧学④。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="plain">整卷的骨架就藏在这一句里：一切修学收拢为戒、定、慧三科，后面所有清单都是这三科的课程细则。</div>
+    <div class="analogy"><b>比喻：</b>像入学第一天发的培养方案——不先教某一门课，而是先给你看学位要求（三学）、修读顺序（次第）、退学警告（瑜伽坏）和全部课程表（三十七菩提分）。看懂方案，再上课就不慌。</div>
+  </div>
+
+  <div class="card">
+    <h3>本卷的六大板块</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">三胜学总纲</div><div class="sub">第②③章 · 三学的定义、数量与次第</div><div class="tap">点击展开</div></div><div class="back">三学是什么、为何不多不少恰好三个、为何叫「增上」、彼此如何引发与包含——本卷的理论地基。<em>像先讲清「语数外」为什么是主科，再谈怎么排课。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">学法的敌与友</div><div class="sub">第④章 · 十违逆 ↔ 十想 ↔ 十随顺</div><div class="tap">点击展开</div></div><div class="back">列出十种妨碍修学的东西（美色、懈怠、贪味、戏论……），每种配一副药（十想），再给十种帮助修学的顺缘。<em>像体检报告：异常指标 + 处方 + 生活方式建议，三栏对齐。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">四种瑜伽坏</div><div class="sub">第⑤章 · 修行的四种报废方式</div><div class="tap">点击展开</div></div><div class="back">毕竟坏、暂时坏、退失坏、邪行坏——其中「邪行所作」一段是全卷最生动的警示故事：装样子、贪利养、覆藏、自造伪法。<em>像产品说明书上的四个警告图标，最后一个还配了事故案例。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">四瑜伽引擎</div><div class="sub">第⑥章 · 信、欲、精进、方便</div><div class="tap">点击展开</div></div><div class="back">修行靠什么点火与推进？四件动力件环环相扣，展开共十六支。<em>像汽车的点火器、油门、发动机与导航，缺一个都开不动。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">作意操作台</div><div class="sub">第⑦章 · 四档变速与九种胜解</div><div class="tap">点击展开</div></div><div class="back">心用力的四个档位（力励→有间→无间→无功用），外加另外四种作意、四种应远离相、九种胜解、三种瑜伽师段位。<em>像手动挡到自动巡航：新手硬拗，老手无功用行。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">训练菜单</div><div class="sub">第⑧章 · 想修＋三十七菩提分＋四念住</div><div class="tap">点击展开</div></div><div class="back">想修是四套「念头体操」，菩提分修是三十七项完整训练，其中四念住被拆得最细：身、受、心、法四科，各有清单与观察法。<em>像健身房从热身套路到完整课表，最后一项给到动作分解。</em></div></div>
+    </div>
+  </div>
+
+  <div class="case"><b>办健身卡的人：</b>小李第一次进健身房，教练没先教动作，而是递来一张课表：体能评估（三学分级）→ 禁忌事项（违逆学法）→ 受伤案例（瑜伽坏）→ 训练器械（四瑜伽）→ 强度调节（作意）→ 完整课表（三十七菩提分）。这正对应本卷的行文方式——先给全景，再给细节，学的人才知道每一步落在哪。</div>
+  <div class="case"><b>接手项目的新经理：</b>小周接手一个陌生项目，没有立刻扎进代码，而是花一晚画出模块关系图，之后每天改哪一块都心里有数。读这一卷也一样：先记住「三学—敌友—坏—引擎—档位—菜单」六个词，再往下读，任何一段都能立刻归位。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ② 三胜学 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>三胜学：戒·心·慧，为何恰好是三个</h2></div>
+  <p class="sec-lead">「学」不是泛泛地看书，本卷把「学」锁定为三科：戒学管行为、心学管专注、慧学管洞见。这一章回答三个问题：三学各自是什么？为什么不多不少恰好三个？「增上」这两个字增在哪里？</p>
+
+  <div class="card">
+    <h3>三学各自的定义</h3>
+    <div class="quote">云何增上戒学。谓安住具戒等。如前广说。是名增上戒学。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="quote">云何增上心学。谓离欲恶不善法。有寻有伺离生喜乐。入初静虑具足安住乃至能入第四静虑具足安住。是名增上心学。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="quote">云何增上慧学。谓于四圣谛等所有如实智见。是名增上慧学。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="plain">戒学＝行为层面的安住具戒；心学＝从初静虑到第四静虑的定力（无色定也算，但静虑最殊胜，因为只有依静虑才能最初入圣谛现观）；慧学＝对四圣谛的如实智见。</div>
+    <div class="analogy"><b>比喻：</b>三学像学开车的三门课：交规（戒——什么不能做）、车感与专注（心——把注意力稳定在路面上）、路况预判（慧——看见别人看不见的规律）。交规不牢的「车感」是马路杀手。</div>
+  </div>
+
+  <div class="card">
+    <h3>为什么恰好三个？三条理由环环相扣</h3>
+    <div class="quote">由戒建立心一境性。能令其心触三摩地。<span class="src">—— 卷第二十八原文（建立定义：由戒立定）</span></div>
+    <div class="quote">以烦恼断。是自义利是胜所作。过此更无胜所作故。由是因缘唯有三学。<span class="src">—— 卷第二十八原文（辨所作义：慧的终点就是终点）</span></div>
+    <p>论中给的答案是三句对仗：戒负责「建立定义」——由戒立得住心一境性；心负责「智所依义」——智慧要靠定心才能生起；慧负责「辨所作义」——由清净智见断尽烦恼，而断烦恼已经是「过此更无胜所作」的最高任务。三环封顶，故非少非多。</p>
+    <div class="plain">戒是地基、定是楼层、慧是封顶——三层恰好盖完一栋楼，少一层塌，多一层是空中楼阁。</div>
+    <div class="case"><b>写论文的人：</b>小陈写毕业论文：先守学术规范、不抄不编（戒），才能安心泡图书馆一坐半天（定），坐得住才看得出数据里的真问题（慧）。跳过第一层直接「找灵感」的人，最后都在补数据的窟窿——这正是「建立定义故」的日常版。</div>
+  </div>
+
+  <div class="card">
+    <h3>「增上」增在哪里：所趣义＋最胜义</h3>
+    <div class="quote">谓为趣增上心而修净戒。名增上戒学。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="quote">唯于圣教独有此三不共外道。<span class="src">—— 卷第二十八原文</span></div>
+    <p>两个理由：一是「所趣义」——修戒是为了趣向定，修定是为了趣向慧，修慧是为了趣向烦恼断，每一学都指着下一站，所以叫「增上」（有方向、有后劲）；二是「最胜义」——这三学是圣教独有的完整配齐，不共外道。</p>
+    <div class="plain">「增上」不是「很强」，而是「每一级都通向下一级」：戒的终点是定，定的终点是慧，慧的终点是断烦恼。</div>
+  </div>
+
+  <div class="card">
+    <h3>三学的包含关系：有慧必有三</h3>
+    <div class="quote">非有增上慧学而无增上戒及无增上心。是故若有增上慧学。当知必定具足三学。<span class="src">—— 卷第二十八原文</span></div>
+    <p>可以只有戒（持戒好但没定慧）；可以有戒有定但没慧；但绝不可能有慧而没有戒与定——真智慧必然从定中生、必然体现在行为上。</p>
+    <div class="case"><b>「读书开悟」爱好者：</b>老赵读了几十本心灵书籍，宣称「我智慧够了，不需要守规矩和打坐」。按本卷的判据，他缺的恰好是慧学成立的两个前提——真慧必然带着戒与定一起出现，如同成熟的果实必然连着枝干，摘下来单卖「慧」的，多半不是真慧。</div>
+    <p>下面用归类练习检验一下：以下场景分别属于三学中的哪一科的功课？</p>
+    <div id="sorterXue"></div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ③ 次第门径 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>次第与门径：从戒清净到究竟涅槃</h2></div>
+  <p class="sec-lead">三学不是并列的三门课，而是一条因果链：戒净→无忧悔→安乐→定→如实知见→厌→离染→解脱→涅槃。本卷把这条链一环一环讲死，又给了三类人的起点、三种根的段位和三扇解脱之门。</p>
+
+  <div class="card">
+    <h3>九环因果链（流程推演）</h3>
+    <div class="quote">无忧悔故欢喜安乐。由有乐故心得正定。心得定故能如实知能如实见。如实知见故能起厌。厌故离染。由离染故便得解脱。得解脱故证无所作究竟涅槃。<span class="src">—— 卷第二十八原文</span></div>
+    <p>点击下方节点，看这条链如何一环扣一环（每个节点都附日常对应）：</p>
+    <div class="flow-track" id="flowLian"></div>
+    <div class="flow-detail" id="flowLianD"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="flowLianPrev">← 上一步</button> <button class="tri-btn" id="flowLianNext">下一步 →</button></div>
+  </div>
+
+  <div class="card">
+    <h3>三种人，三种果</h3>
+    <div class="quote">一未离欲。二倍离欲。三已离欲。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="quote">于一切欲全未离者。勤修加行入谛现观。既于诸谛得现观已证预流果。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">未离欲</span><h4>证预流果</h4><p>对一切欲全未离，靠勤修加行入谛现观——初入门，见道，但欲界的账还多着。</p></div>
+      <div class="yuan-card"><span class="y-tag">倍离欲</span><h4>证一来果</h4><p>离欲已离一大半（倍＝加倍地离），入谛现观时证一来果——还要再回来一次。</p></div>
+      <div class="yuan-card"><span class="y-tag">已离欲</span><h4>证不还果</h4><p>已离欲界之欲，入谛现观时证不还果——不再还生欲界，直达上地。</p></div>
+    </div>
+    <div class="plain">同一个「入谛现观」的关口，落在三种不同的离欲程度上，结出三种果——修行的起点深浅，决定过关时的名次。</div>
+    <div class="case"><b>三个备考的同学：</b>同一门认证考试，小张零基础硬啃（未离欲）、小王已修完大半课程（倍离欲）、小李只剩冲刺（已离欲）——考过后拿到的证书等级自然不同。原文的逻辑也是如此：不是门槛不同，而是各人走进考场时「离欲的进度条」不同。</div>
+  </div>
+
+  <div class="card">
+    <h3>三根：修行的三个段位标识</h3>
+    <div class="quote">谓于诸谛未现观者。加行勤修诸谛现观。依此建立未知欲知根。<span class="src">—— 卷第二十八原文</span></div>
+    <p>未知欲知根——还没见谛、正拼命想见（备考中）；已知根——已得现观、还在有学位（考过了在深造）；具知根——阿罗汉所作已办，住无学位（毕业了）。三根不是天赋标签，而是进度条上的三段刻度。</p>
+    <div class="analogy"><b>比喻：</b>像驾照学习的三种状态：科目一刷题中（未知欲知根）、已拿照在实习期（已知根）、老司机开车不过脑子（具知根）。同一个人身上，三段会依次出现。</div>
+  </div>
+
+  <div class="card">
+    <h3>三解脱门：通往同一处的三扇门</h3>
+    <div class="quote">谓所知境略有二种。有及非有。<span class="src">—— 卷第二十八原文</span></div>
+    <p>先把所知对象分成「有」（有为五蕴＋无为涅槃）与「非有」（我、有情、命者等——根本没有的东西），三扇门由此开出：</p>
+    <div class="quote">于有为中见过失故。见过患故无所祈愿。<span class="src">—— 卷第二十八原文（无愿解脱门）</span></div>
+    <div class="quote">便于涅槃深生祈愿。见极寂静见甚微妙见永出离。<span class="src">—— 卷第二十八原文（无相解脱门）</span></div>
+    <div class="quote">如其非有还则如是。知为非有。见为非有。<span class="src">—— 卷第二十八原文（空解脱门）</span></div>
+    <div class="plain">空门＝看破「我」这个不存在的东西；无愿门＝看清有为世界的过患、不再下单；无相门＝认定涅槃这个目标深生祈愿。三扇门，通同一间屋。</div>
+    <div class="analogy"><b>比喻：</b>像逛一家三入口的图书馆：从「查无此人」的检索台进（空），从「不再订阅垃圾邮件」的退订页进（无愿），从「直达静音阅览室」的专梯进（无相）——进门后是同一间大厅。</div>
+    <div class="case"><b>卸载游戏的人：</b>小吴复盘自己沉迷的那款手游：充值买的是「变强」的幻影（非有——根本没有一个需要去赢的「我」），每一季更新都是新的钩子（有为见过患，无所祈愿），而周末真正让他放松的，是关机后那种彻底安静（见极寂静，深生祈愿于无相）。一次卸载，三扇门都走了一遍。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ④ 学法敌友 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>学法的敌与友：十违逆 · 十想 · 十随顺</h2></div>
+  <p class="sec-lead">这一章是全卷的「风险管理」部分：论中先列出十种与修学作对的「违逆学法」，再按次第给出十种对治之「想」，最后补上十种帮修学的「随顺学法」。敌、药、友三份清单，一一对位。</p>
+
+  <div class="card">
+    <h3>敌与药：十违逆对十想</h3>
+    <div class="quote">谓有十种违逆学法⑪。对治彼故应知十种随顺学法⑫。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="quote">一不净想。二无常想。三无常苦想。四苦无我想。五厌逆食想。六一切世间不可乐想。七光明想。八离欲想。九灭想。十死想。<span class="src">—— 卷第二十八原文</span></div>
+    <p>「想」就是反复温习的心理定向——像给自己脑内预装的一句提醒。十想与十违逆按次第相对：</p>
+    <div class="table-wrap">
+    <table class="nine">
+      <tr><th>违逆学法（敌）</th><th>对治之想（药）</th><th>通俗理解</th></tr>
+      <tr><td>① 少年盛壮可爱形色</td><td>不净想</td><td>对美色的迷恋，用如实观察身体成分来降温</td></tr>
+      <tr><td>② 于萨迦耶所摄诸行生起爱着</td><td>无常想</td><td>贪著的种种身心活动，本质留不住</td></tr>
+      <tr><td>③ 懒堕懈怠</td><td>无常苦想</td><td>拖下去只会更苦——时间本身在流失</td></tr>
+      <tr><td>④ 萨迦耶见（我见）</td><td>苦无我想</td><td>那堆身心现象里找不到一个「我」</td></tr>
+      <tr><td>⑤ 依于段食贪着美味</td><td>厌逆食想</td><td>想起吃撑后的昏沉，对重口味自动降欲</td></tr>
+      <tr><td>⑥ 世间种种戏论发欲贪爱</td><td>一切世间不可乐想</td><td>热搜八卦刷三小时，快乐并没有增多</td></tr>
+      <tr><td>⑦ 瑜伽作意的十一种过患</td><td>光明想</td><td>用法的照亮驱散昏沉、疑悔、掉举等心雾</td></tr>
+      <tr><td>⑧ 于静虑等至乐中深生爱味</td><td>离欲想</td><td>禅定的舒服也是会粘住人的糖</td></tr>
+      <tr><td>⑨ 乐欲证入无相定而随顺流散</td><td>灭想</td><td>向往寂灭，心才不再向散乱处流</td></tr>
+      <tr><td>⑩ 苦受夺命时贪爱寿命、伤叹迷闷</td><td>死想</td><td>平时就把「人会死」想透，急时才不慌</td></tr>
+    </table>
+    </div>
+    <div class="quote">如是十想善修善习善多修习。能断十种障碍学法违逆学法。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="plain">十想不是十句口号，而是要「善修善习善多修习」的脑内预装——练到违逆一冒头，对应的想自动弹出。</div>
+    <p>其中第七种「瑜伽作意的十一种过患」（疑惑、粗重、惛沉、太猛、太劣、贪小名誉、掉举、惊恐、好诤、心驰散、不应思处强沉思）单独展开成一个清单，论中并为此特设「四种光明」来照亮：</p>
+    <details class="dict"><summary>十违逆学法完整清单（含第⑦条的十一种过患）<span class="hint">可跳过 · 逐条对照用</span></summary><div class="body">
+      <p><b>① 母邑少年盛壮可爱形色：</b>年轻美好的形色，是修学者的上品障碍。</p>
+      <p><b>② 萨迦耶爱着：</b>对「我」名下那堆身心活动生起爱恋。</p>
+      <p><b>③ 懒堕懈怠：</b>躺平的引力。</p>
+      <p><b>④ 萨迦耶见：</b>我见——敌②③的根。</p>
+      <p><b>⑤ 贪着美味：</b>对饮食的口腹之贪。</p>
+      <p><b>⑥ 世间戏论的欲贪爱：</b>对种种八卦言论、思维题材上瘾。</p>
+      <p><b>⑦ 瑜伽作意过患（十一支）：</b>对诸谛宝蕴业果犹预疑惑；乐修断者身诸粗重；慢缓者修止观时惛沉睡眠映蔽其心；太猛精进者身疲心恼；太劣精进者善品衰退；于少利养名誉称赞深生欣喜；掉举不静踊跃躁扰；于萨迦耶永灭涅槃而生惊恐；言论太过好折伏起诤；于先所见所闻境界心驰心散；不应思处而强沉思。</p>
+      <p><b>⑧ 静虑乐爱味：</b>对禅定之乐上瘾，忘了它也只是驿站。</p>
+      <p><b>⑨ 修无相定而于诸行随顺流散：</b>想入无相却顺着散乱滑走。</p>
+      <p><b>⑩ 苦受夺命时贪爱寿命：</b>病痛临身时只剩求生哀嚎，随希望而伤叹迷闷。</p>
+    </div></details>
+    <details class="dict"><summary>四种光明：光明想的四盏灯<span class="hint">可跳过</span></summary><div class="body">
+      <div class="quote">一法光明。二义光明。三奢摩他光明。四毗钵舍那光明。<span class="src">—— 卷第二十八原文</span></div>
+      <p>法光明＝教法的文字之光；义光明＝义理透亮之光；奢摩他光明＝止的澄净之光；毗钵舍那光明＝观的照了之光。本卷此处特取能断「瑜伽作意障碍法」的那种——即用法义之灯驱散十一种心雾。<em>像手机的手电筒：照见的不是新东西，是把本来就在、被黑暗藏起来的东西显出来。</em></p>
+    </div></details>
+    <div class="case"><b>深夜点炸鸡的人：</b>连续加班一周，小郑每晚十一点准时点炸鸡奶茶——违逆⑤「依于段食贪着美味」正在上场。对治不是硬忍，而是「厌逆食想」：先认真回忆上次吃撑到凌晨的那股昏沉与胃胀，把「爽」的联想换成「撑」的记录，第三次起点单的冲动就轻了。</div>
+    <div class="case"><b>办了年卡只去过两次的人：</b>小赵办健身年卡时豪情万丈，第二周起「改天再去」——违逆③懒堕懈怠。对应用「无常苦想」＋随顺学法里的「无间殷重所作」：不再指望豪情，改成每天下班顺路十五分钟，「于诸善品不虚舍命」——不虚度可以积习善品的日子。</div>
+  </div>
+
+  <div class="card">
+    <h3>友军：十种随顺学法</h3>
+    <div class="quote">一者宿因。二者随顺教。三者如理加行。四者无间殷重所作。五者猛利乐欲。六者持瑜伽力。七者止息身心粗重。八者数数观察。九者无有怯弱。十者离增上慢。<span class="src">—— 卷第二十八原文</span></div>
+    <p>十位盟友里有三位值得单独看清操作细节：</p>
+    <p><b>持瑜伽力</b>来自两个因缘：<span class="quote" style="display:inline-block;padding:4px 12px">谓二因缘能令获得持瑜伽力。一者本性是利根故。二者长时串修习故。<span class="src">—— 卷第二十八原文</span></span>天赋好使固然快，但「长时串修习」是人人可以自选的那条。</p>
+    <p><b>止息身心粗重</b>像一张对症处方单，四种病因四种药：<span class="quote" style="display:inline-block;padding:4px 12px">此因易脱威仪而便止息。<span class="src">—— 卷第二十八原文</span></span>累乏了就换个姿势活动；太寻太伺（想太多）就用内心寂止；惛沉睡眠缠缚就用毗钵舍那顺净作意提起来；烦恼未断则相续勤修正道。</p>
+    <p><b>数数观察</b>是日常自查程序：<span class="quote" style="display:inline-block;padding:4px 12px">数数观察恶作不作。数数观察善作而作。<span class="src">—— 卷第二十八原文</span></span>反复检查「不该做的没做、该做的做了」；观察烦恼断了就欢喜，未断就继续勤修正道。</p>
+    <p><b>离增上慢</b>是防自欺的最后防线：<span class="quote" style="display:inline-block;padding:4px 12px">于真所得起于得想。于真所触起于触想。于真所证起于证想。<span class="src">—— 卷第二十八原文</span></span>真得了才说得了，没得的说没得——「增上慢」就是把没证的说成已证。</p>
+    <div class="case"><b>睡前两分钟复盘：</b>小林每晚睡前在备忘录写两行：今天哪句话说重了（恶作，明天不再作）；该回的邮件回了吗（善作，别退）。一个月后她发现自己白天开口前会先「过一遍」——这正是「数数观察」从睡前程序内化成实时监控的过程。</div>
+    <div class="case"><b>「我已痊愈」的宣称：</b>小方读了两本心理学畅销书，逢人便说「我已经彻底疗愈了，再也不会内耗」。两周后在会议上一句话被戳破、当场破防。离增上慢的判据很朴素：于真所证起于证想——真到什么程度说到什么程度，省下的正是日后崩塌的成本。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑤ 瑜伽坏 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>瑜伽坏：修行的四种报废方式</h2></div>
+  <p class="sec-lead">「瑜伽」是修行的总称，「坏」是它的失效模式。论中给出四种：一种彻底报废（毕竟），一种只是搁置（暂时），一种得而复失（退失），一种方向从根上就是错的（邪行）。第四种配了一个完整的反面案例。</p>
+
+  <div class="card">
+    <h3>四种坏</h3>
+    <div class="quote">一者毕竟瑜伽坏。二者暂时瑜伽坏。三者退失所得瑜伽坏。四者邪行所作瑜伽坏⑯。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">毕竟瑜伽坏</div><div class="sub">无种姓人 · 接口不存在</div><div class="tap">点击展开</div></div><div class="back">「由彼身中无能趣向涅槃法故。毕竟失坏出世瑜伽。」——不是不努力，是身上没有那根「能趣向涅槃」的线，怎么拨都不响。<em>像没有摄像头的设备，装再多滤镜软件也拍不出照片。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">暂时瑜伽坏</div><div class="sub">有种姓 · 只是缺外缘</div><div class="tap">点击展开</div></div><div class="back">「虽阙外缘时经久远。定当缘会修习瑜伽令其现起。」——种子在，只是还没等到雨水：缺老师、缺环境、缺时机，但缘迟早会合，终将修习乃至般涅槃。<em>像大学录取通知书已到手，只是车票还没买到。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">退失所得瑜伽坏</div><div class="sub">已得复失 · 不进则退</div><div class="tap">点击展开</div></div><div class="back">「谓如有一退失所得所触所证。若智若见若安乐住。」——曾经拿到的智、见、安乐住，不加守护又丢了。<em>像练出的肌肉，停练半年就还给健身房。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">邪行所作瑜伽坏</div><div class="sub">方法从根上错 · 越勤快越远</div><div class="tap">点击展开</div></div><div class="back">「不如正理精勤修行。虽多用功无所成办。」——不是不够拼，是方向错了：所修的「瑜伽」不顺契经、不现戒律、违逆法性。<em>像把导航目的地输错一个字，油门踩得越狠，离想去的地方越远。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>邪行者的完整滑坡（本卷最长的警示故事）</h3>
+    <div class="quote">又行矫诈。妄现种种身语相应调善所作。<span class="src">—— 卷第二十八原文</span></div>
+    <p>故事是这样的：有人烦恼很多，却聪明伶俐、善于摄受所闻。他开始「矫诈」——装出威仪调善的样子，于是招来利养恭敬，被国王大臣商主尊为阿罗汉。接着问题来了：</p>
+    <p>① 他怕弟子拿止观问题问倒自己，从此失去利养；② 于是覆藏自己的瑜伽，只私下滑弟子偷偷讲；③ 干脆独处空闲自己「筹量观察安立瑜伽」——自创一套法门：<span class="quote" style="display:inline-block;padding:4px 12px">然此瑜伽不顺契经不现戒律违逆法性。<span class="src">—— 卷第二十八原文</span></span>④ 传出去的信徒们「于非法中起法想」，跟着精进修行——<span class="quote" style="display:inline-block;padding:4px 12px">虽如其教精进修行。当知一切皆是邪行。<span class="src">—— 卷第二十八原文</span></span></p>
+    <div class="plain">全链条是：装样子→得利养→怕露馅→覆藏→自造伪法→带歪一群人。检验工具只有三把尺：以经检、以律照、以法观。</div>
+    <div class="analogy"><b>比喻：</b>像网红餐厅的塌房三部曲：摆拍出片引流量（矫诈招利养）→ 被差评就删评拉黑（覆藏）→ 干脆自创「融合菜」标准（非法起法想）。食客若会看后厨、查资质（以经律法三重检验），第一部曲就演不下去。</div>
+    <div class="case"><b>「自律人设」的主播：</b>某主播摆拍五点起床、晨跑冥想的画面涨粉百万，评论区尊为人生导师。粉丝开始追问具体方法，他答不上来，只好只发精修切片、拉黑较真的评论，最后自创一套「量子冥想」继续卖课——每一步都对应原文：矫诈→利养→覆藏→自造瑜伽→非法为法。</div>
+    <div class="case"><b>买保健品的三重检验：</b>小周给父母买保健品前养成了固定流程：查国家批号（像「以经检」）、看成分表（像「以律照」）、对照临床研究（像「以法观察」）。三关任何一关不过就不买。原文教给瑜伽师的正是这套动作：听到任何法门，先拿经、律、法三把尺量一遍，量不过的，再热闹也不信受。</div>
+  </div>
+
+  <div class="card">
+    <h3>互动：你的瑜伽会不会坏？</h3>
+    <p>拨动三个开关，看四种坏如何依次被关在门外：</p>
+    <div class="cond-row"><div class="name">身中有种姓<small>有能趣向涅槃法的潜力（对应「有种姓补特伽罗」）</small></div><label class="switch"><input type="checkbox" id="condZhong" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">外缘会合<small>得遇师、法、友与修行的时机</small></div><label class="switch"><input type="checkbox" id="condWaiyuan" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">如理修行<small>依法不贪利养，方向经过经律法检验</small></div><label class="switch"><input type="checkbox" id="condRuli" checked><span class="slider"></span></label></div>
+    <div id="condResult"></div>
+    <div class="case"><b>转学的高二学生：</b>小美转学后成绩滑出年级前一百，家人急坏了。可她底子一直扎实（种姓在），只是新学校进度、老师风格全变了（外缘暂缺）。补了两个月一对一后成绩回来了——「虽阙外缘时经久远。定当缘会」，暂时坏的特点就是：它不是判决，是延期。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑥ 四瑜伽引擎 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>瑜伽的引擎：信 · 欲 · 精进 · 方便</h2></div>
+  <p class="sec-lead">避开了坏，修行靠什么推进？论中给出四个动力件：信（信得过）、欲（想要）、精进（肯投入）、方便（讲方法）。四件套按顺序点火，展开共十六支。</p>
+
+  <div class="card">
+    <h3>四件套的点火顺序（流程推演）</h3>
+    <div class="quote">谓四瑜伽⑱。何等为四。一信。二欲。三精进。四方便。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="quote">初由信故于应得义深生信解。信应得已于诸善法生起乐欲。由乐欲故昼夜策励安住精勤。坚固勇猛发精进已。摄受方便能得未得。能触未触。能证未证。故此四法说名瑜伽。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="flow-track" id="flowYoga"></div>
+    <div class="flow-detail" id="flowYogaD"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="flowYogaPrev">← 上一步</button> <button class="tri-btn" id="flowYogaNext">下一步 →</button></div>
+    <div class="plain">点火顺序不可乱：先信才生欲，有欲才肯精进，肯精进才谈得上方法——跳过「信」直接上强度，是多数半途而废的真正起点。</div>
+    <div class="case"><b>被同事带动跑步的人：</b>小何原本不信自己能跑步，直到亲眼看见常年伏案的同事半年后体检指标全绿（信——观察诸法道理），才冒出「我也可以」的念头（欲），接着定了每周三跑的计划（精进），又请教练纠正跑姿防止受伤（方便）。四件套齐了，这事才真的运转起来。</div>
+  </div>
+
+  <div class="card">
+    <h3>十六支明细</h3>
+    <p>信有二行相（信顺行相、清净行相）与二依处（观察诸法道理、信解补特伽罗神力），加欲四种、精进四种、方便四种，合为十六支。欲与精进的四支最能对号入座：</p>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">欲 · 四种</span><h4>从想要到享受</h4><p><b>为证得欲：</b>渴望证得上解脱；<b>为请问欲：</b>跑去请教有识同修；<b>为修集资粮欲：</b>在戒律仪、食知量、减睡眠上垫底子；<b>为随顺瑜伽欲：</b>对无间殷重的修习道本身生起欣乐。</p></div>
+      <div class="yuan-card"><span class="y-tag">精进 · 四种</span><h4>闻思修加净障</h4><p><b>为闻精进：</b>听未听、闻究竟；<b>为思精进：</b>独处空闲思惟筹量；<b>为修精进：</b>时时间勤修止观；<b>为障净精进：</b>昼夜经行宴坐，从诸障法净修其心。</p></div>
+    </div>
+    <div class="case"><b>健身版的四种欲：</b>小吴的健身动机层层升级：想让体检报告恢复正常（证得欲）→ 约了教练做评估（请问欲）→ 备了跑鞋、调了作息（修集资粮欲）→ 半年后开始享受跑步本身、风雨无阻（随顺瑜伽欲）。动机越往后越不靠意志力硬撑——这正是「随顺瑜伽欲」与「为障净精进」的味道。</div>
+    <div class="case"><b>把手机锁进定时盒的人：</b>小考研前最大的敌人不是难题，是手机。她买的不是「更强自律」，而是一个定时锁盒：备考时段物理断联——这对应第四种精进「为障净精进」：先净修其心于诸障法，再谈勤心勇猛。论中把它列为与闻思修并列的第四种精进，因为障碍不清，前三种精进都在漏电。</div>
+    <p>段位方面，论中给瑜伽师分了三级：</p>
+    <div class="quote">一初修业瑜伽师㉕。二已习行瑜伽师㉖。三已度作意瑜伽师㉗。<span class="src">—— 卷第二十八原文</span></div>
+    <p>初修业者又分两种：还没得所修作意的（于作意初修业），与已得作意、正修了相作意净烦恼的；已习行者已善修其余五作意；已度作意者超过加行方便所修作意，安住修果。</p>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑦ 作意四档 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>作意四档与九种胜解：心的变速器</h2></div>
+  <p class="sec-lead">引擎装好了，心用力的方式也有档位。论中把「作意」（驱动心投向所缘的操作）分四档，从新手的硬拗到老手的自动巡航；又列了作意时应思惟的四种相、应远离的四种病相，以及九种胜解的画质选项。</p>
+
+  <div class="card">
+    <h3>四档变速器</h3>
+    <div class="quote">一力励运转作意⑳。二有间运转作意㉑。三无间运转作意㉒。四无功用运转作意㉓。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">一档 · 力励运转作意</div><div class="d">「由倍励力折挫其心令住一境」——初修业者的手动挡：加倍用力，把乱跑的心硬按在一个境界上。</div></div>
+      <div class="tl-item"><div class="t">二档 · 有间运转作意</div><div class="d">「未能一向纯修行转」——已得作意，但被三摩地之思间杂，修行有间隙，像新手开车偶尔熄火。</div></div>
+      <div class="tl-item"><div class="t">三档 · 无间运转作意</div><div class="d">「从了相作意已后。乃至加行究竟作意」——从了相到加行究竟，一路连续不断，不再频繁中断。</div></div>
+      <div class="tl-item"><div class="t">四档 · 无功用运转作意</div><div class="d">「加行究竟果作意」——自动巡航：不必再使力，修行自己运转，如老司机边开车边聊天。</div></div>
+    </div>
+    <div class="plain">档位不能跳：人人都要从一档的「硬按」开始，熬过二档的「间杂」，三档的「连续」，才配得上四档的「不费劲」。</div>
+    <div class="case"><b>学开手动挡的四档：</b>小郑在教练场手忙脚乱、嘴里默念口诀（力励）；上路头一个月偶尔熄火（有间）；三个月后通勤路线越开越顺、一路不假思索（无间）；如今能一边开车一边和副驾聊天，到家才发现全程没「想」过开车（无功用）。心的训练走的是同一条档位曲线。</div>
+  </div>
+
+  <div class="card">
+    <h3>另外四种作意与四种应远离相</h3>
+    <p>按功能分，还有四种作意：随顺作意（对所缘深生厌坏、起正加行但未断惑）、对治作意（能断惑）、顺清净作意（心低沉时取净妙相提起来）、顺观察作意（观察烦恼断与未断）。作意时该思惟四种相：所缘相、因缘相、应远离相、应修习相。其中应远离的病相有四：</p>
+    <div class="quote">一者沈相。二者掉相。三者着相。四者乱相。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="case"><b>周一例会上的四种心：</b>小林在两小时的周会上经历了全部四相：听着听着眼皮发沉、思路下坠（沈相——令心下劣）；轮到自己汇报突然兴奋抢话、语速飙车（掉相——令心高举）；被质疑后死抱旧方案不肯放（着相——于境起染起著）；一边听别人发言一边回三个群消息（乱相——于外驰散扰动）。认出是哪一相，才知道该用顺清净作意提、还是有间里退回来按。</div>
+    <div class="case"><b>谷底自救的一张照片：</b>方案第三次被否，小周情绪跌到谷底、连改的力气都没有。她翻出去年被客户表扬的那一版方案截图看了十分钟，把「我不行」的漩涡打断，回去重写——这就是顺清净作意：「谓心下蹙取净妙相策令欢悦」，心往下沉时，取一个真实存在的净妙所缘把自己策起来，不是灌鸡汤，是打捞。</div>
+  </div>
+
+  <div class="card">
+    <h3>九种胜解：心的画质选项</h3>
+    <div class="quote">一有光净胜解。二无光净胜解。三迟钝胜解。四捷利胜解。五狭小胜解。六广大胜解。七无量胜解。八清净胜解。九不清净胜解。<span class="src">—— 卷第二十八原文</span></div>
+    <p>「胜解」是对所缘的确定认可。同样是认可，有亮度（光净/闇昧）、速度（钝/利）、广度（狭小/广大/无量）与纯度（清净/不清净）四组九档。点开看九张卡：</p>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">有光净胜解</div><div class="sub">亮度组 · 开灯</div><div class="tap">点击展开</div></div><div class="back">「于光明相澄心善取」——心澄净、取相清晰，像高清屏。<em>同看一份合同，有人一眼看到关键条款。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">无光净胜解</div><div class="sub">亮度组 · 暗房</div><div class="tap">点击展开</div></div><div class="back">「于光明相不能善取，与闇昧俱」——取相模糊、心带雾。<em>熬夜后读专业书，字都认识、连不成句。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">迟钝 / 捷利胜解</div><div class="sub">速度组 · 钝根与利根</div><div class="tap">点击展开</div></div><div class="back">钝根身中所有为迟钝，利根身中所有为捷利——反应快慢之别，不是优劣判决，只是起点档差。<em>同解一道题，有人三分钟有人三小时。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">狭小胜解</div><div class="sub">广度组 · 小屏</div><div class="tap">点击展开</div></div><div class="back">与狭小信欲俱行、所缘狭小——目标只框住眼前一寸。<em>学习计划只有「这次不挂科」。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">广大 / 无量胜解</div><div class="sub">广度组 · 大屏与全景</div><div class="tap">点击展开</div></div><div class="back">所缘广大为广大，无边无际为无量——信欲与所缘一起放大。<em>从「过好这周」到「愿一切相关的人都顺利」，屏幕越开越宽。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">清净 / 不清净胜解</div><div class="sub">纯度组 · 提纯与否</div><div class="tap">点击展开</div></div><div class="back">已善修、已成满、已究竟为清净；未善修、未成满、未究竟为不清净——同一份胜解，练没练到家。<em>新手菜谱背得熟但没下过厨，与掌勺十年的手，配方一样、纯度两样。</em></div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑧ 想修与四念住 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>瑜伽修：想修 · 三十七菩提分 · 四念住拆解</h2></div>
+  <p class="sec-lead">本卷最后发训练菜单。「瑜伽修」分两条线：想修是四套念头体操，菩提分修是三十七项完整训练；其中四念住（身、受、心、法）被拆到最细——每科给清单、给观察法、给对治的颠倒。</p>
+
+  <div class="card">
+    <h3>想修：四套念头体操</h3>
+    <div class="quote">谓有二种。一者想修㉙。二者菩提分修㉚。<span class="src">—— 卷第二十八原文</span></div>
+    <p>想修四套：修世间道时对下地修过患想；修涅槃道时修断、离欲、灭想；修奢摩他时修止品上下想；修毗钵舍那时修观品前后想。后两套最有画面：</p>
+    <div class="quote">上从顶上下至足下。种种杂类不净充满。<span class="src">—— 卷第二十八原文（上下想）</span></div>
+    <div class="quote">谓住观于坐坐观于卧。或在后行观察前行。<span class="src">—— 卷第二十八原文（前后想）</span></div>
+    <p>三句话各藏一个时间方向：<b>住观于坐</b>＝以现在的作意观察未来诸行（现在已现生为「住」，未来临欲起为「坐」）；<b>坐观于卧</b>＝以现在观察过去（现在临欲灭为「坐」，过去已谢灭为「卧」）；<b>后行观察前行</b>＝后一念的能取作意，取前一念无间已谢灭的所取作意。</p>
+    <div class="analogy"><b>比喻：</b>像站在公交站台的三种视线：看下一班车正进站（住观于坐——观未来），目送刚驶离的那班车（坐观于卧——观过去），监控屏里后一帧照见前一帧（后行观察前行——现在照见无间灭的当下）。</div>
+    <div class="case"><b>洗澡后的三分钟：</b>小何洗完澡，从头顶到脚底如实扫一遍这具身体：发、毛、爪、齿，皮肉筋骨——没有广告滤镜里的那具「净身」，只有各种成分的堆叠。这就是上下想的日常版：不是厌恶身体，而是把「净」的滤镜摘掉，对治对它的过度执著。</div>
+    <div class="case"><b>洗碗时的回看：</b>小周做好一桌菜时心里烦躁、手上带劲；饭后坐下洗碗，她回看刚才站着炒菜那颗急躁的心——像看一段刚录下的视频。这是「住观于坐」：以现在这颗已安住的心，观察刚刚过去的那一幕身心，烦躁因此不再被当成「我」，只是一段已谢灭的行。</div>
+  </div>
+
+  <div class="card">
+    <h3>菩提分修：三十七项训练总表</h3>
+    <div class="quote">谓四念住㉜。四正断。四神足。五根五力。七觉支。八圣道。<span class="src">—— 卷第二十八原文</span></div>
+    <p>三十七菩提分法是修行训练的完整课表，本卷开列科目并在其后详解第一组（四念住）：</p>
+    <details class="dict"><summary>三十七菩提分 · 七组科目速览<span class="hint">可跳过 · 背景知识</span></summary><div class="body">
+      <p><b>四念住（4）：</b>身、受、心、法——本卷随后花最大篇幅详解的一组。</p>
+      <p><b>四正断（4）：</b>已生恶令断、未生恶令不生、未生善令生、已生善令增长不忘——用「生欲策励发勤精进。策心持心」对付善恶的增减。</p>
+      <p><b>四神足（4）：</b>欲、勤、心、观四种三摩地「断行成就」——定境的四条来路：靠意愿、靠勤力、靠心自在、靠观察。</p>
+      <p><b>五根（5）：</b>信、精进、念、定、慧——五种往下生根的底层能力。</p>
+      <p><b>五力（5）：</b>同五样长成力——根扎深后不再被烦恼顶回来。</p>
+      <p><b>七觉支（7）：</b>念、择法、精进、喜、安、定、舍——见道前后调心的七件工具（本卷三学互引段就点名「修念觉支。乃至修舍觉支」）。</p>
+      <p><b>八圣道（8）：</b>正见、正思惟、正语、正业、正命、正精进、正念、正定——从见地到生活的八条正道。</p>
+    </div></details>
+  </div>
+
+  <div class="card">
+    <h3>四念住：四台观察仪</h3>
+    <div class="quote">住循身观略有三种。谓依身增上闻思修慧。<span class="src">—— 卷第二十八原文</span></div>
+    <p>「循身观」＝顺着身逐一观察，它靠闻、思、修三种慧支撑。念之所以能「住」，有三重任务：守护念、于境无染（「不取其相不取随好」）、安住所缘（遍满、净行、善巧、净惑四所缘）。</p>
+    <details class="dict"><summary>身念住 · 三十五种身相清单<span class="hint">可跳过 · 分门别类用</span></summary><div class="body">
+      <p><b>内外（2）：</b>内身、外身——自己的身体与身外之物。</p>
+      <p><b>根摄与否（2）：</b>根所摄身、非根所摄身——长感觉的与不长的。</p>
+      <p><b>有情数与否（2）：</b>有情数身、非有情数身。</p>
+      <p><b>粗重 / 轻安（2）：</b>粗重俱行身、轻安俱行身——沉重版与轻利版。</p>
+      <p><b>能造 / 所造（2）：</b>能造身、所造身——四大种与其造出之色。</p>
+      <p><b>名 / 色（2）：</b>名身、色身。</p>
+      <p><b>五趣（5）：</b>那落迦身、傍生身、祖父国身、人身、天身。</p>
+      <p><b>有无识（2）：</b>有识身、无识身。</p>
+      <p><b>中 / 表（2）：</b>中身、表身——自体与仪态表相。</p>
+      <p><b>变异与否（2）：</b>变异身、不变异身。</p>
+      <p><b>性别（3）：</b>女身、男身、半择迦身。</p>
+      <p><b>亲疏（2）：</b>亲友身、非亲友身。</p>
+      <p><b>品质（4）：</b>中庸身、劣身、中身、妙身。</p>
+      <p><b>年龄（3）：</b>幼身、少身、老身。合计三十五种——「身」在论中不是一张脸，而是一整套分类系统。</p>
+    </div></details>
+    <details class="dict"><summary>受·心·法三科盘点：二十一受、二十心、二十法<span class="hint">可跳过 · 清单背景</span></summary><div class="body">
+      <div class="quote">如是总有二十一受㉞。或九种受。<span class="src">—— 卷第二十八原文</span></div>
+      <p><b>受：</b>以乐、苦、不苦不乐三受为底，配上身受/心受、有爱味/无爱味、依耽嗜/依出离等门展开，共二十一受（或归为九种）。判据示例：堕于界中为有爱味受，色无色界系或随顺离欲为依出离受，欲界系不顺离欲为依耽嗜受。</p>
+      <div class="quote">有贪心离贪心。有嗔心离嗔心。有痴心离痴心。略心散心。下心举心。掉心不掉心。寂静心不寂静心。定心不定心。善修心不善修心。善解脱心不善解脱心。<span class="src">—— 卷第二十八原文</span></div>
+      <p><b>心：</b>十对二十种心。前三对（贪嗔痴与其对治）是行时所起，后七对十四种是住时所起；略心＝系缚于内所缘，散心＝随五妙欲流散，下心＝与惛沉睡眠俱行，举心＝净妙所缘明了显现。</p>
+      <div class="quote">如是当知建立黑品白品染品净品二十种法㊱。<span class="src">—— 卷第二十八原文</span></div>
+      <p><b>法：</b>与二十心配对——每一颗心都有「它本身」与「它的对治」两种法，构成黑品白品、染品净品的二十种法。法念住就是在这对治关系里如实遍知杂染法的自性、因缘、过患、对治。</p>
+    </div></details>
+    <div class="case"><b>深夜刷到升职动态的人：</b>小何临睡前刷到同龄人升职的动态，胃里一紧、翻来覆去。他练习先不评理，先登记：「此刻是一颗有嗔心，带一点有贪心」——像酒店前台给每位来访者登记姓名。认出是哪一颗心（二十心清单里的哪一项），情绪就从「我的命运」降格为「一种可观察的心理事件」。</div>
+    <div class="case"><b>牙疼时的拆解：</b>老赵半夜牙疼，往常只会说「我疼死了」。这次他试着拆：跳疼的波峰是苦受，对疼的烦躁是心受，「怎么会是我牙出问题」的懊恼是有嗔心受——疼还在，但「疼＋烦＋怕」打包成的那个大团子被拆成了三件可分别观察的事。这正是受念住「如实了知诸所有受」的入门操作。</div>
+    <p>四念住的分工，是各对治一种颠倒：</p>
+    <div class="quote">为欲对治于诸苦中计乐颠倒。立受念住。<span class="src">—— 卷第二十八原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">身念住</div><div class="sub">对治「净颠倒」</div><div class="tap">点击展开</div></div><div class="back">于不净中计净，是最顽固的错觉之一。循身观宣说不净相（应四憺怕路），多分思惟，净颠倒自然断。<em>像给加了十级美颜的照片看原图。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">受念住</div><div class="sub">对治「乐颠倒」</div><div class="tap">点击展开</div></div><div class="back">于诸苦中计乐。住循受观，如实了知「诸所有受皆悉是苦」——乐受也建在会变坏处。<em>像看清促销价里的「原价」是怎么标的。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">心念住</div><div class="sub">对治「常颠倒」</div><div class="tap">点击展开</div></div><div class="back">于无常中计常。了知有贪心等种种差别，经历日夜刹那「非一众多种种品类心生灭性」——心念念在换。<em>翻三年前的聊天记录：当时的纠结已像别人的事。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">法念住</div><div class="sub">对治「我颠倒」</div><div class="tap">点击展开</div></div><div class="back">于无我中计我。于诸法住循法观，如实了知所计诸蕴自相共相——那堆身心现象里没有一个 owner。<em>像公司通讯录里查无此人，账却一直在各岗位间流转。</em></div></div>
+    </div>
+    <p>「念住」二字本身也有三义：<span class="quote" style="display:inline-block;padding:4px 12px">若于此住念。若由此住念皆名念住。<span class="src">—— 卷第二十八原文</span></span>在所缘上安住念是所缘念住，以慧与念摄持于定是自性念住，其余相应心心法是相杂念住。下面再练习一下：以下场景各属哪一念住？</p>
+    <div id="sorterNian"></div>
+    <div class="case"><b>门卫式的念：</b>小区门卫老李的工作是：访客来了先登记（不取其相不取随好——登记但不纠缠）、闲杂人等不放进（守护念）、无关电话一律转接（于境无染）。四念住的「念」，在原文里的岗位说明书正是这三条：守护念、于境无染、安住所缘。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑨ 收官 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：一张总纲，六个数字</h2></div>
+  <p class="sec-lead">这一卷没有卷末偈颂，但它有一条比偈颂更严整的「总纲」——戒到涅槃的因果链。收官时把它完整看一遍，再数一数全卷留下的六个数字。</p>
+
+  <div class="gatha">
+    <div class="lines">无忧悔故欢喜安乐<br>由有乐故心得正定<br>心得定故能如实知　能如实见<br>如实知见故能起厌<br>厌故离染　由离染故便得解脱<br>得解脱故　证无所作究竟涅槃</div>
+    <div class="mean">原文总纲：「如是最初修习净戒。渐次进趣后证无作究竟涅槃。是故三学如是次第。」——不欠账（戒净）→ 心情松（安乐）→ 心坐得住（定）→ 看得清（知见）→ 不想抓（厌）→ 放得下（离染）→ 真解脱 → 究竟安稳。全卷九个板块，都是为这条链服务的配件。</div>
+  </div>
+
+  <div class="yuan-grid">
+    <div class="yuan-card"><span class="y-tag">3</span><h4>三胜学</h4><p>戒、心、慧——地基、楼层与封顶，三层恰好一栋楼。</p></div>
+    <div class="yuan-card"><span class="y-tag">10 ↔ 10</span><h4>违逆对想</h4><p>十种障碍、十副药，按次第一一对位，外加十种随顺盟友。</p></div>
+    <div class="yuan-card"><span class="y-tag">4</span><h4>四种瑜伽坏</h4><p>毕竟、暂时、退失、邪行——最后一种配了完整的反面案例。</p></div>
+    <div class="yuan-card"><span class="y-tag">4 × 4 = 16</span><h4>四瑜伽十六支</h4><p>信、欲、精进、方便四件套，点火顺序不可乱。</p></div>
+    <div class="yuan-card"><span class="y-tag">4</span><h4>作意四档</h4><p>力励→有间→无间→无功用——从手动挡到自动巡航。</p></div>
+    <div class="yuan-card"><span class="y-tag">37</span><h4>菩提分法</h4><p>4＋4＋4＋5＋5＋7＋8——完整训练菜单，第一组四念住已拆到可操作。</p></div>
+  </div>
+
+  <div class="case"><b>把全卷读成一张体检报告：</b>整卷的结构其实就是体检中心的流程：先定指标体系（三学），再列异常指标与处方（十违逆对十想）、生活方式建议（十随顺），然后是风险警示与事故案例（四种瑜伽坏），配一套康复动力方案（四瑜伽），教你自己调节强度（作意四档），最后发完整康复课表（三十七菩提分）。下次重读本卷，按这张体检单翻，每个板块都找得到柜台。</div>
+  <div class="case"><b>今晚就能做的一步：</b>不必等读懂全部三十七菩提分——本卷义理可以先落成一个两分钟的动作：睡前像小林那样写两行复盘（今天哪句说重了、该做的做了没），这就是「数数观察」的最小执行版。一卷论的第一口，从来是从最小那口咬下去的。</div>
+
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第二十八（output/28.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga28-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* ---- 翻转卡（①六大板块 / ⑤四种瑜伽坏 / ⑦九胜解 / ⑧四念住四颠倒） ---- */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
+/* ---- 流程推演：从戒清净到涅槃的九环因果链（③） ---- */
+initStepper('flowLian','flowLianD','flowLianPrev','flowLianNext',[
+ {t:'① 净戒清净',d:'<b>戒清净：</b>链条的起点——行为上不亏欠。日常版：答应的事做到、说过的真话不收回、不该拿的不拿。原文说「先于尸罗善清净故便无忧悔」，戒清净是后面每一环的地基。'},
+ {t:'② 无忧悔',d:'<b>无忧悔：</b>不欠账，夜半不怕敲门。做了亏心事的人最怕安静——戒清净的人省下了这笔「心理利息」。原文：「先于尸罗善清净故便无忧悔。」'},
+ {t:'③ 欢喜安乐',d:'<b>欢喜安乐：</b>「无忧悔故欢喜安乐」——心里松了，才有底层的好心情。这不是奖励，是因果链上自然长出的一环。'},
+ {t:'④ 心得正定',d:'<b>心得正定：</b>「由有乐故心得正定」——安乐是定的燃料。一颗被懊悔搅着的心坐不住；松下来、乐着的心，才能安稳地停在一个所缘上。'},
+ {t:'⑤ 如实知见',d:'<b>如实知见：</b>「心得定故能如实知能如实见」——定下来的心才照得清事实，看清烦恼怎样生起、又把自己带向哪里。'},
+ {t:'⑥ 能起厌',d:'<b>起厌：</b>「如实知见故能起厌」——看清了过患，不需要咬牙硬戒，自然不想再抓着不放。厌是知见的自动结果，不是情绪化的厌恶。'},
+ {t:'⑦ 离染·解脱',d:'<b>离染得解脱：</b>「厌故离染。由离染故便得解脱」——不想抓了，手自然松开；缠缚不是被谁解开，是发现没东西缠着你。'},
+ {t:'⑧ 究竟涅槃',d:'<b>究竟涅槃：</b>「得解脱故证无所作究竟涅槃」——链条的终点：无所作的安稳。原文总结：「如是最初修习净戒。渐次进趣后证无作究竟涅槃。是故三学如是次第。」从戒开始，每一环都为下一环供货。'}
+]);
+
+/* ---- 流程推演：四瑜伽点火顺序（⑥） ---- */
+initStepper('flowYoga','flowYogaD','flowYogaPrev','flowYogaNext',[
+ {t:'① 信',d:'<b>信：</b>「初由信故于应得义深生信解」——先信「这事真能成」。信有信顺与清净两种行相，依处可以是观察道理，也可以是见到活生生的人做到了。'},
+ {t:'② 欲',d:'<b>欲：</b>「信应得已于诸善法生起乐欲」——信了才想要。想要分四级：想证得、想请教、想集资粮、想随顺瑜伽，一级比一级不靠硬撑。'},
+ {t:'③ 精进',d:'<b>精进：</b>「由乐欲故昼夜策励安住精勤」——想要才肯投入。投入分四路：为闻、为思、为修、为障净，最后一项专治「漏电」。'},
+ {t:'④ 方便',d:'<b>方便：</b>「坚固勇猛发精进已。摄受方便」——肯投入还要讲方法。方法从戒起：尸罗律仪增上力故善守其念，善守念故能无放逸，于是修奢摩他与毗钵舍那。'},
+ {t:'⑤ 能得未得',d:'<b>成果：</b>「能得未得。能触未触。能证未证。故此四法说名瑜伽」——四件套点火的意义只有一个：把还没拿到手的，拿到手。'}
+]);
+
+/* ---- 归类练习：这个功课属于哪一学？（②） ---- */
+initSorter('sorterXue',[
+ {a:'下决心不再对家人说气话，并且说到做到——这是三学里哪一科的功课？',opts:['增上戒学','增上心学','增上慧学'],ans:'增上戒学',exp:'戒学管行为层面：「安住具戒」——在身口上安住、不亏欠，是链条的地基。'},
+ {a:'关掉所有通知，把心收摄回一件事上持续二十分钟——这是哪一科的功课？',opts:['增上戒学','增上心学','增上慧学'],ans:'增上心学',exp:'心学管专注——「离欲恶不善法」，把心从散乱里收回来、稳定安住于一境。'},
+ {a:'复盘一次争吵，看清自己先抬高自己、再看轻对方的整个心理链条——这是哪一科的功课？',opts:['增上戒学','增上心学','增上慧学'],ans:'增上慧学',exp:'慧学是「于四圣谛等所有如实智见」——如实看清身心事件的来龙去脉。'},
+ {a:'原文说由它能「建立心一境性。能令其心触三摩地」——它是三学里的哪一学？',opts:['增上戒学','增上心学','增上慧学'],ans:'增上戒学',exp:'「建立定义者。谓增上戒学」——由戒立得住心一境性，戒是定的地基。'},
+ {a:'原文称它是「智所依义」——如实智见要靠它才能生起，它是哪一学？',opts:['增上戒学','增上心学','增上慧学'],ans:'增上心学',exp:'「智所依义者。谓增上心学」——由正定心、念一境性，如实智见才能转起。'}
+]);
+
+/* ---- 归类练习：这个观察属于哪一念住？（⑧） ---- */
+initSorter('sorterNian',[
+ {a:'洗澡后从头顶到脚底如实观察这具身体的成分与状态',opts:['身念住','受念住','心念住','法念住'],ans:'身念住',exp:'循身观——「上从顶上下至足下。种种杂类不净充满」，对治于不净计净的净颠倒。'},
+ {a:'牙疼时不再说「我疼」，而是认出疼的感受正在一波波生灭',opts:['身念住','受念住','心念住','法念住'],ans:'受念住',exp:'受念住观察诸受——「如实了知诸所有受皆悉是苦」，对治于苦计乐的乐颠倒。'},
+ {a:'深夜刷手机时发现自己心里正泛起一点酸溜溜的比较',opts:['身念住','受念住','心念住','法念住'],ans:'心念住',exp:'认出此刻是一颗有贪心或有嗔心——二十心清单的实时登记，对治于无常计常的常颠倒。'},
+ {a:'看清「贪」生起时是哪几个心理事件在接力、它的过患是什么、用什么对治',opts:['身念住','受念住','心念住','法念住'],ans:'法念住',exp:'法念住「如实遍知诸杂染法自性因缘过患对治」，对治于无我计我的我颠倒。'},
+ {a:'观察盖障生起了又能散灭这件事本身的规律，而不只盯着当下的烦',opts:['身念住','受念住','心念住','法念住'],ans:'法念住',exp:'于内有盖能自了知、生已散灭亦能了知——在染净对治的关系上观察，正是法念住的体性。'}
+]);
+
+/* ---- 条件模拟器：四种瑜伽坏如何被关在门外（⑤） ---- */
+(function(){
+  var z=document.getElementById('condZhong'),w=document.getElementById('condWaiyuan'),r=document.getElementById('condRuli'),out=document.getElementById('condResult');
+  function upd(){
+    if(!z.checked){
+      out.className='fail';
+      out.innerHTML='<b>毕竟瑜伽坏：</b>「由彼身中无能趣向涅槃法故。毕竟失坏出世瑜伽。」——不是不努力，是那根「能趣向涅槃」的线不存在。种姓开关一关，其他开关再满也归这一档；论中把这类人称作无种姓补特伽罗。';
+    }else if(!w.checked){
+      out.className='fail';
+      out.innerHTML='<b>暂时瑜伽坏：</b>「虽阙外缘时经久远。定当缘会修习瑜伽令其现起。」——种子在，只是没等到雨水：缺老师、缺环境、缺时机。这一档是延期，不是判决——缘迟早会合，善修习已当般涅槃。';
+    }else if(!r.checked){
+      out.className='fail';
+      out.innerHTML='<b>邪行所作瑜伽坏：</b>「不如正理精勤修行。虽多用功无所成办。」——外缘齐备，方向却歪了：装样子、贪利养、覆藏、自造伪法，越勤快离目标越远；若已有所得又失守，便落入「退失所得瑜伽坏」。';
+    }else{
+      out.className='';
+      out.innerHTML='<b>瑜伽安固：</b>四种坏缘全被关在门外——身中有种姓、外缘已会合、修行如理且守护所得。本卷的整套清单（十想、四瑜伽、四作意、三十七菩提分）正是为守住这一档而设。';
+    }
+  }
+  z.addEventListener('change',upd);
+  w.addEventListener('change',upd);
+  r.addEventListener('change',upd);
+  upd();
+})();
+
+renderPath();
+</script>
+</body>
+</html>
