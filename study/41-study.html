@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第四十一 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;text-align:left;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中菩萨地初持瑜伽处戒品第十之二</div>
+  <h1>卷第四十一 · 交互式学习模块</h1>
+  <p class="sub">这一卷是菩萨戒的「判例手册」：约四十条日常持犯细则，每条都套同一个判定公式——犯了没有、动机染不染、情节什么品。卷中并讲透性罪的开缘（特定动机下大戒不犯反生功德）、忏悔还净的完整流程，与持戒者的三种圆满。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 25 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a><a href="#s2">② 判犯公式</a><a href="#s3">③ 该做不做</a><a href="#s4">④ 少事与利他</a><a href="#s5">⑤ 开缘</a><a href="#s6">⑥ 心的污染</a><a href="#s7">⑦ 闻法与外学</a><a href="#s8">⑧ 忏悔还净</a><a href="#s9">⑨ 收官·三圆满</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>弄清本卷结构：约40条判例细则＋性罪开缘＋忏悔还净＋三种圆满（对应章节01）</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>学会判犯公式</b><span>有犯无犯 × 染非染 × 软中上品，并完成一组归类练习（对应章节02）</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>分清两种修行人的分寸</b><span>「少事少业」对声闻是美德，为何对菩萨反而是犯（对应章节04）</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>走一遍开缘决策链</b><span>杀、盗、妄语为何有时不但不犯、反生功德（对应章节05）</span></span></label></div>
+<div class="step-item" data-target="#s6"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>清点心的污染清单</b><span>五盖、掉举、爱染——犯戒的真正源头在哪里（对应章节06）</span></span></label></div>
+<div class="step-item" data-target="#s8"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官：还净与三圆满</b><span>忏悔流程、自受戒仪轨、持戒者的三种富足（对应章节08、09）</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ 01 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：一本「判例手册」</h2></div>
+  <p class="sec-lead">前一卷讲了菩萨如何受戒、犯了哪些根本重戒（他胜处法）。本卷进入「细则篇」：把日常行持中几十种具体情形逐一判定——犯了没有？是怀恶心地犯，还是失误地犯？情节算轻算重？最后教你怎么忏悔恢复清净，以及持戒持到位的人活成什么样子。</p>
+
+  <div class="card">
+    <h3>本卷在讲什么</h3>
+    <div class="quote">如是菩萨安住菩萨净戒律仪①。于有违犯及无违犯是染非染软中上品。应当了知。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">这一卷是一本「判例手册」：几乎每一条都按同一个公式判定——有没有犯、犯得干不干净、严重到什么程度。</div>
+    <div class="analogy"><b>比喻：</b>考驾照时你学的是「红灯停」（根本重戒）；这一卷是司机手册的「扣分明细与豁免条款」——变道没打灯扣几分、避让救护车闯灯不扣分。</div>
+  </div>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">持犯细则</div><div class="sub">约四十条「该做／不该做」的日常判例</div><div class="tap">点击展开</div></div><div class="back">供养三宝、迎接耆德、受请受施、施法、助伴、供病、掉举嬉戏、五盖、闻法外学……每条都套同一个判定公式。<em>就像员工手册从「不许迟到」细化到「报销单贴在哪一格」。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">开缘</div><div class="sub">特定动机下，大戒不犯反生功德</div><div class="tap">点击展开</div></div><div class="back">杀、盗、妄语、离间语、粗恶语、绮语的例外情形——关键在「善权方便为利他故」加上无染之心，三道锁缺一不可（见章节05）。<em>为了救人而「说谎」，在菩萨戒里不是破戒。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">忏悔还净</div><div class="sub">犯了怎么办：发露、自誓、重受</div><div class="tap">点击展开</div></div><div class="back">按烦恼缠缚的强度分上中下品，对应不同挽回规模；实在找不到人对发露，还可以自誓防护（见章节08）。<em>像游戏里的「回城重生」——不是无伤，而是有明确的恢复路径。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">三种圆满</div><div class="sub">持戒持到位的人，三种富足安乐而住</div><div class="tap">点击展开</div></div><div class="back">加行圆满（当下的功夫）、意乐圆满（心中的方向）、宿因圆满（过去的积累）——收官章详讲，与三种衰损对照。<em>全卷的终点不是「别犯错」，而是「活成什么样」。</em></div></div>
+  </div>
+
+  <div class="case"><b>读完前卷的忐忑：</b>小周读完前几卷觉得「菩萨戒好难，动辄得咎」。本卷开头那句「应当了知」其实先给了他定心丸：判犯有公式、犯错有解法、清醒有清单——这一卷的设计初衷不是让人靠感觉定罪，而是把罪与非罪讲得可判定、可操作。</div>
+  <div class="case"><b>法务新人的第一课：</b>法务部新人入职第一天，主管不给法条全文，先教他「怎么看这份判例集」：每条判例的格式都是「情形→结论（犯／不犯）→定性（染／非染）→情节（软中上品）」。本卷四十多条判例，用的正是这同一个模子——先认模子，再读判例，就不会晕。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 02 判犯公式 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>判犯公式：读判例的语法</h2></div>
+  <p class="sec-lead">本卷每条规则都长一个样，先学会「读判例的语法」，后面几十条就不会晕。公式有三层：第一层，犯没犯（有违犯／无违犯）；第二层，怎么犯的（染／非染——怀恶心犯，还是失误懒惰犯）；第三层，多重（软／中／上品）。三层分开判，结论可以完全不同。</p>
+
+  <div class="card">
+    <h3>同一行为，不同内心，不同判决</h3>
+    <div class="quote">若不恭敬懒惰懈怠而违犯者。是染违犯⑥。若误失念而违犯者。非染违犯⑦。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">定「染不染」看的是动机质量：嫌恨、恚恼、憍慢、吝啬、嫉妒→染；忘念、失误、无记、疾病无气力→非染。</div>
+    <div class="analogy"><b>比喻：</b>交通事故定责——撞没撞是第一层；是酒驾还是打滑是第二层；后果大小是第三层。同样一次剐蹭，判决可以天差地别。</div>
+  </div>
+
+  <div class="card">
+    <h3>三大「总免检」条款</h3>
+    <div class="quote">又一切处无违犯者。谓若彼心增上狂乱。若重苦受之所逼切。若未曾受净戒律仪。当知一切皆无违犯。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">三种情况下一切条款都不成立：心智狂乱、被重苦逼到失去余地、根本没受过这套戒。三条兜底，先于一切细则。</div>
+    <div class="analogy"><b>比喻：</b>法律上的「无责任能力、不可抗力、合同未生效」——三条兜底条款排在所有细则之前，先问资格，再谈对错。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：给这五个场景定性</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">用刚学的公式判断：以下行为各属于哪一类？点按钮看答案与依据。</p>
+    <div id="sortPan"></div>
+  </div>
+
+  <div class="case"><b>私教两次爽约：</b>健身私教两次没来上课：第一次是高速封路（不可控的意外→非染），第二次是睡懒觉懒得动（懈怠→染）。会员对第二次明显更愤怒——这份直觉背后的道理，正是「染／非染」之分：人真正惩罚的不是迟到本身，而是迟到背后的那颗心。</div>
+  <div class="case"><b>该说不说：</b>小组作业里你明知同学引用错了数据却不说，理由是「懒得管」。按本卷语法，这属于「懒惰懈怠」的不作为——仍是有犯有所违越，只是非染：你少了一点恶意，但没有逃过「该说不说」的责任。菩萨戒里，「不作为」从来不是免罪牌。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 03 该做不做 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>该做不做：利他的正面责任</h2></div>
+  <p class="sec-lead">菩萨戒最反直觉的地方：不作为也会犯戒。每天不供养三宝、见有德者不迎接、有人请法不给、有人受苦不管——哪怕一件坏事都没做，也「是名有犯有所违越」。这一节先认六类最常见的「该做不做」，长清单放进折叠区。</p>
+
+  <div class="card">
+    <h3>每日最低维护动作</h3>
+    <div class="quote">下至以身一拜礼敬。下至以语一四句颂赞佛法僧真实功德。下至以心一清净信随念三宝真实功德。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">每天对三宝至少做一件最小的事：一个头、一首四句颂、一念净信——三选一即可；什么都不做而空过日夜，是犯。</div>
+    <div class="analogy"><b>比喻：</b>就像每天刷牙——不是每次都认真刷满三分钟，但一次都不刷，牙的问题只是时间问题。最低剂量的动作，维系的是关系的「不锈」。</div>
+  </div>
+
+  <div class="card">
+    <h3>不肯教，也是一条专条</h3>
+    <div class="quote">他来求法。怀嫌恨心怀恚恼心。嫉妒变异不施其法。是名有犯有所违越。是染违犯。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">连「不肯把会的教给别人」都有专门条款——前提是动机被怨气或嫉妒污染；若对方是来挑错的、不恭敬的、学了会拿去害人的，不给则无犯。</div>
+    <div class="analogy"><b>比喻：</b>会做菜的人不肯教家人做菜，理由是上次和他吵过架——菜谱没少一块，是心眼小了一寸。卡住传授的从来不是技艺，是芥蒂。</div>
+  </div>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">供三宝</div><div class="sub">一日空过即犯</div><div class="tap">点击展开</div></div><div class="back">佛塔、经卷、僧伽所在，供养具多少不论——身一拜、语一颂、意一念，总要占一样；因不恭敬、懒惰懈怠而空度，是染违犯，因忘念误失则是非染。<em>戒律连「今天有没有表达敬意」都管。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">迎耆德</div><div class="sub">见长者有德者来，不起身不让座</div><div class="tap">点击展开</div></div><div class="back">「见诸耆长有德可敬同法者来」却「不起承迎不推胜座」，来人交谈也不按正理应对——憍慢所制、怀嫌恨心是染犯；只是懒惰忘念则是非染。<em>傲慢是这里的头号元凶。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">受延请</div><div class="sub">有人奉施饮食衣服来请，不去不受</div><div class="tap">点击展开</div></div><div class="back">嫌恨心拒请是染犯，懒惰忘念拒请是非染犯；但疾病无气力、路远道怖、先有他约、为护修行不断、知对方心怀损恼诈请、为护僧制——不去无犯。<em>拒绝可以，理由要真实。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">受财施</div><div class="sub">宝物供养，嗔恨拒收</div><div class="tap">点击展开</div></div><div class="back">因嫌恨恚恼「违拒不受」，是染犯——「舍有情故」。但若知是劫盗所得、是僧物塔物、施主会追悔、「知施主随舍随受由是因缘定当贫匮」，不受无犯。<em>收不收，看对方的利益，不看自己的好恶。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">施其法</div><div class="sub">有人求法，因嫉妒不给</div><div class="tap">点击展开</div></div><div class="back">「嫉妒变异不施其法」是染犯，懒惰忘念不施是非染犯；但对方是外道来伺求过短的、不恭敬无羞愧的、钝根深畏会生邪见的、学了会转布非人的——不施无犯。<em>法不是商品，但也不是不敢负责的库存。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">不舍犯戒者</div><div class="sub">对暴恶犯戒者弃舍不救</div><div class="tap">点击展开</div></div><div class="back">对暴恶犯戒有情「方便弃舍不作饶益」是染犯。原文的逻辑：菩萨对持戒清净者尚且起怜愍欲饶益，何况陷在苦因里越陷越深的人——越是堕落，越该救。<em>见人落水，不因他游得难看就走开。</em></div></div>
+  </div>
+
+  <details class="dict">
+    <summary>饶益有情责任清单（节选）<span class="hint">可跳过的完整枚举</span></summary>
+    <div class="body">
+      <p><b>助伴：</b>道路往来、事业加行、掌护财宝、和好诤讼、吉会、福业——怀嫌恨恚恼不随力助伴，犯。</p>
+      <p><b>供事病者：</b>见人重病，怀嫌恨不去供事，犯；有病无气力、转请他人、知其有依有怙等，无犯。</p>
+      <p><b>说正理：</b>见人为求现法后法之利广行非理，不为他宣说如实正理，犯；说了反生嫌恨恶言、对方颠倒领受等，不说无犯。</p>
+      <p><b>报恩：</b>于先有恩者，不知恩、不酬报，犯；勤加功用而实在无力、欲报而彼不受，无犯。</p>
+      <p><b>开解愁恼：</b>见人丧失财宝、眷属、禄位多生愁恼，怀嫌恨不去开解，犯。</p>
+      <p><b>施资具：</b>有饮食等资生众具，来求者正当求而怀嫌恨不给，犯；现无可施之物、所求不如法、为护王意僧制，无犯。</p>
+      <p><b>教授徒众：</b>摄受徒众却不随时无倒教授教诫、知其匮乏也不为如法追求资具，犯。</p>
+      <p><b>显扬他德：</b>他实有德不欲显扬、实有誉不欲称美、妙说不赞善哉（出于嫌恨），犯；知其性好少欲、显扬会起憍举杂染等，无犯。</p>
+      <p><b>诃责治罚：</b>应诃责不诃责、应治罚不治罚、应驱摈不驱摈（出于染污心），犯——放任也是一种亏欠；知其不可疗治、观待时机、护僧不諠杂者，无犯。</p>
+      <p><b>现神通：</b>「避信施故不现神通恐怖引摄」——能以神通恐怖、引摄有情却不现（为躲避供养），非染犯；对方多着僻执是恶外道，不现无犯。</p>
+    </div>
+  </details>
+
+  <div class="case"><b>没抬头的十秒：</b>部门里德高望重的老工程师特意走过来问小李问题，小李正刷着手机，眼皮都没抬：「稍等啊」，十分钟后才应付两句。对应「见诸耆长有德可敬同法者来……不起承迎」——小李没干什么坏事，但那一刻的轻慢，在这套判例里本身就是亏欠。</div>
+  <div class="case"><b>推说很忙的舅舅：</b>侄子请教你编程，你上次和他爸拌过嘴，就推说「最近忙」。对应「他来求法。怀嫌恨心怀恚恼心……不施其法」——教不教是能力问题，因怨气不教，在这套判例里已经是违规；而如果你评估他只想抄作业应付考试，不给反而无犯。</div>
+  <div class="case"><b>朋友送的上万元包：</b>朋友执意要送你一只上万元的包，你知道他刚失业、是用信用卡刷的。收下未必是「礼貌」：原文说「知施主随舍随受由是因缘定当贫匮」——预见对方因此会陷入穷困，拒收不算犯。案例的对应点：判断标准是对方的处境，不是你的面子。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 04 少事与利他 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>少事少业与利他：两种修行人的分道</h2></div>
+  <p class="sec-lead">声闻戒以「少事少业少悕望住」为美德——东西越少、事情越简、欲望越淡，越清净。菩萨戒在这里明确分道：在「利他」这件事上，少不等于妙，该备的物资要备，该求的资助要求。哪些遮戒与声闻共学、哪些不共学，分界线只有一条：这件事是不是在为别人。</p>
+
+  <div class="card">
+    <h3>同一条戒，两种身份</h3>
+    <div class="quote">以诸声闻自利为胜不顾利他。于利他中少事少业少悕望住可名为妙。非诸菩萨利他为胜。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">声闻为自己了脱，轻装是美德；菩萨以利他为使命，在利他中吝于筹备、嫌多嫌烦，反而犯戒——怀嫌恨恚恼而行少事是染犯，懒惰忘念而行少事是非染犯。</div>
+    <div class="analogy"><b>比喻：</b>个人旅行者背个轻便包值得夸；救援队长出发时空着两只手，就不叫简朴，叫失职。</div>
+  </div>
+
+  <div class="card">
+    <h3>为了利他，可以「多」</h3>
+    <div class="quote">应求百千种种衣服。观彼有情有力无力。随其所施如应而受。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">为了利他，菩萨可求百千衣服、蓄坐卧具各至百、宝物「百千俱胝」（俱胝：千万级大数），再超过也应当取积——前提是「观彼有情有力无力」：施主量力而施，我随应而受，一切为大众用。</div>
+    <div class="analogy"><b>比喻：</b>公益机构负责人名下过百万资产不叫贪，叫项目经费——前提是每一笔账都为受益人而设，过手的资源与个人享受无关。</div>
+  </div>
+
+  <div class="yuan-grid">
+    <div class="yuan-card"><span class="y-tag">共学</span><h4>护他心的遮戒</h4><p>佛为「将护他故」立的遮罪（遮罪：行为本身不算恶，佛为护众生信心而遮止）——声闻都守，<b>菩萨更要等学无有差别</b>：声闻尚且为让人生信而护戒，何况以利他为胜的菩萨。</p></div>
+    <div class="yuan-card"><span class="y-tag">不共学</span><h4>少事少业少悕望住</h4><p>为使声闻少事少业而立的遮罪，<b>菩萨在利他中不受此限</b>——求衣、求钵、求丝缕织衣、蓄憍世耶衣（细滑的高档毛织物）与坐卧具，为利他故皆可。</p></div>
+    <div class="yuan-card"><span class="y-tag">反向条款</span><h4>利他中「少」就是犯</h4><p>于利他中怀嫌恨恚恼而行少事少业，<b>染犯</b>；因懒惰懈怠忘念而行少事，<b>非染犯</b>。「少」本身在此不是清净，是缺位。</p></div>
+  </div>
+
+  <div class="table-wrap"><table class="nine">
+    <tr><th>名相</th><th>出处成员</th><th>通俗理解</th></tr>
+    <tr><td>少事</td><td>「少事少业少悕望住」</td><td>要办的杂事少</td></tr>
+    <tr><td>少业</td><td>「少事少业少悕望住」</td><td>要张罗的动作少</td></tr>
+    <tr><td>少悕望住</td><td>「少事少业少悕望住」</td><td>对外无所求、随遇而安</td></tr>
+    <tr><td>遮罪</td><td>「将护他故建立遮罪」</td><td>行为本身不恶，佛为护心护讥嫌而禁止</td></tr>
+    <tr><td>性罪</td><td>「于诸性罪⑳少分现行」</td><td>行为本身即恶，杀盗淫妄属之</td></tr>
+    <tr><td>俱胝</td><td>「百千俱胝」</td><td>千万级大数，形容「上不封顶」</td></tr>
+  </table></div>
+
+  <div class="case"><b>义卖摊的两副面孔：</b>社区义卖：张阿姨个人摆摊，几件旧物一张折叠桌，简简单单，大家都赞她清爽。但她是义卖发起人——若也只带这几件旧物、不备零钱不印海报，义卖干脆开不成。同一个人、同一份「少」，在参与者位置上是美德，在负责人位置上是失职。对应原文：「少事少业」对声闻是妙，对菩萨在利他位是犯。</div>
+  <div class="case"><b>采购老王的帆布包：</b>公司采购部老王经手的年采购额上千万，他自己背一个旧帆布包、中午吃食堂。没人说他贪——因为资源过他的手是「为利他」，生活上的少是另一回事。对应原文的区分：菩萨蓄「百千俱胝」宝物是在利他位上的「应取积」，与个人享受无关。</div>
+  <div class="case"><b>不申请经费的学生会：</b>学生会经费紧张，主席嫌麻烦干脆不申请，活动全靠大家自费硬扛，最后办得寒酸还怨声载道。「少事」省下的是他一个人的麻烦，赔上的是所有人的体验——这正是「于利他中……少事少业少悕望住」在菩萨戒里要挨板子的原因。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 05 开缘 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>开缘：性罪的例外与三道锁</h2></div>
+  <p class="sec-lead">全卷最惊人的段落：菩萨在特定条件下，杀、盗、妄语、离间语、粗恶语、绮语——这些「性罪」（行为本身即恶）——不但不犯，还「生多功德」。这不是「目的证成手段」的万能许可，而是一条极严的决策链：动机必须无染、目标必须是对方的义利、且两害相权取其轻。</p>
+
+  <div class="card">
+    <h3>开缘总纲</h3>
+    <div class="quote">善权方便⑲为利他故。于诸性罪⑳少分现行。由是因缘于菩萨戒无所违犯生多功德。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">三道锁：①自无染心（不是泄愤、不是图利）；②唯观有情义利（对他真的更好）；③两害相权（我下地狱，好过他造无间业）。缺一道，就是普通犯罪。</div>
+    <div class="analogy"><b>比喻：</b>正当防卫的构成要件——不法侵害正在进行、针对侵害人、没有明显过当……条件一个都不能少，少一个就只是普通伤害。开缘豁免的从来不是动作，是处境与用心。</div>
+  </div>
+
+  <div class="card">
+    <h3>决策链推演：杀贼决断</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">用流程推演走一遍全卷最著名的开缘：菩萨如何处置将杀多生的劫盗贼。</p>
+    <div class="demo-area">
+      <div class="flow-track" id="stepTrack5"></div>
+      <div class="flow-detail" id="stepDetail5"></div>
+      <div class="flow-ctrl"><button class="tri-btn" id="stepPrev5">上一步</button> <button class="tri-btn" id="stepNext5">下一步</button></div>
+    </div>
+  </div>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">妄语</div><div class="sub">知而思择，为救有情</div><div class="tap">点击展开</div></div><div class="back">为自己的命难，菩萨尚且不说妄语；但为救人性命、牢狱、断肢之难，「知而思择故说妄语」——覆盖真实想法而说异语。<em>关键锁：自无染心，唯为饶益。像急救破窗：平时砸玻璃要赔，救人时受奖。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">离间语</div><div class="sub">拆散的是锁链，不是缘分</div><div class="tap">点击展开</div></div><div class="back">见有情被恶友摄受、亲爱不舍，以饶益心说离间语，「令离恶友舍相亲爱」——不让他因亲近恶友受长夜无义无利。<em>劝朋友离开诈骗群、离开拉他堕落的「兄弟」——拆的是锁链。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">粗恶语</div><div class="sub">猛利诃责的分量</div><div class="tap">点击展开</div></div><div class="back">见有情行非理，「出粗恶语㉙猛利诃摈。方便令其出不善处安立善处」。<em>当众厉声骂醒赌徒的家人——话是药引；若夹带私怨，同一句话就是染违犯。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">绮语</div><div class="sub">先玩到一起，再引导</div><div class="tap">点击展开</div></div><div class="back">见有情耽著歌讽、王贼饮食等无义之论，菩萨「现前为作绮语」，陪他聊进去，再方便奖导，出不善处安立善处。<em>为了把网瘾少年从网吧里钓出来，先陪他打游戏。</em></div></div>
+  </div>
+
+  <div class="case"><b>拆散一场杀猪盘：</b>你发现好友正被「杀猪盘」围猎：对方每天嘘寒问暖，她深信是真爱。你谎称自己是平台客服、编了「账户异常」的证据，还挑拨她和「男友」的关系让她看清真相。骗（妄语）＋拆散（离间语）——按本卷判例，若你唯一的动机是救她（自无染心，唯观有情义利），不但不犯，反生功德。对应关系：三道锁都锁上了，才轮到「手段不净」的豁免。</div>
+  <div class="case"><b>当众骂醒表弟：</b>家族聚会上，表弟又开口借钱去赌。这次你没绕弯子，当着全家人厉声说：「再赌你连下月房租都会没有，我最后一个字都不会借你！」话说得极重，人得罪到底。对应「出粗恶语㉙猛利诃摈。方便令其出不善处安立善处」——重话是药引，方向是把他从不善处拔出来。</div>
+  <div class="case"><b>同一句话的两种判法：</b>反面对照：同样一句重话，如果你心里的算盘是「谁让你上次借我钱没还，今天正好出口气」——三道锁全开，这就是本卷反复出现的老判词：怀嫌恨心、怀恚恼心，是染违犯。开缘豁免的从来不是动作，是那颗心。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 06 心的污染 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>心的污染清单：犯戒的真正源头</h2></div>
+  <p class="sec-lead">犯戒清单里最大的一类，不是做了什么坏事，而是让心泡在某种状态里不肯出来：嗔着不舍、贪着供养、熬夜刷手机、把禅定的舒服当目标。这一卷对「心染了什么病」盘点极细——先认五盖（五种遮蔽心光明的东西），再看几条日常高频条款。</p>
+
+  <div class="card">
+    <h3>五盖：心的五层污渍</h3>
+    <div class="quote">起贪欲盖忍受不舍。是名有犯有所违越。是染违犯。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">贪欲、嗔恚、惛沉睡眠、掉举恶作、疑——五盖任一生起而「忍受不舍」（明知被泡着还赖在里面、不启动对治），即判为染违犯；为断除它发起精进、却因烦恼猛利而时时现行，则无犯。</div>
+    <div class="analogy"><b>比喻：</b>手机屏幕贴了五层起雾的膜——看不清不是屏幕的错，是膜的错；「忍受不舍」就是明知有膜还怪屏幕，懒得撕。</div>
+  </div>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">贪欲盖</div><div class="sub">欲望糊住眼睛</div><div class="tap">点击展开</div></div><div class="back">「起贪欲盖忍受不舍」——忍受是关键词：明知被贪泡着，还舒服地待在里面。嗔恚、惛沉睡眠、掉举恶作、疑盖，「当知亦尔」。<em>明知这是最后一口，还是续了第三碗。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">嗔恚盖</div><div class="sub">怒火烧成炭</div><div class="tap">点击展开</div></div><div class="back">发火是瞬间，记仇是状态——「于他怀忿相续坚持生已不舍」，状态本身就被判犯。<em>一周后还在脑内重播被批评的场面，还排练反击台词。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">惛沉睡眠盖</div><div class="sub">心起了雾</div><div class="tap">点击展开</div></div><div class="back">对应「懒惰懈怠耽睡眠乐卧乐倚乐。非时非量」——非时（不该睡的钟点睡）、非量（超过需要的量），休息变成麻醉。<em>「再刷一集」刷到凌晨两点。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">掉举恶作盖</div><div class="sub">心的躁动与反刍</div><div class="tap">点击展开</div></div><div class="back">「为掉所动心不寂静不乐寂静。高声嬉戏諠哗纷聒。轻躁腾跃望他欢笑」——散场式亢奋、求围观式表演，心安放不下来。<em>会还没开完，段子已经发进群。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">疑盖</div><div class="sub">犹豫的泥潭</div><div class="tap">点击展开</div></div><div class="back">对正法、对自己的能力悬置不信，卡在原地动不了——与前四盖同判。<em>收藏了一百篇「明天再看」。</em></div></div>
+  </div>
+
+  <div class="card">
+    <h3>更隐蔽的几样：以爱染心带团队</h3>
+    <div class="quote">贪着供事增上力故。以爱染心管御徒众。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">靠供养和承事「养」住团队、以爱染心而不是利他心带人，是染犯；同类的还有「怀爱染心谈说世事虚度时日」——不是不能闲聊，是别拿闲聊喂养黏着。</div>
+    <div class="analogy"><b>比喻：</b>靠给下属发小恩小惠收买忠诚，而不是靠把事做对——关系是黏住了，方向是歪的；被收买的不是人心，是你该有的判断。</div>
+  </div>
+
+  <details class="dict">
+    <summary>高频「心染」细目（节选）<span class="hint">可跳过的完整枚举</span></summary>
+    <div class="body">
+      <p><b>邪命：</b>「生起诡诈虚谈现相。方便研求假利求利。味邪命㉛法无有羞耻坚持不舍」——靠装腔作势、示相讨要、假借利养攀求养活自己，坚持不舍，染犯。</p>
+      <p><b>味禅：</b>「贪味静虑于味静虑见为功德」——把禅定的乐受本身当功德贪着，染犯；为断除它发起精进而无违犯。</p>
+      <p><b>不请教授：</b>为令心住、欲定其心，却「不诣师所求请教授」（因嫌恨憍慢），染犯；疾病无气力、知师颠倒教授、自有多闻智力等，无犯。</p>
+      <p><b>不护恶名：</b>对针对自己的「恶声恶称恶誉不护不雪」——事实属实却放任坏名声伤害他人信心，染犯；外道憎嫉、忿蔽心倒者的诽谤流布，无犯。</p>
+      <p><b>心软不出手：</b>见有情需要「辛楚加行猛利加行」（狠狠磨一场）才能得义利，却护其忧恼而不推动，犯（非染）；观察到因此少得义利多生忧恼，则无犯。</p>
+      <p><b>自赞毁他：</b>于他人所有，染爱心、嗔恚心自赞毁他，染犯；为摧伏恶外道、住持圣教、令未信者生信，无犯。</p>
+    </div>
+  </details>
+
+  <div class="case"><b>凌晨两点的「最后一集」：</b>凌晨一点，阿May对自己说「最后一集」，两点时她躺在沙发上刷到了第三集，第二天早会只记得剧情、不记得议程。对应「懒惰懈怠耽睡眠乐卧乐倚乐。非时非量」——非时（该睡的钟点没睡）、非量（远超所需的量）：菩萨戒连「怎么休息」都管。</div>
+  <div class="case"><b>脑内重播一周：</b>领导批评了小赵两句。此后一周，他每天回工位都在脑内重播那两句话，越想越气，还起草了三条反击。对应「于他怀忿相续坚持生已不舍」——被点名的是「相续坚持」：让嗔心住了下来，还交了房租。</div>
+  <div class="case"><b>奶茶换来的睁一只眼：</b>组里的实习生每次都抢着帮你拿快递、买咖啡，渐渐地，她报告里的低级错误你开始睁一只眼闭一只眼。对应「贪着供事增上力故。以爱染心管御徒众」——被供养「收买」的不是行为，是你该有的判断。</div>
+  <div class="case"><b>禅修第五天的盘算：</b>闭关七日禅修，第五天体验到难得的轻安，第六天你开始盘算「今天能不能再进一次那个状态」，第七天干脆只做让自己舒服的那种练习。对应「贪味静虑于味静虑见为功德」——把路边的凉亭当成了目的地。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 07 闻法与外学 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>闻法与外学：学习的配比与姿态</h2></div>
+  <p class="sec-lead">这一卷对「学习」本身也立了规：不许宣称「菩萨不用学声闻乘的法教」（那是染犯）；也不许扔下菩萨藏一头扎进小乘或外道书里；外道论可以学，但要按「二分佛语一分外」的配比、按「当药不当糖」的心态学。听到听不懂的甚深法怎么办？本卷给了一个惊人的姿态：不强解，不诽谤，仰推如来。</p>
+
+  <div class="card">
+    <h3>配比与心态</h3>
+    <div class="quote">于日日中常以二分修学佛语。一分学外。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">只有对佛法已能如理观察、义理通达的人，才开许每天三分之二学佛语、三分之一学外论；而且学外论要像吃辛药——为病而服，不因味美而贪。「非如辛药而习近之」的反面就是：把药当零食吃。</div>
+    <div class="analogy"><b>比喻：</b>专业研究者也读跨学科文献，但主业论文不能停；读它是为了解决主业的问题，不是把它当小说刷。</div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：学外论，什么情况下不犯？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">拨动三个开关，看判定结果如何变化。</p>
+    <div class="cond-row">
+      <div class="name">佛语为主<small>每天以二分时间精研佛语，外论只占一分</small></div>
+      <label class="switch"><input type="checkbox" id="extA" checked><span class="slider"></span></label>
+    </div>
+    <div class="cond-row">
+      <div class="name">动机饶益<small>学外论是为了引导有情、降伏恶见，不是猎奇</small></div>
+      <label class="switch"><input type="checkbox" id="extB" checked><span class="slider"></span></label>
+    </div>
+    <div class="cond-row">
+      <div class="name">当药不吃糖<small>对无义之论不深心宝玩——如原文说，要「如辛药而习近之」</small></div>
+      <label class="switch"><input type="checkbox" id="extC" checked><span class="slider"></span></label>
+    </div>
+    <div id="condResult"></div>
+  </div>
+
+  <div class="card">
+    <h3>听不懂怎么办</h3>
+    <div class="quote">我为非善盲无慧目。于如来眼随所宣说于诸如来密意语言而生诽谤。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">对甚深法义听不懂时，正确姿势是承认无知：把判断权搁置（「我看不懂」不等于「它错了」），自处无知、仰推如来——「虽无信解然不诽谤」，这样正行无犯。</div>
+    <div class="analogy"><b>比喻：</b>你不会当场宣布你看不懂的数学证明是骗局——你会说「超出我目前的水平」。把「我看不懂」升格成「这是错的」，正是本卷点名的重罪。</div>
+  </div>
+
+  <div class="case"><b>主次先倒的研究生：</b>小唐的研究方向是机器学习，却把全部时间花在刷哲学公开课上，自己的毕业实验一拖再拖。对应「现有佛教于佛教中未精研究。于异道论及诸外论精勤修学。是名有犯有所违越。是染违犯」——不是不能读哲学，是主次先倒了。</div>
+  <div class="case"><b>超出直觉的物理课：</b>听物理学家讲「时间在引力和速度下会变慢」，完全超出日常直觉。你的合理反应是：「这是我的直觉不够用，不是物理错了。」对应原卷的姿态——「自处无知仰推如来」：把不懂归给自己的眼睛，不归给对方的错。</div>
+  <div class="case"><b>金句截图派：</b>网课上，小胡只顾截图讲师的金句发朋友圈配「人间清醒」，对整段推理一个字没消化。对应「但依于文不依于义」与对说法师的轻毁——金句是文，消化才是义；只摘金句还嫌讲得啰嗦，两头都失了。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 08 忏悔还净 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>忏悔还净：犯了之后的那条路</h2></div>
+  <p class="sec-lead">本卷最温柔的部分：它不假装你不犯错，而是给了一整套「回来了」的路。所有违犯都归入「恶作」（对所犯的悔责）处理；按烦恼缠缚的强度分上中下品，对应不同的挽回规模；实在找不到人对发露，还有「自誓」这条最后通道——直到对着佛像自受戒的完整仪轨。</p>
+
+  <div class="card">
+    <h3>先认账，再定级</h3>
+    <div class="quote">设有违犯即应如法疾疾悔除令得还净。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">关键词是「疾疾」——越快越好。菩萨的一切违犯都属于恶作所摄：先承认（发露），再按品级走流程，直到还净。</div>
+    <div class="analogy"><b>比喻：</b>伤口处理——先不问你为什么受伤，先消毒；贴创可贴还是缝合，看伤口深度（品级）。</div>
+  </div>
+
+  <div class="card">
+    <h3>流程推演：从犯错到还净</h3>
+    <div class="demo-area">
+      <div class="flow-track" id="stepTrack8"></div>
+      <div class="flow-detail" id="stepDetail8"></div>
+      <div class="flow-ctrl"><button class="tri-btn" id="stepPrev8">上一步</button> <button class="tri-btn" id="stepNext8">下一步</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>自受戒仪轨</h3>
+    <div class="quote">若不会遇具足功德补特伽罗。尔时应对如来像前自受菩萨净戒律仪。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">遇不到具德师长时，可在佛像前自受：遍袒右肩、右膝着地，誓受律仪戒、摄善法戒、饶益有情戒，三说而受，说完起身。</div>
+    <div class="analogy"><b>比喻：</b>找不到公证人的重要承诺——仪式感仍在：郑重其事、当境而誓、说满三遍。誓词的全文见收官章的偈颂。</div>
+  </div>
+
+  <div class="card">
+    <h3>一条深意：菩萨的犯，多由嗔不由贪</h3>
+    <div class="quote">是诸菩萨多分应与嗔所起犯。非贪所起。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">「无无余犯」的密意：菩萨因怜爱有情而作的一切，多分在「应作」范围内；只有憎恨、嫉妒有情，做了不该做的，才可能成犯——恨，才是菩萨戒的头号敌人。</div>
+    <div class="analogy"><b>比喻：</b>区分「为你好的严格」与「看你不顺眼的挑剔」——前者再重也是教育，后者再轻也是伤害。</div>
+  </div>
+
+  <div class="case"><b>项目经理的复盘会：</b>小郑一个决策失误让团队白干两周。他没有找借口，在周会上如实说明错在哪（发露）、向受影响最深的三个同事当面致歉并复盘（对三补特伽罗）、并立下「今后大决策必须两人复核」的规矩（决定防护终不重犯）。对应本卷流程：承认→称述所犯→誓不重犯。</div>
+  <div class="case"><b>发不出去的道歉信：</b>你对已移民、几乎不再联系的老友曾恶语相向，如今想道歉却连对方都不回消息。对应「无随顺补特伽罗可对发露」时的自誓通道：把忏悔写成一封发不出去的信，核心一句是自己立誓——「我当决定防护当来终不重犯」。</div>
+  <div class="case"><b>带「但是」的道歉：</b>有人跟小许道歉：「对不起，但是那天你要是……」——一个「但是」把责任推回了一半。对应「若不如法不平等谢。不受彼谢亦无违犯」：不如理的道歉，菩萨可以不收，这不算不宽容。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 09 收官·三圆满 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：三种圆满安乐而住</h2></div>
+  <p class="sec-lead">全卷收尾回答一个问题：照这套戒律活的人，活成什么样子？答案是「三种圆满安乐而住」——当下的功夫、心中的方向、过去的积累。三种圆满各有一面镜子，就是三种衰损。最后用受戒誓词收束：这条戒不是一个人的道德计划，而是一条千年队伍。</p>
+
+  <div class="yuan-grid">
+    <div class="yuan-card"><span class="y-tag">功夫 · 加行圆满</span><h4>今天练到位了</h4><p>「谓诸菩萨于净戒中行无缺犯。于身语意清净现行。不数毁犯发露自恶。」——身口意干干净净地做事，偶有毁犯能迅速坦白，不藏着。</p></div>
+    <div class="yuan-card"><span class="y-tag">方向 · 意乐圆满</span><h4>练的方向没歪</h4><p>「谓诸菩萨为法出家不为活命。求大菩提非为不求。」——动机纯正，不为混饭吃；不住懈怠下劣的精进，不杂恶不善法与染污的生死之因。</p></div>
+    <div class="yuan-card"><span class="y-tag">积累 · 宿因圆满</span><h4>账上有底子</h4><p>「谓诸菩萨昔余生中修福修善。故于今世种种衣服饮食卧具病缘医药资身什物。自无匮乏。」——过去存的福，今天自足，且「复能于他广行惠施」。</p></div>
+  </div>
+
+  <div class="card">
+    <h3>一体两面：圆满的反面</h3>
+    <div class="quote">与此相违当知成就三种衰损危苦而住。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">三种圆满各自有一面镜子：功夫废弛、方向错乱、积累亏空——同一个人，可以住圆满，也可以住衰损，差别全在平时。</div>
+    <div class="analogy"><b>比喻：</b>体检单上同一个「血压」栏，高了低了都标红——健康不是某一格漂亮，是整张单子都看得下去。</div>
+  </div>
+
+  <div class="gatha">
+    <div class="lines">过去一切菩萨已学<br>未来一切菩萨当学<br>普于十方现在一切菩萨今学</div>
+    <div class="mean">自受戒时，这三句连说三遍（第二遍、第三遍亦如是说）。它把「我」放进一条纵贯过去、未来、现在的队伍里：你不是在独自坚持一条纪律，而是在加入一个从无中断的共同体。全卷一切细目——供养、迎请、开缘、忏悔——都由此三句「共学」的誓愿撑腰。</div>
+  </div>
+
+  <div class="card">
+    <h3>下一站</h3>
+    <div class="quote">自斯已后即于如是一切戒中。分出所余难行戒等差别之相。<span class="src">—— 卷41原文</span></div>
+    <div class="plain">在家、出家一切戒的总纲到此讲完；接下来将从这一切戒中分出「难行戒」等更细的差别之相——本卷是「细则篇」的收口，不是戒的终点。</div>
+    <div class="analogy"><b>比喻：</b>地图翻页——这一页的路线走完，下一页是「难行戒」的等高线区。</div>
+  </div>
+
+  <div class="case"><b>两位跑者：</b>两人同时报名马拉松。甲每天按表训练（加行）、动机是陪伴病中的父亲跑一次（意乐）、有十年运动底子（宿因）；乙想练就练想躺就躺、目的是发朋友圈、零基础带伤上阵。三样对齐的人越跑越稳，三样错位的人每一步都在透支——对应本卷「安乐而住」与「危苦而住」的差别。</div>
+  <div class="case"><b>墙上的新年计划：</b>新年第一天，你把「再也不刷手机了」贴在墙上，一周后掉落。换成对镜立誓「我决定防护，当来终不重犯——从每天只留半小时开始」，并找一位朋友每周对一次进度。对应本卷还净之道的三要素：具体的自誓（自誓心）、可对谈的对象（补特伽罗）、疾疾不拖延。</div>
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第四十一（output/41.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga41-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* 翻转卡开合 */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){ c.classList.toggle('open'); });
+});
+
+/* s2 判犯语法 · 归类练习 */
+initSorter('sortPan',[
+  {a:'答应帮朋友搬家，心里还记恨他上次没帮你，索性放了鸽子',opts:['染违犯','非染违犯','无违犯'],ans:'染违犯',exp:'带着嫌恨心而犯——动机被污染。对照原文：不恭敬、嫌恨、恚恼所犯，是染违犯。'},
+  {a:'答应帮朋友搬家，手机静音没看到消息，错过了',opts:['染违犯','非染违犯','无违犯'],ans:'非染违犯',exp:'误失忘念而犯——行为有违越，心没被恨、慢污染，是非染违犯。'},
+  {a:'高烧说胡话，对来照顾你的家人恶语相向',opts:['染违犯','非染违犯','无违犯'],ans:'无违犯',exp:'重病逼切、心智失灵，落入「一切处无违犯」的兜底条款：心狂乱、重苦受逼切。'},
+  {a:'会上被同事抢功，你当场冷嘲热讽怼了回去',opts:['染违犯','非染违犯','无违犯'],ans:'染违犯',exp:'「他嗔报嗔」是本卷明文的染违犯——以嗔报嗔，恩怨相续。'},
+  {a:'答应参加社区活动，当天病倒起不来床',opts:['染违犯','非染违犯','无违犯'],ans:'无违犯',exp:'疾病无气力，无违犯。若只是睡懒觉嫌麻烦，就掉回「懒惰懈怠」那一侧，变成有所违越。'}
+]);
+
+/* s5 开缘决策链 */
+initStepper('stepTrack5','stepDetail5','stepPrev5','stepNext5',[
+  {t:'见',d:'<b>见：</b>菩萨见到「劫盗贼为贪财故欲杀多生」，或欲害大德声闻菩萨，或欲造多无间业——未来的惨剧清晰可见。'},
+  {t:'权衡',d:'<b>两害相权：</b>断其命，自己堕那落迦（地狱）；不断，「无间业成当受大苦」。两个后果都极重，没有无代价的选项。'},
+  {t:'决断',d:'<b>把重的揽过来：</b>「我宁杀彼堕那落迦。终不令其受无间苦。」——不是我方便一下，是我替他下。'},
+  {t:'心锁',d:'<b>用心：</b>以善心或无记心，「为当来故深生惭愧。以怜愍心而断彼命」——对自己惭愧，对对方怜愍；不是快意，不是泄愤。'},
+  {t:'判例结论',d:'<b>结论：</b>于菩萨戒无所违犯，生多功德。三道锁——自无染心、唯观有情义利、两害相权取其轻——缺一道，同一动作就只是犯罪。'}
+]);
+
+/* s8 忏悔流程 */
+initStepper('stepTrack8','stepDetail8','stepPrev8','stepNext8',[
+  {t:'觉察承认',d:'<b>恶作所摄：</b>一切违犯先如实归入「恶作」（对所犯的悔责）——不辩护、不最小化，向能领解的人发露。'},
+  {t:'定品级',d:'<b>三品：</b>按烦恼缠缚的强度分上、中、下品缠——品级看的不是事的大小，是烦恼把你缠得有多紧。'},
+  {t:'上品缠 · 重受',d:'<b>失戒：</b>上品缠犯他胜处法，戒体已失，「应当更受」——资格注销，只能重新办理。'},
+  {t:'中品缠 · 对众发露',d:'<b>对三位以上：</b>向三位或更多补特伽罗称述：「我如是名违越菩萨毗奈耶法。如所称事犯恶作罪。」'},
+  {t:'下品缠 · 对一人发露',d:'<b>对一位：</b>缠缚较轻，对一位补特伽罗如法发露即得还净。'},
+  {t:'无人可对 · 自誓',d:'<b>最后通道：</b>找不到可以对发露的人时，以净意乐起自誓心：「我当决定防护当来终不重犯。」——亦得出罪还净。'}
+]);
+
+/* s7 外学条件模拟器 */
+function updExtSim(){
+  var a=document.getElementById('extA').checked;
+  var b=document.getElementById('extB').checked;
+  var c=document.getElementById('extC').checked;
+  var el=document.getElementById('condResult');
+  if(!a){el.className='fail';el.innerHTML='<b>染违犯。</b>「现有佛教于佛教中未精研究。于异道论及诸外论精勤修学」——主食没吃就先吃零食：佛语尚未精研，时间全给了外论。先把二分佛语的功课补上。';return;}
+  if(!c){el.className='fail';el.innerHTML='<b>染违犯（越菩萨法）。</b>「深心宝玩爱乐味着。非如辛药而习近之」——配比没错，心态病了：把外论当美味沉迷，而不是当治病的辛药。';return;}
+  if(b){el.className='';el.innerHTML='<b>无违犯，生功德。</b>佛语为主、动机饶益、当药不贪味——三道开关全开：这样的外学反而增上佛语的慧力，并为引导外道做好准备。';return;}
+  el.className='';el.innerHTML='<b>无违犯，但留意。</b>研习可以成立，不过缺了「为利他而学」的方向盘，下一步很容易滑向开关三的味着——把方向盘装回去。';
+}
+['extA','extB','extC'].forEach(function(id){
+  document.getElementById(id).addEventListener('change',updExtSim);
+});
+updExtSim();
+
+renderPath();
+</script>
+</body>
+</html>

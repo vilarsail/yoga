@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第七十三 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;text-align:left;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 摄决择分中菩萨地之二</div>
+  <h1>卷第七十三 · 交互式学习模块</h1>
+  <p class="sub">这一卷是卷七十二「五事清单」的追问篇：自性说不出、涅槃不是消失、佛的话各有密意、三种自性分拣万法——最后收束在四个字：名言是缚。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 32 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 五事与谛</a>
+<a href="#s3">③ 自性如幻</a>
+<a href="#s4">④ 三种取</a>
+<a href="#s5">⑤ 涅槃非灭无</a>
+<a href="#s6">⑥ 两种失坏</a>
+<a href="#s7">⑦ 佛的密意</a>
+<a href="#s8">⑧ 三自性字典</a>
+<a href="#s9">⑨ 言缚收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂全卷地图</b><span>弄清卷七十三接在哪一卷后面、开卷十六字怎么当目录用——对应第①章</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>认识五位主角</b><span>相、名、分别、真如、正智各管什么、各归哪类真理——对应第②章</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>想通「自性说不出」</b><span>如幻三辩：为什么任何东西都问不出一个实底——对应第③章</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>分清涅槃与关机</b><span>澄水真金三喻、无相五位、皮肉心三层粗重——对应第⑤章</span></span></label></div>
+<div class="step-item" data-target="#s7"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>学会读「密意」</b><span>三种无自性性：一句佛语背后有三种角度——对应第⑦章</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官偈颂</b><span>五因缘看「被名字钉住」，六句偈收束全卷——对应第⑨章</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ s1 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：五事追问篇</h2></div>
+  <p class="sec-lead">卷七十二（菩萨地之一）立起了「五事」清单——相、名、分别、真如、正智；本卷（菩萨地之二）不再添新条目，而是对着这份清单连环追问：自性说得出吗？取有几种？涅槃是不是一切消失？佛那些听起来矛盾的话，各是依什么说的？读这一卷要习惯它的问答体——每一问都是一把凿子。</p>
+
+  <div class="card">
+    <h3>开卷十六字：整卷的路线图</h3>
+    <div class="quote">思择自性取　　萨迦有世间<span class="src">—— 卷七十三原文 · 开卷嗢拖南</span></div>
+    <p>偈的下句是「真寻思、实智、密意与次第」。合起来，这十六个字就是全卷目录：<b>思择</b>（几番四句问答）、<b>自性</b>（说不可说）、<b>取</b>（三种取）、<b>萨迦耶·有·世间</b>（五事与它们的相摄）、<b>真实·寻思·实智</b>（四真实、四寻思、四如实遍智）、<b>密意</b>（三种无自性性）、<b>次第</b>（五事的排列为什么如此）。嗢拖南是记忆口诀：先背站名，再逐站细游。</p>
+    <div class="plain">本卷＝对「五事」的追问决择：凡立一个概念，必问它的边界、依什么而说、为什么排在这个位置。</div>
+    <div class="analogy"><b>比喻：</b>卷七十二像产品说明书，把零件一件件摆好；卷七十三像拆机之后的深度问答——专问「为什么这么设计」「极限工况下还成立吗」。不读这部分问答，说明书只是一张名词表。</div>
+  </div>
+
+  <div class="card">
+    <h3>九站速览</h3>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">站 ②</span><h4>五事与谛</h4><p>五件东西各归哪类真理？名与相是什么关系？</p></div>
+      <div class="yuan-card"><span class="y-tag">站 ③</span><h4>自性如幻</h4><p>一切法自性不可言说——如幻事相，非全无有。</p></div>
+      <div class="yuan-card"><span class="y-tag">站 ④</span><h4>三种取</h4><p>有言有相取、无言有相取、无言无相取；无相取也有因有缘。</p></div>
+      <div class="yuan-card"><span class="y-tag">站 ⑤</span><h4>涅槃非灭无</h4><p>是烦恼众苦永寂静，不是一切归零；除遣有无相五位。</p></div>
+      <div class="yuan-card"><span class="y-tag">站 ⑥</span><h4>两种失坏</h4><p>声闻怕「我当断」，菩萨谬称「我本无病」——两个病人，两种病。</p></div>
+      <div class="yuan-card"><span class="y-tag">站 ⑦</span><h4>佛的密意</h4><p>「一切法皆无自性」依三种无自性性而说，真如除外。</p></div>
+      <div class="yuan-card"><span class="y-tag">站 ⑧</span><h4>三自性字典</h4><p>遍计所执、依他起、圆成实——万法的三个抽屉与遍计的分类清单。</p></div>
+      <div class="yuan-card"><span class="y-tag">站 ⑨</span><h4>言缚收官</h4><p>愚夫于相为言缚，牟尼脱言缚——卷末六句偈。</p></div>
+    </div>
+    <div class="case"><b>面试连环追问：</b>你把产品功能清单背得滚瓜烂熟，面试官却追问「它凭什么成立？边界在哪？和谁冲突？」——卷七十二摆清单，卷七十三做决择：不问「有什么」，专问「凭什么」。本卷几十组问答，用的全是这把凿子。</div>
+    <div class="case"><b>先背站名再上车：</b>坐地铁先记换乘站名、再看线路细节；进景区先看导览图、再逛景点——开卷嗢拖南十六字就是本卷的线路图。背下「思择、自性、取、密意、次第」这几个站名，后面九站就不会迷路。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s2 五事与谛 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>五位主角：五事各归哪类真理</h2></div>
+  <p class="sec-lead">全卷的演员只有五位：相、名、分别、真如、正智。开卷先给她们「分部门」——判入四谛或非安立谛；再拆她们之间的纠缠：名和相到底谁包含谁。这是后面一切追问的地基。</p>
+
+  <div class="card">
+    <h3>五事速览（点卡片翻面）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">相</div><div class="sub">现前经验到的一切呈现</div><div class="tap">点击翻面</div></div><div class="back">眼见色、耳闻声、心里浮现的画面——凡是被「拿到面前」的经验材料都是相。它是五事的地基：有名之前，先有显现。<em>比喻：舞台上的灯光布景——一切戏（认知）都在它上面演。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">名</div><div class="sub">名称、语言、概念</div><div class="tap">点击翻面</div></div><div class="back">给相贴上的标签系统。本卷花大力气追问：名能不能「钉死」相？结论是钉不死——这是全卷最要紧的突破口之一。<em>比喻：行李标签——贴在箱子上，写什么箱子还是那个箱子。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">分别</div><div class="sub">心里的认知、打量、判断</div><div class="tap">点击翻面</div></div><div class="back">把相和名搅在一起的「操作」：分别此是此、此是彼。杂染的引擎，也是修观时要看清的对象。<em>比喻：后台不停运行的算法——见一个输入，就自动分类贴标。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">真如</div><div class="sub">诸法的真实本性</div><div class="tap">点击翻面</div></div><div class="back">不是相、名、分别之外的另一物，而是它们的真实性；圣智内证，不是语言能安放的地方。<em>比喻：硬币的币材——图案（相）与面值（名）千变万化，币材从来不曾是别的东西。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">正智</div><div class="sub">与真实相应的智慧</div><div class="tap">点击翻面</div></div><div class="back">五事的收尾：依智观真如，转舍有相、转得无相；本卷说它既是能取（能观），也是所取（可被亲证）。<em>比喻：擦镜布——镜子擦亮后如实照物，不添不减。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>分部门：五事与四谛的对照</h3>
+    <div class="quote">相四安立谛③摄。名一苦谛摄。分别三谛摄。除灭谛。真如四非安立谛④摄。正智缘安立非安立谛境道谛摄。<span class="src">—— 卷七十三原文</span></div>
+    <div class="table-wrap">
+    <table class="nine">
+      <tr><th>名相</th><th>所摄之谛</th><th>通俗理解</th></tr>
+      <tr><td>相</td><td>四安立谛</td><td>凡可讲说的经验呈现——苦、集、灭、道四谛都得借「相」安立</td></tr>
+      <tr><td>名</td><td>一（苦）谛</td><td>名称语言——唯判入苦谛，名也属于苦聚</td></tr>
+      <tr><td>分别</td><td>三谛（除灭谛）</td><td>分别心在苦、集、道处现行；灭谛是寂灭处，无分别可用</td></tr>
+      <tr><td>真如</td><td>四非安立谛</td><td>四谛的真实性——不可言说，唯证相应</td></tr>
+      <tr><td>正智</td><td>道谛</td><td>缘安立与非安立二谛境界而行的智慧</td></tr>
+    </table>
+    </div>
+    <div class="plain">五事各有「真理户口」：可说的归安立谛，不可说的真如归非安立谛——户口不同，读法就不同。</div>
+    <div class="analogy"><b>比喻：</b>安立谛像导航地图（画出来、可讲说、能分成几条路线），非安立谛像街道本身（要用脚走才算数）。真如判入「非安立」——语言路线图永远不等于路。</div>
+    <div class="case"><b>地图与实地：</b>你按导航走上海弄堂，地图上三厘米，实地绕了二十分钟——导航（安立）可以讲、可以传，弄堂本身（非安立）只能亲自走进去。对应「真如四非安立谛摄」：真实不是讲出来的，是证进去的。</div>
+  </div>
+
+  <div class="card">
+    <h3>名与相：谁包含谁</h3>
+    <div class="quote">诸名皆是相。有相而非名。谓除名相余四相。<span class="src">—— 卷七十三原文</span></div>
+    <p class="plain">名一定是相（想起一个词，心里必有呈现），但相不一定是名（一大半经验根本没配上名字）。</p>
+    <div class="case"><b>皱眉的同事：</b>你看见同事皱眉（相——现前的呈现），心里冒出「他对我有意见」（分别），顺嘴说出「你在生我气？」（名）——三个东西常常在一秒内黏成一团，本卷的功夫就是把它们拆开。</div>
+    <div class="case"><b>说不清的堵闷：</b>晚高峰挤在地铁里，一股说不清的压抑——有感受之相，却一时配不上任何名字（有相而非名）；而听到「裁员」两个字，画面立刻全部现起（名皆是相）。原文的四句问答，说的就是这两种日常。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s3 自性如幻 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>说不出，但不是没有：自性与幻</h2></div>
+  <p class="sec-lead">本卷最锋利的一问：「一切法以什么为自性？」答案是：自性不可言说——但不是什么都没有，而是「如幻事相，非全无有」。为了让这个结论站住，论主连破三计：名依相立？相由名起？离名离相别有自性？全部不通。</p>
+
+  <div class="card">
+    <h3>自性在哪里？——说得出的是名相，说不出的是自性</h3>
+    <div class="quote">诸法自性不可言说。<span class="src">—— 卷七十三原文</span></div>
+    <div class="quote">如幻事相。非全无有。<span class="src">—— 卷七十三原文</span></div>
+    <p>问：那该怎么观诸法之相？答：如幻事相。譬如幻事，有幻事之性，却无象、马、车、步、末尼、真珠、金银之性——</p>
+    <div class="quote">譬如幻事有幻事性无象马车步末尼真珠金银等性。<span class="src">—— 卷七十三原文</span></div>
+    <p>诸法体性，唯有名相可得；至于「自性差别」的实有之相，了不可得。相如此，名、分别、真如、正智也如此——<b>正智由正智名，正智自性实不可得</b>，连「智慧本身」也钉不出一个实体底。</p>
+    <div class="plain">万物宛然显现、各有作用，但「它自己到底是什么」这一层，语言永远说不出来——显现是有，实底是无。</div>
+    <div class="analogy"><b>比喻：</b>你能说尽一只杯子的颜色、重量、温度、产地、价格，但「杯子本身是什么」这最后一层，语言永远指不到——指到的那层，已经只是名相了。</div>
+    <div class="case"><b>银幕上的老虎：</b>电影里确实有一只老虎在跑（幻事性——影像宛然），可把银幕翻遍也找不到一根真虎毛（无象马等性）。说「完全没有」不对——影像明明现前；说「实有老虎」也不对——它只是缘起的显现。这正是「如幻事相，非全无有」。</div>
+  </div>
+
+  <div class="card">
+    <h3>三番反驳：为什么名钉不死自性</h3>
+    <p>「随言自性」（跟着名词就冒出来的那个实体）为什么不成立？论主算了三笔账：</p>
+    <p><b>其一，名依相立：</b>若名言是照着相的样子安立的，那在立名之前就该先有对相的觉知——可「立名之前有觉」与「依名才觉」自相矛盾。又说，<b>一个相上安的名有很多</b>（同一个人可以叫组长、老张、乘客），若名能钉出实性，一物岂不该有众多实性？是故名言依相而立，不应道理。</p>
+    <p><b>其二，相由名起：</b>若相是像名那样被安立、由名的势力生起，那立名之前相就该没有自性；相既没有，名言也没有着落——两败俱伤。同样是「名众多故」，过失照旧。</p>
+    <p><b>其三，离二无体：</b>若说离开相和名言、另有一个自性在二者之间生起——那它在相里、在名里、在中间，总该现前可见吧？遍寻不可得。此计不成。</p>
+    <div class="quote">于一切种随言自性不成就故。<span class="src">—— 卷七十三原文</span></div>
+    <div class="quote">譬如幻者造作种种幻士夫类。谓男女象马熊罴等类。非彼诸类如其相貌实有体性。<span class="src">—— 卷七十三原文</span></div>
+    <div class="plain">名称是后来贴上的标签，不是从物身上长出来的——所以「跟着名字找一个实底」，怎么找都落空。</div>
+    <div class="analogy"><b>比喻：</b>幻师变出的男女象马，观众看得逼真，变出来的是「幻相」，不是真象真马。名言与万物的关系正是如此：显现宛然，实体无踪。</div>
+    <div class="case"><b>头衔标签：</b>同一位同事，昨天叫「组长」，今天升「总监」——名变了，人没变。若名真能钉出「实性」，一个人身上岂不该同时住着两个实有的自性？这正对应原文的反驳：于一相所立名言众多，便应有众多差别体性——显然荒谬。</div>
+  </div>
+
+  <div class="card">
+    <h3>循环与出口：八分别 → 三种事 → 又起分别</h3>
+    <p>「不可言说」不是空话，它有功能上的理由：世界之所以运转不息，是因为——</p>
+    <div class="quote">由先所起八分别⑦故。<span class="src">—— 卷七十三原文</span></div>
+    <p>由八种分别生出三种事，事又喂给新一轮分别——</p>
+    <div class="quote">诸杂染法展转相续无有断绝。<span class="src">—— 卷七十三原文</span></div>
+    <p>也因为这个循环，说「如幻」的譬喻才算相似。点下面这一串，把循环走一遍：</p>
+    <div class="demo-area">
+      <div class="flow-track" id="loopTrack"></div>
+      <div class="flow-detail" id="loopDetail"></div>
+      <div class="flow-ctrl">
+        <button class="tri-btn" id="loopPrev">上一步</button>
+        <button class="tri-btn" id="loopNext">下一步</button>
+      </div>
+    </div>
+    <div class="plain">分别造事、事又养分别——杂染是一个自我供血的循环；出口不是砸掉世界，而是关掉「分别」这台引擎。</div>
+    <div class="case"><b>半夜刷短视频：</b>一条视频（事）勾起「再看一条」的分别，分别又让你点开下一条（新事），新事继续勾引分别……越刷越停不下来。这就是分别生事、事复生分别的杂染循环——直到你决定放下手机，循环才真正断。</div>
+  </div>
+
+  <div class="card">
+    <h3>你觉悟了，桌子为什么还在？</h3>
+    <p>有人追问：若分别断灭、相事随遣，那一个人证得圣智，一切相名分别所摄的世界都该消失吧？答：诸相有「不共分别」所起的，也有「共分别」所起的。不共的随你灭；共的不灭——</p>
+    <div class="quote">若共分别之所起者。分别虽无由他分别所任持故。而不永灭。<span class="src">—— 卷七十三原文</span></div>
+    <p>虽不灭，得清净者于彼事中正见清净——</p>
+    <div class="quote">譬如众多修观行者⑧。于一事中由定心智种种胜解异见可得。<span class="src">—— 卷七十三原文</span></div>
+    <div class="plain">共同分别支撑的事物不因一人放下而消失；但放下的人看它们，再不添加实有执——世界照旧，眼光全新。</div>
+    <div class="case"><b>退出群聊：</b>你退出了一个两百人的班级群，群里照样热聊——那份「热闹」由大家的共同分别任持着，不因你一人放下而熄灭。对应原文：共分别所起之物，分别虽无，由他分别所任持故，而不永灭。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s4 三种取与无相取 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>三种取：拿世界的三种姿势</h2></div>
+  <p class="sec-lead">「取」是心拿取对象的活动。先分能取所取：相、名、真如是所取，分别与正智既能取也被取。接着本卷给出一个漂亮的三分法——按「有没有语言参与」把取分成三种，再重点解剖最陌生的那一种：无相取。</p>
+
+  <div class="card">
+    <h3>三种取所行义</h3>
+    <div class="quote">一有言有相取所行义。二无言有相取所行义。三无言无相取所行义。<span class="src">—— 卷七十三原文</span></div>
+    <p>第一种是言说随觉者的境界（边说边取），第二种是言说随眠者的境界（语言种子未断、不必出声），第三种是于言说离随眠者的境界（圣者）。又说：</p>
+    <div class="quote">初二是世俗谛⑩取。最后是胜义谛⑪取。<span class="src">—— 卷七十三原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">第一种</span><h4>有言有相取</h4><p>边说话边取境——看见什么，嘴里心里立刻配音。普通人的取，自带「字幕」。</p></div>
+      <div class="yuan-card"><span class="y-tag">第二种</span><h4>无言有相取</h4><p>不出声，照样取相——婴儿、动物、熟练工的取。语言种子还在底下潜伏，只是不冒头。</p></div>
+      <div class="yuan-card"><span class="y-tag">第三种</span><h4>无言无相取</h4><p>言说随眠已离，取无相界——圣者的胜义谛取。它非凡夫共许，却照样有因有缘。</p></div>
+    </div>
+    <div class="case"><b>婴儿抓奶瓶：</b>十个月大的孩子不认识「奶瓶」两个字，却精准地一把抱住——无言而有相的取。这正是第二种取：言说随眠者的取境方式，语言潜伏而取相分明。</div>
+    <div class="case"><b>老司机的手脚：</b>开了十年车的司机过弯时不默念「减速、打方向」，身体自己完成——熟练之后言语退场，取相照常运转。这也是「无言有相取」的现代版：话不说出口，相取得分明。</div>
+  </div>
+
+  <div class="card">
+    <h3>无相取：取「无相」也算取吗</h3>
+    <div class="quote">言说随眠已远离故。此取虽复取无相界。不取相故。成无相取。<span class="src">—— 卷七十三原文</span></div>
+    <p>有人抬杠：取「无相」，岂不是自相矛盾——无所取怎么叫取？答：它不构获诸相差别、无所增益，但取的是无相本身，所以得名为取。它的「相状」是什么？<b>五种事相皆不显现，以为其相</b>——以「什么相都不显」为相。它也不是无因无缘：有相取（世俗共成）令杂染，无相取（胜义智见熏习取果）令清净。</p>
+    <div class="quote">如眼若有翳等过患。便有发毛轮等翳相现前可得。若无彼患便不可得。<span class="src">—— 卷七十三原文</span></div>
+    <div class="plain">无相取不是「什么都不取」，而是不取相的增益——像治好眼病的人看天空：不是看不见，是再也不看见那些飞舞的黑点。</div>
+    <div class="analogy"><b>比喻：</b>飞蚊症患者看白墙，成群黑点漂游；眼睛健康的人看同一面墙，只见白墙。翳患在，翳相现前；翳患除，翳相自灭——天空从未变，取法变了。</div>
+    <div class="case"><b>同一片白墙：</b>体检发现飞蚊症的人，起初看哪儿都有黑线，心烦意乱（有相取，令杂染）；半年后大脑适应，白墙复归于白（翳相不现前）。墙没有换，是「取」换了——对应眼翳喻：患在则相现，患无则相不可得。</div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：拨一拨，「无相取」怎么才生得起</h3>
+    <p>原文追问：无相之取非所共成，何因何缘名无相取？答：胜义智见熏习取果——它有因有缘。拨动开关，看它缺一条会怎样。</p>
+    <div id="condBox">
+      <div class="cond-row">
+        <div class="name">远离言说随眠<small>语言种子的潜在引力已拔除</small></div>
+        <label class="switch"><input type="checkbox" id="c1"><span class="slider"></span></label>
+      </div>
+      <div class="cond-row">
+        <div class="name">取无相界，不取诸相<small>不构获诸相差别，无所增益</small></div>
+        <label class="switch"><input type="checkbox" id="c2"><span class="slider"></span></label>
+      </div>
+      <div class="cond-row">
+        <div class="name">胜义智见的熏习为因<small>有相亦得为无相因——随顺彼故</small></div>
+        <label class="switch"><input type="checkbox" id="c3"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div id="condResult">把三个开关都拨到位，看看无相取如何「有因有缘」地生起。</div>
+    <div class="quote">有相亦得为无相因。随顺彼故。<span class="src">—— 卷七十三原文</span></div>
+    <p>如世间智为缘生出世智，有漏智为缘生无漏智，有心定为缘生无心定——出世的东西并不凭空降落，全靠有相的修习一级级垫上去。</p>
+  </div>
+
+  <div class="card">
+    <h3>说不出，但可证知</h3>
+    <p>有人问：不分明的东西怎么算「证知」？答：自内证智之所证知。又问：那为什么不照着所证的说清楚？答：</p>
+    <div class="quote">此内所证非诸名言安足处故。<span class="src">—— 卷七十三原文</span></div>
+    <div class="plain">亲证的境界不是语言能「落脚」的地方——说不出，不等于证不到。</div>
+    <div class="case"><b>骑车的平衡感：</b>学骑自行车的人，翻遍教程也说不出「平衡」到底是什么——直到某个瞬间突然会了，而且从此忘不掉。那份体感无法写成说明书，只能亲身获得——像「内证非名言安足处」的粗浅类比：可证、难言。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s5 涅槃非灭无 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>涅槃：不是关机，是除病</h2></div>
+  <p class="sec-lead">除遣一切所知境界之后，还剩什么？会不会连人带世界一起归零？本卷给出全卷最治愈的答案：涅槃是「烦恼众苦永寂静」，不是「灭无」——并连用三个比喻堵死「断灭」的误读，再给出除遣进程的五位地图与三层粗重的深浅。</p>
+
+  <div class="card">
+    <h3>涅槃的定义：寂静，而非灭无</h3>
+    <div class="quote">谓法界清净⑮烦恼众苦永寂静义。非灭无义。<span class="src">—— 卷七十三原文</span></div>
+    <div class="plain">涅槃＝心上的烦扰彻底停机；不是把心连人一起删除。</div>
+    <div class="analogy"><b>比喻：</b>古画修复师揭去霉斑、补全破洞，画心一直都在——修复不是销毁。涅槃「除遣」的是遮蔽，不是被遮蔽者。</div>
+    <div class="case"><b>痊愈不是删除：</b>一位长期焦虑的人做完心理咨询，朋友问「以前那个焦虑的你还在吗？」他说：还在上班、还在做饭，只是脑子里那台噪音机器安静了。烦恼众苦永寂静，人非断灭——正是「永寂静义，非灭无义」。</div>
+  </div>
+
+  <div class="card">
+    <h3>三个比喻堵死「归零」的误读</h3>
+    <div class="quote">如外水界唯离浑浊得澄清性。非离浊时无澄清性。又如真金唯离刚强得调柔性。非离彼时无调柔性。又如虚空唯云雾等翳障寂静得清净性。<span class="src">—— 卷七十三原文</span></div>
+    <p>水离浑浊而澄清——澄清性不是浊时才没有、清时也一直在；金离刚强而调柔；虚空离云雾而清净。此中道理亦尔：清净性本来现成，去的只是遮蔽。</p>
+    <div class="plain">清、柔、朗这三种「好」，不是新造出来的，是遮蔽离开后自显的——涅槃同理。</div>
+    <div class="case"><b>一杯泥水：</b>静置半小时，泥沙沉底，水澄清了——水没有被倒掉，浑浊离开了而已。若你以为「澄清＝水没了」，就像把涅槃读成断灭——这是本卷特意防的误读。</div>
+  </div>
+
+  <div class="card">
+    <h3>梦中暴流与天平两头</h3>
+    <div class="quote">譬如有人于眠梦中自见其身为大暴流⑯之所漂溺。<span class="src">—— 卷七十三原文</span></div>
+    <p>梦里被急流冲得九死一生，于是奋力挣扎——正是这一挣扎，猛然惊醒；醒来之后，暴流连影子都没有。除遣诸相的道理也是如此：不是跟相搏斗到同归于尽，而是醒来。断执与除相呢？</p>
+    <div class="quote">断时。遣时。平等平等如秤两头低昂道理。<span class="src">—— 卷七十三原文</span></div>
+    <div class="plain">执着断掉的那一刻，诸相同时就遣——如天平两头，此起彼落，没有先后。</div>
+    <div class="case"><b>天平两端：</b>拿走天平一端的砝码，另一端同时翘起——没有「先拿砝码、再等翘起」的时间差。对应「断时遣时，平等平等」：放下执着与相的消退，是同一件事的两头。</div>
+  </div>
+
+  <div class="card">
+    <h3>除遣的五位：一条上坡路</h3>
+    <p>由正定心先审观察，再由胜义作意力转舍有相、转得无相。这个「无相转」分五位（从名目看其深浅）：</p>
+    <div class="quote">一少分位。二遍满位。三有动位。四有加行位。五成满位。<span class="src">—— 卷七十三原文</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">① 少分位</div><div class="d">无相之转刚开始——只在局部境上转舍有相，如初学静心，只能在一间「小屋」里安住。</div></div>
+      <div class="tl-item"><div class="t">② 遍满位</div><div class="d">无相遍满一切所知——不再局限一隅，范围打开了。</div></div>
+      <div class="tl-item"><div class="t">③ 有动位</div><div class="d">虽遍满而犹有动——偶有动摇，如刚学会骑车仍会晃。</div></div>
+      <div class="tl-item"><div class="t">④ 有加行位</div><div class="d">须用功策动才能保持无相——努力而住，尚未任运。</div></div>
+      <div class="tl-item"><div class="t">⑤ 成满位</div><div class="d">究竟无恼、清净所依——不为一切烦恼灾横所陵杂，善清净真实义所行、一切现量所行、一切自在所行。</div></div>
+    </div>
+    <div class="case"><b>健身的五阶段：</b>第一周只做得到一次十分钟（少分）；三个月后每天全套科目（遍满）；状态会反复（有动）；还得靠闹钟和自律硬推（有加行）；数年之后不假思索、随处可练（成满）。进程有阶位，不必幻想一步登顶。</div>
+    <p>至于谁能证、何时证：随三种根差别建立三乘；声闻、独觉二乘皆以无上菩提乘为根本——</p>
+    <div class="quote">其最后乘要经三种无数大劫⑲。方可证得。<span class="src">—— 卷七十三原文</span></div>
+    <p>成佛是超长周期的工程。</p>
+  </div>
+
+  <div class="card">
+    <h3>三种粗重：皮、肉、心（点卡片翻面）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">在皮粗重</div><div class="sub">恶趣不乐品 · 最表层</div><div class="tap">点击翻面</div></div><div class="back">「一恶趣不乐品。在皮粗重。」断除它：不再往恶趣，修加行时不被「不乐」间杂。如皮肤晒伤，好得最快。<em>比喻：鞋里的小石子——一倒就没。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">在肉粗重</div><div class="sub">烦恼障品 · 中层</div><div class="tap">点击翻面</div></div><div class="back">「二烦恼障㉑品。在肉粗重。」断除它：极微细烦恼也不现行，但一切随眠尚未永害。如肌肉劳损，要持续复健。<em>比喻：慢性炎症——表面好了，一累就犯。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">在心粗重</div><div class="sub">所知障品 · 最深层</div><div class="tap">点击翻面</div></div><div class="back">「三所知障㉒品。在心粗重。」断除它：永害一切随眠，遍于一切所知境界无障碍，智自在而转。最深、最后断。<em>比喻：固执的世界观——知识越多框子越结实，最难拆。</em></div></div>
+    </div>
+    <div class="case"><b>减肥三层：</b>戒掉夜宵暴食，几周就见效（皮——表层习惯）；压力大就摸零食的冲动，戒了还会冒头（肉——微细烦恼现行）；而「吃是唯一慰藉」的认知框架，得换一整套看待自己的方式才松动（心——所知障）。粗重分三层，一层比一层深、一层比一层慢。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s6 两种失坏 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>两个病人的故事：声闻失坏与菩萨失坏</h2></div>
+  <p class="sec-lead">修行路上会走偏。本卷用一对镜像的病例：声闻把寂灭误解成「我将被消灭」，吓得宁可不治；菩萨把「无自性」误读成「烦恼本来就没有」，讳疾忌医。一怕灭、一装好——两端都翻车。</p>
+
+  <div class="card">
+    <h3>病例一：声闻——怕「我当断」</h3>
+    <div class="quote">计唯无有烦恼烧然名为寂灭。生大怖畏。谓我当断。我当永坏。我当无有。<span class="src">—— 卷七十三原文</span></div>
+    <p>有声闻执著「寂灭＝只是烦恼之火烧尽」，于是误推：烦恼在我身上烧，火灭岂不是我也没了？于是大怖畏——</p>
+    <div class="quote">譬如有人身婴热病于无病中都无识别。谓病愈时举体随灭。便生怖畏。我宁不脱如是热病。<span class="src">—— 卷七十三原文</span></div>
+    <p>宁愿继续发烧，也不敢退烧。这名为失坏正法及毗奈耶。</p>
+    <div class="plain">把「病愈」误当「人没」，于是宁守着病——声闻失坏，是吓出来的偏航。</div>
+    <div class="case"><b>怕「痊愈」的病人：</b>高烧烧糊涂的人以为退烧等于整个人蒸发，于是宁愿继续烧：「我宁可不退这个烧。」现实中也有人听咨询师说「会消退的是那套自我防御」，误以为「治好了我就不是我这个人」，从此拒绝咨询——把放下误解成消灭，正是「我当断、我当无有」的现代回声。</div>
+  </div>
+
+  <div class="card">
+    <h3>病例二：菩萨——自称「我本无病」</h3>
+    <div class="quote">闻一切法甚深无性。即执一切烦恼烧然自性本无。谓已无有生死重病。<span class="src">—— 卷七十三原文</span></div>
+    <p>有菩萨听到「一切法甚深无自性」，立刻执取：烦恼之火本来就无自性＝根本没有火，我根本没有生死重病——</p>
+    <div class="quote">譬如有人于己身中所生热病。谓为无病。于此热病不能解脱。名为失坏。<span class="src">—— 卷七十三原文</span></div>
+    <p>把空理当止痛药，病一点儿没好。</p>
+    <div class="plain">把「无自性」读成「无需对治」——菩萨失坏，是拿道理当遮羞布的偏航。</div>
+    <div class="case"><b>「我根本没病」：</b>体检报告多项异常，此人却把「一切皆空」挂在嘴边：「既然无自性，病也是空，不用治。」照旧熬夜酗酒——法听成了免罪牌，热病自谓无病。这是失坏大乘的标准画像。</div>
+  </div>
+
+  <div class="card">
+    <h3>为什么声闻走这条路？——三因缘</h3>
+    <div class="quote">谓三因缘故。一变化故。二誓愿故。三法性故。<span class="src">—— 卷七十三原文</span></div>
+    <p><b>变化故：</b>如来随所化众生，化作变化声闻。<b>誓愿故：</b>有人已于声闻乘发誓愿，即建立为声闻。<b>法性故：</b>有补特伽罗本性慈悲薄弱，于诸苦事深生怖畏——由此于利他事不深爱乐，不安住生死；又觉法性故，多修怖畏行。独觉亦尔；菩萨则是与此相违的三因缘。</p>
+    <div class="quote">谓有补特伽罗。本性已来慈悲薄弱于诸苦事深生怖畏。<span class="src">—— 卷七十三原文</span></div>
+    <div class="plain">声闻的底色是「怕苦＋悲弱」，菩萨的底色正相反：悲心炽盛、不怖生死——根性不同，路就不同。</div>
+    <div class="case"><b>两种驴友：</b>同一支登山队，有人一路只求自己清静，嫌新人拖慢节奏，恨不得独自登顶（悲弱、深怖畏苦——近于声闻法性）；有人全程照顾队尾、不怕绕路多背装备（悲强、不怖艰难——近于相违的菩萨根性）。走哪条路，往往在出发前的性格里就写好了伏笔。</div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">失坏之一</span><h4>声闻：怕「没有」</h4><p>把寂灭读成「我当断、我当永坏、我当无有」——不敢放下，宁守热病。病根：对一个「实有的我」抓得太紧。</p></div>
+      <div class="yuan-card"><span class="y-tag">失坏之二</span><h4>菩萨：谬托「本无」</h4><p>把无自性读成「烦恼本来就不存在」——不肯对治，讳疾忌医。病根：把空理当成了逃避的借口。</p></div>
+      <div class="yuan-card"><span class="y-tag">共同处</span><h4>一字之差</h4><p>一个把「寂静」听成「消灭」，一个把「无性」听成「无须对治」——两端的误读，都错过中道的真实义。</p></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s7 佛的密意 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>读佛语要看「密意」：三种无自性性</h2></div>
+  <p class="sec-lead">佛说过「一切法皆无自性」，也说过「一切法皆无有二」——这些话若当成一句概括，就会自相矛盾。本卷的钥匙叫「密意」：同一句话，是依什么角度、对什么根器说的。答案浓缩成三个词：相无自性性、生无自性性、胜义无自性性。</p>
+
+  <div class="card">
+    <h3>三个角度，各管一句佛语</h3>
+    <div class="quote">说三种无自性性㉗。一相无自性性。二生无自性性。三胜义无自性性。<span class="src">—— 卷七十三原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">相无自性性</div><div class="sub">言说里的自性，本来就没有</div><div class="tap">点击翻面</div></div><div class="back">「谓一切法世俗言说自性。」——名词里长不出实体：把通讯录里「妈妈」改成「张三」，你妈不会换人。<em>依此而说的佛语：无生无灭本来寂静自性涅槃、一切法等于虚空、观无常。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">生无自性性</div><div class="sub">一切是条件凑的，不是自来自己的</div><div class="tap">点击翻面</div></div><div class="back">「谓一切行众缘所生缘力故有。非自然有。」——蛋糕不会从烤箱里自己长出来：面粉、鸡蛋、糖、温度、时间，缺一不可。<em>依此（加上胜义）而说的佛语：一切法皆如幻、观苦、观空。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">胜义无自性性</div><div class="sub">从胜义看，实有之相本被远离</div><div class="tap">点击翻面</div></div><div class="back">「谓真实义相所远离法。」观行苾刍于大骨聚生假胜解、不能除遣——观得再逼真也只是假胜解，胜义无自性相恒无间转。<em>比喻：VR 里摸得再逼真的桌子，手里也没有桌子——逼真不等于实有。</em></div></div>
+    </div>
+    <div class="quote">相名分别正智。皆由二种无自性性。真如不由无自性性说无自性。<span class="src">—— 卷七十三原文</span></div>
+    <div class="plain">相、名、分别、正智四事可从「生」与「胜义」两角说无自性；真如连「无自性」都谈不上——它是真实性本身。</div>
+    <div class="quote">我说一谛更无第二。<span class="src">—— 卷七十三原文</span></div>
+  </div>
+
+  <div class="card">
+    <h3>密意示范：「观无常」到底在说什么</h3>
+    <div class="quote">欲说等随观常无有故。说等随观有无常。<span class="src">—— 卷七十三原文</span></div>
+    <p>想告诉你「常」根本不存在，才说「观无常」——重点不是「先常后坏」的伤感故事，而是「常」从未有过。一句「无常」，密意在此。</p>
+    <div class="plain">读佛语先问「这句依什么说」——不问密意，句句都能读歪。</div>
+    <div class="case"><b>医生的两副话术：</b>对疑神疑鬼的病人，医生说「这病真实存在，必须认真治」；对把诊断书当成全部人生的病人，医生说「别让一纸报告定义你」。两句话方向相反，都指向康复——同一实情，依所化不同而说不同话，这就是「依彼彼所化势力故」说三种无自性性的意思。</div>
+    <div class="case"><b>「假期结束了」：</b>让你失落的不是假期本身，而是默认「有一个常存的快乐状态被我弄丢了」。看清「常」从来没有出现过，失落松动——这正是「欲说常无有故，说观有无常」要解的那个结。</div>
+    <div class="case"><b>断章取义：</b>只截取「一切法皆无自性」一句到处套用，从不问「这句是依什么说的」——就像只截取医生半句「不用治了」（前文是「急性期已过不用服药」）。离开所依角度读佛语，就会像本卷警告的那样失坏。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：这句话依什么而说？</h3>
+    <p>下面五句佛语，各是依三种无自性性中的哪个角度（或完全不依）而说？点选答案看解释。</p>
+    <div id="sorterArea"></div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s8 三自性字典 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>三个抽屉：三种自性与遍计字典</h2></div>
+  <p class="sec-lead">「若欲了知真实义者，于三自性复应修观。」全卷后半把万法分进三个抽屉：遍计所执（语言硬造的实体）、依他起（众缘和合的显现）、圆成实（真如本身）。抽屉好认，抽屉里的分类清单才是硬货——主体收进折叠字典，正文只讲结构与逻辑。</p>
+
+  <div class="card">
+    <h3>三自性（点卡片翻面）</h3>
+    <div class="quote">一遍计所执自性㉜。二依他起自性㉝。三圆成实自性㉞。<span class="src">—— 卷七十三原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">遍计所执自性</div><div class="sub">语言贴上去就当成真的</div><div class="tap">点击翻面</div></div><div class="back">「谓随言说依假名言建立自性。」——听着名字，脑补出一个实体。<em>比喻：给天上的云起名「小白兔」，然后坚信天上真有一只兔子。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">依他起自性</div><div class="sub">众缘和合的显现本身</div><div class="tap">点击翻面</div></div><div class="back">「谓从众缘所生自性。」——不添不减的经验流：正是幻事「宛然有」的那一层。<em>比喻：放映机、胶片、灯、幕布众缘和合，银幕上现出影像。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">圆成实自性</div><div class="sub">诸法真如，圣智所行</div><div class="tap">点击翻面</div></div><div class="back">「谓诸法真如。」圣智境界，能令证得清净，「能令解脱一切相缚及粗重缚。亦令引发一切功德。」<em>比喻：皮影戏的白色幕布——影像来去，幕布不增不减、不染不净。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>三个抽屉各以什么为缘</h3>
+    <div class="quote">遍计所执自性缘何应知。答缘于相名相属应知。<span class="src">—— 卷七十三原文</span></div>
+    <p>遍计所执，缘「相与名的相互系属」而起——一挂上钩，实体感就冒头；依他起，缘对遍计所执的执著而起；圆成实，缘「遍计所执在依他起中毕竟不实」而起——看清「执取的东西在这儿根本找不到」，真如的门就开了。</p>
+    <div class="analogy"><b>比喻：</b>皮影戏一台：影子被当成真小人（遍计所执），皮偶、灯光、牵线众缘和合（依他起），始终洁白如一的幕布（圆成实）——三样同台，互为增上。</div>
+    <div class="case"><b>同一句「在吗」：</b>深夜收到暧昧对象的「在吗」，与上班时收到老板的「在吗」，心跳完全不同——消息这件事由发信人、时间、关系、你的心境众缘合成，从来不是孤立现起的「消息实体」。对应「从众缘所生自性」。</div>
+    <div class="case"><b>相亲滤镜：</b>听介绍人说「程序员」三个字，脑中自动生成格子衫、木讷、高薪的标准像——这是依名建立的「自性」。见面后发现完全是另一个人：遍计所执当场破产。对应「随言说依假名言建立自性」。</div>
+  </div>
+
+  <div class="card">
+    <h3>遍计的分类清单（结构与逻辑）</h3>
+    <p>「遍计」＝普遍计度（心拿着概念到处对号入座）。清单有三层：<b>遍计什么</b>（五种对象）、<b>怎么遍计</b>（依名/依义五式）、<b>执得多深</b>（自性执与微细执着）。全部条目收进下方折叠字典，可跳过。</p>
+    <details class="dict">
+      <summary>遍计分类全清单<span class="hint">清单式内容，可跳过</span></summary>
+      <div class="body">
+        <p><b>一、遍计所执自性略有五种：</b>遍计义自性（对事物本身起计度）、遍计名自性（对名称起计度）、遍计杂染自性（计度此有贪嗔痴、与善不相应）、遍计清净自性（与上相违）、遍计非杂染清净自性（计度能取所取与无记法）。</p>
+        <p><b>二、遍计义自性又分四种：</b>遍计自相——「谓遍计此事是色自性。乃至此事是识自性。」；遍计差别相——「谓遍计此色是可意。此色是不可意。」乃至有见无见、有对无对、有漏无漏、有为无为；遍计所取相——计度此色是眼耳鼻舌身意所取；遍计能取相——计度此色是能取声香味触者。</p>
+        <p><b>三、遍计名自性二种：</b>无差别（计度一切法所有名）、有差别（计度此名为色、此名为受……各各别名）。</p>
+        <p><b>四、复有五种遍计方式：</b>「一依名遍计义自性。二依义遍计名自性。三依名遍计名自性。四依义遍计义自性。五依二遍计二自性。」——先闻其名猜其事、先见其事猜其名、只玩名字不涉事、只玩事不知名、名字一起上。</p>
+        <p><b>五、遍计所执自性执二种：</b>「一加行执。二名施设执。」加行执五种：贪爱加行、嗔恚加行、合会加行、别离加行、舍随与加行；名施设执二种：非文字所作（执此为何物、云何此物）、文字所作（执此是色乃至是常是无常、是善是不善）。</p>
+        <p><b>六、微细执着五种：</b>「一于无常常执。二于苦乐执。三于不净净执。四于无我我执。五于诸相中遍计所执自性执。」——把无常当常、把苦当乐、把不净当净、把无我当有我，以及在一切相上直取「实有自性」。</p>
+      </div>
+    </details>
+    <div class="case"><b>年卡心态：</b>办健身年卡那一刻，默认「现在的热情会一直烧到年底」——于无常常执；练两次就弃卡，又断言「我就是没有毅力的人」——于无我处起我执。微细执着不在大事上，全埋在这种默认设置里。</div>
+    <div class="case"><b>恋爱的合会与别离：</b>热恋中总想把「每周见面」推进成「住在一起」（合会加行）；异地之后，痛苦又推着你想抓得更紧（别离加行）。五种加行执，恋爱里至少占两席——执着不在「爱」本身，在「必须如此」的计度。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s9 言缚收官 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>名言是缚 · 收官</h2></div>
+  <p class="sec-lead">全卷最后落回一个词：缚。愚夫在一切相中被名言捆住——先看「如名如言执自性」的五条成因（一条比一条深），再看名言与事物的相互供养（名生事、事养名），最后以卷末六句偈收束全卷。</p>
+
+  <div class="card">
+    <h3>五因缘：你怎么被一个名字钉住的</h3>
+    <p>为什么说愚夫「如名如言」于所诠事执有自性？论主数出五条，点下面推演：</p>
+    <div class="demo-area">
+      <div class="flow-track" id="causeTrack"></div>
+      <div class="flow-detail" id="causeDetail"></div>
+      <div class="flow-ctrl">
+        <button class="tri-btn" id="causePrev">上一步</button>
+        <button class="tri-btn" id="causeNext">下一步</button>
+      </div>
+    </div>
+    <div class="quote">是故如名如言于所诠事执着自性。<span class="src">—— 卷七十三原文</span></div>
+    <div class="plain">五个环节全是自动挡：问答、观察、求不得恼、名偏一义、增益即执——链条走完，「实有感」就焊死在名字上了。</div>
+  </div>
+
+  <div class="card">
+    <h3>缚的证据：名言与事物互相供养</h3>
+    <div class="quote">一切愚夫于诸相中名言所缚故。<span class="src">—— 卷七十三原文</span></div>
+    <p>凭什么知道「被名言缚」？由理：若无名言，事上的喜乐无从生起；名言一起，喜乐立至——</p>
+    <div class="quote">谓若离名言于诸事中喜乐不可得故。若名言俱于诸事中喜乐可得故。<span class="src">—— 卷七十三原文</span></div>
+    <p>又二者展转相依：</p>
+    <div class="quote">事为依止名言得生。名言为依事可得生故。<span class="src">—— 卷七十三原文</span></div>
+    <p>如修静虑者依名言作意，所知事的同分影像便随言现前——</p>
+    <div class="quote">如静虑者内静虑时。如如意名言作意思惟。如是如是有所知事。同分影像生起方便运转现在前故。<span class="src">—— 卷七十三原文</span></div>
+    <p>对治的方向也随之而来：</p>
+    <div class="quote">若不安心于无相界。不随所欲。便为诸相漂转其心。<span class="src">—— 卷七十三原文</span></div>
+    <p>反之，安置心于无相界，一切诸相皆不现前。</p>
+    <div class="plain">名言既是工具又是缰绳：它能唤起世界（禅观影像），也能拴住你（喜乐钩子）；解缚处不在消灭语言，在心能否安住无相。</div>
+    <div class="case"><b>学会一个新词之后：</b>第一次学会「凡尔赛」，再刷朋友圈，处处都是凡尔赛——名言一装上，世界立刻被重新上色，喜乐恼怒随言而生。对应「名言俱，于诸事中喜乐可得」。</div>
+    <div class="case"><b>卸载两周：</b>卸载社交软件两周后再看到热搜截图，只觉「一串字」，心不再被勾走——言语钩子暂离，事上那种「非点进去不可」的喜乐随之松脱。对应「若离名言，于诸事中喜乐不可得」。</div>
+    <div class="case"><b>冥想引导词：</b>跟着音频说「把注意力放在呼吸上」，呼吸的觉受影像随言而起、随言而转——名言为依，事可得生；引导一停、心又散乱时，正见「诸相漂转其心」为何意。</div>
+  </div>
+
+  <div class="card">
+    <h3>卷末六句偈：全卷的收束</h3>
+    <div class="gatha">
+      <div class="lines">愚昧思凡夫　　于相为言缚<br>牟尼脱言缚　　于相得自在<br>清净见行者　　安住于真智<br>于自性无得　　不见彼所依<br>由真智清净　　说彼为真明<br>二执不相应　　故号为无二</div>
+      <div class="mean">愚昧凡夫被言语捆在诸相上；圣者脱言缚，于诸相得大自在——<br>清净见行者安住真智，于自性无所得、也不见所依；<br>由真智清净名为「真明」，我执与我所执二俱不相应，故称「无二」。<br>从「言缚」到「言自在」，六句正好收束全卷「名言是缚」的主题。</div>
+    </div>
+    <p>偈后还补了一个例子：异生虽善知蕴中无我、知「我」只是假有，我执仍随顺而转——因为随眠未永断。道理本卷处处一致：<b>知易证难，名解执在</b>。</p>
+  </div>
+
+  <div class="card">
+    <h3>收官总纲：一张图带走全卷</h3>
+    <div class="obstacle-tags">
+      <span>② 五事分部门：安立与非安立</span>
+      <span>③ 自性不可言说，如幻非全无</span>
+      <span>③ 共分别任持：你走了世界还在</span>
+      <span>④ 三种取；无相取有因有缘</span>
+      <span>⑤ 涅槃＝寂静≠灭无；五位与皮肉心</span>
+      <span>⑥ 声闻怕断、菩萨称无病——两失坏</span>
+      <span>⑦ 三种无自性性＝读密意的钥匙</span>
+      <span>⑧ 遍计、依他、圆成实三抽屉</span>
+      <span>⑨ 名言是缚；安心无相则相不现</span>
+    </div>
+    <p class="plain">一条主线贯九站：从「五事」立骨架，到「不可言说」拆实体，到「无相取」给出路，到「密意」教读法，最后「言缚」收网。</p>
+    <div class="case"><b>把这卷用起来：</b>下次被一个词激怒（「内卷」「躺平」「失败者」），走一遍本卷流程：这是相还是名（②）？这个名钉得出实体吗（③）？我在哪种取里（④）？安住几秒无相（⑤·⑨）——一套下来，卷七十三就从古文变成了工具包。</div>
+    <p>下一站：卷七十四（菩萨地之三）开卷即曰「摄无性、知等」，接着决择密意与所行——三自性的深观还在后头。</p>
+  </div>
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第七十三（output/73.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga73-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* 翻转卡开关 */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
+/* 站③ 杂染循环推演 */
+initStepper('loopTrack','loopDetail','loopPrev','loopNext',[
+  {t:'起分别',d:'<b>八分别（八种认知操作）：</b>心里生起八种分别——一切认知自带"打标签"的功能，这是循环的起点。原文：由先所起八分别，于现在世三种事生。'},
+  {t:'生三事',d:'<b>三种事：</b>由分别的力量，现在世生起三种事——想什么，什么就在经验里现起；经验世界是分别的产物。'},
+  {t:'又生分别',d:'<b>复起分别：</b>生出来的事，又立刻成为新一轮分别的对象——事喂分别，分别再造事。'},
+  {t:'染法相续',d:'<b>杂染相续：</b>由此道理，诸杂染法展转相续、无有断绝——像滚雪球，烦恼在循环里越滚越厚。'},
+  {t:'断处即证',d:'<b>圣智可证：</b>分别假立若断灭时，诸杂染法皆可随灭、证得圣智——循环的出口不在世界那头，而在"分别"这台引擎上。'}
+]);
+
+/* 站④ 无相取条件模拟器 */
+function updateNoTake(){
+  var a=document.getElementById('c1').checked,
+      b=document.getElementById('c2').checked,
+      c=document.getElementById('c3').checked,
+      el=document.getElementById('condResult');
+  el.classList.remove('fail');
+  if(!a&&!b){el.classList.add('fail');el.innerHTML='言说随眠未离，取相如常——此时纵然嘴上说"我不取"，多半是把"无相"又当成一个新相来取了。';return;}
+  if(!a){el.classList.add('fail');el.innerHTML='言说随眠还在，取境仍带着名的引力——先在言语种子处下手，否则难成无相取。';return;}
+  if(!b){el.classList.add('fail');el.innerHTML='虽离言说，但若于无相界中仍取其相、增益诸相——原文判语：若取其相，非无相取。';return;}
+  if(!c){el.innerHTML='言说已离、不取于相，方向对了——但无相取并非凭空掉下来：有相亦得为无相因，随顺彼故。世间的闻思修习，正是它的第一级台阶。';return;}
+  el.innerHTML='无相取成：言说随眠已远离，取无相界而不取诸相，又以胜义智见熏习为因——有因有缘，能令清净。如眼翳既除，毛发轮相自不可得。';
+}
+['c1','c2','c3'].forEach(function(id){document.getElementById(id).addEventListener('change',updateNoTake);});
+updateNoTake();
+
+/* 站⑦ 密意归类练习 */
+initSorter('sorterArea',[
+  {a:'"一切法无生无灭、本来寂静、自性涅槃"',opts:['依相无自性性','依生·胜义无自性性','不依无自性性'],ans:'依相无自性性',exp:'原文直答：依相无自性性说如是言——世俗言说自性本无，故可说本来寂静。'},
+  {a:'"一切法皆如幻等"',opts:['依相无自性性','依生·胜义无自性性','不依无自性性'],ans:'依生·胜义无自性性',exp:'依生无自性性、胜义无自性性说——众缘所生故如幻，胜义实相远离故非实。'},
+  {a:'"等随观色乃至识有无常"',opts:['依相无自性性','依生·胜义无自性性','不依无自性性'],ans:'依相无自性性',exp:'欲说等随观常无有故，说等随观有无常——重点是"常"从来没有过，不是先常后坏。'},
+  {a:'"等随观色乃至识皆有苦"',opts:['依相无自性性','依生·胜义无自性性','不依无自性性'],ans:'依生·胜义无自性性',exp:'依生无自性性及胜义无自性性说如是言——缘生故逼迫，胜义中无实苦可得。'},
+  {a:'"眼永寂灭、远离色想"',opts:['依相无自性性','依生·胜义无自性性','不依无自性性'],ans:'不依无自性性',exp:'原文说"都不依于无自性性"——这句不是遣除自性的话，而是寂灭现前的实况。'}
+]);
+
+/* 站⑨ 五因缘推演 */
+initStepper('causeTrack','causeDetail','causePrev','causeNext',[
+  {t:'① 问答直指',d:'<b>被问"这是什么"：</b>直接答"是色自性，不是色名"——一开口就把名所指的东西，当成了自带实体的东西。'},
+  {t:'② 静处观察',d:'<b>独处空闲观察：</b>精勤观察诸法自相共相，寻思的仍是"这是色相，不是色名"——绕开名字，也没看见"只是相"。'},
+  {t:'③ 求相生恼',d:'<b>求之不得的反应：</b>寻求色相而不得，便生不乐；求名不得却不会这样——可见真正在意的，是"相里有自性"。'},
+  {t:'④ 名偏一义',d:'<b>名的能力边界：</b>一个名只能显示自相一义，显不了差别、所取、能取诸义——名本没有全面钉住事的能力，却被当成能。'},
+  {t:'⑤ 增益即执',d:'<b>最后一环：</b>名其实在无相义上运转，只能显示自己增益出来的东西；执取这增益，即是执着——如名如言执自性，道理成就。'}
+]);
+
+renderPath();
+</script>
+</body>
+</html>

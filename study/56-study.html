@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷五十六 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 摄决择分中五识身相应地意地之六</div>
+  <h1>卷第五十六 · 交互式学习模块</h1>
+  <p class="sub">这一卷是一场接一场的问答复查：先给「得、命根、时、方、数」这些五蕴的配套件逐一建档，再给五蕴贴上一整套差别标签，然后拆掉「唯心实有」的异说，最后把界、处、缘起三套善巧一次讲透。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 25 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 分位建档</a>
+<a href="#s3">③ 蕴的标签</a>
+<a href="#s4">④ 唯心之辩</a>
+<a href="#s5">⑤ 界善巧</a>
+<a href="#s6">⑥ 处善巧</a>
+<a href="#s7">⑦ 缘起支</a>
+<a href="#s8">⑧ 无明五杂染</a>
+<a href="#s9">⑨ 收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂全卷地图</b><span>先弄清「决择分」是什么，本卷四站路线怎么走——对应第 1 章。</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>分位建档</b><span>认识心不相应行诸法「依某分位建立、又分三种」的统一格式——对应第 2 章。</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>读会「何义几蕴」问答体</b><span>理解差别标签为什么几乎都答「一切一分」，并做善／不善／无记归类——对应第 3 章。</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>看一场「唯心实有」辩论赛</b><span>跟着论主五步拆招，记牢乳酪之喻与灯明之喻——对应第 4 章。</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>界与处：两套坐标</b><span>界义六种、十八界实假与四句、十二处的「生长门」与三缘——对应第 5、6 章。</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>缘起与无明，收官</b><span>走一遍两世因果链与五种杂染（第 7、8 章），最后完成总账与偈颂复习。</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ s1 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：这是一张「问答复查单」</h2></div>
+  <p class="sec-lead">《瑜伽师地论》前半部「本地分」把整套理论平铺讲完；后面的「摄决择分」换了一种节奏——一问一答，把已经讲过的义理再挑一遍、疑难处决断一遍。卷五十六是「五识身相应地、意地」决择的第六卷：上一卷（卷五十五）刚讲完「名所摄四无色蕴」（心与心所），本卷从五蕴的「分位」接起，一路走到缘起。</p>
+
+  <div class="card">
+    <h3>「决择」是什么动作？</h3>
+    <div class="quote">问诸蕴分位有几种。答有多种。谓得无想定等心不相应行①。<span class="src">—— 卷五十六原文</span></div>
+    <p>注意卷首第一个字就是「问」。整卷几乎全由「问：……答：……」组成：先提出一个名相，问它「依什么建立」「有几种」，再逐条作答。这种问答体不是闲聊，而是逐一排查——把理论系统里每一颗螺丝都拧一遍。</p>
+    <div class="plain">决择分＝对已讲过理论的问答复查；本卷查的是五蕴分位、蕴差别、界、处、缘起五大块。</div>
+    <div class="analogy"><b>比喻：</b>买新车随附两本册子——「用户手册」（本地分，把整车原理平铺讲一遍）和 4S 店的「检修问答单」（决择分，针对每个部件一问一答逐项排查）。本卷就是检修问答单的第六张。</div>
+  </div>
+
+  <div class="card">
+    <h3>本卷四站路线</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">第一站 · 蕴的分位（心不相应行）</div><div class="d">给「得、无想定、命根、众同分、生老住无常、名句文、时、方、数、和合」等一串配套件建档。格式高度统一：依某个分位建立，又各分三种。</div></div>
+      <div class="tl-item"><div class="t">第二站 · 蕴的差别标签</div><div class="d">「有色、有见、有漏、有为、善、不善、无记、三界系、见所断、修所断……」一连串「何义几蕴」问答，等于给五蕴做全面体检、贴标签。</div></div>
+      <div class="tl-item"><div class="t">第三站 · 破「唯心实有」</div><div class="d">有沙门婆罗门主张只有心真实存在、心所只是心的状态。论主五步拆招，最后成立「心与心所更互相应」，并留下一首偈颂。</div></div>
+      <div class="tl-item"><div class="t">第四站 · 界 · 处 · 缘起</div><div class="d">界事善巧（十八界怎么数、谁实谁假）、处事善巧（十二处为何叫「生长门」）、缘起善巧（十二支归类、无明的真身、五种杂染）。</div></div>
+    </div>
+    <div class="plain">地图记一句话：先建档（分位），再贴标签（差别），再打辩论（唯心），最后换三张坐标系（界、处、缘起）。</div>
+  </div>
+
+  <div class="case"><b>两本手册：</b>2025 年 3 月，程序员小赵入职一家大厂，行政同时发他《研发规范全集》和一张《入职十问答疑卡》。前一本平铺所有规则（本地分），后一张专挑新人最容易踩的坑逐条问答（决择分）——本卷正是这种「答疑卡」，专挑意地里最容易被误解的部分做问答排查。</div>
+  <div class="case"><b>复习课节奏：</b>周一语文老师讲完整个单元（本地分完整理论），周五发下一张「易错题问答卷」（决择分），学生每答一题就被纠正一次理解偏差——卷五十六里每一个「问」，都是论主替读者预演过的「易错题」。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s2 分位建档 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>分位建档：那些「介于身心之间」的配套件</h2></div>
+  <p class="sec-lead">心王、心所、色法都讲过了，可经里还冒出「得、命根、众同分、时、方、数」这些名词——它们是什么？本卷给出统一答案：它们不是独立实体，而是「分位」上建立的假名。<b>分位</b>＝阶段、状态、位次。每种分位法都有固定格式：依什么分位建立 + 又分三种。</p>
+
+  <div class="card">
+    <h3>核心概念：分位建立</h3>
+    <div class="quote">答依因自在现行分位建立。得此复三种。谓种子成就②自在成就③。现行成就④。<span class="src">—— 卷五十六原文</span></div>
+    <p>以「得」为例：依因、自在、现行三种分位建立，又分种子成就（能力潜伏在册）、自在成就（随时可用）、现行成就（正在起用）。「得」＝获得并成就某法的建立名——不是得到了一件叫「得」的东西，而是给「已成就」这个状态起的名字。</p>
+    <div class="plain">心不相应行诸法（得、命根、同分、时、方、数等）＝既不是心王心所、也不是色法，而是给五蕴的某种状态立的假名——不另有一物。</div>
+    <div class="analogy"><b>比喻：</b>通讯软件里同事头像旁的「会议中／休假中／出差中」——它们不是第四、第五个人，而是同一个人不同状态的名签。分位法就是身心这套系统上的状态名签。</div>
+  </div>
+
+  <div class="card">
+    <h3>八张重点建档卡（点击翻面）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">得</div><div class="sub">成就的「建立证」</div><div class="tap">点击展开</div></div><div class="back">种子成就：潜伏在册，如十年没下水的泳技；自在成就：随取随用；现行成就：正在起用。<em>游泳三阶段——报班学会但久不下水、常去泳池随时能游、此刻正在泳池里游。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">无想定</div><div class="sub">凡夫的「出离想」暂停键</div><div class="tap">点击展开</div></div><div class="back">依已离遍净贪、未离上贪、以出离想作意为先的灭分位建立。三种：自性唯是善；补特伽罗在异生（凡夫）相续；起者先于此起，后于色界第四静虑受果。<em>把心调成静音模式，但只有「凡夫会员」能操作，且开机键留给来世。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">灭尽定</div><div class="sub">圣者的深度停机</div><div class="tap">点击展开</div></div><div class="back">依已离无所有处贪、止息想作意为先建立。唯是善、在圣者相续、通学与无学；据未建立阿赖耶识的教法须托色所依方现前，若已建立阿赖耶识则一切处现前。<em>不只是静音，是整机关机，且只有持「圣者卡」者能操作。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">无想（无想天）</div><div class="sub">果报位的超长待机</div><div class="tap">点击展开</div></div><div class="back">依已生无想有情天中的灭分位建立。无覆无记（不障圣道又不感苦乐果的中性）；唯异生性，非诸圣者；由能引发无想定的思感得异熟果，后想生起时便从彼处命终。<em>一次整期寿命的深度休眠——睡醒即下线。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">命根</div><div class="sub">住时决定的续航</div><div class="tap">点击展开</div></div><div class="back">依业所引异熟、住时决定分位建立。三种：定与不定、爱与非爱、岁劫数等所安立。<em>出厂电池决定一台手机能用多久——中途换壳换膜都不改变电池寿命。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">众同分</div><div class="sub">「相似」这一共性</div><div class="tap">点击展开</div></div><div class="back">依诸有情相似分位建立。三种：种类同分、自性同分、工巧业处养命同分。<em>同一家公司人人挂的工牌——不是同一个人，却是「同类相似」。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">生老住无常</div><div class="sub">存在的四个时刻</div><div class="tap">点击展开</div></div><div class="back">生依现在分位（刹那、相续、分位生）；老依前后分位（异性、转变、受用老）；住即依生分位（刹那、相续、立制住）；无常依生已坏灭分位（坏灭、转变、别离）。<em>一部手机从拆封、老化、服役到报废的全周期。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">时·方·数·和合</div><div class="sub">时间空间数量合作</div><div class="tap">点击展开</div></div><div class="back">时依行相续不断分位（去来今）；方依所摄受诸色分位（上下傍）；数依法齐量表了分位（一二多）；和合依所作支无阙分位（集会、一义、圆满）。<em>一场会议开成：有时间、有场地、人数齐、各环节不缺。</em></div></div>
+    </div>
+  </div>
+
+  <details class="dict">
+    <summary>全部分位法建档清单<span class="hint">完整枚举，赶时间可跳过</span></summary>
+    <div class="body">
+      <p><b>得</b>——依因、自在、现行分位建立；三种：种子成就、自在成就、现行成就。</p>
+      <p><b>无想定</b>——依已离遍净贪、未离上贪、出离想作意为先的灭分位建立；唯善、异生相续、后于第四静虑受果。</p>
+      <p><b>灭尽定</b>——依已离无所有处贪、止息想作意为先的灭分位建立；唯善、圣者相续（通学无学）；未建立阿赖耶识之教须托色所依，已建立则一切处现前。</p>
+      <p><b>无想</b>——依已生无想有情天中的灭分位建立；无覆无记、唯异生性、由思感果，想生便没。</p>
+      <p><b>命根</b>——依业所引异熟、住时决定分位建立；三种：定不定、爱非爱、岁劫数等所安立。</p>
+      <p><b>众同分</b>——依诸有情相似分位建立；三种：种类、自性、工巧业处养命同分。</p>
+      <p><b>生</b>——依现在分位建立；三种：刹那生、相续生、分位生。</p>
+      <p><b>老</b>——依前后分位建立；三种：异性老、转变老、受用老。</p>
+      <p><b>住</b>——即依生分位建立；三种：刹那住、相续住、立制住。</p>
+      <p><b>无常</b>——依生已坏灭分位建立；三种：坏灭、转变、别离无常。</p>
+      <p><b>名身</b>——依假言说分位建立；三种：假设名身、实物名身、世所共了及不了名身。句身、文身亦尔，差别在标句释句、音所摄字所摄。</p>
+      <p><b>异生性</b>（凡夫性）——依未生起一切出世圣法分位建立；三种：欲界系、色界系、无色界系。</p>
+      <p><b>流转</b>——依因果相续分位建立；三种：刹那展转、生展转、染污清净展转。</p>
+      <p><b>定异</b>——依法别相分位建立；三种：相定异、因定异、果定异。</p>
+      <p><b>相应</b>——依因果相称分位建立；三种：和合、方便、称可道理所作相应。</p>
+      <p><b>势速</b>——依迅疾流转分位建立；三种：诸行、士用、神通势速。</p>
+      <p><b>次第</b>——依一一行流转分位建立；三种：刹那流转、内身流转、成立所作流转。</p>
+      <p><b>时</b>——依行相续不断分位建立；三种：过去、未来、现在。</p>
+      <p><b>方</b>——依所摄受诸色分位建立；三种：上、下、傍。</p>
+      <p><b>数</b>——依法齐量表了分位建立；三种：一数、二数、多数。</p>
+      <p><b>和合</b>——依所作支无阙分位建立；三种：集会和合、一义和合、圆满和合。</p>
+      <p><b>不和合</b>——与和合相违，分位与差别亦尔。</p>
+    </div>
+  </details>
+
+  <div class="case"><b>写字楼众同分：</b>2025 年某个周一早上八点，朝阳区某写字楼的三十名程序员打开同一套代码仓库、按同一套命名规范提交、在同一楼层刷卡上班——他们不是同一个人，而是「同类相似」的一群人，这正是「依诸有情相似分位立众同分」里的工巧业处养命同分：靠同一门手艺、同一种方式谋生的人所共有的相似性。</div>
+  <div class="case"><b>电池与命根：</b>老陈的旧手机是 2020 年出厂的，电池健康度决定了它的续航上限；四年里他换过三次壳、贴过五张膜，续航上限却没变——命根也一样：「依业所引异熟住时决定分位建立」，由业决定的总寿命是底层的「电池」，衣食用度这些外缘只是壳与膜。</div>
+  <div class="case"><b>别离无常三连：</b>十月末搬家日，小林把住了六年的出租屋钥匙交给房东。退租单签完那一刻，那段生活同时上演三种无常：屋子被复原粉刷（坏灭无常）、家具从「她的家」变成「待租空房」（转变无常）、与邻里朋友挥手作别（别离无常）——对应「依生已坏灭分位建立无常」的三种。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s3 蕴的标签 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>给五蕴贴标签：「何义几蕴」的问答体</h2></div>
+  <p class="sec-lead">第二站是全卷最密集的问答：「问何义几蕴是X？」每个标签都在问两件事——这个标签<b>是什么意思</b>（何义）、五蕴里<b>谁沾边</b>（几蕴）。答案几乎全是同一个句式：「一切一分是X」——五蕴中的每一蕴，都各有其中一部分算数。标签不是对整人的判决，而是切下五蕴的一面。</p>
+
+  <div class="card">
+    <h3>核心句式：「一切一分」</h3>
+    <div class="quote">答粗重⑳所随非彼对治烦恼所生义。一切一分是有漏。<span class="src">—— 卷五十六原文</span></div>
+    <p>以「有漏」为例：粗重（烦恼的沉重惯性）随逐、又非其能对治、由烦恼所生——五蕴中凡有这样的部分就叫有漏。不是「整个五蕴全烂了」，而是「每一蕴里都有那么一块」。</p>
+    <div class="plain">差别标签是「切面」不是「盖章」：同一个五蕴，从苦乐角度切出善与不善，从系缚角度切出三界系，从烦恼角度切出有漏。</div>
+    <div class="analogy"><b>比喻：</b>同一份体检报告，眼科看视力、心内科看血压、营养科看体脂——报告没变，是「看的角度」不同。「何义几蕴」的几十个标签，就是几十个科室看同一份「五蕴体检单」。</div>
+  </div>
+
+  <div class="card">
+    <h3>有漏：烦恼生起的四种过失</h3>
+    <div class="quote">一不寂静过失。二内外变异过失。三发起恶行过失。四摄受因过失。<span class="src">—— 卷五十六原文</span></div>
+    <p>论中另立一种有漏义：凡是烦恼能生起四种过失之处，就是有漏。四种过失各有分工，如下表。</p>
+    <div class="plain">「有漏」不是笼统的不干净，而是烦恼在其处能连续制造四种后果的具体位置。</div>
+    <div class="table-wrap">
+      <table class="nine">
+        <tr><th>过失</th><th>原文归责</th><th>通俗理解</th></tr>
+        <tr><td>不寂静过失</td><td>缠现行所作</td><td>烦恼现行时心烦意乱，坐立不安</td></tr>
+        <tr><td>内外变异过失</td><td>诸烦恼事随逐烦恼所作</td><td>身心内外反复起伏，忽喜忽忧</td></tr>
+        <tr><td>发起恶行过失</td><td>烦恼因缘所作</td><td>上头之际口出恶言、行为越界</td></tr>
+        <tr><td>摄受因过失</td><td>引发后有所作</td><td>给来日烦恼与轮回攒下「续命钱」</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>善 · 不善 · 无记</h3>
+    <div class="quote">答能感当来乐果报义。及烦恼苦永断对治义。一切一分是善。<span class="src">—— 卷五十六原文</span></div>
+    <p>善＝能感将来乐果、或能对治烦恼与苦；不善＝能感苦果、能发起恶行；无记＝与两者都相反（既不感苦乐果，也不对治烦恼）。下面用一组现代场景练手。</p>
+    <div class="plain">三性分类的标准只有一条线：能不能感果、能不能对治——跟「心里舒不舒服」无关。</div>
+    <div class="analogy"><b>比喻：</b>一杯水：能解渴滋养的是「善」，喝了闹肚子的是「不善」，不滋养也不闹肚子的白开水是「无记」——判定看后续效果，不看喝时口感。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：善 / 不善 / 无记</h3>
+    <p>每个场景点一下你认为的归属，答案与理由会展开。</p>
+    <div id="sorter3"></div>
+  </div>
+
+  <div class="card">
+    <h3>词源彩蛋：色与名为什么这样叫</h3>
+    <div class="ety-grid">
+      <div class="ety"><div class="zi">色</div><div class="gc">答于彼彼方所种殖增长义。及变碍义故名为色。</div><div class="bhu">色之所以叫色：一是能在各处「种殖增长」（占位置、能生长），二是「变碍」——被碰就变坏、有形质就相碍。快递纸箱正是如此：占地方（方所差别种种相），一坐就瘪（手等所触便变坏）。</div></div>
+      <div class="ety"><div class="zi">名</div><div class="gc">答顺趣种种所缘境义。依言说名分别种种所缘境义故说为名。</div><div class="bhu">受、想、行、识四个无色蕴合称「名」：它们随顺趣向种种所缘境、又依言说分别境界——像给内心活动统一启用的总称，与「色」相对。</div></div>
+    </div>
+    <p>另外，论中答「积聚义是蕴义」：<b>积聚</b>＝种种所召体、更互和杂转、一类总略、增益损减——五蕴本来就是一个互相掺杂、可增可减的「拼盘」，而非五块铁板。</p>
+  </div>
+
+  <details class="dict">
+    <summary>差别标签速查表<span class="hint">全量枚举，赶时间可跳过</span></summary>
+    <div class="body">
+      <p><b>有色</b>——色自性义即有色义；一蕴（色蕴）是有色。</p>
+      <p><b>有见</b>——眼所行义；一蕴一分（色处）是有见。</p>
+      <p><b>有对</b>——展转相触、据处所、粗大之义；一蕴一分是有对。</p>
+      <p><b>有为</b>——从因已生及应生义；一切是有为。</p>
+      <p><b>有诤</b>——多随嗔恚自在转义；一切一分是有诤。</p>
+      <p><b>有爱味</b>——多随爱见自在转义；一切一分是有爱味。</p>
+      <p><b>依耽嗜</b>——多随欲贪自在转义；一切一分是依耽嗜。</p>
+      <p><b>世间</b>——戏论依义；一切一分是世间。</p>
+      <p><b>堕界</b>——三界所摄世间义；一切一分是堕界。</p>
+      <p><b>过去／未来／现在</b>——已受用因果／未受用因果／已受用因及未受用果。</p>
+      <p><b>内／外</b>——六处并属彼义（一蕴一分、四蕴全是内）／与内相违。</p>
+      <p><b>粗／细</b>——不光洁、积聚、相增长义／与粗相违义。</p>
+      <p><b>劣／妙</b>——无常苦不净染污义／与劣相违义。</p>
+      <p><b>远／近</b>——处所去来、时方隔越义／与远相违义。</p>
+      <p><b>三界系</b>——于此间生未得对治、或得已出，三时现行义；色无色界系例同。</p>
+      <p><b>学／无学／非学非无学</b>——学方便善／学究竟善／离前二种。</p>
+      <p><b>见所断／修所断／无断</b>——现观智谛现观所应断／现观后修道所断／染污永断对治及已断。</p>
+    </div>
+  </details>
+
+  <div class="case"><b>晚高峰有诤：</b>八月某个周五晚高峰，老周在北三环被一辆加塞车别了一下，之后一路心跳加速、嘴里念叨，到家后用最冲的语气对妻儿说话——这一个小时的身心五蕴里，正现起「多随嗔恚自在转」的那一分，论文所谓「有诤」：不必整段人生都坏掉，只是这一分被嗔恚接管了。</div>
+  <div class="case"><b>白开水无记：</b>周四早上七点半，阿芬站在厨房等水烧开，顺手把三个苹果切好摆盘——切水果、摆盘、喝白开水，这些动作既不感苦乐果报，也不对治烦恼，正是「彼俱相违义」的无记一分：日常大量行为都在这条中性轨道上。</div>
+  <div class="case"><b>加班与有为：</b>产品经理小杜的每个需求都来自上一环：老板的战略、用户的反馈、上周的故障复盘——没有一个需求凭空出现，也没有一个不流向下一环。「从因已生及应生义，一切是有为」：五蕴就像这条需求流水线，件件有来料、件件有去处。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s4 唯心之辩 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>唯心之辩：一场五步拆招的论战</h2></div>
+  <p class="sec-lead">有沙门婆罗门主张：五蕴里其实只有「心」真实存在，受、想等心所不是实法，只是心的不同状态。这是全卷最精彩的一场论辩——论主五步拆招，先破「五种性」，再破「分位差别」，再驳回「乳酪转变」的救场，最后引佛经与灯明之喻收尾，成立「心与心所更互相应」。</p>
+
+  <div class="card">
+    <h3>先立后破：摄与相应的两条原则</h3>
+    <div class="quote">答自性所摄非他性。为遍了知种种自类。是故建立。<span class="src">—— 卷五十六原文</span></div>
+    <div class="quote">答他性相应非自性。为遍了知依自性清净心有染不染法若增若减是故建立。<span class="src">—— 卷五十六原文</span></div>
+    <p>两条原则先摆出来：「摄」是自性摄自性（法自己归自己的类）；「相应」是他性相应（心只能与心所相应，不能自己与自己相应）。若「唯心实有」，心所既不别立，「他性相应」便无从谈起——这正是下面论战的总纲。</p>
+    <div class="plain">摄＝自归自类；相应＝他性相合。唯心论一立，第二条就断了线——这是论辩的伏笔。</div>
+    <div class="analogy"><b>比喻：</b>公司花名册（摄）按人头各归各的部门；而「协作」（相应）必须跨部门发生——财务不能自己跟自己「开会」。若说公司只有一个人，那「协作」这个词就永远用不上了。</div>
+  </div>
+
+  <div class="card">
+    <h3>论辩五步推演（点节点看）</h3>
+    <div class="flow-track" id="flow4"></div>
+    <div class="flow-detail" id="detail4"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="prev4">← 上一步</button> <button class="tri-btn" id="next4">下一步 →</button></div>
+  </div>
+
+  <div class="gatha">
+    <div class="lines">五种性不成　　分位差过失<br>因缘无别故　　与圣教相违</div>
+    <div class="mean">判决书四句：前两句总括两大杀招——「五种性立不住」「分位差别两头皆失」；后两句点明根据——心的因缘没有差别（一刹那中找不出令分位不同的因缘），又违背「贪嗔痴恼染其心」「恒共和合」等经教。心与心所更互相应，由此成立。</div>
+  </div>
+
+  <div class="case"><b>「只有我」的公司：</b>某创业公司老板在全员会上宣称「公司真正存在的只有我，其他人都是我的不同状态」。第二个月发工资，会计提醒他：「转账需要收款方的银行账户。」——只有心、没有心所，就像只有 CEO、没有任何能盖章能转账的同事，经文「贪嗔痴等恼染其心令不解脱」立刻显形：贪若也是「心的状态」，那被贪染污的又是谁？</div>
+  <div class="case"><b>黄油搅不动念头：</b>周五晚饭后，阿真把一块黄油放进热锅，看着它融化、变形、摊开——色法可以这样被「转变」。随后他想把此刻对周一例会的焦虑「搅拌」成平静，搅了半小时毫无办法——「于有色物可转变故，得有分位前后差别，非于无色有如乳酪生酥等异」：转变要有形质作材料，念头没有。</div>
+  <div class="case"><b>台灯与光：</b>晚上十一点，老潘按下台灯开关——灯亮与满屋的光同时出现，他说不清哪一秒「灯先生、光后生」。心与受想思也如此同时俱起：佛为成立这「和合」义，说了灯明之喻；若能把心和心所拆成先后，台灯就先「亮着不发光」了。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s5 界善巧 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>界善巧：十八界是一套「各自任持」的储物柜</h2></div>
+  <p class="sec-lead">蕴事善巧讲完，本卷转入界事善巧。<b>界</b>＝六根、六境、六识这十八个「单元」。本卷围绕它问了一长串：什么是界？谁实有谁假有？眼与眼界是一回事吗？谁在见色？眼与眼识谁先谁后？为什么经里先说眼后说意？</p>
+
+  <div class="card">
+    <h3>界是什么：六个定义，一个核心</h3>
+    <div class="quote">答因义。种子义。本性义。种性义。微细义。任持义。是界义。<span class="src">—— 卷五十六原文</span></div>
+    <div class="quote">答由彼能持苦不生义。持身眼等运动用义。<span class="src">—— 卷五十六原文</span></div>
+    <p>因、种子、本性、种性、微细、任持——六个含义里，「任持」是枢纽：各自保持自性、不混不乱。连涅槃与虚空也因「能持」而得名界：涅槃持苦令不生，虚空持身眼的运动之用。</p>
+    <div class="plain">界的核心是「各自任持」——十八个单元各管各的，互不串味；涅槃与虚空也是凭「能持」入籍。</div>
+    <div class="analogy"><b>比喻：</b>自存仓的一排储物柜，每格有独立锁与编号，衣物不串味、工具不混放——这就是「任持」。而体育馆留住的「空场地」本身没有东西，却撑住了跑动跳跃——虚空持运动用，正是这个道理。</div>
+  </div>
+
+  <div class="card">
+    <h3>实有还是假有：十七或十二</h3>
+    <div class="quote">答实有者或十七或十二。六为一故一为六故。<span class="src">—— 卷五十六原文</span></div>
+    <p>十八界里实有的，可以说十七（六个识界合为一个意界），也可以说十二（一个意界开为六识）——「六为一故一为六故」，这是世俗安立道理，算法不同，不是世界变了。</p>
+    <div class="plain">「几个实有」取决于把六识合著数还是拆开数——计数方式是安立，法本身并没有增减。</div>
+    <div class="analogy"><b>比喻：</b>公司通讯录可以按「六个值班岗」排（六识各列），也可以合并成一个「总机号」（意界）——岗位是六个还是号码是一个，全看你怎么编排通讯录。</div>
+  </div>
+
+  <div class="card">
+    <h3>同一套界，六种清点法</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">法界</div><div class="sub">最基础的一层</div><div class="tap">点击展开</div></div><div class="back">「谓眼等法有眼等界」——眼等诸法各有其界，先立总目录。<em>像仓库总账：先承认每一格都有账可查。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">净界</div><div class="sub">有潜能者的界</div><div class="tap">点击展开</div></div><div class="back">住种性补特伽罗（具备证涅槃潜能者）所有诸界。<em>拿到了「预录取资格」的考生名册。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">本性界</div><div class="sub">无始来本成之性</div><div class="tap">点击展开</div></div><div class="back">十八界无始时来于后后生其性成就；涅槃与非涅槃法的可能性也本来成就。<em>出厂设置——不因你今天用不用而有无。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">熏习界</div><div class="sub">被经历改写的界</div><div class="tap">点击展开</div></div><div class="back">「谓即此诸界净不净法先所熏习」，由此在生死中得胜劣生、成涅槃因性。<em>手机使用记录决定下一次给你推送什么——善染熏习决定下一生的胜劣。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">已与果界</div><div class="sub">感果已灭的部分</div><div class="tap">点击展开</div></div><div class="back">诸界中已经感得果报、随之而灭者。<em>已签收的快递单。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">未与果界</div><div class="sub">尚未结账的部分</div><div class="tap">点击展开</div></div><div class="back">尚未感得果报，或已灭或未灭者。<em>在途与未发货的订单——账还挂着。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>眼与眼界：四句分别</h3>
+    <div class="quote">或有眼非眼界。谓阿罗汉最后眼。是名初句。<span class="src">—— 卷五十六原文</span></div>
+    <p>「有眼」与「有眼界」不是一回事，论中作四句：有眼非眼界（阿罗汉最后眼——眼还在，已不再起后续眼识之用）；有眼界非眼（生于有色界而眼未生、或生已失，及异生生无色界）；亦有眼亦眼界（除前两句所摄）；亦无眼亦无眼界（阿罗汉眼已失坏或不生眼等）。</p>
+    <div class="plain">「是眼」与「是眼界」是两个断言：前者说根相在，后者说它正处在能起识的位上——四句把所有可能一一排净。</div>
+  </div>
+
+  <div class="card">
+    <h3>同分与彼同分：营业中的窗口</h3>
+    <div class="quote">有识眼界名为同分。所余眼界名彼同分。<span class="src">—— 卷五十六原文</span></div>
+    <p>眼界正起识别作用、与识共同作业，叫「同分」；同一类眼界不参与作业时，叫「彼同分」。这个区分只在根所摄的内诸界中讨论，色等外界不谈。</p>
+    <div class="plain">同分＝正在上岗的根；彼同分＝挂着招牌却歇业的根——都是眼界，只在「在不在班上」。</div>
+    <div class="analogy"><b>比喻：</b>银行网点的两个窗口，一个正在叫号办业务（同分），一个牌子还挂着却暂停服务（彼同分）——窗口身份不变，变的是营业状态。</div>
+  </div>
+
+  <div class="card">
+    <h3>谁在见色？眼与眼识谁先谁后？</h3>
+    <div class="quote">答约胜义道理。非是眼等亦非彼识。<span class="src">—— 卷五十六原文</span></div>
+    <div class="quote">眼与眼识非正生因。唯建立因。是故此二俱时而有因果性成。犹如灯焰光明道理。<span class="src">—— 卷五十六原文</span></div>
+    <p>胜义上说，不是眼在见，也不是识在见——诸法众缘所生、刹那灭、无作用；世俗上「眼等最胜」，就把「见者」安立在眼上。而眼与眼识的关系不是「种子生芽」式的先后因果：眼是「建立因」，与眼识同时俱有，如灯焰与光明。若不是这样，识纵有自种、无所依处，也生不起来。</p>
+    <div class="plain">「见」是众缘和合的事件，无人在真正「做」它；眼根与眼识同时俱在，是「依止」不是「母子」。</div>
+    <div class="analogy"><b>比喻：</b>一张合影拍成了——摄影师按了快门、光线正好、相机没故障，缺一不可；日常我们把「拍得好」记在最显眼的摄影师名下，这就是「世俗立最胜为见者」。而手电筒一开、光立刻在灯头出现，没有「先装灯泡、后补光」的时差——眼与眼识正是灯焰与光明。</div>
+  </div>
+
+  <div class="card">
+    <h3>为什么经里先说眼、最后说意？</h3>
+    <div class="flow-track" id="flow5"></div>
+    <div class="flow-detail" id="detail5"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="prev5">← 上一步</button> <button class="tri-btn" id="next5">下一步 →</button></div>
+  </div>
+
+  <div class="gatha">
+    <div class="lines">众多顺世俗　　喜乐与庄严<br>随二种作业　　故次第宣说</div>
+    <div class="mean">六个因缘的压缩包：首句收「随世间俗事」，次句收「喜乐差别」「严饰差别」，后两句收「二种作业」（作业饮食习欲、作业差别摄受）——偈颂替你把次第的理由打包带走。</div>
+  </div>
+
+  <details class="dict">
+    <summary>界善巧问余录<span class="hint">其余问答速览，可跳过</span></summary>
+    <div class="body">
+      <p><b>生色界为何还有鼻舌两界？</b>——为令所依身端严故；又色界中于此二种未离欲故。</p>
+      <p><b>二静虑以上无寻无伺，为何眼识还能现前？</b>——有寻有伺诸识种子随逐无寻无伺三摩地，出定后得现前；彼地有情于寻伺「以性离欲而离欲」，现行亦无过失。</p>
+      <p><b>眼耳鼻为何各生二分？</b>——为令依止得端严故。</p>
+      <p><b>依二分生识，是一是二？</b>——唯一。若彼一分无障不坏，识明了生；识非色法，不由方所分成二分。</p>
+      <p><b>欲界哪些界决定转？</b>——身界决定转，身识界、意界、法界、意识界与色声香味触界亦尔；眼耳鼻舌及其识界非一向。</p>
+      <p><b>色界、无色界呢？</b>——色界除香味界及其识界，余决定转；无色界除意界、法界、意识界，余定不转，唯除自在所获诸色。</p>
+      <p><b>执受是怎么回事？</b>——五界执受，五界执受非执受，所余一向非执受；离于彼更无余能执受可得。</p>
+      <p><b>种种界、非一界、无量界？</b>——十八界展转异相性名种种界；为无量有情种种差别所依住名非一界；总彼二名无量界——「我于诸界终不宣说界有边际」。</p>
+    </div>
+  </details>
+
+  <div class="case"><b>一串葡萄：</b>除夕夜果盘里的一串阳光玫瑰，你想数清「第一颗」到底从哪一毫米开始算——果梗渐细，根本找不到头。佛在恶叉聚喻中说「我于诸界终不宣说界有边际」：界无量无边，别指望数出一个总数，这正是「非一界、无量界」的日常版本。</div>
+  <div class="case"><b>停号的老窗口：</b>协和医院退休前最后一班岗，王医生的眼还在看片（眼相仍在），但主任已不再给他排新号（不再起后续眼识之用）——「有眼非眼界，谓阿罗汉最后眼」正是这种状态：根相与作用位可以分开安立。</div>
+  <div class="case"><b>静音的会议室：</b>下午两点半，会议室的扩音器开着却不发声；三点整发言人一开口，声音与「击打」同时俱有——「若声声界正宣击时当言俱有，若不宣击当言随逐余界唯界非声」：不出声的时候，那只是潜在的「声界」，还不是「声」。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s6 处善巧 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>处善巧：十二处是心识出入的「生长门」</h2></div>
+  <p class="sec-lead">界讲「各自任持」，处换一个角度讲同一批法：<b>处</b>＝门。六根六境这十二处，是心与心所生起长养的通道。建立处，是为了显示等无间缘、所缘缘、增上缘三种缘。</p>
+
+  <div class="card">
+    <h3>处义与三缘</h3>
+    <div class="quote">答诸心心所生长门义。缘义。方便义。和合性义。所依止义。居住处义。是名处义。<span class="src">—— 卷五十六原文</span></div>
+    <div class="quote">为欲显示等无间所缘增上三种缘义故。建立处。<span class="src">—— 卷五十六原文</span></div>
+    <p>处有六义，核心是「诸心心所生长门」：心识不是随处凭空冒出的，必须从这些门里生起。而「处」这套坐标系专门用来标出三条助力线：等无间缘（前念让位）、所缘缘（有对象可缘）、增上缘（顺缘不缺）。</p>
+    <div class="plain">处＝心心所出生与长养的门径；十二处这张图，就是为标出三缘而画的。</div>
+    <div class="analogy"><b>比喻：</b>餐厅的出餐口——再好的菜也必须从那个口出来才到得了桌上。心与心所这道「菜」，只能从十二处这个「出餐口」端出来。</div>
+  </div>
+
+  <div class="card">
+    <h3>眼与处四句模拟器</h3>
+    <p>「是眼」与「是处」也作四句分别。拨动两个开关，看四种组合各自落在哪一句。</p>
+    <div class="cond-row"><div class="name">眼已得而不舍<small>眼根已经获得，并未舍弃</small></div><label class="switch"><input type="checkbox" id="condA" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">非无间断灭之法<small>它并非「无间断灭」的断灭法</small></div><label class="switch"><input type="checkbox" id="condB" checked><span class="slider"></span></label></div>
+    <div id="condResult"></div>
+  </div>
+
+  <div class="card">
+    <h3>处与触处</h3>
+    <div class="quote">答处如前说。触处者。谓与触俱或能无间引发诸触。随顺于触所有诸处。<span class="src">—— 卷五十六原文</span></div>
+    <div class="quote">若于色界或生或长所有鼻舌。若生无想有情天中所有诸根。于一切时当知必定非处。<span class="src">—— 卷五十六原文</span></div>
+    <p>触处是「随顺于触」的那部分处——与触俱起、或能无间引发诸触。所以一切触处必是处，但处不都是触处；色界的鼻舌、无想天的诸根，于一切时「必定非处」——门虽立着，却从不让心心所通过。</p>
+    <div class="plain">触处 ⊂ 处：能引发触的门才是触处；有的门永远封着（色界鼻舌、无想天诸根）。</div>
+    <div class="analogy"><b>比喻：</b>「可办演出」的场馆是所有场馆的子集——有舞台灯光的才算；空有产权却从不开门的场馆，挂再大的牌子也不承办任何一场。</div>
+  </div>
+
+  <div class="card">
+    <h3>蕴 · 界 · 处：三张坐标系对照</h3>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">五蕴</span><h4>积聚义</h4><p>种种所召体、更互和杂转、一类总略、增益损减——<b>把身心活动归成五个收纳盒</b>，看「内容物怎么堆」。</p></div>
+      <div class="yuan-card"><span class="y-tag">十八界</span><h4>因义·种子义·任持义</h4><p>因、种子、本性、种性、微细、任持——<b>十八个各自锁定的储物柜</b>，看「单元怎么各管各的」。</p></div>
+      <div class="yuan-card"><span class="y-tag">十二处</span><h4>诸心心所生长门义</h4><p>缘义、方便义、和合性、所依止、居住处——<b>心识出入的十二扇门</b>，看「心从哪里生起」。</p></div>
+    </div>
+    <div class="plain">同一批法，三套坐标系：蕴管「堆放」，界管「任持」，处管「出入」——各答一个问题，互不重复。</div>
+  </div>
+
+  <div class="case"><b>图书馆闸机：</b>某大学图书馆清晨七点开馆，学生必须刷卡过闸机才能入馆自习——「入馆」这件事永远发生在闸机上，没有「跳过闸机的入馆」。心与心所的生起也一样：永远经由十二处这些门，对应「诸心心所生长门义」。</div>
+  <div class="case"><b>下午三点的周会：</b>市场部周三下午三点的周会能开成，靠三件事同时成立：上午的会刚散场、档期空出来（等无间——前念灭位后念得起），投影里放着本周报表（所缘——有对象可缘），会议室空闲且已批准（增上——顺缘不缺）。三缘齐会才成——这正是「等无间所缘增上三种缘义」的办公版本。</div>
+  <div class="case"><b>封闸的无想天：</b>传说中生在无想天的天人，整期寿命想心不起——他的诸根「于一切时当知必定非处」：检票闸机还立在那里，但淡季封园，游客永不通过；门的存在不等于门的使用。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s7 缘起支 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>缘起善巧：生死这出戏的上演脚本</h2></div>
+  <p class="sec-lead">缘起善巧回答「生死怎么流转」。本卷给出几个关键判分：因位叫缘起、果位叫缘生；十二支归成「业、烦恼、事」三类；再由五相展开——引因依处、生因依处、引因、生因、生起。</p>
+
+  <div class="card">
+    <h3>缘生法：没有主角的戏</h3>
+    <div class="quote">谓无主宰无有作者无有受者。无自作用不得自在。从因而生托众缘转。本无而有有已散灭。<span class="src">—— 卷五十六原文</span></div>
+    <p>缘生法没有主宰者、没有作者、没有受者，无自作用、不得自在——从因而生、托众缘而转，本无而有、有已散灭，唯法所显、唯法能润、堕在相续。</p>
+    <div class="plain">流转中没有「谁」在主导或承受，只有依法相续的事件流。</div>
+    <div class="analogy"><b>比喻：</b>一场交响乐——没有哪件乐器是「作者」，也没有哪件是「受者」；每个音都从众缘和合中响起，随即消散，全曲却连贯成篇。</div>
+  </div>
+
+  <div class="card">
+    <h3>两个名字，一条链</h3>
+    <div class="quote">当知此中因名缘起果名缘生。<span class="src">—— 卷五十六原文</span></div>
+    <div class="quote">当知有生及老死支是假有法。所余有支是实有法。<span class="src">—— 卷五十六原文</span></div>
+    <p>同一条因果链，站在因的一头叫「缘起」，站在果的一头叫「缘生」。十二支里，生、老死两支是假有（果的阶段总名），其余各支实有。</p>
+    <div class="plain">缘起／缘生是同一条链两头的叫法；生与老死是「总名」，像「春运」不是一件东西，而是购票、候车、人流的合称。</div>
+    <div class="analogy"><b>比喻：</b>G137 次列车，从上海看叫「始发车次」，从北京看叫「到达车次」——车是同一列。而「春运」作为一站「事件」，由无数真实环节拼成，是假有之名。</div>
+  </div>
+
+  <div class="card">
+    <h3>从无明到识：四步链式推演</h3>
+    <div class="flow-track" id="flow7"></div>
+    <div class="flow-detail" id="detail7"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="prev7">← 上一步</button> <button class="tri-btn" id="next7">下一步 →</button></div>
+  </div>
+
+  <div class="card">
+    <h3>两世因果四段</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">引因（无明 · 行）</div><div class="d">「谓无明缘行乃至触缘受。现法中识为福非福及不动业之所熏习。后后种子之所随逐」——烦恼发业，识被熏习，能引当来生老死苦。</div></div>
+      <div class="tl-item"><div class="t">现在果（识 · 名色 · 六处 · 触 · 受）</div><div class="d">先世因今得生起，「果异熟摄」——此刻的身心正在领受过去种子的收成。</div></div>
+      <div class="tl-item"><div class="t">生因（爱 · 取 · 有）</div><div class="d">触为缘受起，于境发爱；爱缘取、取缘有——「先所作业为烦恼摄受。未来世生将现前故。当知名有」。</div></div>
+      <div class="tl-item"><div class="t">生起（生 · 老死）</div><div class="d">「先种子性随所依时。曾得众苦引因之名。今已与果名生老死。复得苦名」——同一批种子，潜伏时叫引因，结果时叫生老死。</div></div>
+    </div>
+    <div class="plain">十二支其实是一条「种子—滋润—结果」的循环线：引因埋种，爱取浇水，生老死收割，收割中又埋新种。</div>
+  </div>
+
+  <div class="card">
+    <h3>三行：身行 · 语行 · 意行</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">身行</div><div class="sub">入出息风为导首</div><div class="tap">点击展开</div></div><div class="back">「当知此中入出息风名为身行。风为导首身业转故。」风是身体行为运转的导首；身体所造的业也叫身行——愚痴者先起随顺身业之风，然后才起染污身业。<em>呼吸像身体的节拍器——节拍一乱，动作全乱。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">语行</div><div class="sub">寻伺与语业俱</div><div class="tap">点击展开</div></div><div class="back">「如是寻伺与诸语业俱名语行。」寻（粗推度）与伺（细伺察）伴着言语作业运转。<em>寻伺像开口前的内心草稿——草稿打多细，话就出多准。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">意行</div><div class="sub">受想与意业俱</div><div class="tap">点击展开</div></div><div class="back">「受想与意业俱名意行。」受与想伴着意业运转。<em>受想是意业的同车乘客——意业一动，感受与取相随行。</em></div></div>
+    </div>
+  </div>
+
+  <div class="case"><b>一张物流单上的缘起：</b>2024 年双十一夜里，小何在直播间冲动下单了一套健身器材（无明与行——冲动烦恼发业，下单造作）；此后两个多月包裹在途，订单悄悄挂着（识至受——种子随逐）；十二月中旬商家短信不断诱惑加购，他确认了发货（爱取有——烦恼摄受作业，未来果现前）；元旦开箱兴奋（生），用了一年落灰贬值（老死）。引因、生因、生起三段，在一张物流单上完整上演。</div>
+  <div class="case"><b>演讲前的三次深呼吸：</b>周四下午部门汇报前，新人小郑手心冒汗、声音发抖，带教老师只说「先做三次深呼吸」。呼吸一稳，站姿和语速都跟着稳了——「入出息风名为身行，风为导首身业转故」：风是身业的导首，把导首理顺，整个身行队伍就跟上了。</div>
+  <div class="case"><b>毕业典礼一小时：</b>2025 年 6 月底，礼堂里校长为毕业生逐一拨穗——这一小时的「毕业典礼」，其实是四年学分、答辩、论文送审的总称，你抓不出一件叫「典礼」的独立实物。「生」与「老死」两支也一样：是整个生命阶段转到新位时的总名，故论中说它们「假有」；其余各支各有实体，是「实有」。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s8 无明与五杂染 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>无明的真身与五种杂染</h2></div>
+  <p class="sec-lead">缘起链的第一环「无明」到底是什么？本卷专节决择：它不是「没有知识」（明无），也不是「错误的智慧」（邪智），而是「别有心所，覆蔽为性」——一个实打实存在、专门负责遮蔽的心所。这个无明最爱生五样东西：疑、爱、非处信、见、增上慢，即五种杂染。</p>
+
+  <div class="card">
+    <h3>无明不是「灯坏了」</h3>
+    <div class="quote">别有心所覆蔽为性。非唯明无亦非邪智。<span class="src">—— 卷五十六原文</span></div>
+    <div class="quote">若此无性是无明者。应一切心皆成染污。<span class="src">—— 卷五十六原文</span></div>
+    <p>若无明只是「明不存在」，麻烦就来了：无体性的法没有软、中、上三品可言（「由无性法都无软中上品异故」），也建立不了随眠与缠的差别；凡夫的善心、无记心同样远离慧明，若「无明＝明的缺席」，则一切心都成了染污——显然不对。若说无明是邪智，也有过失：那样一切凡夫之智都成邪智，或诸见与无明无法差别安立。</p>
+    <div class="plain">无明是一个独立的心所，功能是覆蔽；它是「多出来的一层」，不是「少了一盏灯」，也不是「装歪的滤镜」。</div>
+    <div class="analogy"><b>比喻：</b>清晨的浓雾有薄有厚（软中上品）、有起有散（随眠与缠）——「空无」没有浓薄，只有实存的东西才有这些差别。房间里的问题若真是「没开灯」，拉开窗帘就好；若真有一层遮光幕布（覆蔽心所），就得专门去掀——对治无明，正是掀幕布的功夫。</div>
+  </div>
+
+  <div class="card">
+    <h3>痴为导首</h3>
+    <div class="quote">痴为导首故有贪等一切烦恼。<span class="src">—— 卷五十六原文</span></div>
+    <div class="quote">是故当知别有无明。<span class="src">—— 卷五十六原文</span></div>
+    <p>若说贪等烦恼把相应的智「带愚痴」了，那愚痴就是果不是因；而经中明说无明为导首、贪等随行——顺序反了。见（如萨迦耶见执我我所）与痴行相各别：痴是「不了」，见是「错了还执」，二者不离却不同。所以无明确是独立一法，是心所，与心相应。</p>
+    <div class="plain">无明是队伍前头的向导：贪嗔等烦恼跟着它走——治理要从向导下手，不是从队员下手。</div>
+    <div class="analogy"><b>比喻：</b>登山队走错整条路线，通常是领队认错了图；队员（贪、嗔）只是跟着走。把「走错」全记在某个队员头上，或说「根本没有领队、只是没人带路」，都解释不了「整队一致走偏」这件事。</div>
+  </div>
+
+  <div class="card">
+    <h3>五种杂染（点击翻面）</h3>
+    <div class="quote">谓疑杂染。爱杂染。信解杂染。见杂染。增上慢杂染。<span class="src">—— 卷五十六原文</span></div>
+    <p>无知在五处作能生因：于三世自体无知生<b>疑</b>；于内外无知生<b>爱</b>；于业异熟无知生<b>非处信</b>（拜错对象）；于三宝四谛无知生<b>见</b>；于因与六触处无知生<b>增上慢</b>。</p>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">疑杂染</div><div class="sub">信顺于他，引趣异路</div><div class="tap">点击展开</div></div><div class="back">疑「我过去有没有、未来去哪、我是谁」；被染则「信顺于他引趣异路」，现法多受苦恼、不安隐住。<em>深夜刷到两条矛盾的养生文，谁热闹信谁，被一步步带进营销群。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">爱杂染</div><div class="sub">后有爱的引擎</div><div class="tap">点击展开</div></div><div class="back">于内、外、内外无知，生后有爱、喜贪俱行爱、彼彼喜乐爱；「由爱杂染所杂染故。引生后有生老病等一切大苦」。<em>不断续费的会员：每一次「再充一个月」，都在给下一轮账单续命。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">信解杂染</div><div class="sub">非处信：拜错了对象</div><div class="tap">点击展开</div></div><div class="back">于业自造无知，归依鲁达罗天、毗瑟笯天、世主天等非正处；或谓无因、或计自在天，「不平等因谓为正因。拨无一切士用而住」。<em>把季度业绩全归功于桌上风水摆件，从此不再复盘销售动作。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">见杂染</div><div class="sub">错了还执的理由</div><div class="tap">点击展开</div></div><div class="back">于三宝四谛不正通达，乃至生六十二见、立「无施无爱」等邪论；「由见杂染所杂染故。随意造作一切恶行。能感当来诸恶趣苦」。<em>用一套自洽的错误世界观指导行动——理越顺，错越远。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">增上慢杂染</div><div class="sub">未得谓得</div><div class="tap">点击展开</div></div><div class="back">于往善趣方便起慢——自饿、投火、坠高岩以求生天；或于六触处无如实通达智而自称证沙门果；「令士夫用异果无果」——用功得异果，甚至无果。<em>跟着视频学了两节冥想，就宣布开悟、可以指导别人。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：这属于哪种杂染？</h3>
+    <p>五个现代场景，点选你判断的杂染类型。</p>
+    <div id="sorter8"></div>
+  </div>
+
+  <div class="case"><b>博士发火：</b>物理学博士老方在家庭聚会上被亲戚一句话点燃，语无伦次地吵了半小时。他的知识库毫发无损（明没有丢），也没有改信什么歪理（不是邪智）——那一刻是覆蔽现行。这正对应「别有心所覆蔽为性，非唯明无亦非邪智」：无明与学历无关，它独立起现。</div>
+  <div class="case"><b>断食七日的大师：</b>某写字楼下来位「大师」教人「断食七日换一生好运」，白领小陆照做七天，第四天头晕送医——对善不善业与果报的关系不知不审，把自饿这类非方便当成方便去求善果，正是「于自饿……非方便中起方便想」的增上慢杂染：用功越猛，果越「异」。</div>
+  <div class="case"><b>凌晨一点的选择题：</b>深夜，阿蓝连读两篇结论相反的科普文，谁都没看懂，索性点了转发量最高的那条，顺着进了带货群——对她来说「看不懂」反而成了「听别人的」的理由。「由疑杂染所杂染故，一切愚夫获得疑惑，信顺于他引趣异路」：疑不只停在怀疑，还会替错误的路敞开门。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ s9 收官 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：总账与偈颂</h2></div>
+  <p class="sec-lead">最后一站：把全卷装回口袋。先用一张总账表串起四个善巧的关键词，再以界善巧末尾的嗢拖南作结——它是本卷最后一段「考点浓缩」。</p>
+
+  <div class="card">
+    <h3>全卷总账</h3>
+    <div class="table-wrap">
+      <table class="nine">
+        <tr><th>名相</th><th>出处成员</th><th>通俗理解</th></tr>
+        <tr><td>分位建立</td><td>得、命根、众同分、时、方、数等</td><td>不另造实体，只给状态命名</td></tr>
+        <tr><td>一切一分</td><td>有漏、善、不善、三界系等标签</td><td>每个标签只切中五蕴的一面</td></tr>
+        <tr><td>心心所相应</td><td>心与受、想、思等</td><td>同时在线的团队，不可拆成先后</td></tr>
+        <tr><td>界</td><td>因、种子、本性、种性、微细、任持</td><td>十八个各自任持的储物柜</td></tr>
+        <tr><td>处</td><td>诸心心所生长门</td><td>心识出入的十二扇门</td></tr>
+        <tr><td>缘起与缘生</td><td>因名缘起，果名缘生</td><td>同一条因果链两头的叫法</td></tr>
+        <tr><td>无明</td><td>别有心所，覆蔽为性</td><td>一层遮光幕布，不是「灯坏了」</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <details class="dict">
+    <summary>考前速记（可跳过）</summary>
+    <div class="body">
+      <p><b>第 2 章</b>——分位法统一格式：依某分位建立，又分三种；「得」的三种是种子、自在、现行成就。</p>
+      <p><b>第 3 章</b>——「何义几蕴」问两件事：标签什么意思＋谁沾边；答案多是「一切一分」。</p>
+      <p><b>第 4 章</b>——破唯心实有五步：五性不成→分位亦过→转变喻不成→违教（贪染其心、恒共和合、灯明喻）→六界士夫是密意。</p>
+      <p><b>第 5 章</b>——界义核心「任持」；实有十七或十二（六为一、一为六）；眼与眼识同时俱有，如灯焰光明。</p>
+      <p><b>第 6 章</b>——处＝生长门；建立处为显等无间、所缘、增上三缘；一切触处必是处，处不必是触处。</p>
+      <p><b>第 7、8 章</b>——因名缘起果名缘生；生老死假有；无明别有心所覆蔽为性；无知生五杂染。</p>
+    </div>
+  </details>
+
+  <div class="gatha">
+    <div class="lines">何等实有性　　四句与同分<br>取界执受非　　种种等非一</div>
+    <div class="mean">界善巧的嗢拖南，替你复习四个考点：实有与假有（十七或十二）、四句分别、同分与彼同分、能取所取与执受，以及「种种界、非一界」的无量义——全卷在问尽答尽之后，用这四句把界善巧的口袋收口。</div>
+  </div>
+
+  <div class="case"><b>每周复训：</b>学员小冯读完本页后，把「学习路径」的六个勾选框每周日晚上重新过一遍：先看地图（第 1 步），再各章扫一遍标题下的「一句话」（绿色块）——像健身房教练带学员每周重做一遍标准动作；路径勾选由易到难、循环巩固，正是把「决择」变成习惯。</div>
+  <div class="case"><b>导航重算：</b>三周后小冯向朋友复述「眼与眼界四句」卡了壳，她没有硬编，而是点回导航「⑤ 界善巧」重读界义六种，再回到四句卡片——像导航偏航后重新规划路线：先立坐标（界义），再走细节（四句）。读懂本卷的任何一段，都可以用这个「退回地图」的办法。</div>
+
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第五十六（output/56.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga56-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+
+/* 翻转卡点击展开 */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
+/* s4 唯心之辩：论辩五步推演 */
+initStepper('flow4','detail4','prev4','next4',[
+  {t:'对方立论',d:'<b>唯心实有（对方主张）：</b>有一类沙门婆罗门认为，名（四无色蕴）之中唯心实有，受、想等心所并非实法——不过是一颗心的不同状态，像同一个人的不同表情。'},
+  {t:'第一击：五性不成',d:'<b>五种性不成就：</b>且说诸蕴有五种体性不能成立——五蕴本有色、受、想、行、识五种类别，若说只有心，五蕴就成了一物的五种体性，根本立不住。'},
+  {t:'第二击：分位亦过',d:'<b>分位差别亦有过失：</b>对方退一步：受想只是心的分位差别。可这些分位展转相望——说它们「有作用差别」，由于相状不同，就应承认有不同的实物体性；说「没有」，分位之说又成了唐捐。两头皆失。'},
+  {t:'第三击：转变喻不成',d:'<b>乳酪之喻被驳回：</b>对方想借「乳变酪」喻心转变出心所。但于有色物可转变故，得有分位前后差别；心无色法，一刹那中必不可得差别因缘令彼分位而有差别——比喻不成立。'},
+  {t:'第四击：违教',d:'<b>违背圣教：</b>谓如经言「贪嗔痴等恼染其心令不解脱」——若唯有心，二者不能俱有，贪等应不依识。又经言与触俱生受想思，「如是诸法恒共和合非不和合」，不可分析令别殊异；佛更说灯明之喻成立和合。'},
+  {t:'收束：密意与结论',d:'<b>六界士夫是密意：</b>经说「六界名士夫」只是密意——为显色、动、心所最胜所依，不是说唯有心。结论：「故名所摄四无色蕴心与心所。更互相应道理成就。」'}
+]);
+
+/* s5 六种次第宣说因缘 */
+initStepper('flow5','detail5','prev5','next5',[
+  {t:'总问',d:'<b>次第之问：</b>十八界为什么偏偏按眼、耳、鼻、舌、身、意的顺序宣说？论说略有三种次第因缘（所依、境界、俱依），又有六种——这里走一遍六种。'},
+  {t:'① 所行众多',d:'<b>彼所行众多差别数数行故先说眼等：</b>眼所见的对象最多最杂、反复运转，所以先说眼——这是初因缘。'},
+  {t:'② 随世间俗事',d:'<b>随世间俗事转故：</b>世间众生先互相看见，次相慰问、次设饮食、次度昼夜、铺设卧具——日常生活的先后，就是宣说的次第。'},
+  {t:'③ 喜乐差别',d:'<b>喜乐差别为依止故：</b>依所受喜乐的层次深浅安排次第，这是第三因缘。'},
+  {t:'④ 严饰差别',d:'<b>严饰差别所摄受故：</b>受欲者先用安缮那等妆点眉眼，次以耳珰庄严其耳——人们只庄严眼耳，不多严饰余根，所以眼耳靠前。'},
+  {t:'⑤ 作业·饮食·习欲',d:'<b>依作业饮食习欲等事：</b>众生先依身语二业勤求，次食段食，既饱醉已习近诸欲——这也是一条生活次第。'},
+  {t:'⑥ 作业差别摄受',d:'<b>由作业差别：</b>眼见色能往来无失、记识怨亲、观舞乐；耳闻声次之；鼻寻香、舌尝味又次之；身界作业「最为狭劣」——乐具反成损害。最后「意遍行故最后宣说」：意通行一切，故压轴。'}
+]);
+
+/* s7 缘起链式推演 */
+initStepper('flow7','detail7','prev7','next7',[
+  {t:'链条起点',d:'<b>无明随眠：</b>此无明随眠㊱不断有故，彼无明缠有——无明的种子（随眠）潜伏不断，是整个流转的第一环。随眠＝潜伏的烦恼；缠＝现行的烦恼。'},
+  {t:'缠现行',d:'<b>无明缠生：</b>种子成熟，无明现行生起——愚夫于现法中，以名色为缘的六处相续不断而不知，于内自体生起愚痴，这就叫无明。'},
+  {t:'诸行转',d:'<b>此无明缠生故。彼诸行转：</b>无明一现行，身、语、意的造作（行）随即转动——身行以入出息风为导首，语行伴寻伺，意行伴受想。'},
+  {t:'种子熏识',d:'<b>诸行种子不断故。诸行得生：</b>造作又把种子熏进识中——现法中识为福、非福及不动业之所熏习，后后种子之所随逐。'},
+  {t:'识转·当来苦',d:'<b>诸行生故得有识转：</b>被熏习的识相续牵引，能引当来余身识等的生老死苦——引因到此完成，只等爱取来滋润。'}
+]);
+
+/* s3 归类练习：善 / 不善 / 无记 */
+initSorter('sorter3',[
+  {a:'下班路上顺手把倒地的共享单车一辆辆扶正，没人看见。',opts:['善','不善','无记'],ans:'善',exp:'利他而不染烦恼，属「能感当来乐果报义」的一分——是善。'},
+  {a:'评审会上明知同事的方案更优，因嫉妒故意压下不报，另推自家草稿。',opts:['善','不善','无记'],ans:'不善',exp:'由嗔恚发起恶行、能感苦果——正合不善二义：感苦果、发恶行。'},
+  {a:'早高峰地铁上发呆，看着隧道灯光一格格掠过车窗。',opts:['善','不善','无记'],ans:'无记',exp:'既不感苦乐果、也不对治烦恼——「彼俱相违义」是无记。'},
+  {a:'为抢回秒杀没抢到的商品，谎称系统故障骗客服退款。',opts:['善','不善','无记'],ans:'不善',exp:'妄语属「能发起诸恶行义」，能感当来苦果——不善。'},
+  {a:'周日上午按菜谱认真把一盘水果切好摆齐，备着家人午饭后吃。',opts:['善','不善','无记'],ans:'无记',exp:'不感苦乐果报、也不对治烦恼的日常操持——无记一分。'}
+]);
+
+/* s8 归类练习：五种杂染 */
+initSorter('sorter8',[
+  {a:'老张听人说「考试前拜某神像最灵」，从此专攻烧香，从不检查错题。',opts:['疑杂染','爱杂染','信解杂染','见杂染','增上慢杂染'],ans:'信解杂染',exp:'于业自造无知，于非正处生妄胜解——「不平等因谓为正因」，正是信解（非处信）杂染。'},
+  {a:'小李刷短视频到凌晨三点，明知明早要开会，还是想「再刷一条」。',opts:['疑杂染','爱杂染','信解杂染','见杂染','增上慢杂染'],ans:'爱杂染',exp:'于境起爱、辗转增上，「引生后有生老病等一切大苦」——爱杂染现前。'},
+  {a:'网友读到两篇结论相反的科普，干脆谁热闹信谁，被一路带进带货群。',opts:['疑杂染','爱杂染','信解杂染','见杂染','增上慢杂染'],ans:'疑杂染',exp:'「由疑杂染所杂染故……信顺于他引趣异路」——疑而不安，恰为歧路开门。'},
+  {a:'某人上了三天禅修营，回来逢人便说自己「已证初果」，可以带人了。',opts:['疑杂染','爱杂染','信解杂染','见杂染','增上慢杂染'],ans:'增上慢杂染',exp:'实无于六触处如实通达之智而生慢心——「未得谓得」的增上慢。'},
+  {a:'有人坚信「行善没回报都是假的」，据此占同事便宜还理直气壮。',opts:['疑杂染','爱杂染','信解杂染','见杂染','增上慢杂染'],ans:'见杂染',exp:'近于「无施无爱」的邪见立论，且据以造作恶行——见杂染。'}
+]);
+
+/* s6 眼与处四句模拟器 */
+(function(){
+  var a=document.getElementById('condA'),b=document.getElementById('condB'),box=document.getElementById('condResult');
+  function upd(){
+    var A=a.checked,B=b.checked;
+    if(A&&B){box.className='';box.innerHTML='<b>亦眼亦处：</b>眼已得不舍，又不是无间断灭之法——日常运作的正常之眼：既安住「眼相」，也安住「处相」，心识正从这扇门出入。';}
+    else if(A&&!B){box.className='fail';box.innerHTML='<b>有眼非处：</b>「谓若眼已得不舍。然是无间断灭之法」——如阿罗汉的最后一眼：眼相还在，却不再引发后续心识；像停号的窗口，窗口在，不接客。';}
+    else if(!A&&B){box.className='';box.innerHTML='<b>有处非眼：</b>「谓所余处安住处相」——其余安住「处相」的诸处：它们是心识出入的门，但不是「眼」这扇门。';}
+    else{box.className='fail';box.innerHTML='<b>非眼非处：</b>「谓若眼不得或得已舍」——眼根从未获得，或获得后又舍弃：门没有立起来，自然既非眼亦非处。';}
+  }
+  a.addEventListener('change',upd);b.addEventListener('change',upd);upd();
+})();
+
+renderPath();
+</script>
+</body>
+</html>

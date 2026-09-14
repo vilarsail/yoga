@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第二十四 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中声闻地第十三 · 初瑜伽处出离地第三之三</div>
+  <h1>卷第二十四 · 交互式学习模块</h1>
+  <p class="sub">这一卷是一份修行者的「一日操作手册」：白天与夜里头尾两段怎么用功（觉寤瑜伽）、中间一段怎么睡（师子王卧与四种巧便），以及从出门到吃饭的每个动作怎么带着觉察（正知而住）——贯穿全卷的敌人，始终是五种「盖」。</p>
+  <div class="tagline">8 个主题 · 6 个学习步骤 · 19 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 一张作息表</a>
+<a href="#s3">③ 五盖与对治</a>
+<a href="#s4">④ 三重动力</a>
+<a href="#s5">⑤ 师子王卧</a>
+<a href="#s6">⑥ 正知而住</a>
+<a href="#s7">⑦ 乞食手册</a>
+<a href="#s8">⑧ 收官总纲</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>先弄清这一卷在讲什么：修行者的一日操作手册、两大板块与共同机制（第1章）。</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>背下一张作息表</b><span>昼、初夜、中夜、后夜各干什么，用流程推演走完一整天（第2章）。</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>认识五个敌人</b><span>五盖、顺障法与对治方法，做一轮归类练习（第3章）。</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>搞懂三重动力</b><span>法增上、自增上、世增上，拨一拨条件模拟器（第4章）。</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>学会师子王卧</b><span>右胁而卧与四种巧便而卧——把睡觉也变成修行（第5章）。</span></span></label></div>
+<div class="step-item" data-target="#s6"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>白天功课与收官</b><span>正知而住、乞食手册（第6-7章），最后用四种正所作事收束全卷（第8章）。</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ 01 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：修行者的一天</h2></div>
+  <p class="sec-lead">本卷属《瑜伽师地论》声闻地「出离地」第三之三，卷首一个「复次」，表明这是接着上一卷继续展开的话题。它回答一个非常具体的问题：一个决定认真修行的人，从日出到次日日出，这 24 小时到底该怎么过？全卷因此分成两大板块。</p>
+
+  <div class="card">
+    <h3>本卷在讲什么</h3>
+    <div class="quote">复次初夜①后夜②常勤修习觉寤瑜伽③者。云何初夜云何后夜。云何觉寤瑜伽。云何常勤修习觉寤瑜伽。<span class="src">—— 卷第二十四原文</span></div>
+    <p>这是全卷开篇的四个提问。所谓<b>觉寤瑜伽</b>：醒着时的用功之法——白天、初夜、后夜三段修行，中间夜分如法睡眠。卷的下半又开出一题：<b>正知而住</b>——在一切日常动作中保持觉察而安住。两大板块共用同一句纲领：</p>
+    <div class="quote">于昼日分经行宴坐。从顺障法净修其心。于初夜分于后夜分经行宴坐。从顺障法净修其心。说名觉寤。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="plain">这一卷＝修行者的一日操作手册：用「觉寤瑜伽」排时间，用「正知而住」管动作，用「从顺障法净修其心」清除心障。</div>
+  </div>
+
+  <div class="yuan-grid">
+    <div class="yuan-card"><span class="y-tag">时间轴</span><h4>觉寤瑜伽</h4><p>覆盖「从日出到下一次天亮」的完整安排：昼日分＋初夜用功，夜中分如法睡眠，夜后分速起继续用功。关键词：<b>经行、宴坐、净修其心、巧便而卧</b>。</p></div>
+    <div class="yuan-card"><span class="y-tag">动作轴</span><h4>正知而住</h4><p>覆盖醒着的每一个动作：往还、睹瞻、屈伸、持衣钵、食饮啖尝、行住坐卧、语默、解劳睡。关键词：<b>正知、应时、如量、如理</b>。</p></div>
+  </div>
+
+  <div class="analogy"><b>比喻：</b>新员工入职会拿到两份文件：一份作息制度，一份岗位行为规范。本卷对修行者做的正是这两件事——先发「作息制度」（觉寤瑜伽），再发「行为规范」（正知而住），而且两份文件的每一款都指向同一个目标：别让五种心理障碍接管你的一天。</div>
+
+  <div class="case"><b>口号败给了课程表：</b>某人元旦立志「少玩手机多读书」，坚持不到一周就破功；后来他改成一张贴在冰箱上的具体安排——晚上十点半手机放客厅充电、七点起床读半小时书——反而坚持了一个月。本卷正是这种风格：不讲宏大口号，直接规定从天亮到天亮的每一段该干什么、怎么干。</div>
+  <div class="case"><b>装修先看全屋图纸：</b>动工前先看一眼水电路由图，后面每一步都不慌。这一章就是本卷的「全屋图纸」：后面 6 章分别是图纸的局部放大——作息表（第2章）、敌人识别（第3章）、动力系统（第4章）、睡眠工程（第5章）、动作觉察（第6-7章）、总验收（第8章）。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 02 一张作息表 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>觉寤瑜伽：一张修行作息表</h2></div>
+  <p class="sec-lead">修行不是只有蒲团上的那一会儿。本卷把一夜分为四分，白天加夜里头尾两段全是修行时间，只有中间一段才正式睡觉。先看懂时间的刻度，再走一遍完整的一天。</p>
+
+  <div class="card">
+    <h3>时间的刻度：夜分四分</h3>
+    <div class="quote">言初夜者。谓夜四分中过初一分是夜初分。言后夜者。谓夜四分中过后一分是夜后分。<span class="src">—— 卷第二十四原文</span></div>
+    <p>一夜被划成四段。<b>初夜</b>是入夜后头一段，<b>后夜</b>是天亮前尾一段，中间是<b>夜中分</b>——「于夜中分夜四分中过于一分。正习睡眠」（在夜里中间那段正式睡觉）。头尾两段修，中间一段睡。</p>
+    <div class="quote">至夜后分速疾觉寤经行宴坐。从顺障法净修其心。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="plain">白天＋初夜＋后夜是修行主战场，夜中分是唯一被批准的睡眠窗口——而且睡觉也有睡法（下一环节讲）。</div>
+  </div>
+
+  <div class="card">
+    <h3>流程推演：走完修行者的一天</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">点击节点或按钮，从日出走到下一个日出。</p>
+    <div class="demo-area">
+      <div class="flow-track" id="dayTrack"></div>
+      <div class="flow-detail" id="dayDetail"></div>
+      <div class="flow-ctrl"><button class="tri-btn" id="dayPrev">← 上一步</button> <button class="tri-btn" id="dayNext">下一步 →</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>睡眠被批准的理由</h3>
+    <div class="quote">为令寝卧长养大种。得增长已长益其身。转有势力转能随顺。无间常委善品加行。<span class="src">—— 卷第二十四原文</span></div>
+    <p>睡不是逃避，而是为了让身体四大种得到长养、转更有势力，从而能不间断地随顺善品加行——睡眠在这里是一件被精密安排的工具。</p>
+    <div class="analogy"><b>比喻：</b>像手机的充电窗口：白天是使用时间，夜中分集中快充，充满即拔。没人会让手机一天到晚插着电——修行者也不让身体一天到晚睡。</div>
+    <div class="plain">睡眠是工具不是目的：它服务于「醒着的时间能连续用功」这一目标。</div>
+  </div>
+
+  <div class="case"><b>备考者的两张闹钟：</b>一位准备司法考试的人，把 5:30 和 23:00 两只闹钟写死在日历里，午休 30 分钟也固定。三个月后他发现，真正起作用的不是「我要努力」的口号，而是这张精确到时段的表——正对应本卷把夜分四分、规定哪段修哪段睡的做法。</div>
+  <div class="case"><b>运动员的睡眠管理：</b>某马拉松跑者训练期雷打不动 22:30 睡、5:30 起，教练反复强调「睡觉就是训练的一部分」——这正对应「为令寝卧长养大种……转有势力」：睡，是为了第二天转有势力地随顺训练。</div>
+  <div class="case"><b>通宵的代价：</b>有人周末连刷两晚短视频到凌晨三点，周一早晨闹钟响时「闇钝薄弱懒堕懈怠」，开会半小时还在游神——本卷早已预言这种状态：被上品惛沉睡眠缠制伏的人，「令将起时闇钝薄弱懒堕懈怠」，起来艰难、全天报废。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 03 五盖与对治 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>认识敌人：五盖与顺障法</h2></div>
+  <p class="sec-lead">作息表只是外壳，核心动作是同一句「从顺障法净修其心」。要清障，先得认清障是什么、喂大它的是什么。本卷给出精确诊断：<b>五盖</b>（五种盖住心、障碍善法的心理状态）是病，<b>顺障法</b>（能引生盖、随顺盖的东西）是燃料。</p>
+
+  <div class="card">
+    <h3>五种盖：点击翻转</h3>
+    <div class="quote">云何五盖⑫。谓贪欲盖⑬嗔恚盖⑭。惛沉睡眠盖⑮掉举恶作盖⑯。及以疑盖⑰。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">贪欲盖</div><div class="sub">「想要」，黏上就撕不下来</div><div class="tap">翻转 ▸</div></div><div class="back">见到净妙相（动人的影像与事物）就黏住心。对治：宴坐中修不净观——观青瘀、脓烂、变坏、骨锁；并以无量门诃责欲贪的过患、称扬永断贪欲的功德。<em>像口香糖黏在头发上，越拉越紧——最好的办法是提前不进糖果店。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">嗔恚盖</div><div class="sub">「讨厌」，心里烧个不停</div><div class="tap">翻转 ▸</div></div><div class="back">嗔恚相（被冒犯、被亏待的画面）一翻上来就着火。对治：修慈俱心——无怨无敌、无损无恼，先对一方发起胜解，再遍满第二、第三、第四方乃至一切无边世界。<em>像往火场浇慈心的水：先浇脚下这一方，再四面八方浇满。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">惛沉睡眠盖</div><div class="sub">心像蒙了雾，直往下沉</div><div class="tap">翻转 ▸</div></div><div class="back">黑暗相、疲劳、昏暗环境是它的温床。经行时对治：住光明想、念佛念法念僧、念戒念舍念天，以大音声读诵宣说其过患的正法，观方隅、瞻星月，乃至冷水洗洒面目。<em>像开会犯困灌一口冰美式——本卷的「冰美式」是冷水洗脸加高声读诵。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">掉举恶作盖</div><div class="sub">心像烧开的水＋反复后悔</div><div class="tap">翻转 ▸</div></div><div class="back">掉举＝心散乱亢奋静不下来；恶作＝对已做的事反复追悔。顺障法是「追忆昔时笑戏喜乐」。对治：宴坐中令心内住、成办一趣、得三摩地——一次只留一个所缘。<em>像同时开着二十个标签页的电脑：关掉窗口，只留一个。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">疑盖</div><div class="sub">拿不定、信不过</div><div class="tap">翻转 ▸</div></div><div class="back">对法、对自己起不了确信；钻进「我于过去为曾有耶？为曾无耶？」这类三世戏论。对治：如理思惟——唯见有法有事，知有为有、无为无，于实无事不增不益、于实有事不毁不谤。<em>像导航软件：不纠结「当年换条路会怎样」，只处理眼前这条路的实时路况。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">顺障法</div><div class="sub">盖的燃料与顺风</div><div class="tap">翻转 ▸</div></div><div class="back">「顺障法者。谓能引盖随顺盖法。」具体包括：净妙相（引贪欲）、嗔恚相（引嗔恚）、黑暗相（引惛沉）、亲属国土不死之恋与追忆笑戏喜乐（引掉举）、于三世作非理思惟（引疑）。<em>想控制体重，先认清家里零食柜在哪一层。</em></div></div>
+    </div>
+    <div class="quote">所言障者。谓五种盖。顺障法者。谓能引盖随顺盖法。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="plain">盖是五种盖心的状态；顺障法是喂大它们的东西——治疗之前，先断供。</div>
+  </div>
+
+  <div class="card">
+    <h3>分场景对治：经行治昏沉，宴坐治四盖</h3>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>盖</th><th>顺障法（燃料）</th><th>对治方法</th></tr>
+      <tr><td>惛沉睡眠盖（经行时）</td><td>黑暗相、疲劳</td><td>经行中住光明想、念佛念法念僧念戒念舍念天、大音声读诵、瞻星月、冷水洗面</td></tr>
+      <tr><td>贪欲盖（宴坐时）</td><td>净妙相</td><td>修不净观：青瘀、脓烂、变坏、膖胀、骨锁；读思宣说贪欲过患的正法</td></tr>
+      <tr><td>嗔恚盖（宴坐时）</td><td>嗔恚相</td><td>修慈俱心：无怨无敌、无损无恼，从一方遍满一切无边世界</td></tr>
+      <tr><td>掉举恶作盖（宴坐时）</td><td>追忆昔时笑戏喜乐</td><td>令心内住，成办一趣，得三摩地</td></tr>
+      <tr><td>疑盖（宴坐时）</td><td>于三世作非理思惟</td><td>如理思惟三世：知有为有、无为无，不增不毁</td></tr>
+    </table></div>
+    <div class="quote">去来今世唯见有法。唯见有事。知有为有知无为无。唯观有因唯观有果。于实无事不增不益。于实有事不毁不谤。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="plain">对治是配对设计的：哪一盖由哪类燃料喂大，就有专门一套「拔火钳」——昏沉用光明与经行，贪欲用不净观，嗔恚用慈悲观，掉举用收心入定，疑用如理思惟。</div>
+    <div class="analogy"><b>比喻：</b>盖像五种钉子扎进轮胎，顺障法是那条让轮胎漏气最快的路。经行宴坐就是边骑边拔钉子，同时绕开那条路——两件事一次完成。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：这一幕是哪种盖？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">点击你认为正确的分类按钮，答案与理由会立即显示（练习不计分）。</p>
+    <div id="sortGai"></div>
+  </div>
+
+  <div class="case"><b>下午两点的眼皮：</b>下午两点，程序员小李盯着屏幕眼皮打架，他起身到走廊来回走十分钟，又用冷水洗了把脸再回工位——正是「或于屏处或于露处往返经行」加「或以冷水洗洒面目」对治惛沉睡眠盖的现代版。</div>
+  <div class="case"><b>深夜的烤肉视频：</b>小王减脂第二周，深夜刷到烤肉视频（净妙相），越看越馋（贪欲盖生起），最终点了外卖。本卷给的方案是把火苗掐在引燃之前：提前以无量门诃责欲贪过患——比如减脂前先想清楚「这口夜宵明天会变成什么」，而不是等馋上来再硬扛。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 04 三重动力 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>三重动力：法增上、自增上、世增上</h2></div>
+  <p class="sec-lead">认识敌人还不够——凭什么天天按时清理它？本卷总结出维持修行的三种动力来源：依法的知识（法增上）、依己的羞耻（自增上）、依人的监督（世增上）。三者凑齐，弃盖的速度才是「速疾弃舍摈遣变吐」。</p>
+
+  <div class="yuan-grid">
+    <div class="yuan-card"><span class="y-tag">依法</span><h4>法增上</h4><p>依正法闻思受持而修对治：不净观、慈悲观、光明想、读诵正法——用法的知识判断当下该做什么。<b>关键词：懂道理。</b></p></div>
+    <div class="yuan-card"><span class="y-tag">依己</span><h4>自增上</h4><p>盖一生起，自己立刻了知「此非善法」，并自观其可羞耻——是损害品，令心染恼、令慧羸劣。<b>关键词：羞耻心。</b></p></div>
+    <div class="yuan-card"><span class="y-tag">依人</span><h4>世增上</h4><p>想到「当为大师之所诃责」，会被诸天与有智同梵行者以法轻毁——靠可敬的师长与共同体来约束自己。<b>关键词：有人在看。</b></p></div>
+  </div>
+
+  <div class="card">
+    <h3>原文怎么说这三种动力</h3>
+    <div class="quote">便自了知此非善法。于所生盖不坚执着。速疾弃舍摈遣变吐。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="quote">又能自观此所生盖甚可羞耻。令心染恼令慧羸劣是损害品。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="quote">我若生起所未生盖。当为大师之所诃责。亦为诸天及诸有智同梵行者。以法轻毁。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="plain">法增上给你知识，自增上给你羞耻心，世增上给你观众——三层动力，缺一层就少一道保险。</div>
+    <div class="analogy"><b>比喻：</b>戒烟的三层保险：看过肺癌科普（法增上）、自己觉得叼烟的样子很狼狈（自增上）、答应过女儿不抽（世增上）。缺一层，复吸的概率就大一层。</div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：盖生起时，你放得下吗？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">假设某种盖（比如刷手机的贪欲）正在你心里生起。拨动开关，看三层动力如何决定结果。</p>
+    <div class="cond-row"><div class="name">法增上：闻思过正法<small>知道盖的过患，有判断力</small></div><label class="switch"><input type="checkbox" id="simFa"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">自增上：对生盖感到羞耻<small>「这样下去，我没法对自己交代」</small></div><label class="switch"><input type="checkbox" id="simZi"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">世增上：师长与同行在看<small>可敬的人知道你在做什么</small></div><label class="switch"><input type="checkbox" id="simShi"><span class="slider"></span></label></div>
+    <div id="condResult">拨动上方开关，看看三种动力如何组合。</div>
+  </div>
+
+  <div class="case"><b>一份体检报告：</b>王女士拿到报告看到「脂肪肝」三个字（法增上：知识到位），心里一沉觉得没法跟自己交代（自增上），又想到明年单位体检同事都会看到（世增上）——当晚就开始戒宵夜。三层动力同时到位，行为立刻改变，正对应「未生诸盖能令不生。已生诸盖能速弃舍」。</div>
+  <div class="case"><b>只发朋友圈的健身计划：</b>小陈只把健身计划发在朋友圈（世增上），既不懂训练原理，也没觉得不练有什么羞耻，一个月后悄悄删动态收场——本卷的三增上是组合拳，单靠点赞与围观，撑不起「无间相续」的精进。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 05 师子王卧 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>师子王卧：睡觉也是修行</h2></div>
+  <p class="sec-lead">中夜这一觉怎么睡，本卷专门用一大段来讲：先是卧姿（右胁而卧、重累其足），再是四个心理程序——住光明想、正念、正知、思惟起想。睡得好不好，直接决定后夜能不能「速疾觉寤」。</p>
+
+  <div class="card">
+    <h3>为什么是右胁而卧：师子王喻</h3>
+    <div class="quote">答如师子王一切兽中勇悍坚猛最为第一。<span class="src">—— 卷第二十四原文</span></div>
+    <p>比丘右胁而卧，与师子王卧法相似——取的是狮子「勇悍坚猛最为第一」的劲头，不是懒散的睡，而是随时能弹起来的睡。不像鬼卧、天卧、受欲者卧那样的懒堕懈怠。</p>
+    <div class="quote">如是卧时身无掉乱念无忘失。睡不极重不见恶梦。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="analogy"><b>比喻：</b>像值班消防员的睡法——和衣而卧、靴子放在固定位置。看似睡着了，其实随时能出动。右胁而卧就是修行人的「值班睡姿」。</div>
+    <div class="plain">这一卷对睡眠的要求可以浓缩成三个词：睡得警觉、睡得干净、起得准时。</div>
+  </div>
+
+  <div class="card">
+    <h3>四个心理程序：四种巧便而卧</h3>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">睡前输入</span><h4>住光明想</h4><p>睡前对光明之相「善取善思善了善达」，思惟诸天光明俱心而卧。结果：「由是因缘虽复寝卧心不惛闇」——睡中心里不黑屏。</p></div>
+      <div class="yuan-card"><span class="y-tag">睡中底线</span><h4>正念</h4><p>已闻、已思、已熟修习的善法，因正念之力「乃至睡梦亦常随转」——梦里也记得自己是谁、在修什么。</p></div>
+      <div class="yuan-card"><span class="y-tag">睡中巡逻</span><h4>正知</h4><p>睡中若有烦恼现前染恼其心，「能正觉了令不坚着。速疾弃舍。既通达已令心转还」——像值班保安，见火星立灭。</p></div>
+      <div class="yuan-card"><span class="y-tag">闹钟预装</span><h4>思惟起想</h4><p>睡前以精进策励其心，作三种「到点就起」的决定；「如林野鹿不应一切纵放其心」——入睡如野鹿，耳朵始终竖着。</p></div>
+    </div>
+    <div class="quote">如林野鹿不应一切纵放其心。随顺趣向临入睡眠。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="plain">睡眠的质量由睡前决定：输入什么（光明想、正念），就睡成什么样；带上什么（正知、起想），就醒成什么样。</div>
+  </div>
+
+  <div class="card">
+    <h3>三种思惟起想：三个「到点就起」的决定</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">第一思惟起想</div><div class="d">「由第一思惟起想。无重睡眠。于应起时速疾能起终不过时」——没有深重的睡眠，到点立刻起，绝不超时。</div></div>
+      <div class="tl-item"><div class="t">第二思惟起想</div><div class="d">对师子王卧「如法而卧无增无减」——对睡姿与睡量的分寸心里有数，不多睡不少睡。</div></div>
+      <div class="tl-item"><div class="t">第三思惟起想</div><div class="d">「由第三思惟起想。令善欲乐常无懈废。虽有失念而能后后展转受学令无断绝」——偶尔失念也不中断，第二天接着来。</div></div>
+    </div>
+  </div>
+
+  <div class="case"><b>睡前的最后一眼：</b>小林以前睡前刷短视频，梦都在抢红包；改成睡前读二十分钟专业书再睡，第二天醒来脑子里还留着昨晚的内容——对应「正念巧便而卧」：已闻已思之法「乃至睡梦亦常随转」，睡前输入什么，梦里就运转什么。</div>
+  <div class="case"><b>「再睡五分钟」：</b>7:00 闹钟响，小赵脑子里冒出「再睡五分钟」，他想起睡前定下的决定，掀被坐起——对应第一思惟起想：「于应起时速疾能起终不过时」；起想是睡前预装的闹钟，比铃声更管用的是心里那个决定。</div>
+  <div class="case"><b>半夜被吵醒的火气：</b>半夜被孩子吵醒，小杨心里腾起怒气，她觉察到「这是嗔恼」，深呼吸两次没有吼出来，心转回平稳——对应「正知巧便而卧」：烦恼现起时「能正觉了令不坚着。速疾弃舍。既通达已令心转还」，连半梦半醒之间都有巡逻。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 06 正知而住 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>正知而住：给每个动作装上后视镜</h2></div>
+  <p class="sec-lead">觉寤瑜伽管时间表，正知而住管时间表里每一个动作的「当下质量」。<b>正知</b>：与如理作意相伴的妙慧——对「我在做什么、该不该做、该在何时做、该怎么做」的正确觉察。本卷列出九类日常事，要求每一类都正知而住。</p>
+
+  <div class="card">
+    <h3>九类事，全都带觉察</h3>
+    <div class="quote">谓如有一。若往若还正知而住㉗。若睹若瞻正知而住㉘。若屈若伸正知而住㉙。<span class="src">—— 卷第二十四原文</span></div>
+    <details class="dict"><summary>九种事逐条白话<span class="hint">清单可跳过</span></summary><div class="body">
+      <p><b>若往若还：</b>出门与回家。对「该不该去、该不该回、应时不应时」都了知——去对的地方、以对的方式、在对的时间。</p>
+      <p><b>若睹若瞻：</b>无心瞥见与有意观看（详见下方翻转卡）。</p>
+      <p><b>若屈若伸：</b>四肢肢节的一切弯与伸。抬手、弯腰、伸腿，都知正在做、做得合式。</p>
+      <p><b>持僧伽胝及以衣钵：</b>僧伽胝＝僧伽梨大衣（六十条或九条等两重缝制）；持＝「被服受用能正将护。说名为持」——受用中能正确守护，净与不净、已持应持都了知。</p>
+      <p><b>若食若饮若啖若尝：</b>啖＝饼、饭、粥、羹等正餐；尝＝乳酪、蜂蜜、鱼肉、新果实等；饮＝糖水、酪浆乃至水。应时、应量、应方式而受用。</p>
+      <p><b>若行若住若坐若卧：</b>走、站、坐、躺，各是什么动作、各自该怎么做，心里清楚。</p>
+      <p><b>于觉寤时：</b>昼日分、初夜分、后夜分的经行宴坐——觉寤瑜伽本身也是正知而住的对象。</p>
+      <p><b>若语若默：</b>语＝读诵、为他人开示、与同行庆慰请问；默＝独处思惟、令心内住修止修观。该说时说、该默时默。</p>
+      <p><b>解劳睡时：</b>炎暑劳倦时若硬扛反而损减善品，允许「须臾寝息」遣除劳睡——但在隐处、有遮蔽、有看守，且短暂。</p>
+    </div></details>
+  </div>
+
+  <div class="card">
+    <h3>睹与瞻：无心扫视与有意注视</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">睹</div><div class="sub">没有预备的无心瞥见</div><div class="tap">翻转 ▸</div></div><div class="back">「先无觉慧。先无功用。先无欲乐。于其中间眼见众色」——路上眼睛自然扫过的画面，事先没有觉察、没有用力、没有想看。<em>地铁广告闯进视野，就是「睹」。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">瞻</div><div class="sub">带着目的的有意观看</div><div class="tap">翻转 ▸</div></div><div class="back">「觉慧为先。功用为先。欲乐为先。眼见众色」——主动看人、看房舍殿堂、看世间杂妙事。<em>点开收藏夹里的视频仔细看，就是「瞻」。</em></div></div>
+    </div>
+    <div class="quote">谓于如前所列诸事。若往若还先无觉慧。先无功用。先无欲乐。于其中间眼见众色是名为睹。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="plain">正知而住的严格之处在于：连「无意看到的」也要知道自己看到了什么、该不该看——不只是管住主动去看的眼睛。</div>
+  </div>
+
+  <div class="card">
+    <h3>略义：行时五业、住时五业</h3>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>名相</th><th>出处成员</th><th>通俗理解</th></tr>
+      <tr><td>行时五业</td><td>身业·眼业·一切支节业·衣钵业·饮食业</td><td>出门在外时：往还、看东西、屈伸四肢、拿衣钵、吃喝</td></tr>
+      <tr><td>住时五业</td><td>身业·语业·意业·昼业·夜业</td><td>安住之时：行住坐、说话、卧默解劳睡、白天的用功、夜的睡眠与觉寤</td></tr>
+      <tr><td>行住正知四业</td><td>正念所摄·不放逸摄</td><td>在每一个业上安守正念、不放逸——正知不是多余动作，是把前面所有业串起来的那根线</td></tr>
+    </table></div>
+    <div class="analogy"><b>比喻：</b>像汽车的行车记录仪加仪表盘：记录仪（睹瞻）随时拍摄，仪表盘（正知）实时提示——油耗高了、水温高了立刻知道，而不是等趴窝了才发现。</div>
+  </div>
+
+  <div class="case"><b>刷手机失忆症：</b>下班路上小周刷了四十分钟短视频，到站却想不起看了什么，只觉得眼睛发酸——纯粹的「睹」而无正知：眼见众色，觉慧不在场。本卷要求连这种无心瞥见都要「能正了知」。</div>
+  <div class="case"><b>食不知味：</b>小郑边追剧边扒完一整碗饭，五分钟后被问「今天红烧肉咸不咸」，答不上来——对应「若食若饮若啖若尝正知而住」：食饮啖尝的自相（咸淡、冷热、多少）应能了知，否则吃饭只是给身体喂料，心全程缺席。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 07 乞食手册 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>走进村邑：乞食路上的行为手册</h2></div>
+  <p class="sec-lead">正知而住最生动的应用场景，是出家人进城化缘。本卷用大量细节写了一条完整路线：该去谁家、什么时间去、路上避开什么、进门怎么坐、坐下怎么吃、回来怎么走。对今天的读者，它是一份「带着觉察办事」的范本。</p>
+
+  <div class="card">
+    <h3>该去与不该去</h3>
+    <div class="quote">谓唱令家。或酤酒家。或淫女家。或国王家。或旃荼罗羯耻那家。<span class="src">—— 卷第二十四原文</span></div>
+    <p><b>不应往：</b>唱令家（宣唱号令之家）、酤酒家、淫女家、国王家、贱民之家，以及「一向诽谤不可回转」的人家。<b>应往：</b>刹帝利、婆罗门、居士、僚佐、饶财、长者、商主等大族姓之家。<b>应往但非时：</b>「不应太早太晚而往。若施主家有遽务时亦不应往」——施主忙于急务、正在戏乐、营造修饰、行弊秽法、忿怒争执时都不去。</p>
+    <div class="plain">判断公式：地点对＋时机对＋对方状态对，三关全过才出门——不是「能不能去」，而是「现在该不该去」。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：去，还是不去？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">点击你认为正确的分类按钮，答案与理由会立即显示（练习不计分）。</p>
+    <div id="sortWang"></div>
+  </div>
+
+  <div class="card">
+    <h3>路上的心态与进门后的威仪</h3>
+    <div class="quote">应随月喻㊳往施主家。具足惭愧远离憍傲。<span class="src">—— 卷第二十四原文</span></div>
+    <p><b>月喻</b>：像月亮一样清凉皎洁——去任何人家都不灼人、不抢戏。具足惭愧、不求利养、不希恭敬；自己得利养生喜悦，他人得利养「心亦喜悦。不自高举不轻蔑他心怀哀愍」。路上不与暴乱恶象恶马恶牛恶狗同行，不入闹丛、不蹈棘刺。</p>
+    <details class="dict"><summary>威仪细则清单<span class="hint">细碎但有趣，可跳过</span></summary><div class="body">
+      <p><b>坐姿：</b>不应摇身摇臂、摇头跳踯、携手叉腰竦肩入施主家；不应翘足、交足，双脚不太狭不太广，「端严而坐」。</p>
+      <p><b>法服：</b>齐整不高不下，「不如象鼻。非如多罗树间房穗。非如龙首。非如豆抟」——不垂成象鼻、不束成豆团。</p>
+      <p><b>持钵：</b>不应持钵预就其食、不应持钵在饮食上、不应置钵于杂秽坑涧崖岸处。</p>
+      <p><b>饮食：</b>次第受用；不应以饭覆羹臛上、不以羹臛覆饭上；「不应饕餮受诸饮食」；不太粗食不太细食；不应舐手舐钵、振手足食。</p>
+      <p><b>回来之后：</b>于自处所经行，「内摄诸根心不外乱而习经行。不太驰速不太躁动」，「时时进步时时停住而习经行」。</p>
+      <p><b>远离绮语：</b>「应当远离顺世典籍绮字绮句绮饰文词」——能引无义、不能令证涅槃的文字；「于諠杂众不乐习近。不乐多业不乐多言」。</p>
+      <p><b>对所证：</b>「于自所证离增上慢。于少下劣差别证中不生喜足。于上所证中无退屈」——不自我膨胀、不浅尝辄止、不畏高不怯场。</p>
+    </div></details>
+    <div class="analogy"><b>比喻：</b>月喻像月光——照进任何房间都不带热量、不索取回声；威仪细则像职场礼仪手册的极简版：你以为在管束身体，其实在向心宣告「每一步都算数」。</div>
+  </div>
+
+  <div class="case"><b>楼下等了四十分钟：</b>销售小吴约客户下午四点面谈，到了发现对方临时在开季度复盘会，他没有敲门，在楼下安静等了四十分钟——对应「若施主家有遽务时亦不应往」：不是人不能见，是不能不合时宜地见。</div>
+  <div class="case"><b>自助餐的第四盘：</b>年会上老孙端着满盘第四次取餐，边吃边说「回本了」——本卷对乞食的要求是「不应饕餮受诸饮食」，取用有量；吃到最后连「得了便宜」的得意也要放下，那才是月喻心态。</div>
+  <div class="case"><b>同学晒出了提车照：</b>小胡刷到老同学晒新车，先是一阵羡慕，接着自我贬低「我这十年白混了」。本卷说应如自己得利养而喜悦，于他人所得利养「心亦喜悦。不自高举不轻蔑他心怀哀愍」——他点了赞，放下手机继续写自己的稿子：既不酸别人，也不贬自己。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 08 收官 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>收官：四种正所作事</h2></div>
+  <p class="sec-lead">卷末，佛陀把整卷压缩成修行者的四件正所作事（略义），并说明两种「二缘配对」的理论结构。全卷到此收束——检验标准只有四条，个个可自查。</p>
+
+  <div class="gatha">
+    <div class="lines">乃至觉寤常不舍离所修善品<br>以时而卧不以非时<br>无染污心而习睡眠非染污心<br>以时觉寤起不过时</div>
+    <div class="mean">一者醒着时不离所修善品，勇猛精进不间断｜二者到点才睡，不提前不拖后<br>三者带着无染污的心入睡，不让烦恼陪着过夜｜四者到点即起，绝不超过时限<br>——此即卷末略义：常勤修习觉寤瑜伽者的四种正所作事（据原文「一者……四者……」总括）</div>
+  </div>
+
+  <div class="card">
+    <h3>理论收束：两组二缘配对</h3>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>目标</th><th>两个支持因素</th><th>通俗理解</th></tr>
+      <tr><td>无染污心而习睡眠</td><td>由正念＋由正知</td><td>睡时心有善法驻守（正念），烦恼一冒头就察觉放下（正知）</td></tr>
+      <tr><td>以时觉寤起不过时</td><td>住光明想＋思惟起想</td><td>不沉入昏暗深睡（光明想），到点能弹起来（起想）</td></tr>
+    </table></div>
+    <div class="quote">于善所缘摄敛而卧。由正知故于善所缘若心退失起诸烦恼。即便速疾能正了知。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="quote">由住光明想及思惟起想。无重睡眠非睡眠缠能远随逐。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="plain">睡好觉＝正念＋正知；起得来＝光明想＋起想。四个心理程序不是并列摆设，而是两两配对、各司其职。</div>
+  </div>
+
+  <div class="card">
+    <h3>修学的果报</h3>
+    <div class="quote">于现法中无罪无犯。无有恶作无变无悔。<span class="src">—— 卷第二十四原文</span></div>
+    <div class="quote">身坏死后不堕恶趣。不生一切那落迦中。为得未得积习资粮。<span class="src">—— 卷第二十四原文</span></div>
+    <p>现法中无过错、无追悔，来世不堕恶趣（那落迦＝地狱），并为求得未得之法积集资粮——把日子过成这样，本身就是修行资粮的积累。</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">定作息</div><div class="d">觉寤瑜伽：昼、初夜、后夜用功，夜中分如法睡（第2章）。</div></div>
+      <div class="tl-item"><div class="t">认敌人</div><div class="d">五盖与顺障法，分场景对治（第3章）。</div></div>
+      <div class="tl-item"><div class="t">装动力</div><div class="d">法增上、自增上、世增上，三力齐备（第4章）。</div></div>
+      <div class="tl-item"><div class="t">修睡眠</div><div class="d">师子王卧与四种巧便而卧（第5章）。</div></div>
+      <div class="tl-item"><div class="t">带觉察守轨则</div><div class="d">正知而住九类事、乞食行为手册（第6-7章），总验收即四种正所作事（本章）。</div></div>
+    </div>
+  </div>
+
+  <div class="case"><b>锁屏上的四句话：</b>小许把四件正所作事改写成自己的版本设成锁屏：「醒着别断线、到点睡、睡里不掺情绪、到点起」，每天解锁见一次；一个月后作息从凌晨两点睡九点起，改到二十三点半睡六点起——原文四种正所作事，本就是给修行人准备的「锁屏四句」。</div>
+  <div class="case"><b>周日晚的四问复盘：</b>每周日晚小吴问自己四个问题：这周醒着的时间断线了吗？睡前带了什么心入睡？半夜醒来有没有被情绪接管？有没有赖床？——四问恰好对应「不舍离善品、以时而卧、无染污心睡眠、以时觉寤」的自查清单，全卷修行就此周而复始。</div>
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第二十四（output/24.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga24-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* 一天作息流程推演 */
+initStepper('dayTrack','dayDetail','dayPrev','dayNext',[
+ {t:'昼日分',d:'<b>经行＋宴坐（日出到日落）：</b>来回行走与结跏趺坐交替进行，「从顺障法净修其心」——白天不是休息时间，是修行的主阵地。'},
+ {t:'初夜分',d:'<b>继续经行宴坐：</b>入夜第一段照旧用功，「为护持诸卧具故。顺世仪故」——同时也在为睡眠做收尾准备。'},
+ {t:'净修心已',d:'<b>收工仪式：</b>「净修心已出住处外洗濯其足」——走出住处洗净双足再回住处，像给这一天按下确认键。'},
+ {t:'右胁而卧',d:'<b>师子王卧：</b>「还入住处右胁而卧⑦重累其足。住光明想⑧正念正知思惟起想巧便而卧」——姿势、心念、闹钟三件事在睡前一并安顿。'},
+ {t:'夜中分',d:'<b>正习睡眠：</b>「于夜中分夜四分中过于一分。正习睡眠」——夜里中间一段正式睡觉，「令于起时身有堪能。应时而起」。'},
+ {t:'夜后分',d:'<b>速疾觉寤：</b>天亮前最后一段迅速醒来，「至夜后分速疾觉寤经行宴坐。从顺障法净修其心」——新的一天立刻接上。'},
+ {t:'常勤修习',d:'<b>日复一日：</b>听闻此法后生起乐欲——「我当成办佛所听许觉寤瑜伽」，精进勤劬、勇悍刚决不可制伏，「策励其心无间相续」。作息表的意义在于每天重来。'}
+]);
+
+/* 五盖归类练习 */
+initSorter('sortGai',[
+ {a:'深夜十一点，减脂第二周的小王刷到烤肉视频，越看越馋，最后点了外卖。',opts:['贪欲盖','嗔恚盖','惛沉睡眠盖','掉举恶作盖','疑盖'],ans:'贪欲盖',exp:'净妙相（诱人的影像）正是贪欲盖的顺障法——本卷明确列出「净妙相」引生贪欲。'},
+ {a:'会上被同事当众甩锅，小刘一下午都在心里重播那一幕，越想越气。',opts:['贪欲盖','嗔恚盖','惛沉睡眠盖','掉举恶作盖','疑盖'],ans:'嗔恚盖',exp:'嗔恚相（被亏待的画面反复回放）引生嗔恚盖，对治是修慈俱心。'},
+ {a:'下午两点的例会，暖气很足，小李眼皮打架，脑袋一点一点。',opts:['贪欲盖','嗔恚盖','惛沉睡眠盖','掉举恶作盖','疑盖'],ans:'惛沉睡眠盖',exp:'典型的惛沉睡眠盖——本卷给的招是经行、住光明想、大音声读诵，乃至冷水洗面。'},
+ {a:'面试结束当晚，小陈翻来覆去想「我那句是不是答砸了」，后半夜也没睡着。',opts:['贪欲盖','嗔恚盖','惛沉睡眠盖','掉举恶作盖','疑盖'],ans:'掉举恶作盖',exp:'掉举＝心静不下来，恶作＝反复追悔——对治是「令心内住成办一趣得三摩地」，一次只留一个所缘。'},
+ {a:'朋友劝小赵学投资，她嘴上说好，心里嘀咕「我这种人肯定学不会吧」。',opts:['贪欲盖','嗔恚盖','惛沉睡眠盖','掉举恶作盖','疑盖'],ans:'疑盖',exp:'对自己、对法起不了确信就是疑盖——对治是如理思惟，而不是凭感觉自我否定。'}
+]);
+
+/* 应不应往归类练习 */
+initSorter('sortWang',[
+ {a:'周一上午十点，你想去拜访正忙着季度盘点仓库的老客户。',opts:['应往','不应往','应往但非时'],ans:'应往但非时',exp:'客户有「遽务」时不该去——「若施主家有遽务时亦不应往」，不是人不对，是时机不对。'},
+ {a:'牌友约你去新开的地下赌档「开开眼界」。',opts:['应往','不应往','应往但非时'],ans:'不应往',exp:'对应不应往之家（酤酒家、淫女家等弊秽之处）——能引生贪嗔、毁坏梵行的地方，压根不进。'},
+ {a:'和老师约好周日下午三点到家中请教问题。',opts:['应往','不应往','应往但非时'],ans:'应往',exp:'如法、有正业、能获益之处，且约好了时间——应往、应时，正是「所应往」。'},
+ {a:'凌晨一点，你想敲开同事家门借个充电器。',opts:['应往','不应往','应往但非时'],ans:'应往但非时',exp:'「不应太早太晚而往」——事虽小、人虽熟，时机不对就先放下。'},
+ {a:'某住户对你推销的东西一向嗤之以鼻，你还打算第七次上门。',opts:['应往','不应往','应往但非时'],ans:'不应往',exp:'对应「一向诽谤不可回转」的人家——对方根深蒂固地不欢迎，去了只会结怨。'}
+]);
+
+/* 三增上条件模拟器 */
+function updateSim(){
+  var a=document.getElementById('simFa').checked;
+  var b=document.getElementById('simZi').checked;
+  var c=document.getElementById('simShi').checked;
+  var n=(a?1:0)+(b?1:0)+(c?1:0);
+  var el=document.getElementById('condResult');
+  var txt;
+  if(n===3){
+    txt='<b>三力齐备：</b>「未生诸盖能令不生。已生诸盖能速弃舍。」——知识给了方向，羞耻给了刹车，观众给了提醒，盖一起来就被摁灭。';
+    el.className='';
+  }else if(n===0){
+    txt='<b>毫无设防：</b>没有知识、没有羞耻、没有观众，盖生起时你只会跟着它走。原文要求修学者「勇悍刚决不可制伏」，此刻的你恰好相反。';
+    el.className='fail';
+  }else if(n===1){
+    txt='<b>单力难支：</b>只有一层动力时，盖往往能突破防线——只有知识没有压力，就会「道理都懂就是不改」。';
+    el.className='fail';
+  }else{
+    txt='<b>两力相持：</b>能压住日常大部分的盖，但缺的那层恰是杠杆——缺世增上容易无人提醒时滑坡，缺自增上容易死要面子，缺法增上则容易用力过猛用错方向。';
+    el.className='fail';
+  }
+  el.innerHTML=txt;
+}
+['simFa','simZi','simShi'].forEach(function(id){document.getElementById(id).addEventListener('change',updateSim);});
+updateSim();
+
+/* 翻转卡开关 */
+document.querySelectorAll('.fn-card').forEach(function(c){c.addEventListener('click',function(){c.classList.toggle('open');});});
+
+renderPath();
+</script>
+</body>
+</html>

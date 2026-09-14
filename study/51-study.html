@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷51 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 摄决择分中五识身相应地意地之一</div>
+  <h1>卷第51 · 交互式学习模块</h1>
+  <p class="sub">这一卷是《瑜伽师地论》从「平铺描述」转入「深度审问」的第一站：它用八个理由证明，在眼耳鼻舌身意六个识的背后，还藏着一个执持身心、储藏一切种子的深层心识——阿赖耶识；并讲清它如何运转、如何被熏习、又如何被彻底转灭。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 23 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 深密的阿赖耶识</a>
+<a href="#s3">③ 八个证明</a>
+<a href="#s4">④ 灯焰与五遍行</a>
+<a href="#s5">⑤ 熏习与镜像</a>
+<a href="#s6">⑥ 杂染与转依</a>
+<a href="#s7">⑦ 驯心实录</a>
+<a href="#s8">⑧ 种子与两种退</a>
+<a href="#s9">⑨ 收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂全卷大地图</b><span>弄清「本地分 → 摄决择分」的转向，以及本卷要审问的总问题（第①章）</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>认识主角阿赖耶识</b><span>它是什么、为什么佛不轻易开演（第②章）</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>过一遍八个证明</b><span>挑最贴近生活的几个理由，看懂论证套路（第③章）</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>看懂它怎么运转</b><span>灯焰喻、五遍行、熏习与镜像：四种流转相（第④⑤章）</span></span></label></div>
+<div class="step-item" data-target="#s6"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>看懂怎么关掉它</b><span>杂染根本、转依，再围观一场驯心实录（第⑥⑦章）</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官总纲</b><span>用嗢拖南串起全卷，带走三句关键结论（第⑧⑨章）</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ 章节内容 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：从「画地图」到「审地图」</h2></div>
+  <p class="sec-lead">《瑜伽师地论》前五十卷是「本地分」——把修行世界的完整地图平铺开来：什么是眼识、什么是意、什么是禅定。从本卷起进入「摄决择分」，讲解员退场，质检员登场：对已画好的地图逐一审问、追问证据。</p>
+  <div class="card">
+    <h3>「决择」是什么意思</h3>
+    <div class="quote">如是已说本地。次说诸地决择善巧。由此决择善巧为依。于一切地善能问答。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">决择＝对已经说过的法，用问答的方式审问它、检验它、把深义抉发出来。本卷审问的对象是五识身地与意地，核心问题只有一个：六识的背后，是不是还藏着一个更深的识？</div>
+    <div class="analogy"><b>比喻：</b>本地分像一本产品说明书，把功能都列清楚；摄决择分像随附的《技术答疑手册》——专收最刁钻的用户提问，一条条给出推理和证据。本卷是这本手册的第一篇，而且一上来就问到了整个系统最深的地方。</div>
+  </div>
+  <div class="card">
+    <h3>本卷路线图</h3>
+    <p>全卷的展开顺序，就是一条由「立论」到「收尾」的完整论证线：</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">第一站 · 抛出秘密</div><div class="d">引佛偈点题：阿赖耶识甚深细，佛对凡愚不开演——先立靶心（→ 第②章）。</div></div>
+      <div class="tl-item"><div class="t">第二站 · 八个证明</div><div class="d">如果离开阿赖耶识，八件事都解释不通——证明它决定存在（→ 第③章）。</div></div>
+      <div class="tl-item"><div class="t">第三站 · 四相说流转</div><div class="d">所缘、相应、互为缘性、与识俱转：它日常如何运转（→ 第④⑤章）。</div></div>
+      <div class="tl-item"><div class="t">第四站 · 一相说还灭</div><div class="d">它是一切杂染的根本；找到根，才谈得上连根拔起——转依（→ 第⑥章）。</div></div>
+      <div class="tl-item"><div class="t">第五站 · 细节与收尾</div><div class="d">驯心实录、种子与四缘、损伏与永害、两种退（→ 第⑦⑧章）。</div></div>
+    </div>
+  </div>
+  <div class="case"><b>地铁上的尖锐问题：</b>早高峰的地铁里，同事随口问你：「不是说眼耳鼻舌身意六个识吗？那我无梦熟睡时六个识全停了，第二天醒来的为什么还是我？」——这类把描述性框架问穿的问题，正是摄决择分的文体：把疑问整理成正式的「问」，再给正式的「答」。本卷的回答是：熟睡时六识虽停，执持身心的深层识未停（第③章的「执受」「无心定」两证）。</div>
+  <div class="case"><b>工程师审底层假设：</b>一位工程师面对「偶发崩溃」的程序，不满足于记录现象，而是重新审查架构的前提假设。摄决择分做的正是这件事：与其继续在六识层面打补丁，不如追问——要不要在模型里增加一个更底层的「存储与执持」组件（阿赖耶识）？全卷用八个论证回答：必须要。</div>
+  <div class="divider"></div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>一个不能随便讲的秘密</h2></div>
+  <p class="sec-lead">本卷第一个问答直奔主题：前文说了「前说种子依。谓阿赖耶识」，为什么只报名字、不展开解释？论主的回答出人意料——不是忘了说，而是不敢轻说。</p>
+  <div class="card">
+    <h3>为什么前文不展开</h3>
+    <div class="quote">由此建立是佛世尊最深密记。是故不说。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">阿赖耶识：藏识——储藏一切经验「种子」的深层心识，是六识生起的底层依据。这一建立是佛最深的密意，深细到难以照见，又极易被误认，所以不轻易开演。</div>
+    <div class="analogy"><b>比喻：</b>像公司的底层总账。基层员工每天经手的是流水（六识的活动），但真正决定各部门预算的账本锁在最里间——不是故意保密，而是看不懂账本的人一旦接触，最容易犯的错误就是把它当成「自己的私房钱」。</div>
+  </div>
+  <div class="gatha">
+    <div class="lines">阿陀那识②甚深细　　一切种子如瀑流<br>我于凡愚不开演　　恐彼分别执为我</div>
+    <div class="mean">阿陀那识（阿赖耶识在本颂中的名字）深细难测，一切种子如瀑布奔流、相续不断；我不对凡夫与愚者开演此识，唯恐他们分别计度，反而执它为「我」。——注意佛担心的方向：不是怕你不信它，而是怕你抓住它，给它安上一个「我」的名字。</div>
+  </div>
+  <div class="card">
+    <h3>记牢一个反直觉点：它不是「我」，也不是灵魂</h3>
+    <div class="quote">阿赖耶识缘境微细。世聪慧者亦难了故。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">它是一条刹那生灭的瀑流：念念相续却非一非常——连续，但每一刻都在更新，没有不变的内核。把它执为「我」，恰恰是佛最担心的事。</div>
+    <div class="analogy"><b>比喻：</b>像一条大河：浪花起灭（六识的念头）看得见，整条河的暗流（阿赖耶识）看不见；河流连续不断，但「这一秒的河」早已不是「上一秒的河」。说「河」只是为了说话方便，并没有一个固定不变的河体。</div>
+  </div>
+  <div class="case"><b>深夜恐怖片效应：</b>晚上十一点看完恐怖片，你关灯躺下，理智上完全清楚「电影是假的」，心跳却狂飙、总觉窗帘后有动静。意识层面的判断早已放下，深层储藏的反应模式却还在运转——这正是「甚深细」的体感：它比你表层的想法更深、也更固执。而普通人此时最容易犯的错，就是把这套深层反应认作「我的本能、我的灵魂」——佛警告的正是这一步。</div>
+  <div class="case"><b>三年没碰的法语：</b>你大学背过一年法语，毕业后从没再碰。某天在咖啡馆听到邻桌说 "bonjour"，反应过来之前嘴已经跟着动了。当下你并没有在「背单词」——是当年反复诵念熏下的种子一直在储存，遇缘即起。「一切种子如瀑流」说的就是：储存从未停止，只等你走到能触发它的地方。</div>
+  <div class="divider"></div>
+</section>
+
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>八个证明：为什么非承认它不可</h2></div>
+  <p class="sec-lead">接下来是全卷最著名的论证段：论主一口气列出八个「不应道理」的现象——若离开阿赖耶识，它们就全都解释不通。每个论证都可以当成一道谜题：只靠眼前这六个识，这件事为什么说不通？</p>
+  <div class="card">
+    <h3>总纲</h3>
+    <div class="quote">由八种相。证阿赖耶识决定是有。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">论证结构高度统一：列举一个无法否认的现象 → 指出若只有六识就解释不了 → 结论：必须承认有阿赖耶识。</div>
+    <div class="analogy"><b>比喻：</b>像刑侦推理：不必直接拍到嫌疑人（阿赖耶识无法被六识直接观察），只要八个现场痕迹都指向同一个解释，就可以定案——「决定是有」。</div>
+  </div>
+  <div class="gatha">
+    <div class="lines">执受初明了　　种子业身受<br>无心定命终　　无皆不应理</div>
+    <div class="mean">本卷自带的口诀：执受、最初生起、明了性、种子、业用、身受、无心定、命终——八个关键词；「无皆不应理」：若没有阿赖耶识，这八处全都说不通。下面八张卡片逐一展开，点卡片翻转看解释。</div>
+  </div>
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">① 依止执受</div><div class="sub">谁让身体是一个「活的」整体</div><div class="tap">点击翻转</div></div><div class="back">身体冷暖饥饱都有觉知、体温恒定、伤口会愈合——需要一个识恒常「执受」（执持并感受）它。若只靠六识，眼识不看的时候谁来管身体？原文用五个理由证明：没有阿赖耶识，「执受」根本安排不平——所依会反复换人执受、时而无人执受。<em>比喻：手机可以黑屏（六识暂停），主板供电不能断（执受）。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">② 最初生起</div><div class="sub">多识同时生起不是过失</div><div class="tap">点击翻转</div></div><div class="back">有人反对：「若有两个识同时生起，岂不乱了？」论主回答：你对没有过失的地方妄见过失——本来就容许多个识同时运转。见色、闻声、起念本来就可以同时发生。<em>现代版：一边听歌一边走路一边想事情，三线并行，毫无冲突。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">③ 有明了性</div><div class="sub">意识为何「清楚」</div><div class="tap">点击翻转</div></div><div class="back">回忆过去境界时，意识模糊昏暗；面对当下境界时，意识清清楚楚。若只有一个识单独运转，这种「清楚与模糊」的差别就无法解释。所以要么承认诸识俱转，要么承认意识没有明了性——前者显然符合经验。<em>对比就像现场直播与翻旧录像的画质差。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">④ 有种子性</div><div class="sub">断了又起的念头靠什么接续</div><div class="tap">点击翻转</div></div><div class="back">善念之后无间生起恶念，恶念之后又生善念；六识还会长时间中断（深睡、闷绝）。若六识自己就是自己的种子，中断那么久之后如何还能续上？必须有一个不断储存、不断输出的种子库。<em>像文档自动保存在云端：本机崩溃重开后接着写。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">⑤ 业用差别</div><div class="sub">一刹那同时干四件事</div><div class="tap">点击翻转</div></div><div class="back">了别器（外在世界）、了别依（身体器官）、了别我、了别境——四种了别刹刹那那同时进行。一个识在一刹那做不了四件事，必须有多个识俱转，其中「了别器」「了别依」正由阿赖耶识承担。<em>像一个人不能同时又是前台、又是后台、又是保安。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">⑥ 身受差别</div><div class="sub">你在思虑，身体仍有感受</div><div class="tap">点击翻转</div></div><div class="back">不论你在如理思惟、胡思乱想、一念不起还是入定，身上的种种领受一直非一众多地生起——意识忙着别的事情时，身体感受并未断电，说明另有恒行的所依。<em>开会走神时，你的脚照样感到鞋挤。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">⑦ 处无心定</div><div class="sub">深定中六识全停，人却没死</div><div class="tap">点击翻转</div></div><div class="back">入无想定、灭尽定时，六识全部停止，佛却说「当于尔时识不离身」。若识真的离身，那就与舍命无异——身体应当立即崩坏。留下来的，正是阿赖耶识。<em>像深度休眠的电脑：前台进程全停，底层供电仍在。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">⑧ 命终时识</div><div class="sub">死亡从头顶或脚底开始变冷</div><div class="tap">点击翻转</div></div><div class="back">临终时身体从上或从下渐冷，因为执持身体的识在渐渐舍离；而意识「有时不转」（会中断），能一路执持到最后一刻的唯有阿赖耶识。<em>像员工陆续下班，最后锁门的只能是那个从不离岗的管家。</em></div></div>
+  </div>
+  <div class="card">
+    <h3>放大看第⑧证：一场安静的内部分手</h3>
+    <div class="quote">故知唯有阿赖耶识能执持身。此若舍离。即于身分冷触可得。身无觉受。<span class="src">—— 卷五十一原文</span></div>
+    <p>论主对死亡过程的描述冷静得近乎医学观察：执持之识渐次舍离，冷触渐起——从上身分开始，或从下身分开始。</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">执持</div><div class="d">阿赖耶识执受全身，体温与觉受由它维持——这是一生的常态。</div></div>
+      <div class="tl-item"><div class="t">渐舍</div><div class="d">识从身体的上分或下分开始渐渐舍离——不是一下子抽走。</div></div>
+      <div class="tl-item"><div class="t">冷触渐起</div><div class="d">识已舍离的部位冷触现起——「冷」不是抽象概念，而是执受退场的可观察标志。</div></div>
+      <div class="tl-item"><div class="t">身无觉受</div><div class="d">舍离完成，身体再无觉受——执受与身体的关系正式结束。</div></div>
+    </div>
+  </div>
+  <div class="case"><b>全身麻醉的手术台：</b>早上八点，麻醉师推药，你对外界的知晓全线关闭——听觉、痛觉、念头统统不转，与「无心定」的结构几乎相同。但体温、血压、心率仍被身体自己精细维持，术后你若无其事地醒来。若「识离于身」等于死亡，麻醉应当致死；身体照常运转，正说明六识之外另有执持者——这就是「处无心定不应道理」的现代翻版。</div>
+  <div class="case"><b>冬夜的被窝：</b>凌晨两点你睡得很沉，无梦无知觉，却还是在一脚踢开被子时无意识地缩回身子、把被角拉好。六识没有在「值班」，但身体温暖依旧、反应精准——「依止执受」从不打卡下班。原文把它列为八证之首，因为这是每夜都在发生、人人可验证的现象。</div>
+  <div class="divider"></div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>灯焰喻：它缘什么、配什么</h2></div>
+  <p class="sec-lead">存在证明完毕，接下来是运转模型。论主用「四相」描述阿赖耶识的日常：它看什么（所缘）、配什么（相应）、和六识怎样互相成就（互为缘性）、能同时挂多少识（俱转）。本章讲前两个。</p>
+  <div class="card">
+    <h3>所缘转：它「看」的两样东西</h3>
+    <div class="quote">器世间⑨相譬如灯焰生时内执膏炷外发光明。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">它缘两样：一手向内「执受」你的身心（内执受），一手向外「了别」整个物质世界（外器相）——而且于一切时无有间断。论主亲自选的比喻就是灯焰：灯芯在内被执持，光明向外放——同一盏灯，内外一体。</div>
+    <div class="analogy"><b>比喻：</b>像心跳：无论你有没有注意到它，它都在工作；你不「管理」它，它却管理着你能活着这件事。阿赖耶识的「了别」也是这样——微细到连世间最聪明的人也难以察觉，却从最初执受那一刹那到命终那一刹那从未下班。</div>
+    <details class="dict"><summary>它在三界各缘多大范围？<span class="hint">清单内容，可跳过</span></summary><div class="body">
+      <p><b>欲界：</b>缘狭小执受境——身心范围最小最粗。</p>
+      <p><b>色界：</b>缘广大执受境。</p>
+      <p><b>无色界 · 空无边处、识无边处：</b>缘无量执受境。</p>
+      <p><b>无所有处：</b>缘微细执受境。</p>
+      <p><b>非想非非想处：</b>缘极微细执受境——三界之顶，所缘细到极限。</p>
+      <p>同一个识，随着所处层次不同，「执受」的范围从狭小到极微细依次展开——这也是修行层次的一种投影。</p>
+    </div></details>
+  </div>
+  <div class="card">
+    <h3>缘境的三个特征：无废时 · 无变易 · 念念生灭</h3>
+    <div class="quote">阿赖耶识缘境。无废时无变易。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">它的「看」从最初执受刹那到命终从不间断、从不更换频道（一味了别而转）；但同时念念生灭、非一非常——连续而不永恒。</div>
+    <div class="analogy"><b>比喻：</b>像视频播放：画面连续流畅（无废时），但每秒几十帧，没有一帧真的停留（念念生灭、非一非常）。你感受到的「一直活着的自己」，是每刹那都在重新生起的连续流。</div>
+  </div>
+  <div class="card">
+    <h3>相应转：永远在编的五个基础模块</h3>
+    <div class="quote">谓阿赖耶识。与五遍行⑩心相应所恒共相应。谓作意触受想思。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">它永远与五个最基础的心理功能绑定运行（五遍行：作意、触、受、想、思），且此受永远不苦不乐、其性永远是「无记」（不善不恶的中性）。五个模块最极微细，聪明人也难以察觉。点下方卡片翻转。</div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">作意</div><div class="sub">把心「拨」向对象</div><div class="tap">点击翻转</div></div><div class="back">注意力的开关：没有它，心不会转向任何境界。<em>像手机的唤醒键——屏幕再精彩，也得先唤醒。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">触</div><div class="sub">根、境、识三者相接</div><div class="tap">点击翻转</div></div><div class="back">接触发生的瞬间，让心与境界真正「碰上」。<em>像插头插进插座——电流接通的那一刻。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">受</div><div class="sub">领纳</div><div class="tap">点击翻转</div></div><div class="back">阿赖耶识的受永远不苦不乐——一种极安静的底层感受，原文说它「亦唯异熟所摄」。<em>像恒温房间的体感：没有冷热刺激，但你始终「在」感受着。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">想</div><div class="sub">取相安名</div><div class="tap">点击翻转</div></div><div class="back">给境界抓取相貌、贴上标签、立起名目。<em>像给文件自动命名的后台脚本——你从没点过它，它一直在跑。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">思</div><div class="sub">造作发动</div><div class="tap">点击翻转</div></div><div class="back">意志的启动器，推动心去造作、去行动。<em>像按下「运行」的回车键。</em></div></div>
+    </div>
+    <div class="analogy"><b>比喻：</b>操作系统的五个常驻后台进程：看不见、关不掉、不做好事也不做坏事（无记），但一切应用都靠它们才跑得起来。六识是前台窗口，五遍行是底层服务。</div>
+  </div>
+  <div class="case"><b>高烧昏睡的一整天：</b>你重感冒烧到三十九度，昏睡了一天，几乎没有任何像样的念头与知觉。但呼吸、心跳、体温调节一刻未停，渴了还会半梦半醒地翻身找水。六识大幅退场时，「内执受」照常运转——这就是原文「于一切时无有间断」的日常证据。</div>
+  <div class="case"><b>从出生到现在的「底盘感」：</b>你从未体验过「自己不存在的一秒钟」——哪怕深睡、麻醉。但这不是一个不变的灵魂在全程值班，而是每一刹那都在重新生起、又立刻灭去的连续流，像动画帧连成动态。原文的措辞精确到惊人：非一（不是同一个）、非常（不是永恒）。</div>
+  <div class="case"><b>深睡无记：</b>你昨晚睡了八小时，既没行善也没作恶，法律与道德都无法给「熟睡」定性——因为深睡中的底层心行是「无记」的（一向不苦不乐无记性摄）。但生命并未停摆：五个常驻模块仍在极微细地运行，只是微细到无法被察觉。</div>
+  <div class="divider"></div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>熏习与镜像：它和六个识如何互相塑造</h2></div>
+  <p class="sec-lead">第三、第四流转相是最关键的双向关系：阿赖耶识是六识的种子与所依（下行供电），六识反过来在它里面「熏」下新种子（上行写入）。这条双向通道，正是「习惯如何养成」的佛学版本。</p>
+  <div class="card">
+    <h3>下行：它给六识当种子、当所依</h3>
+    <div class="quote">为种子者。谓所有善不善无记转识转时。一切皆用阿赖耶识为种子故。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">六识的每一次生起，都是从这个种子库里取种子；它同时执持你的色根，是前五识的硬件依赖——没有它执受着眼耳鼻舌身，五识根本无处安立。</div>
+    <div class="analogy"><b>比喻：</b>像 App 与操作系统：每个 App（转识）都运行在 OS（阿赖耶识）之上，用 OS 提供的内存与接口；OS 不出现在任何界面上，却是一切界面得以显示的前提。</div>
+  </div>
+  <div class="card">
+    <h3>上行：六识反过来「熏」它</h3>
+    <div class="quote">如是如是于一依止同生同灭。熏习阿赖耶识。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">六识活动的同时，就在阿赖耶识里熏下新种子：由此因缘，之后的同类活动「更增长转更炽盛转更明了而转」——一次比一次更强、更猛、更清晰。</div>
+    <div class="analogy"><b>比喻：</b>林间小路：第一次走只是草丛里一道浅痕，走的人越多，路越宽、越平顺——下次你的脚会不自觉地又踏上它。习惯不是「性格」，是被一次次走出来的路径。</div>
+  </div>
+  <div class="card">
+    <h3>俱转：一个底座，最多挂七个识</h3>
+    <div class="quote">又如于一清净镜面有多影像一时而转互不相违。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">一个阿赖耶识之上，可以同时挂着多个识运转，互不妨碍：最少只有末那与它俱转，最多七识俱转（末那＋意识＋前五识）。原文还给了两个比喻：一条瀑流上多浪并涌，一面镜上多影并现。</div>
+    <div class="analogy"><b>比喻：</b>一面镜子同时映出窗外的树影、桌上的杯子和你自己——影像互不遮挡，镜面只有一个。多任务并行的你，就是这样运转的。</div>
+  </div>
+  <div class="card">
+    <h3>互动演示：一个早晨，识从 1 涨到 7</h3>
+    <p>用「你被闹钟叫醒」的全过程，把「与几识俱转」走一遍。点节点或用按钮步进。</p>
+    <div class="flow-track" id="flowCoTurn"></div>
+    <div class="flow-detail" id="coTurnDetail"></div>
+    <div class="flow-ctrl"><button id="coPrev" style="font-family:inherit;padding:6px 18px;border-radius:99px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:.9rem;color:var(--ink-soft)">◀ 上一步</button>　<button id="coNext" style="font-family:inherit;padding:6px 18px;border-radius:99px;border:1.5px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;font-size:.9rem">下一步 ▶</button></div>
+  </div>
+  <div class="card">
+    <h3>末那：那个从不露面却从不缺席的「执我者」</h3>
+    <div class="quote">谓萨迦耶见⑯。我慢⑰。我爱⑱。及与无明。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">末那识恒常与阿赖耶识俱转，以它为境界、执取为「我」，并恒常带着四种俱生烦恼：我见（萨迦耶见）、我慢、我爱、无明——不学就会、不假思索，故称「俱生任运」；其性「有覆无记」：不是善恶，却覆盖真相、障蔽圣道。</div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">萨迦耶见</div><div class="sub">我见：认定有个「我」</div><div class="tap">点击翻转</div></div><div class="back">把相续的身心之流，误认作一个单一、恒常的主人。<em>像把连续剧误认为一个真人，忘了那是一帧帧拍出来的。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">我慢</div><div class="sub">自我优越感</div><div class="tap">点击翻转</div></div><div class="back">依着「我」自动生起的自负与高抬。<em>像手机默认壁纸——从没设置过，却一直在。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">我爱</div><div class="sub">对自我的贪恋</div><div class="tap">点击翻转</div></div><div class="back">对「我」与「我的」的下意识爱护与偏袒。<em>像手机自动备份：从不问你，默默只备份「自己」的文件。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">无明</div><div class="sub">不明真相</div><div class="tap">点击翻转</div></div><div class="back">看不清无常、无我的实相，是前三者的总底色。<em>像镜头上一直没擦掉的指纹——看什么都带着一圈模糊。</em></div></div>
+    </div>
+  </div>
+  <div class="case"><b>刷短视频的两小时：</b>你发誓只看一条，两小时后才抬头。不是意志突然变弱——每一次「再看一条」，都在阿赖耶识里熏下新种子，让下一次的冲动更增长、更炽盛、更明了。路是走出来的，瘾也是熏出来的：这条上行通道（熏习）解释了为什么单靠「下次忍住」几乎必败。</div>
+  <div class="case"><b>多任务视频会：</b>开会时你一边听发言（耳识）、一边看共享屏幕（眼识）、一边在桌面敲字回复（身识），末那与意识全程在后台——一面镜子多个影像同时转，互不相违。反过来想：若识不能俱转，「边听边看边打字」这种人人每天在做的体验根本无法成立。</div>
+  <div class="case"><b>无名的「我」感：</b>没人教过你「以自我为中心」，但面试落选那一瞬的刺痛、朋友圈无人点赞的失落、被插队时的怒气会自动浮现——我见、我爱、我慢是「俱生任运」的：不需要想法支撑，恒常现行。理解这一点，就能对自己多一分客观：那不是「你很糟糕」，只是末那的四烦恼又在默认运行。</div>
+  <div class="divider"></div>
+</section>
+
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>一切杂染的根本，与「转依」</h2></div>
+  <p class="sec-lead">四相讲完流转，论主给出全卷最重磅的判断：这个识是「一切杂染根本」。这听起来是坏消息，其实是好消息——正因为找到了根，才第一次谈得上连根拔起。</p>
+  <div class="card">
+    <h3>为什么说它是杂染根本</h3>
+    <div class="quote">谓略说阿赖耶识是一切杂染根本。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">它生出你的身心（有情世间）、你身处其中的物质世界（器世间），还是众生之间互相影响的纽带（有情互起根本）；又是苦谛之体、未来苦的生因、现在集谛的生因——一切问题都在这里结算。</div>
+    <div class="analogy"><b>比喻：</b>河面的泡沫（六识上可见的烦恼）只是症状，上游暗流（识中持种的杂染）才是源头——只在水面撇泡沫，永远撇不干净；治理必须深入源头。</div>
+  </div>
+  <div class="card">
+    <h3>有情之间：一张互相牵动的网</h3>
+    <div class="quote">无有有情与余有情互相见等时。不生苦乐等更相受用。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">只要有交往，就必然互相生起苦乐等受、互相受用——一切有情彼此互为增上缘。人际世界不是「背景」，它本身就是缘起之网的一部分。</div>
+    <div class="analogy"><b>比喻：</b>像同一层楼的邻居：你家装修的电钻声改变别人家的下午，别人家的外卖味道改变你家的玄关——「互为增上缘」不是道德劝告，而是机制描述。</div>
+  </div>
+  <div class="card">
+    <h3>好消息：仓库里早已埋下越狱通道</h3>
+    <div class="quote">此非集谛因。由顺解脱分等善根与流转相违故。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">同一个识也摄持顺解脱分、顺决择分等善法种子——它们不是集谛（苦因）之因，反而与流转相违。你每一次向善的选择都在为「转依」积攒弹药。</div>
+    <div class="analogy"><b>比喻：</b>同一块硬盘里，既有让系统崩溃的病毒文件，也有你主动备份的系统修复盘——后者虽在同一仓库，方向却完全相反。</div>
+  </div>
+  <div class="card">
+    <h3>转依：换掉地基，而不只是拆墙</h3>
+    <div class="quote">转依无间当言已断阿赖耶识。由此断故当言已断一切杂染。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">转依＝把整个心识的依止彻底翻转：不是逐个消灭烦恼，而是让「烦恼的地基」不再存在。缘真如的智慧修习多修习而得转依；转依一成立，就说已断阿赖耶识，也就断了一切杂染。</div>
+    <div class="quote" style="margin-top:14px">阿赖耶识体是无常。有取受性。转依是常。无取受性。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">二者的对照是根本性的：一个是无常、有取受的瀑流，一个是常、无取受的安立——「换掉操作系统」之后，旧世界无法再被写回。</div>
+    <div class="analogy"><b>比喻：</b>卸载某个 App（对治单个烦恼）只是权宜，重装系统（转依）之后，那类 App 根本无法再安装。原文还补了一句分寸感十足的话：这只是「建立因性」而非「生因性」——转依是依着道理建立的，不是从阿赖耶识里「生」出来的。</div>
+  </div>
+  <div class="card">
+    <h3>断灭相：断掉之后的日子</h3>
+    <div class="quote">尔时但受身边际受命边际受<span class="src">—— 卷五十一原文（契经语）</span></div>
+    <div class="plain">阿赖耶识断灭相：舍二种取（对未来的取、对现法杂染所依的取），一切粗重永远远离。身体虽还在世，「其身虽住犹如变化」——只余维持命根的最小受用，如租约到期前只保留最基本的占用。</div>
+    <div class="analogy"><b>比喻：</b>一间房子不再续租：家具（种种追求）搬空了，只剩水电维持到交房日。不是房子消失了，而是住下去的那个「取」已经放下。</div>
+  </div>
+  <div class="card">
+    <h3>归类练习：四句分别——谁成就哪个识？</h3>
+    <p>「成就」即现行具有。论主用四句把所有情况分尽——试着给下面五个场景归类：</p>
+    <div id="sorterFour"></div>
+  </div>
+  <div class="case"><b>节食 vs 搬家：</b>减肥的人每天与食欲正面对抗（对治现行烦恼），稍有松懈就反弹；后来他搬去另一座城市，整个饮食结构、社交环境重构了，旧食欲失去了生起的依止。前者是「拆一面墙」，后者才接近「换地基」——转依改变的不是某个行为，而是行为得以生起的整个依止。</div>
+  <div class="case"><b>早高峰被踩：</b>你被人踩了一脚，怒气瞬间升起，对方一句道歉又让怒气化开——苦乐等受在人与人之间「更相受用」。原文的判断很干脆：没有任何有情与其他有情相处而不互相影响。所以「别人如何对我」从来不是单向事件，双方都在同一张增上缘之网里。</div>
+  <div class="case"><b>帮邻居收快递的管理员：</b>小区门卫十年如一日帮老人收快递、留门，如今全楼的人有事都先找他，他自己也越过越踏实顺遂。原文说世间善根会「转更明盛」——善种子被一次次现行所长养，「转有功能转有势力」，未来感得「转增转胜」的可爱异熟果。善意不是消耗品，是会复利的存款。</div>
+  <div class="divider"></div>
+</section>
+
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>驯心实录：一个比丘的三步观心法</h2></div>
+  <p class="sec-lead">抽象理论讲完，本卷留了一段极有「体感」的实修记录：心清净行苾刍（比丘）如何观察并调伏自己的心。你不需要出家，也能照这套流程操作自己的心。</p>
+  <div class="card">
+    <h3>总纲：遍知心的三个相</h3>
+    <div class="quote">一杂染爱乐相。二杂染过患相。三杂染还灭方便善巧相。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">遍知心，就是看清三件事：我的心贪恋什么（爱乐相）、贪恋的代价是什么（过患相）、以及怎么调转方向（还灭方便善巧相）。</div>
+    <div class="analogy"><b>比喻：</b>像戒糖三部曲：先承认自己对糖上瘾（爱乐），再算清体检报告与牙医账单（过患），最后设计一套让自己吃得更健康的可行方案（方便）。</div>
+  </div>
+  <div class="card">
+    <h3>互动演示：调心六步，走一遍</h3>
+    <p>把论中那段心理过程拆成六步，点节点或用按钮步进。</p>
+    <div class="flow-track" id="flowTame"></div>
+    <div class="flow-detail" id="tameDetail"></div>
+    <div class="flow-ctrl"><button id="tamePrev" style="font-family:inherit;padding:6px 18px;border-radius:99px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:.9rem;color:var(--ink-soft)">◀ 上一步</button>　<button id="tameNext" style="font-family:inherit;padding:6px 18px;border-radius:99px;border:1.5px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;font-size:.9rem">下一步 ▶</button></div>
+  </div>
+  <div class="card">
+    <h3>彩蛋：四念住的密意，其实只观一个「心」</h3>
+    <div class="quote">谓观心执受观心领纳观心了别观心染净。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">佛在念住中说「于身住身循观，乃至于法住法循观」，此处揭出密意：四念住其实唯是观心——身的执受是心、受的领纳是心、了别是心、染净还是心。四个入口，一个内核。</div>
+    <div class="analogy"><b>比喻：</b>健身教练纠正你的「脚、腰、肩」，实际调整的都是「动作模式」本身——口头上分四个部位，落点只有一个。</div>
+  </div>
+  <details class="dict"><summary>顺手带走：熏修的两种胜利、心混浊的三种过失<span class="hint">清单内容，可跳过</span></summary><div class="body">
+    <p><b>善巧熏修心的两种胜利：</b>一于果时触证安乐（结果上尝到甜头）；二于因时自在而转（过程中能自主转向）。</p>
+    <p><b>心混浊的三种过失：</b>一不如理作意过失（看问题的方式错了）；二随眠过失（潜在的烦恼种子潜伏作祟）；三起缠过失（烦恼现行缠缚不休）。</p>
+    <p>依「遍计所执自性」了知心善巧差别，依「依他起自性」了知心转善巧差别——前者是心「错认」的那一面，后者是心「缘起运转」的那一面。</p>
+  </div></details>
+  <div class="case"><b>睡前戒手机的「逃跑实验」：</b>你决定十一点后不刷手机，把手机放到客厅。十分钟后，脚已经自己走过去把它拿了起来——「唯有速疾还来趣入流散驰骋」的完美现代版。修心的第一步不是自责，而是如实看见这次逃跑：心在「杂染爱乐」，这一相先被照见，后面才有戏。</div>
+  <div class="case"><b>健身房的三个月：</b>第一个月你靠闹钟与意志力逼自己去练（数数思择）；第三个月某天加班到很晚，反而浑身不自在，主动想去举两下（不由思择自然安住）。原文描述的正是行为从「抉择驱动」变成「自然安住」的分界——坚持的终点不是更强的意志，而是新的默认设置。</div>
+  <div class="case"><b>戒酒的过患账单：</b>决定戒酒的人不再空喊「少喝点」，而是在备忘录里写下酒后三次失态、一次体检异常、一次与家人的争吵。「能生现法罪能生后法罪」「有疫有横有灾有恼」的操作化就是：把模糊的不安变成具体的账单——过患相算得越清，转心的力量越足。</div>
+  <div class="divider"></div>
+</section>
+
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>种子、四缘与两种退</h2></div>
+  <p class="sec-lead">全卷收束到最细的技术层：种子如何变成现行？需要哪些条件？修行断到什么程度才算真断？「退」又有哪两种？这一章的精度，决定了前几章的结论能不能落地。</p>
+  <div class="card">
+    <h3>未来不是仓库：本无今有</h3>
+    <div class="quote">宣说未来诸法一切行相非实非有本无今有。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">未来法不是「已经造好、放在时间仓库里等到期取货」的东西——它非实非有、本无今有。论主甚至逐一驳掉了六种以未来法实有而生的可能（转移而来？死生而来？为缘而生？业用而生？……全都不通）。</div>
+    <div class="analogy"><b>比喻：</b>明天的会议并不「存在」于某个时间仓库里：它只是今天的日程提醒（因），加上明早的条件（缘）而现起——对方临时出差，它就「本无今有」地消失了。</div>
+  </div>
+  <div class="card">
+    <h3>有种子还要等缘：四种生缘</h3>
+    <div class="quote">诸行虽有各别生因。然必待缘方得生起。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">有种子不等于马上发生——缘不现前，芽不出土。这正是对「空华兔角石女儿」之问的回答：它们不是「未来的东西没发芽」，而是根本没有生因；而一切诸行各各差别，定有生因，又必待缘。</div>
+    <details class="dict"><summary>四种生缘速览：本卷重点讲「因缘」<span class="hint">清单内容，可跳过</span></summary><div class="body">
+      <p><b>因缘：</b>亦因亦缘，即「种子随逐」——随逐色根的，有诸色根种子及余色法、心心所种子；随逐识的，有一切识种子及余无色法、色根种子。身与心互为对方保存种子。</p>
+      <p><b>等无间缘、所缘缘、增上缘：</b>本卷列出其名，说明「唯缘非因」，未广分别——详见本论其余各卷。</p>
+    </div></details>
+    <div class="quote" style="margin-top:14px">是故当知心心所种子随逐色根。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">证据就在前文的现象里：灭尽定、无想定中识灭了，出定后识能再生——因为心心所种子随逐色根；无色界众生寿尽还生下界时身体能再生——因为诸色种子随逐于识。身心互存种子，谁也离不开谁。</div>
+  </div>
+  <div class="card">
+    <h3>条件模拟器：这颗种子会不会发芽？</h3>
+    <p>原文用谷麦做实验：安置在空旷处或干燥器里（缘不具），虽不生芽非不种子；被火烧过（永害），毕竟不成种子。拨动开关看结果。</p>
+    <div id="seedSim">
+      <div class="cond-row"><div class="name">种子存在<small>生因现前（对应：阿赖耶识中摄持该法种子）</small></div><label class="switch"><input type="checkbox" id="simSeed" checked><span class="slider"></span></label></div>
+      <div class="cond-row"><div class="name">生缘现前<small>众缘和合（水、土、温——对应：生缘现前，彼彼行生）</small></div><label class="switch"><input type="checkbox" id="simCond" checked><span class="slider"></span></label></div>
+      <div class="cond-row"><div class="name">已被永害<small>如火烧谷麦（对应：永害助伴损伏——出世圣道断种）</small></div><label class="switch"><input type="checkbox" id="simBurnt"><span class="slider"></span></label></div>
+    </div>
+    <div id="condResult"></div>
+  </div>
+  <div class="card">
+    <h3>损伏 ≠ 永害：按暂停 ≠ 删除文件</h3>
+    <div class="quote">一远离损伏。二厌患损伏。三奢摩他损伏。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">损伏有三种，都是「按暂停」：种子仍在，遇缘复发；只有第四种「永害助伴损伏」（出世圣道）才是「删除文件」——染污种子永断，不再感果。外种子同理：谷麦「若火所损尔时毕竟不成种子」。</div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">暂停 · 之一</span><h4>远离损伏</h4><p><b>物理隔离。</b>弃舍受用欲具、受持禁戒，相续修习——对诸欲「心不趣入」、心不流散。像把零食全送人、家里不囤货。</p></div>
+      <div class="yuan-card"><span class="y-tag">暂停 · 之二</span><h4>厌患损伏</h4><p><b>观念反转。</b>由过患想、不净想等「修厌逆故。心不趣入」。像看清奶茶的糖分表之后，路过奶茶店不再流口水。</p></div>
+      <div class="yuan-card"><span class="y-tag">暂停 · 之三</span><h4>奢摩他损伏</h4><p><b>定力压伏。</b>由世间道离欲，心相续安住——「于欲色中心不趣入」。像戴上降噪耳机：噪音还在，只是进不来。</p></div>
+      <div class="yuan-card"><span class="y-tag">删除</span><h4>永害助伴损伏</h4><p><b>彻底断除。</b>圣弟子由出世道离三界欲，「一切三界染污诸法种子皆悉永害」——从彼定退、还生下地，统统不再可能。像文件粉碎，而非移入回收站。</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>两种退：断退与住退</h3>
+    <div class="quote">答退有二种。一者断退㊴。二者住退㊵。<span class="src">—— 卷五十一原文</span></div>
+    <div class="plain">断退＝已断的烦恼又回来了（唯是异生：凡夫才有）；住退＝烦恼不再回来，只是定中安乐住不常现前（诸圣者亦是异生都有）。结论斩钉截铁：「由出世道断烦恼者。定无有退。」</div>
+    <div class="analogy"><b>比喻：</b>断退像戒了烟又复吸（断掉的又回来）；住退像老司机偶尔不开车、手感生疏（技能还在、乐用不常现前），但他永远不会重新变成不会开车的人。</div>
+  </div>
+  <div class="card">
+    <h3>归类练习：断退、住退，还是没有退？</h3>
+    <p>给下面五个场景归类——先回忆：谁损伏？谁永害？</p>
+    <div id="sorterRetreat"></div>
+  </div>
+  <div class="case"><b>卖掉游戏主机的小陈：</b>决心戒游戏的小陈把主机卖到二手平台（远离损伏），半年没碰；某晚在朋友家玩了一局，旧瘾全面复发。他只按了「暂停键」——种子被损伏而非永害，「虽不生芽非不种子」。下一次设计戒断方案时，他就知道：隔离环境只是第一步，改变「想玩」的观念（厌患）与心的安住方式才是要害。</div>
+  <div class="case"><b>明天的会议：</b>你明早十点有个评审会——它并不存在于任何仓库里。它以今天的日程提醒、写了一半的文档、与会者的意愿为因，以明早的网络与会议室为缘；对方临时出差，条件散了，会议就「本无今有」地消失。原文「非实非有本无今有」与「必待缘方得生起」，说的就是这类事的共同结构。</div>
+  <div class="case"><b>停训一个月的高手：</b>练了十年的跑者因伤停训一个月，配速掉了一截（现法乐住不数现前——「住退」的粗略对照），但心肺底子与动作模式都在，两周即恢复到接近巅峰。对照另一人：只靠突击两周速成的「假基础」，停练即打回原形（损伏而非永害，遇缘复发）。「退」分两种，正是这个差别。</div>
+  <div class="divider"></div>
+</section>
+
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：一颂收回全卷</h2></div>
+  <p class="sec-lead">本卷讲完阿赖耶识的所缘、相应、互为缘性、俱转之后，亲口用一句嗢拖南做总结——它就是整卷的总纲。收官时刻，把它背下来。</p>
+  <div class="gatha">
+    <div class="lines">所缘若相应　　更互为缘性<br>与识等俱转　　杂染污还灭</div>
+    <div class="mean">逐句对回本卷：所缘（缘内执受与外器界，如灯焰内膏炷外光明）→ 相应（恒与五遍行俱转，一向不苦不乐、无记）→ 互为缘性（与转识互相为种子与所依，熏习由此而生）→ 与识等俱转（末那恒随，乃至七识俱转如镜中多影）——四相说「流转」；末句「杂染污还灭」一相说「还灭」：它既是病根，也是痊愈的入口。</div>
+  </div>
+  <div class="card">
+    <h3>结构回顾：你走过的九站</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">① 地图</div><div class="d">本地分画地图，摄决择分审地图——本卷审五识身地与意地。</div></div>
+      <div class="tl-item"><div class="t">② 秘密</div><div class="d">阿赖耶识甚深细，佛恐凡愚「分别执为我」故不开演。</div></div>
+      <div class="tl-item"><div class="t">③ 八证</div><div class="d">执受、初起、明了、种子、业用、身受、无心定、命终——无皆不应理。</div></div>
+      <div class="tl-item"><div class="t">④⑤ 流转四相</div><div class="d">灯焰内外、五遍行常随、熏习成习、七识俱转如镜中多影。</div></div>
+      <div class="tl-item"><div class="t">⑥⑦ 还灭</div><div class="d">杂染有根故可断：转依换地基；驯心六步从「思择」走到「自然安住」。</div></div>
+      <div class="tl-item"><div class="t">⑧⑨ 细节</div><div class="d">本无今有、四缘、损伏三种与永害一种、断退住退——由出世道断烦恼者，定无有退。</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>带走清单：三句关键结论</h3>
+    <div class="plain">一、阿赖耶识不是「我」——佛亲自警告过「恐彼分别执为我」；理解它，不是为了给「我」找一个更高级的名字。</div>
+    <div class="plain">二、习惯有物理结构——种子被熏习而增长炽盛，所以要改的是「路径」，不是「性格」；损伏是暂停，永害才是删除。</div>
+    <div class="plain">三、杂染有根，故可转依——正因为问题是系统级的，解决方案才是系统级的：缘真如修习，换掉整个依止。</div>
+    <div class="quote" style="margin-top:14px">阿赖耶识缘境微细。世聪慧者亦难了故。<span class="src">—— 卷五十一原文</span></div>
+  </div>
+  <div class="case"><b>深夜 emo 的三相自查：</b>又是一个睡不着的夜晚，你心里堵得慌。按本卷的三相走一遍：先如实承认「我的心此刻在贪恋什么」（爱乐相——也许是懊悔刷掉的几小时）；再算代价「这样下去我付出什么」（过患相）；最后问「我现在能做的一步是什么」（还灭方便——起身倒杯水、把明早的跑鞋放在门口）。理论落地的样子，就是这么朴素。</div>
+  <div class="case"><b>合上网页前的三个快问：</b>如果你能不假思索地答出——「为什么深睡的人没有死？」（执受：阿赖耶识恒执持身）、「为什么坏习惯总改不掉？」（熏习：每一次现行都在给种子增肥）、「怎样才算真的断了？」（永害而非损伏：种子毕竟不成种子）——那么恭喜，本卷你已经读通了。</div>
+  <div class="divider"></div>
+</section>
+
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第五十一（output/51.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga51-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* ===== 定制交互：本卷共 5 个初始化组件（2 流程推演 · 2 归类练习 · 1 条件模拟器） ===== */
+
+/* 1) 七识俱转 · 晨间演示（第⑤章） */
+initStepper('flowCoTurn','coTurnDetail','coPrev','coNext',[
+  {t:'深夜熟睡',d:'<b>与一识俱转（末那）：</b>无梦深睡中，前六识全部下线。但阿赖耶识并非独自运转——末那识（恒审思量、默默执持「我」的那个识）无论有心位、无心位，都恒与它俱转。原文：「或于一时唯与一种转识俱转。所谓末那。」'},
+  {t:'闹钟响，迷迷糊糊',d:'<b>与二俱转：</b>末那之外，意识开始转动——你隐约在想「该起了」。原文：「或于一时与二俱转。谓末那及意识。」'},
+  {t:'睁眼看见天光',d:'<b>与三俱转：</b>眼识生起。五识身随一转时，加上末那与意识，共三识俱转。'},
+  {t:'闻到咖啡香',d:'<b>与四俱转：</b>鼻识加入。五识身随二转时，共四识俱转。'},
+  {t:'尝到早餐的甜',d:'<b>与五俱转：</b>舌识加入，五识身随三转，共五识俱转。'},
+  {t:'窗外传来鸟叫',d:'<b>与六俱转：</b>耳识加入，五识身随四转，共六识俱转。'},
+  {t:'五感全开',d:'<b>与七俱转：</b>伸手握杯感到温热——身识加入，「五识身和合转时」，末那、意识与前五识全部在场。一身之中七个识同时运转，互不相违：如一瀑流多浪并涌，如一镜多影并现。'}
+]);
+
+/* 2) 调心六步 · 驯心实录（第⑦章） */
+initStepper('flowTame','tameDetail','tamePrev','tameNext',[
+  {t:'发现：心在偷偷爱乐',d:'<b>杂染爱乐相：</b>修心者诚实地承认——我的心「于诸杂染长夜爱乐」。他试着把心安住于离贪，却发现心「不能安住亦不爱乐」，只有速疾还来、流散驰骋于有贪性中。'},
+  {t:'如实观察这次逃跑',d:'<b>不粉饰：</b>他不责骂也不回避，只是如实遍知：心就是这样一次次自动跑回舒适区。第一步「遍知自心杂染爱乐相」就此完成——看见，本身就是力量。'},
+  {t:'算清代价',d:'<b>杂染过患相：</b>他逐一思量这颗贪心的害处：能自害、能他害、能俱害；能生现法罪、后法罪；「有疫有横有灾有恼」。'},
+  {t:'夺回方向盘',d:'<b>还灭方便善巧相：</b>他立下决断——「我今不应随顺自心而转。当令自心随我转。」必令自心随我势力自在而转。'},
+  {t:'反复练习，看见功德',d:'<b>数数思择：</b>一次次把心从有贪引到无贪，安住其中；又看见无贪的殊胜功德，多安住、多爱乐。'},
+  {t:'新的自动导航',d:'<b>不由思择，自然安住：</b>修成之后，不需要刻意抉择，心自然于常勤修习诸善法中安住爱乐；对旧杂染反而深生厌责。原来的方向盘，被彻底改写了。'}
+]);
+
+/* 3) 归类练习一 · 四句分别（第⑥章） */
+initSorter('sorterFour',[
+  {a:'你今晚睡得极沉，全程无梦',opts:['只有赖耶','只有转识','两者皆有','两者皆无'],ans:'只有赖耶',exp:'无心睡眠、无心闷绝、入无想定入灭尽定、生无想天——六转识不现起，但阿赖耶识执受仍在，故只成就阿赖耶识。'},
+  {a:'一位病人深度昏迷，生命体征靠自身维持',opts:['只有赖耶','只有转识','两者皆有','两者皆无'],ans:'只有赖耶',exp:'无心闷绝属无心位：六识不转，执受不断——与熟睡同列「成就阿赖耶识非转识」一句。'},
+  {a:'一位烦恼种子已永断的圣者，此刻在阳光下散步、见色闻声',opts:['只有赖耶','只有转识','两者皆有','两者皆无'],ans:'只有转识',exp:'阿罗汉、独觉、不退菩萨及如来住有心位：染污的阿赖耶识位已转依，而六转识现前运转。'},
+  {a:'普通的你，此刻清醒地读着这个网页',opts:['只有赖耶','只有转识','两者皆有','两者皆无'],ans:'两者皆有',exp:'「或有俱成就。谓余有情住有心位」——凡夫清醒时，执持的阿赖耶识与运转的六识同时成立。'},
+  {a:'圣者入灭尽定，或入无余依般涅槃',opts:['只有赖耶','只有转识','两者皆有','两者皆无'],ans:'两者皆无',exp:'灭尽定中转识不起，无余依涅槃中阿赖耶识亦断——「俱不成就」。'}
+]);
+
+/* 4) 归类练习二 · 断退 / 住退 / 无退（第⑧章） */
+initSorter('sorterRetreat',[
+  {a:'小李靠卸载 App 和意志力戒短视频，三个月后换了新手机，忍不住又装了回来',opts:['断退','住退','根本没有退'],ans:'断退',exp:'世间道（远离、厌患、奢摩他）只是损伏，种子未永害，遇缘复发——「言断退者唯是异生」。'},
+  {a:'一位已由出世道断尽烦恼的圣者，平日忙于事务，较少入定受用现法乐住',opts:['断退','住退','根本没有退'],ans:'住退',exp:'染污种子已永害，下地烦恼不复现前；只是乐住不常现起——「如是名为住退故退。非是断退」。'},
+  {a:'凡夫靠世间禅定伏住烦恼，出定后欲界烦恼重新现前',opts:['断退','住退','根本没有退'],ans:'断退',exp:'原文明言：「若世间道断诸烦恼复起现前。当知尔时断退故退。亦是住退。」'},
+  {a:'由出世道断烦恼的圣者，多年后遭遇重大变故',opts:['断退','住退','根本没有退'],ans:'根本没有退',exp:'种子已永害，相续中永无染法种子，「尚不应起不正思惟。况诸烦恼」——定无有退。'},
+  {a:'异生从初静虑退失，之后命终还生欲界',opts:['断退','住退','根本没有退'],ans:'断退',exp:'欲界种子「但被损伏不能永害」——从彼定退，欲界染法复现前，还会还生欲界。'}
+]);
+
+/* 5) 条件模拟器 · 种子生芽（第⑧章） */
+function updateSeedSim(){
+  const seed=document.getElementById('simSeed').checked;
+  const cond=document.getElementById('simCond').checked;
+  const burnt=document.getElementById('simBurnt').checked;
+  const box=document.getElementById('condResult');
+  if(!seed){
+    box.className='fail';
+    box.innerHTML='<b>无生因，无从谈生。</b>这相当于空华、兔角、石女儿——「由空华等无生因故」，根本没有种子，无论多少缘都不发芽。一切诸行则相反：各各差别，定有生因。';
+  }else if(burnt){
+    box.className='';
+    box.innerHTML='<b>毕竟不成种子，永不生芽。</b>谷麦被火烧过，任你浇多少水、晒多少太阳——「若火所损尔时毕竟不成种子」。这是第四种损伏（永害助伴损伏）的画面：出世圣道断染污种子，一断永断。';
+  }else if(seed&&cond){
+    box.className='';
+    box.innerHTML='<b>发芽生长。</b>因缘和合，芽破土而出——「诸行虽有各别生因。然必待缘方得生起」。种子与生缘，缺一不可。';
+  }else{
+    box.className='fail';
+    box.innerHTML='<b>不生芽，但仍是种子。</b>谷麦被安置在空旷处或干燥器中——「虽不生芽非不种子」。这对应三种损伏（远离、厌患、奢摩他）：只是暂时压住，遇缘仍会复发。想「真断」，需要的是火（永害），不是仓库（损伏）。';
+  }
+}
+document.querySelectorAll('#seedSim input').forEach(function(el){el.addEventListener('change',updateSeedSim);});
+updateSeedSim();
+
+
+renderPath();
+</script>
+</body>
+</html>

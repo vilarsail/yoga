@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷66 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 摄决择分中思所成慧地之二</div>
+  <h1>卷第66 · 交互式学习模块</h1>
+  <p class="sub">这一卷是「思所成慧地」决择的下半场：从三苦与热痈之喻出发，把苦、集、灭、道四圣谛落到日常感受里，再一口气清算一整套法相——四食、异熟、因果五果、名色执受四大、三性三世，最后归于一句：一切法甚深难见。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 36 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 三苦与热痈</a>
+<a href="#s3">③ 四圣谛极简版</a>
+<a href="#s4">④ 四食与命根</a>
+<a href="#s5">⑤ 异熟法</a>
+<a href="#s6">⑥ 有因有果</a>
+<a href="#s7">⑦ 名色·执受·四大</a>
+<a href="#s8">⑧ 三性·四修·三世</a>
+<a href="#s9">⑨ 收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>先看懂全卷地图</b><span>搞清这一卷在整个决择分里的位置、分几大块——对应第 01 章。</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>三苦与热痈：受的真相</b><span>弄懂行苦为何遍一切受、三受各随增哪种烦恼——对应第 02 章，顺手读第 03 章四圣谛。</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>四食与命根：活着靠什么</b><span>用「吃」把生命维持的五个条件过一遍，再玩一次「算不算食」模拟器——对应第 04 章。</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>异熟法：业的账本</b><span>业感果的三个资格、临终到结生的流程、黑白业——对应第 05 章，第 06 章因果五果连着读。</span></span></label></div>
+<div class="step-item" data-target="#s8"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>三性、四修与三世</b><span>善·不善·无记怎么判、修行怎么排班、过现未怎么分——对应第 08 章（第 07 章名色执受可顺路一看）。</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官：甚深难见</b><span>回到「绝诸戏论过语言道」那句，带走全卷总纲——对应第 09 章。</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ 01 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：这一卷在干什么</h2></div>
+  <p class="sec-lead">本卷属《瑜伽师地论》〈摄决择分〉中「思所成慧地」的下半部分（之二）。「决择」就是把前面讲思所成慧（由思维正法而得的智慧）时留下的疑难逐条裁定。全卷像一场法相大清算：从苦的真相出发，一路检查活着靠什么、业怎么结果、身体怎么安立，最后收在一句——一切法甚深难见。</p>
+
+  <div class="card">
+    <h3>开卷第一问：苦到底藏在哪</h3>
+    <div class="quote">复次如佛世尊说三苦性。此中云何为行苦性①。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">全卷以「三苦」开题，第一个要查清的是最深、最隐蔽的「行苦」——它藏在你舒服、难受、发呆的所有时刻里。</div>
+    <div class="analogy"><b>比喻：</b>整卷像一份全身体检报告：先说病灶在哪（苦），再说病根（爱），再立治愈标准（涅槃），最后开疗程（道）；后半册则是身体成分明细表——四食、异熟、名色、四大、三性、三世。</div>
+  </div>
+
+  <div class="yuan-grid">
+    <div class="yuan-card"><span class="y-tag">板块一 · 第02–03章</span><h4>苦的深度检查</h4><p>行苦遍一切受→三受各随增一种烦恼→四颠倒→三种根本烦恼，收束为<b>四圣谛极简版</b>。全卷从「你舒服的时候苦在哪」问起。</p></div>
+    <div class="yuan-card"><span class="y-tag">板块二 · 第04章</span><h4>任持与滋养</h4><p>四食与命根——什么在让生命这台机器不散架。佛说「有情由食而住」，但维持存在的条件其实有七个，卷中会解释为什么单挑「食」来讲。</p></div>
+    <div class="yuan-card"><span class="y-tag">板块三 · 第05–08章</span><h4>法相大清算</h4><p>异熟法的资格审核、五类果报各归各位、内法五相、名色执受、四大造色，再到善·不善·无记、四种修、过去现在未来的五相分类——一整套分类学字典。</p></div>
+  </div>
+
+  <div class="card">
+    <h3>阅读路线（由易到难）</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">第01–03章 · 苦与受</div><div class="d">行苦、热痈喻、三受三随增、四颠倒，收进四圣谛。</div></div>
+      <div class="tl-item"><div class="t">第04章 · 任持与食</div><div class="d">四食与命根的分工；一块食物何时才「算食」。</div></div>
+      <div class="tl-item"><div class="t">第05–06章 · 业果账本</div><div class="d">异熟法三条件、临终到结生、黑白业，以及五果归位。</div></div>
+      <div class="tl-item"><div class="t">第07章 · 身心安立</div><div class="d">内法五相、名与色、执受、四大种与所造色。</div></div>
+      <div class="tl-item"><div class="t">第08–09章 · 分类收官</div><div class="d">三性、四修、三世五相，最后归于「甚深难见」。</div></div>
+    </div>
+  </div>
+
+  <div class="case"><b>开学第一课：</b>发新书那天，老师不急着讲第一章，而是带全班把目录翻一遍，标出这学期要解决的大问题。本卷的开头就是这堂目录课：先用「三苦」给全卷定基调，让你知道接下来每一章都在回答「苦藏在哪、怎么除」这一件事。</div>
+  <div class="case"><b>体检报告：</b>拿到体检报告，先看结论页（哪些指标异常=苦谛），再看病因分析（问题从哪来=集谛），再看目标值（治到什么样=灭谛），最后看处方（怎么调整=道谛）。本卷01–03章的展开顺序与这份报告完全同构。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 02 三苦与热痈 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>三苦与热痈：受的真相</h2></div>
+  <p class="sec-lead">这一章回答两个问题：行苦藏在哪里？（答：一切受里）为什么平时察觉不到？（答：被乐受、苦受的冷暖触感盖住了；而且三种受各自会勾出一种烦恼。）</p>
+
+  <div class="card">
+    <h3>行苦：遍行一切受的底噪</h3>
+    <div class="quote">谓后有业烦恼所生诸行于彼彼自体中。能随顺生一切烦恼及与众苦所有安立。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">行苦=业与烦恼所生起的身心诸行，本身自带「随时能生起一切烦恼与苦」的配置；依此，佛简略地说五取蕴皆名为苦。</div>
+    <div class="analogy"><b>比喻：</b>手机的后台耗电。不管你前台开着游戏（乐受）、摔了手机（苦受），还是干脆锁屏发呆（不苦不乐受），后台都在耗电——行苦就是这样遍行于三受，只是平时看不见。</div>
+    <div class="quote">然于不苦不乐受中。此粗重性分明显现。<span class="src">—— 卷66原文</span></div>
+    <div class="case"><b>周五夜的短视频：</b>晚上十一点，小周瘫在沙发上刷短视频，笑个不停——这是「冷触封在痈上」，乐想正现前；十二点放下手机，房间忽然安静，一种说不清的空与累浮上来——这是「离二触」，痈的自性苦分明显现。刷与不刷，痈都在；只是刷的时候被爽感盖住了。</div>
+  </div>
+
+  <div class="card">
+    <h3>热痈之喻：乐受苦受只是「触感」，痈才是本体</h3>
+    <div class="quote">譬如热痈④。若以冷触封之即生乐想。热灰堕上便生苦想。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">行苦性中所有乐受如冷触封。所有苦受如热灰堕。所有不苦不乐受如离二触痈自性苦。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">乐受、苦受只是外来的一凉一热，被触的「热痈」（粗重所摄的诸行）才是苦的本体——所以止痛不等于治病。</div>
+    <div class="analogy"><b>比喻：</b>发炎的牙龈：含一口凉水，舒服得想哭；碰到热汤，疼得跳脚；什么都不碰时，胀痛才显出原形。凉与热都是客，牙龈的炎症才是主。</div>
+  </div>
+
+  <div class="card">
+    <h3>三种受，三种「随增」：点击翻转看每个受勾来什么</h3>
+    <div class="quote">是故说彼贪所随增。于苦受中多生憎恚。是故说彼嗔所随增。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">是故说彼不苦不乐受无明所随增。<span class="src">—— 卷66原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">乐受 · 贪所随增</div><div class="sub">舒服的时候，黏上不放</div><div class="tap">点击翻转 ▸</div></div><div class="back">又乐受中多生染著，乐受是贪的所依——舒服的东西想再来一次，一追就有后续。<em>冷敷止痛片压住的是感觉，不是病灶。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">苦受 · 嗔所随增</div><div class="sub">难受的时候，推开烧心</div><div class="tap">点击翻转 ▸</div></div><div class="back">不随所欲、触众苦事，便生愁恼、怨叹乃至迷乱，由此造三种恶行堕诸恶趣。<em>热灰虽小，落点是同一颗痈。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">不苦不乐受 · 无明所随增</div><div class="sub">发呆的时候，颠倒最活跃</div><div class="tap">点击翻转 ▸</div></div><div class="back">此时粗重性分明显现，四种颠倒在此运转：于无常计常、于众苦计乐、于不净计净、于无我计我。<em>手机静音模式，不代表没有未接来电。</em></div></div>
+    </div>
+    <div class="quote">于无常性计常颠倒。于众苦性计乐颠倒。于不净性计净颠倒。于无我性计我颠倒。<span class="src">—— 卷66原文</span></div>
+    <div class="case"><b>早高峰的一脚：</b>地铁里被人踩了新买的白鞋，火气从站台一路烧到工位，看谁都不顺眼、回消息都带刺——「热灰堕上便生苦想」，苦受中多生憎恚、嗔所随增，正是这一脚的完整后果链。</div>
+    <div class="case"><b>美颜镜头：</b>拍照开了十级美颜，把熬夜的脸修成红润——于不净性计净、于众苦性计乐。不苦不乐的日常里，无明就是这样一层滤镜，悄悄把无常苦不净无我的底片改成常乐我净。</div>
+  </div>
+
+  <div class="card">
+    <h3>流程推演：一次快乐如何滚成来世的苦</h3>
+    <p style="font-size:.93rem;color:var(--ink-soft)">原文给愚夫画了一条完整因果链，点击节点逐步走一遍。</p>
+    <div class="flow-track" id="flowTrack1"></div>
+    <div class="flow-detail" id="flowDetail1"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="flowPrev1">← 上一步</button> <button class="tri-btn" id="flowNext1">下一步 →</button></div>
+    <div class="plain">烦恼虽多，佛只立贪、嗔、痴三个根本——因为所有后续麻烦都从这三条受触发的总闸流出。</div>
+    <div class="quote">应观乐受是众苦法。应观苦受犹如毒箭。应观不苦不乐受性是无常有坏灭法。<span class="src">—— 卷66原文</span></div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 03 四圣谛极简版 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>四圣谛极简版：一张处方四味药</h2></div>
+  <p class="sec-lead">苦看清楚了，四圣谛就水到渠成。本卷用极短的篇幅给四谛做了「极简安装包」：一条苦谛、一条集谛、两种灭谛、一条道谛。</p>
+
+  <div class="card">
+    <h3>四张翻转卡</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">苦 · 应遍知</div><div class="sub">诸行是第一义苦圣谛事</div><div class="tap">点击翻转 ▸</div></div><div class="back">行苦遍一切受，五取蕴皆名为苦——这是「第一义苦圣谛」的实体。<em>体检单第一页：先承认有病灶，才谈治疗。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">集 · 应永断</div><div class="sub">业与烦恼；经中唯显示爱</div><div class="tap">点击翻转 ▸</div></div><div class="back">能生后有的诸行业及烦恼，由相道理是集圣谛；但世尊在经中据胜道理唯显示爱——爱是总开关。<em>所有债主里，爱是法人代表。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">灭 · 应作证</div><div class="sub">有余依 / 无余依两种涅槃</div><div class="tap">点击翻转 ▸</div></div><div class="back">烦恼品粗重永灭=有余依涅槃；因永断未来不生、现在诸行任运谢灭=无余依涅槃。<em>病根已除但还住在疗养院 vs 连疗养院也退掉。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">道 · 应修习</div><div class="sub">正见为先的一切圣道</div><div class="tap">点击翻转 ▸</div></div><div class="back">能证解第一义谛的正见，及以正见为先导的一切圣道，名为道谛。<em>处方上第一味药是正见，后面整副药都由它领路。</em></div></div>
+    </div>
+    <div class="quote">复次即此能生后有诸行业及烦恼。由相道理是集圣谛⑦。世尊经中据胜道理唯显示爱。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">复次此烦恼品粗重永灭。是有余依涅槃⑧增上所立灭谛。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">又因永断未来不生。及先世因受用尽已。现在诸行任运谢灭。是无余依涅槃⑨增上所立灭谛。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">复次若能证解第一义谛所有正见。及正见为先一切圣道。是名道谛。<span class="src">—— 卷66原文</span></div>
+  </div>
+
+  <div class="card">
+    <h3>修习四事的时间轴</h3>
+    <div class="quote">欲令于苦遍知于集永断。于灭作证于道修习。故略建立诸圣谛相。<span class="src">—— 卷66原文</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">于苦遍知</div><div class="d">把三受里的行苦看全：乐受是众苦法，苦受如毒箭，不苦不乐受是无常有坏灭法。</div></div>
+      <div class="tl-item"><div class="t">于集永断</div><div class="d">抓住「爱」这个最胜的集，不再给它续期。</div></div>
+      <div class="tl-item"><div class="t">于灭作证</div><div class="d">亲证两种涅槃：先灭烦恼（有余依），后尽诸行（无余依）。</div></div>
+      <div class="tl-item"><div class="t">于道修习</div><div class="d">以正见为先导的圣道持续修下去——四谛不是知识清单，是四步疗程。</div></div>
+    </div>
+    <div class="plain">四谛立得简略，是教学策略：若广建立，其相无量无边；先给骨架，细节自己长。</div>
+  </div>
+
+  <div class="card">
+    <h3>为什么先讲生老死，再讲五取蕴</h3>
+    <div class="quote">故先施设生等众苦。后方显示五取蕴苦。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">先教粗相（生老病死谁都看得见），以它为跳板，再引向五取蕴行苦这个微细相——从肉眼可见到内观可见。</div>
+    <div class="quote">一切圣贤圣智观已。于第一有⑥最极寂静诸取蕴中。尚不愿乐。何况弊下那落迦中。<span class="src">—— 卷66原文</span></div>
+    <div class="case"><b>看病的四步：</b>医生先确认病灶在哪（苦当遍知），再查感染源（集当永断），再定治愈标准（灭当作证），再开疗程方案（道当修习）——与原文四句一一对应，顺序也不能乱。</div>
+    <div class="case"><b>疗养院的两种出院：</b>有余依涅槃像病根已除、人还暂住疗养院（旧身体犹在，苦的余波未散）；无余依涅槃像连疗养院的房间也退掉——先世因受用尽已，现在诸行任运谢灭。</div>
+    <div class="case"><b>游泳课：</b>教练第一课只教不怕水、能浮起来（生老死等粗相），等学员站稳了，才抠换气的手指角度（五取蕴行苦的细相）——对应「先施设生等众苦。后方显示五取蕴苦」的教学次第。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 04 四食与命根 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>四食与命根：活着靠什么</h2></div>
+  <p class="sec-lead">苦回答「哪里不舒服」，四食回答「靠什么活着」。佛说有情由食而住，但维持存在的条件其实有七个——为什么偏偏挑「食」来讲？这一章拆开给你看。</p>
+
+  <div class="card">
+    <h3>任持诸法的五个条件</h3>
+    <div class="quote">何等为五。一段食⑩。二触食⑪。三意思食⑫。四识食⑬。五命根⑭<span class="src">—— 卷66原文</span></div>
+    <div class="plain">段食、触食、意思食、识食四种「食」，加上命根——这五样在「任持有情令住不坏」。所谓「有情」，只是在这套维持系统上假立的名称。</div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">段食</div><div class="sub">分段受用的餐饮</div><div class="tap">点击翻转 ▸</div></div><div class="back">香味触所摄：正消变则长养，不正消变则损减；吞咽时的欢喜算触食，消变长养诸根时才名段食。<em>吃进肚子不算完，消化吸收才算。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">触食</div><div class="sub">感官接触的滋养</div><div class="tap">点击翻转 ▸</div></div><div class="back">段物吞咽时令心欢喜、诸根悦豫，彼时不名段食，但名触食——愉悦的接触本身就在喂养。<em>和喜欢的人一起吃饭特别香。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">意思食</div><div class="sub">意念思愿的滋养</div><div class="tap">点击翻转 ▸</div></div><div class="back">心里的盼头、意愿也是食：有念想、有目标的人吃得下睡得着；意欲枯竭时，山珍也无味。<em>明天要见想见的人，今天再累也有劲。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">识食</div><div class="sub">识的执持</div><div class="tap">点击翻转 ▸</div></div><div class="back">识执持有情诸根大种：营养液能打进胃里，仍须识在执持，这个人才算活着。<em>灯亮着，不只要油，还要电流。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">命根</div><div class="sub">寿量的所依</div><div class="tap">点击翻转 ▸</div></div><div class="back">有些处所从不缺饮食，有情唯由命根势力而住，如所感寿量而住——命根管「还能活多久」。<em>电量满格信号满格，能用多久仍看电池总寿命。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>七种因缘里，为何单说「食」</h3>
+    <div class="quote">问有七因缘任持诸行令住不坏。何故世尊但说有情由食而住。<span class="src">—— 卷66原文</span></div>
+    <p style="font-size:.93rem">原文先摆出七个因缘：生、命根、食、心自在通、因缘和合、先业牵引、无诸障碍——然后给了一条精选理由：</p>
+    <div class="quote">然此四食是诸行住多分因缘。由种种门能令诸行相续而住。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">易取易入。乃至愚夫婴儿等类亦能随觉。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">四食是「多分因缘」（贡献最大），而且人人可操作——婴儿饿了都会哭，不需要懂营养学；所以佛陀挑它做日常下手处。</div>
+    <details class="dict"><summary>食的五重功德与分布<span class="hint">可跳过 · 原文清单</span></summary><div class="body">
+      <p><b>① 令有情相续而住：</b>易取易入，愚夫婴儿亦能随觉，非所余法。</p>
+      <p><b>② 令羸损诸根大种增益：</b>虚弱的身体能靠食补起来，非所余法。</p>
+      <p><b>③ 令疾病除愈：</b>又令疾病亦得除愈，非所余法。</p>
+      <p><b>④ 断食则命危：</b>长寿有情若不得食，非时中夭——提前死亡。</p>
+      <p><b>⑤ 令易入道：</b>「又此诸食令易入道。能修身等四种念住」——吃饭这件事本身就是修身的入口。</p>
+      <p><b>分布：</b>粗段食在欲界五趣现前可得（一分各别那落迦可得，大那落迦不可得）；其余诸食及命根，遍三界皆可得。</p>
+    </div></details>
+    <div class="case"><b>养老院的饭桌：</b>王奶奶一个人吃饭总说没胃口，和老伙伴们围一桌却吃得香——愉悦的接触与陪伴本身就是食，正对应「令心欢喜诸根悦豫。当于尔时不名段食。但名触食」。</div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：这一块食物，到底算不算「食」？</h3>
+    <p style="font-size:.93rem;color:var(--ink-soft)">原文对「段物」做了严格的时段判定。拨动三个开关，看它在哪个时段取得哪个名字。</p>
+    <div class="cond-row"><div class="name">吞咽时令心欢喜、诸根悦豫<small>咽下去那一刻很满足</small></div><label class="switch"><input type="checkbox" id="foodA"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">受用已能安隐消变<small>进了肚子安稳消化，没有胀满不适</small></div><label class="switch"><input type="checkbox" id="foodB"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">消变能长养诸根、增长安乐<small>消化吸收真的变成营养</small></div><label class="switch"><input type="checkbox" id="foodC"><span class="slider"></span></label></div>
+    <div id="foodResult" style="margin-top:16px;padding:16px 20px;border-radius:14px;background:#e2eaf1;color:#2e4a62;font-size:.98rem"></div>
+    <div class="quote">若诸段物于吞咽时。令心欢喜诸根悦豫。当于尔时不名段食。但名触食。<span class="src">—— 卷66原文</span></div>
+    <div class="case"><b>外卖吃撑：</b>加班夜连点三份炸鸡，吃到胃胀反酸——「不正消变乃为损减」。段食及格线不在嘴上的爽，而在肚里的消化；吃下肚不等于被滋养。</div>
+    <div class="case"><b>画饼充饥：</b>节食的人反复刷美食图片，看再久也不顶饿——色（影像）「无有长养损减消变。是故说彼非段食性」；段食唯香味触所摄，不归眼睛管。</div>
+  </div>
+
+  <div class="card">
+    <h3>命根的独立班次</h3>
+    <div class="quote">于彼处所唯由命根势力而住。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">在从不缺饮食的处所，有情纯靠命根按寿量而住——食管「日常补给」，命根管「出厂寿命」，分工不同。</div>
+    <div class="case"><b>全包式度假村：</b>吃住全包、不必奔忙的日子，生活好像只剩下「待着」——原文说有些处所「曾无饮食有所阙乏。非求饮食有所艰难」，有情就在那样的地方唯由命根势力、如所感寿量而住。</div>
+    <div class="case"><b>ICU 的鼻饲管：</b>营养液能维持段食那一环，医生查房仍要看「识」还在不在执持、命根还续不续——对应「由于诸行假立有情。是故世尊说此诸法任持有情令住不坏」：所谓「这个人还在」，就安立在这套任持系统上。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 05 异熟法 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>异熟法：业的账本</h2></div>
+  <p class="sec-lead">「异熟法」= 有能力感生果报的业与有漏法；由它所生的一切善、不善、无记法叫「异熟生法」；异熟本身的体性唯是无覆无记——非善非恶的「底色」。这一章查：一笔业要「能结果」，得通过哪几道审核。</p>
+
+  <div class="card">
+    <h3>资格审核：三个条件缺一不可</h3>
+    <div class="quote">略说有异熟法。谓漏及有漏。彼要有力不被损害受用未尽。当知是名有异熟法。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">一股业要能兑现为果，需要三个资格：种子有力量、没被离欲道对治掉、果还没熟完。</div>
+    <div style="border:1px solid var(--line);border-radius:var(--radius);padding:6px 16px 16px;margin:10px 0;background:var(--card)">
+      <div class="cond-row"><div class="name">种子有力<small>漏中「不善」有力；有漏中「善不善」有力（其余无力）</small></div><label class="switch"><input type="checkbox" id="ripPower" checked><span class="slider"></span></label></div>
+      <div class="cond-row"><div class="name">未被损害<small>没被世间或出世间的离欲道断除</small></div><label class="switch"><input type="checkbox" id="ripHarm" checked><span class="slider"></span></label></div>
+      <div class="cond-row"><div class="name">受用未尽<small>果还没熟完：或未来当感果，或果正现前</small></div><label class="switch"><input type="checkbox" id="ripUnused" checked><span class="slider"></span></label></div>
+      <div id="condResult"></div>
+    </div>
+    <div class="quote">若诸无漏无记有漏。若善不善有漏已断。若异熟果先已成熟。如是皆名无异熟法。<span class="src">—— 卷66原文</span></div>
+    <div class="case"><b>未拆的快递：</b>下单未收货=受用未尽（未来当与果）；签收后天天在用=果正现前；用旧扔掉=「名受用已尽。彼异熟果已过去故更无所有」——原文用这三个状态判定账有没有结清。</div>
+    <div class="case"><b>注销的账号：</b>戒酒有成的人路过酒吧，心不再动——离欲道已把种子对治断除，「名被损害」：账面记录还在，但支付通道被冻结，果报再也无法提现。</div>
+  </div>
+
+  <div class="card">
+    <h3>流程推演：一桩业如何走到果报</h3>
+    <div class="flow-track" id="flowTrack2"></div>
+    <div class="flow-detail" id="flowDetail2"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="flowPrev2">← 上一步</button> <button class="tri-btn" id="flowNext2">下一步 →</button></div>
+    <div class="quote">又临终时最后念心是异熟法。若结生相续无间之心亦是异熟。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">当言唯是无覆无记⑱<span class="src">—— 卷66原文</span></div>
+    <div class="plain">从临终最后一念到投生第一念都属异熟——非善非恶的底色，像刚刷好的白墙：善恶是此后自己刷上去的漆。</div>
+  </div>
+
+  <div class="card">
+    <h3>三界的「口味」：一落地，受就定型</h3>
+    <div class="quote">从异熟生生那落迦诸有情类。异熟无间有异熟生。苦忧相续<span class="src">—— 卷66原文</span></div>
+    <div class="quote">若生初二静虑异熟。无间唯异熟生喜受相续。若生第三静虑。唯异熟生乐受相续。若生第四静虑已上。唯有异熟不苦不乐受。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">生在哪一界，就按哪一界的配方受用：地狱苦忧相续、人间天上不定、初二禅喜、三禅乐、四禅以上唯不苦不乐——受是异熟的「发货单」。</div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">白白异熟业</div><div class="sub">一向可爱可意</div><div class="tap">点击翻转 ▸</div></div><div class="back">白白业所得无覆无记异熟果「一向可爱受」，种子所摄受故，一向可爱、一向可意。<em>全程绿灯的一条信用记录。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">黑黑异熟业</div><div class="sub">与白相违</div><div class="tap">点击翻转 ▸</div></div><div class="back">黑黑异熟业当知与此相违——纯黑种子，果报一向不可爱。<em>全程红灯的驾驶记录。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">黑白俱异熟业</div><div class="sub">二种种子相随逐</div><div class="tap">点击翻转 ▸</div></div><div class="back">二种种子所随逐，所得异熟果亦有二种异熟生受；或由事差别（一时利益心、一时不利益心），或如对暴虐者起嗔而不喜其恶。<em>一件事，两笔账。</em></div></div>
+    </div>
+    <div class="quote">当知此思嗔俱行故。堕黑分中。不喜乐彼恶俱行故。堕白分中。是故此业说名黑白。<span class="src">—— 卷66原文</span></div>
+    <div class="case"><b>业主群骂战：</b>邻居遛狗不牵绳吓哭小孩，老李在群里破口痛骂——骂的嗔心堕黑分，护小孩的心堕白分；同一件事同时记两笔，正对应原文「是故此业说名黑白」。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 06 有因有果 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>有因有果：因果的记账规则</h2></div>
+  <p class="sec-lead">上一章算业的账，这一章建立通用记账规则：什么算「有因法」、什么算「有果法」，以及五类果报各自怎么归位。因分两类，果分五种，一一对应。</p>
+
+  <div class="card">
+    <h3>两类因：生起因与引发因</h3>
+    <div class="plain">生起因=种子未被损害，直接生出同类之法；引发因=业烦恼、近善友恶友、正邪精进、世间出世间道等，把相应的果「引发」出来。</div>
+    <div class="quote">又不善法由近恶友闻非正法不正思惟。引发因故。名有因法。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">又不染污住生正精进。有果劬劳生喜乐住。<span class="src">—— 卷66原文</span></div>
+    <div class="analogy"><b>比喻：</b>生起因像「复印」——原件什么样，复印件就什么样；引发因像「多米诺」——第一块牌不直接变成最后一块，但一推就整排倒。</div>
+    <div class="case"><b>跟错师父：</b>小赵调到爱抱怨的小组，午餐听大家吐槽，三个月后自己开会也出口成「刺」——近恶友、闻非正法、不正思惟，三步引发不善法，正是原文那条引发因的日常版。</div>
+    <div class="case"><b>无果的加班：</b>方向错了还咬牙硬干，白忙一场只剩焦虑失眠——「染污住生邪精进。无果劬劳生忧苦住」；反过来，方法对了的勤快，「有果劬劳生喜乐住」，累也累得欢喜。</div>
+  </div>
+
+  <div class="card">
+    <h3>五果对照表</h3>
+    <div class="table-wrap">
+      <table class="nine">
+        <tr><th>果</th><th>对应之因（原文成员）</th><th>通俗理解</th></tr>
+        <tr><td>等流果</td><td>能生生起因</td><td>同类相续：果与因同一流向，后后似前前</td></tr>
+        <tr><td>异熟果</td><td>后有业及烦恼（引发因）</td><td>隔时兑现的果报：业有善恶，果体无覆无记</td></tr>
+        <tr><td>增上果</td><td>三处现前、眼色等缘、俱生心心所、近恶友善友</td><td>助缘之力：条件不直接「生出」结果，但撑起舞台</td></tr>
+        <tr><td>士用果</td><td>邪精进→忧苦住；正精进→喜乐住</td><td>人工之果：当下的努力直接换来的眼前结果</td></tr>
+        <tr><td>离系果</td><td>出世圣道（究竟离系）；世间离欲道（非究竟）</td><td>解脱之果：断惑之后，不再被系缚</td></tr>
+      </table>
+    </div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">等流果</div><div class="sub">生起因所感</div><div class="tap">点击翻转 ▸</div></div><div class="back">善、不善、无记诸法种子未被损害，一切法由能生生起因而生——果与因同类相续。<em>像笔迹：越写越定型，后一笔总像前一笔。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">异熟果</div><div class="sub">后有业烦恼所感</div><div class="tap">点击翻转 ▸</div></div><div class="back">先所作业烦恼，异熟果熟；「彼由各别异熟果故。名有果法」。因是黑是白，果到时只是无覆无记的现前。<em>像寄出的包裹：隔几日才签收。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">增上果</div><div class="sub">条件助力所成</div><div class="tap">点击翻转 ▸</div></div><div class="back">三处现前生胎生、眼色为缘生识、近善友恶友为缘——增上缘撑起舞台，让该发生的得以发生。<em>土壤阳光不「制造」苹果，但没有它们树结不了果。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">士用果</div><div class="sub">加行努力所感</div><div class="tap">点击翻转 ▸</div></div><div class="back">邪精进得忧苦、正精进得喜乐——努力当下就结算。<em>像健身：练对了一身轻快，练伤了酸痛缠身。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">离系果</div><div class="sub">智慧断惑所证</div><div class="tap">点击翻转 ▸</div></div><div class="back">出世圣道证涅槃，「谓由究竟离系果㉗故。名有果法」；世间离欲道只是暂时伏惑，非究竟离系。<em>把火苗暂时扑灭 vs 把煤气阀关掉。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>两条道的分界线</h3>
+    <div class="quote">若世间道非由究竟离系果故。名有果法。当知是名二道差别。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">世间道也能离欲、也算有果，但不是究竟离系——「暂时压住」与「连根拔除」，就是两条道的分界。</div>
+    <div class="case"><b>忍住，还是化掉：</b>被同事抢了功劳，深呼吸把火压下去没发作（世间道：烦恼暂伏不起）；半年后通过如实观察因缘，发现自己根本起不了那个念头了（出世间道：种子已断）——原文的二道差别，就差在「究竟」二字。</div>
+    <div class="case"><b>练字的手：</b>练字两年，今天落笔自然像昨天——前前为因、后后同类相续，这是等流果最朴素的样貌；没有哪一笔是凭空出现的。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 07 名色·执受·四大 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>名色·执受·四大：身心这件东西</h2></div>
+  <p class="sec-lead">镜头转向「身心」本身：什么算内法？名与色怎么分工？哪些东西被心识「执住」？物质又是怎么被造出来的？四问四答。</p>
+
+  <div class="card">
+    <h3>内法五相：「内」的五重资格</h3>
+    <div class="quote">谓假名故。妄执故。增上故。摄受种子故。事故。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">一个东西要被算作「内法」，从五个角度任取其一即可成立——五张门票，进任何一张都算入场。</div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">相一 · 假名</span><h4>名字先安上</h4><p>假想建立「我」「有情」：如是名、如是生类、如是寿量——名字先安，身份后立。</p></div>
+      <div class="yuan-card"><span class="y-tag">相二 · 妄执</span><h4>把假名当真货</h4><p>计著为我、生起我慢——不止有名字，还真心认账，这就是「内」的妄执面。</p></div>
+      <div class="yuan-card"><span class="y-tag">相三 · 增上</span><h4>五根是接收器</h4><p>由此内法增上力，外色声等处差别生为所受用——世界因五根才成为「可受用的境」。</p></div>
+      <div class="yuan-card"><span class="y-tag">相四 · 摄受种子</span><h4>种子的仓库</h4><p>能摄受善、不善、无记诸法种子——身心是业种子的存储器。</p></div>
+      <div class="yuan-card"><span class="y-tag">相五 · 事</span><h4>实体成员</h4><p>五种清净色与心意识——内法的「成员清单」。</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>名与色：五蕴的两分法</h3>
+    <div class="ety-grid">
+      <div class="ety"><div class="zi">色</div><div class="gc">手块等触即便变坏。是故色蕴说名为色。</div><div class="bhu">可被手、石块触碰破坏的，才叫「色」——色蕴的「色」不是颜色，是一切有质碍的物质。</div></div>
+      <div class="ety"><div class="zi">名</div><div class="gc">由种种名施设为依。多分于其彼彼所缘流转趣向。是故如是四无色蕴说之为名。</div><div class="bhu">受想行识四蕴靠「名字」而被安立、被把握，心念随名相流转趣向，故称「名」。</div></div>
+    </div>
+    <div class="plain">五蕴被「名色」一分为二：能被碰坏的归「色」，靠名相安立流转的归「名」——一硬一软，正好分完。</div>
+    <div class="case"><b>你叫它「痛」的那一刻：</b>手指被门夹到，物理挤压是「色」；「好痛！怎么这么倒霉」的念头被名字一个个点亮、越转越远，是「名」在随名施设流转趣向——一秒钟里，两套系统都在场。</div>
+  </div>
+
+  <div class="card">
+    <h3>执受：被心识「执住」的东西</h3>
+    <div class="quote">又心心所任持不舍说名执受。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">当知此言遮依属根发毛爪等。及遮死后所有内身。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">执受=被心心所执住、摄为自体、会随身心状态而变异的东西；范围层层收紧：是色（非心心所）→是内根及依属（非外色）→心心所任持不舍（排除发毛爪与死后之身）。</div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">变异之一 · 外色逼触</div><div class="sub">外物作用于身</div><div class="tap">点击翻转 ▸</div></div><div class="back">能损恼的外色现前逼恼，便生苦生悲生恼；能饶益的外色触对，便生乐安隐饶益。<em>同一双手，打你是损恼，按摩是饶益。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">变异之二 · 内界相违</div><div class="sub">体内四大失衡</div><div class="tap">点击翻转 ▸</div></div><div class="back">内界更互相违便生苦恼；平等则安乐摄受。<em>水土不服、肠胃不和——体内的「气候」在打架。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">变异之三 · 烦恼多现行</div><div class="sub">心病烧身</div><div class="tap">点击翻转 ▸</div></div><div class="back">贪嗔等烦恼缠多现行，即便生苦、愤发、炽然。<em>一晚上的愤怒，第二天嘴角起泡。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">变异之四 · 审虑所缘</div><div class="sub">想法的方向</div><div class="tap">点击翻转 ▸</div></div><div class="back">邪审虑所缘境则苦愤发；正审虑所缘境便起轻安、喜乐、摄受。<em>同一个堵车，越想越气，或正好听完一期节目。</em></div></div>
+    </div>
+    <div class="quote">一由外色所逼触故。二由内界相违平等所引发故。三由贪嗔等诸烦恼缠多现行故。四由审虑所缘境故。<span class="src">—— 卷66原文</span></div>
+    <div class="case"><b>剪指甲不疼：</b>剪头发指甲毫无感觉，捏一把手臂就疼——发毛爪虽依属于根，但非心心所任持不舍，故非执受；原文特意「遮依属根发毛爪等」，就是解释这个日常差异。</div>
+    <div class="case"><b>面试前的胃：</b>上楼前手心出汗、胃里打结——没有外伤，没有吃坏东西，只是贪求与担忧在身体里现行，「即便生苦愤发炽然」。心的状态，身体会签收。</div>
+  </div>
+
+  <div class="card">
+    <h3>四大种与所造色：一味团，不是杂粮袋</h3>
+    <div class="quote">又诸大种与所造色。俱时而有互不相离。由彼种类因所成故。如一味团更相涉入遍一切处。非如麨稻末尼等聚。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">四大种（地水火风）与所造色同时俱在、互相渗透不可拆——不是豆子混米的「聚集」，而是盐溶进汤的「一味」。</div>
+    <div class="quote">彼若值遇如是如是众缘差别。即便能作如是如是果法生因。譬如善巧钻彼干木即便生火。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">假名施设涩滑等性。是故当知皆是假有。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">平时诸界只是「待命」，值遇众缘才现起作业；涩滑粗细不过是给大种差别贴的标签——假名安立，当体假有。</div>
+    <div class="case"><b>一锅咸汤：</b>盐化在汤里，每一勺都咸，舀不出「纯咸」的一勺；一锅混着绿豆的米却粒粒可分——大种与所造色如一味团更相涉入遍一切处，非如麨稻末尼等聚。</div>
+    <div class="case"><b>燃气灶：</b>燃气安静待在管道里（种子随逐），拧开、点火（值遇众缘）才燃烧做饭——对应「值遇如是如是众缘差别。即便能作如是如是果法生因」，也如原文自带的两例：钻木取火、金银遇热而流。</div>
+    <div class="case"><b>摸砂纸：</b>指尖的「糙」感，找不到一个叫「糙」的独立实物——它只是地大等大种差别的假名，如原文说触处涩滑等性「皆是假有」。</div>
+  </div>
+
+  <div class="card">
+    <h3>彩蛋：定心中的「无见无对色」</h3>
+    <div class="quote">若彼定心思惟欲界有色诸法。影像生起。当言欲界大种所造。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">定心中浮现的影像看不见（无见）、摸不着（无对），但并非「无中生有」——思惟欲界色法就属欲界大种所造，思惟色界色法就属色界大种所造。</div>
+    <div class="case"><b>冥想 App 的海滩：</b>闭眼随语音引导，眼前浮现一片海滩——这画面没有光学像素，却有它的「产地」：由定心所缘的色法影像生起，如原文判为彼界大种所造。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 08 三性·四修·三世 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>三性·四修·三世：给一切法办户口</h2></div>
+  <p class="sec-lead">全卷后半是密集的分类学：善·不善·无记怎么判？修行怎么排班？过去现在未来怎么分？先把「善」的标准立起来，再动手归类。</p>
+
+  <div class="card">
+    <h3>善的定义只有两条</h3>
+    <div class="quote">二因缘故一切善法说名为善。谓自性无倒。亦能对治颠倒法故。及安隐故。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">能往善趣证涅槃。故名为安隐。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">善=①自性不颠倒、能对治颠倒；②安稳——能通向善趣与涅槃。不善正好相反：自性颠倒、不安稳。无记居中：「性非安隐非不安隐」，两边都不沾。</div>
+    <div class="ety-grid">
+      <div class="ety"><div class="zi">善</div><div class="gc">谓自性无倒。亦能对治颠倒法故。及安隐故。</div><div class="bhu">善不是「感觉良好」，而是不颠倒+通向安稳处——两个硬指标。</div></div>
+    </div>
+    <details class="dict"><summary>善法五相与「强盛五因」<span class="hint">可跳过 · 原文清单</span></summary><div class="body">
+      <p><b>善法五相：</b>①感当来可爱果；②对治杂染（不净等治贪等，乃至八圣支道对治一切杂染）；③杂染寂灭所显（涅槃）；④清净住所显（圣者现法乐住）；⑤饶益有情所显（声闻菩萨如来的利他善行）。</p>
+      <p><b>善法强盛五因：</b>①加行（无间殷重造作，自作劝他、见同法者深心欢喜）；②宿习（过去多修习，今生「性于善法心能趣入」）；③摄受胜功德（于解脱或菩提深心回向）；④田事处（于大福田以胜妙事施尊重处）；⑤自性（施劣于戒，戒劣于修——修所成善最胜）。</p>
+      <p><b>无记五相：</b>异熟生无记、威仪路无记、工巧处无记、变化无记、自性无记。</p>
+    </div></details>
+    <div class="case"><b>戒烟四部曲：</b>装打卡 App 让新习惯生起（得修：未生善令生）；戒满三月每天打卡防反弹（习修：令住不忘）；烟瘾犯时作意其过患掐灭它（除去修：已生不善令断）；提前绕开便利店让诱惑无从生起（对治修：未生不善令不生）——原文四修，一一对应。</div>
+    <div class="case"><b>助人的三个深度：</b>给灾区捐款（施）；常年按时探望独居老人、说到做到（戒）；在此过程中磨出真实的耐心与慈心（修）——「若修所成所有善法。于施于戒自性皆胜」，层层递进。</div>
+  </div>
+
+  <div class="card">
+    <h3>四种修：修行的四张排班表</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">得修</div><div class="sub">未生善令生</div><div class="tap">点击翻转 ▸</div></div><div class="back">「未生善法为欲生故作意修习」——从零把它做出来。<em>先让好习惯发生，谈别的都早。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">习修</div><div class="sub">已生善令住不忘</div><div class="tap">点击翻转 ▸</div></div><div class="back">已生善法令住不忘，乃至广说。<em>会了游泳还要每周游——防退步也是修行。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">除去修</div><div class="sub">已生不善令断</div><div class="tap">点击翻转 ▸</div></div><div class="back">已生不善法为欲断故作意修习。<em>戒掉已经养成的坏习惯。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">对治修</div><div class="sub">未生不善令不生</div><div class="tap">点击翻转 ▸</div></div><div class="back">于厌患等诸对治门作意修习；厌患对治（了相至胜解作意）、断对治、持对治、远分对治四门。<em>不让零食进家门——让诱惑无处发生。</em></div></div>
+    </div>
+    <div class="plain">四修总归两种：防护受持修（修身名防护、修戒名受持）与作意思惟修（静虑地作意名修心，谛智地作意名修慧）。</div>
+    <div class="case"><b>练琴的惯性：</b>童年学过五年琴，成年后重新拿起，手指比新手听话——宿习故善法强盛，「彼今生中。性于善法心能趣入」；上辈子的功课（今生多年的练习）变成了今生的本能。</div>
+    <div class="case"><b>大福田的一百块：</b>同样一百元，随手丢进路边的募捐箱与亲手送到坚守一线的支教老师手里，分量不同——「于大福田。以胜妙事施尊重处之所生起」，田事处不同，善法的力量就不同。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：善 · 不善 · 无记</h3>
+    <p style="font-size:.93rem;color:var(--ink-soft)">用原文两条标准（自性是否颠倒、是否安稳）给日常场景办户口。点击你认为正确的分类。</p>
+    <div id="sortArea8"></div>
+    <div class="quote">无记诸法性非颠倒。亦不能治颠倒诸法。性非安隐非不安隐。<span class="src">—— 卷66原文</span></div>
+  </div>
+
+  <div class="card">
+    <h3>三世法：过去、未来、现在的五相档案</h3>
+    <div class="quote">谓因已受尽。自性已灭。<span class="src">—— 卷66原文（过去法）</span></div>
+    <div class="quote">谓因未受自性未受。待缘当生将起现前。<span class="src">—— 卷66原文（未来法）</span></div>
+    <div class="quote">谓因已受用自性受用未尽。刹那已后决定坏灭一切杂染所显。<span class="src">—— 卷66原文（现在法）</span></div>
+    <div class="plain">三世不是三个「房间」，而是三种「受用状态」：因已受尽为过去，待缘当生为未来，受用未尽、刹那决定坏灭为现在。</div>
+    <details class="dict"><summary>三世各五相清单<span class="hint">可跳过 · 原文枚举</span></summary><div class="body">
+      <p><b>过去五相：</b>刹那过去（刹那已后所有诸行）、死没过去（有情从众同分没）、坏劫过去（器世间为火等灾所坏）、退失过去（先所得功德安乐住随类退失）、尽灭过去（有余依无余依涅槃界中所有尽灭）。</p>
+      <p><b>未来五相：</b>刹那未来、一生未来、成劫未来、现行未来、应得未来。</p>
+      <p><b>现在五相：</b>刹那现在、一生现在、成劫现在、现行现在、最后现在（阿罗汉最后心心所等）。</p>
+    </div></details>
+    <div class="case"><b>正在打印的文档：</b>已打印完的页=过去（因已受尽，自性已灭）；还没排到的页=未来（待缘当生）；正从出纸口吐出的这一页=现在（受用未尽，每一秒都在走向坏灭）——原文的三世定义，在打印机前看最直观。</div>
+    <div class="case"><b>地铁的时刻表：</b>刚驶离的班次（刹那过去）、明天首班（一生未来）、正在进站的这一班（现行现在）——三世五相不过是把「已受用、待因缘、正受用」三个状态按时间尺度逐级放大。</div>
+  </div>
+
+  <div class="card">
+    <h3>位阶与断分：学、无学、三断</h3>
+    <details class="dict"><summary>学·无学·非学非无学 &amp; 见修所断<span class="hint">可跳过 · 原文条目</span></summary><div class="body">
+      <p><b>学法：</b>预流、一来、不还有学圣者的出世有为法与世间善法——依此时时进修增上戒、心、慧三学。</p>
+      <p><b>无学法：</b>阿罗汉诸漏已尽的出世有为法与世间善法——毕业了，无需再学。</p>
+      <p><b>非学非无学法：</b>除去学无学法之外，其余预流乃至阿罗汉所摄法，及一切异生（凡夫）相续中的诸法。</p>
+      <p><b>见道所断：</b>萨迦耶等五见、依见起贪嗔慢、相应无明、于谛不共无明、疑等、往恶趣业等——一见到真理就断。</p>
+      <p><b>修道所断：</b>一切善有漏法、一切无覆无记法、其余染污法——要在长期修习中逐渐磨掉。</p>
+      <p><b>非所断：</b>一切有学出世间法（自性净）与无学相续中诸法（已断故）。</p>
+    </div></details>
+    <div class="plain">「断」也分批次：错误的观点（见惑）像墙上的钉子，见道时一次拔掉；习惯性的染污（修惑）像墙上的旧漆，要一层层打磨。</div>
+    <div class="case"><b>初次进手术室：</b>病人知道「必须手术」的一瞬间，致病观念就扭转了（见道所断：一见即断）；术后漫长的康复训练则是修道所断——理解与习惯，从来是两个进度条。</div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 09 收官 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：甚深难见，然后回到日常</h2></div>
+  <p class="sec-lead">分类数完最后一组，本卷把镜头突然拉远：一切法都是甚深难见——包括你刚刚学会分类的这些。为什么？因为它们的自性「绝诸戏论过语言道」；我们全程使用的语言，只是靠近它们的栈桥。</p>
+
+  <div class="card">
+    <h3>最深的一句</h3>
+    <div class="quote">第一甚深难见法者。所谓自性绝诸戏论过语言道。<span class="src">—— 卷66原文</span></div>
+    <div class="quote">诸法自性皆绝戏论过语言道。然由言说为依止故。方乃可取可观可觉。<span class="src">—— 卷66原文</span></div>
+    <div class="plain">一切法的自性超出语言之外，但修行仍要借语言为依止，才能取、能观、能觉——语言是栈桥，不是彼岸。</div>
+    <div class="gatha">
+      <div class="lines">若有善思所应思者。<br>应当如理精勤方便<br>思惟简择如是诸法。</div>
+      <div class="mean">卷末结劝：这一整套分类不是背诵材料——「思所成慧地」要的是你亲自如理思惟、逐法简择。全卷以此收束，正点题「思所成慧」。</div>
+    </div>
+    <details class="dict"><summary>全卷分类总目录（三十余组对照）<span class="hint">可跳过 · 收藏用</span></summary><div class="body">
+      <p><b>物质与心识：</b>有色/无色，有见/无见，有对/无对，大种所造/非大种所造，执受/非执受。</p>
+      <p><b>染净两头：</b>有漏/无漏，有诤/无诤，有染/无染，依耽嗜/依出离，世间/出世间。</p>
+      <p><b>因果两头：</b>有为/无为，堕/非堕，有异熟/无异熟，有因/无因，有果/无果，缘生法，所知/所识/所缘，住持法。</p>
+      <p><b>地位两头：</b>有/非有，有上/无上（除涅槃余一切法，涅槃无上），应修法（四修）。</p>
+      <p><b>时间与界：</b>去来今（过现未各五相），欲界系/色界系/无色界系。</p>
+      <p><b>性质三分：</b>善/不善/无记（善五相、强盛五因，无记五种）。</p>
+      <p><b>学与断：</b>学/无学/非学非无学，见道所断/修道所断/非所断。</p>
+      <p><b>最后一条：</b>甚深难见法——一切法皆是。</p>
+    </div></details>
+    <div class="case"><b>教人吃辣：</b>用尽语言描述辣味，对方依然不懂——尝一口才知道。语言是入口，不是味道本身：「诸法自性皆绝戏论过语言道。然由言说为依止故。方乃可取可观可觉」，本卷教了一路的名相，最后提醒你别把菜单当成菜。</div>
+    <div class="case"><b>合卷自问：</b>读完本卷，睡前问自己两件事：今天哪种受在随增哪种烦恼？此刻是哪种「食」在维持我的日子？——这正是末句「应当如理精勤方便思惟简择如是诸法」要的那份思所成慧。</div>
+    <div class="quote">于此地中余决择文。更不复现。<span class="src">—— 卷66原文</span></div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第66（output/66.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga66-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* ===== 翻转卡 ===== */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
+/* ===== 流程推演 02：乐受滚成苦 ===== */
+initStepper('flowTrack1','flowDetail1','flowPrev1','flowNext1',[
+  {t:'乐受现前',d:'<b>乐受（舒服的感受）：</b>冷触封在热痈上，乐想生起。原文：「譬如热痈④。若以冷触封之即生乐想。」此刻的舒服是真的，但痈没有变小。'},
+  {t:'染著生起',d:'<b>染著（黏上不放）：</b>「又乐受中多生染著」——舒服的东西想再来一次、再来一次，注意力开始围着它转。'},
+  {t:'贪为所依',d:'<b>贪（想要、抓取）：</b>乐受是贪的所依——「乐受贪所依故能生当来五趣等苦。」贪不是凭空来的，它骑在乐受上。'},
+  {t:'造作恶行',d:'<b>身语意恶行：</b>为了追乐、护乐，在现法中造身恶行、语恶行、意恶行——「于现法中。行身恶行行语恶行行意恶行。」'},
+  {t:'感生后有',d:'<b>后有爱（想要下一期存在）：</b>「由后有爱故能感当来生等众苦。」身坏命终，广说乃至生那落迦；来世的五趣之苦由此感得。'},
+  {t:'回到行苦',d:'<b>五取蕴苦：</b>新生起的五取蕴仍是那颗热痈——行苦遍满，循环重启。看破这一环，「应观乐受是众苦法」才落地。'}
+]);
+
+/* ===== 流程推演 05：一桩业走到果报 ===== */
+initStepper('flowTrack2','flowDetail2','flowPrev2','flowNext2',[
+  {t:'造业',d:'<b>业与烦恼：</b>以贪嗔痴推动行为，种下「有异熟法」的种子——漏与有漏开始记账。'},
+  {t:'三条件审核',d:'<b>有力 · 不被损害 · 受用未尽：</b>「彼要有力不被损害受用未尽。当知是名有异熟法。」三关都过，这股力量才必然兑现。'},
+  {t:'临终最后念',d:'<b>异熟法（直接感果的心）：</b>「又临终时最后念心是异熟法。」这一念非善非恶，带着一生业力的总账。'},
+  {t:'结生相续',d:'<b>结生心（投生第一念）：</b>「若结生相续无间之心亦是异熟。」下一期生命从这里起头，中间没有间断。'},
+  {t:'自性住心',d:'<b>异熟（无覆无记）：</b>此后一切自性住心皆是异熟，除善染污与加行无记心——像新刷的白墙，善恶是之后自己刷的漆。'},
+  {t:'异熟生受',d:'<b>受随界定（结账方式）：</b>生那落迦苦忧相续；初二禅唯喜相续、三禅唯乐相续、四禅以上唯不苦不乐——业账按界的配方结清。'}
+]);
+
+/* ===== 条件模拟器 04：这块食物算不算食 ===== */
+function updateFood(){
+  var a=document.getElementById('foodA').checked;
+  var b=document.getElementById('foodB').checked;
+  var c=document.getElementById('foodC').checked;
+  var r=document.getElementById('foodResult');
+  var seg=b&&c;
+  var html;
+  if(seg&&a){
+    html='判定：<b>吞咽时名「触食」，消变时名「段食」。</b>咽下时的欢喜另算触食；安隐消变、增长安乐，这才取得段食之名——同一碗饭，两个时段两个名字。';
+  }else if(seg&&!a){
+    html='判定：<b>吞咽时不名食，消变时乃名段食。</b>原文：「若诸段物于吞咽时。不生欢喜亦不能令诸根悦豫。当于尔时都不名食。」后时安隐熟变增长安乐，彼于尔时乃名段食——像白水煮蛋，吃时无感，营养到位。';
+  }else if(!seg&&a){
+    html='判定：<b>吞咽时名「触食」，但不名段食。</b>消变不能长养诸根安乐，「彼虽熟变不名段食」——像一包开心却毫无营养的零食，爽是真的，滋养没有。';
+  }else{
+    html='判定：<b>全程都不名食。</b>吞咽不欢喜、消变不长养——它只是被咽下去的一段东西，不是食。';
+  }
+  r.innerHTML=html;
+}
+document.getElementById('foodA').addEventListener('change',updateFood);
+document.getElementById('foodB').addEventListener('change',updateFood);
+document.getElementById('foodC').addEventListener('change',updateFood);
+updateFood();
+
+/* ===== 条件模拟器 05：异熟资格审核 ===== */
+function updateRip(){
+  var p=document.getElementById('ripPower').checked;
+  var h=document.getElementById('ripHarm').checked;
+  var u=document.getElementById('ripUnused').checked;
+  var r=document.getElementById('condResult');
+  var tags='';
+  if(p&&h&&u){
+    r.className='';
+    r.innerHTML='<b>三关全过 → 有异熟法。</b>这股业力将来必然兑现为异熟果：种子有力、未被离欲道损害、果还没熟完。原文：「彼要有力不被损害受用未尽。当知是名有异熟法。」';
+    return;
+  }
+  r.className='fail';
+  if(!p)tags+='<span>缺「有力」：有覆无记之漏、无记有漏无力——不善或善不善才有力</span>';
+  if(!h)tags+='<span>缺「不被损害」：已被世间或出世间离欲道所断，名被损害</span>';
+  if(!u)tags+='<span>缺「受用未尽」：异熟果先已成熟，受用已尽，彼果已过去更无所有</span>';
+  r.innerHTML='<b>资格不足 → 属于「无异熟法」一侧。</b>原文：「若诸无漏无记有漏。若善不善有漏已断。若异熟果先已成熟。如是皆名无异熟法。」<div class="obstacle-tags">'+tags+'</div>';
+}
+document.getElementById('ripPower').addEventListener('change',updateRip);
+document.getElementById('ripHarm').addEventListener('change',updateRip);
+document.getElementById('ripUnused').addEventListener('change',updateRip);
+updateRip();
+
+/* ===== 归类练习 08：善 · 不善 · 无记 ===== */
+initSorter('sortArea8',[
+  {a:'看到老人摔倒路口无人扶，小陈上前搀扶并拨打了120。',opts:['善','不善','无记'],ans:'善',exp:'自性无倒、饶益有情，感当来可爱果——五相中的对治杂染与饶益有情都占。'},
+  {a:'方案被否，老吴心里咒骂同事一整天，午饭都没吃好。',opts:['善','不善','无记'],ans:'不善',exp:'自性颠倒、不安稳，能损害他——正是嗔所随增的延续。'},
+  {a:'等车间隙随手看天气、划两下地图，看完什么也没记住。',opts:['善','不善','无记'],ans:'无记',exp:'性非颠倒亦不能对治颠倒，非安稳非不安稳——两边都不沾，是无记。'},
+  {a:'走路上班的步态、眨眼、肠胃蠕动。',opts:['善','不善','无记'],ans:'无记',exp:'威仪路无记与异熟生无记——身体的惯性运转，不涉善恶判断。'},
+  {a:'小林报名编程课，认真练习，希望以后能写出帮到别人的工具。',opts:['善','不善','无记'],ans:'善',exp:'有果劬劳生喜乐住，且发心饶益——修所成善。'},
+  {a:'老郑故意把同事的小失误添油加醋捅给领导，害他被通报批评。',opts:['善','不善','无记'],ans:'不善',exp:'能损害他之所显，感非爱果——自性颠倒且不安稳，标准的身口不善。'}
+]);
+
+
+renderPath();
+</script>
+</body>
+</html>
