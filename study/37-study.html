@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第三十七 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;text-align:left;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中菩萨地初持瑜伽处 威力品第五 · 成熟品第六</div>
+  <h1>卷第三十七 · 交互式学习模块</h1>
+  <p class="sub">这一卷是一份「菩萨能力说明书 + 教学方案书」：威力品盘点菩萨修成之后能做什么——从六神通、六度威力到与生俱来的稀有品质；成熟品回答一个更难的问题——怎么把别人也一步步「养熟」到能解脱。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 26 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 三种威力</a>
+<a href="#s3">③ 能变十八变</a>
+<a href="#s4">④ 能化·无事而有</a>
+<a href="#s5">⑤ 另外五种神通</a>
+<a href="#s6">⑥ 六度四相</a>
+<a href="#s7">⑦ 俱生威力</a>
+<a href="#s8">⑧ 成熟·自性与方便</a>
+<a href="#s9">⑨ 三品九阶·收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>先弄清这一卷在讲什么：威力品（菩萨能做什么）与成熟品（怎么帮人成长）——对应第①章</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>记住三种威力的来源</b><span>圣威力、法威力、俱生威力：威力到底从哪来——对应第②章</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>拆开第一神通：能变十八变</b><span>把已有之物自由改写的能力清单，看一遍十八变各是什么——对应第③④章</span></span></label></div>
+<div class="step-item" data-target="#s6"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>用四相表格读六度</b><span>布施到般若，每度都按「断什么·攒什么·益谁·结果」同一张表——对应第⑥章</span></span></label></div>
+<div class="step-item" data-target="#s8"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>理解「成熟」与三品自检</b><span>种子加串习才叫熟；用条件模拟器亲手拨出下、中、上三品——对应第⑧章</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官总纲</b><span>三品九阶、六地三劫，把全卷串成一句话——对应第⑨章</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ 01 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：威力与成熟</h2></div>
+  <p class="sec-lead">前面的卷次讲菩萨「修什么」——种姓、发心、自他利、真实义。这一卷回答两个新问题：修成之后<b>能做什么</b>？以及，怎么让<b>别人</b>也修成？两问合成两品：先讲能力（威力品第五），再讲培养（成熟品第六）。</p>
+
+  <div class="card">
+    <h3>上半场：威力品——能力清单</h3>
+    <div class="quote">云何诸佛菩萨威力。当知略有三种。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">威力品是一份「能力盘点」：威力从三种来源来，按五种品类分类，其中六神通逐个展开，六度各有四相，佛的天然稀有事迹单列一组，最后辨清哪些与声闻独觉共有、哪些独有。</div>
+    <div class="analogy"><b>比喻：</b>威力品像手机的「性能参数页」——处理器多强、续航多久、支持哪些功能，全列给你看；至于怎么用这台手机帮别人，是下半场的事。</div>
+  </div>
+
+  <div class="card">
+    <h3>下半场：成熟品——教学方案书</h3>
+    <div class="quote">云何成熟。当知成熟略有六种。<span class="src">—— 卷37原文 · 成熟品</span></div>
+    <div class="plain">成熟品是一份「培训方案」：什么叫做熟（自性）、教谁（对象）、学到什么程度（差别）、用什么方法（方便）、谁来教（能成熟者）、怎么验收（已成熟相）——六个门类一步不缺。</div>
+    <div class="analogy"><b>比喻：</b>它像企业内训的标准方案书：先定义「什么叫学会」，再分清学员、等级、教法、师资与考核——成熟品六个章节正是这套流程的古代完整版。</div>
+  </div>
+
+  <div class="case"><b>周五晚上的健身房：</b>晚上八点，拿了十年执照的金牌教练自己热身，卧推轻松上一百四十公斤——这像「威力品」，展示他有多大能耐；半小时后他蹲在一位零基础会员旁边，从空杆教起、反复纠正握距——这像「成熟品」，他怎么让对方也长本事。本卷两品，正是这两件事的完整说明书。</div>
+
+  <div class="case"><b>周一晨会之后：</b>技术总监用两页 PPT 汇报「我们团队现在能扛住大促流量」——这是能力盘点（威力）；散会后他留下来，把新人这一季度的成长计划一条条改好——这是培养方案（成熟）。先讲本事，再讲传承，一卷之内次第分明。</div>
+
+  <details class="dict"><summary>全卷结构一览<span class="hint">可跳过 · 建议读完本页后回来对照</span></summary>
+    <div class="body">
+      <p><b>威力品第五：</b>三种威力（圣／法／俱生）→ 五种品类差别 → 六神通（第一通「神境智通」展开为能变十八变＋能化）→ 法威力（六度各四相）→ 俱生威力（佛从出生到涅槃的天然稀有）→ 共不共三相（微细、品类、界）→ 三种神变收束。</p>
+      <p><b>成熟品第六：</b>成熟自性（种子＋串习）→ 所成熟四类人（声闻／独觉／佛种姓／无种姓）→ 成熟六差别（诸根、善根、智慧＋下中上三品）→ 二十七种成熟方便 → 六地能成熟者 → 已成熟之相（三品九阶）。</p>
+    </div>
+  </details>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 02 三种威力 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>威力从哪里来：三种总纲</h2></div>
+  <p class="sec-lead">「威力」不是玄乎的魔法，论中先给它定了三个来源：修定修出来的、法门本身带的、多生福德攒出来的。记住这三分，后面所有内容都能归位。</p>
+
+  <div class="card">
+    <h3>圣威力：定是威力的总开关</h3>
+    <div class="quote">谓佛菩萨得定自在。依定自在随其所欲一切事。成心调柔故善修心。故是名圣威力。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">先把心练到彻底调柔、得大自在，然后想成什么事就能成——一切神通变化的底层，都是这份「定自在」。</div>
+    <div class="analogy"><b>比喻：</b>顶尖电竞选手在满场嘘声里反应不变形——上万小时把「心不乱」练成了本能。圣威力就是把这种「心稳」练到极限：心先自由，手上的事才自由。</div>
+  </div>
+
+  <div class="card">
+    <h3>法威力：威力挂在方法上</h3>
+    <div class="quote">此中法者。即是六种波罗蜜多。所谓布施乃至般若。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">威力不挂在某个人的天赋上，挂在「法」上——布施、持戒、忍辱、精进、静虑、般若这套系统本身就有大威力，谁修谁得果。</div>
+    <div class="analogy"><b>比喻：</b>每月定投的复利：让钱生钱的不是哪一张钞票，而是「长期定投」这个方法本身。六度也一样——威力属于「法」这套系统，换谁来修都有效。</div>
+  </div>
+
+  <div class="card">
+    <h3>俱生威力：攒出来的「天生」</h3>
+    <div class="quote">谓佛菩萨先集广大福德资粮。证得俱生甚希奇法。是名俱生威力。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">前面无数生攒下的福德资粮，会变成「生来就有、不假造作」的稀有品质——不需要当下发力，它一直在。</div>
+    <div class="analogy"><b>比喻：</b>有人第一次上谈判桌就毫不怯场，一问才知道他家里三代人都爱请客待客，从小见惯大场面——资粮攒到位，「底气」就像天生的。</div>
+  </div>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">神通威力</div><div class="sub">六种神通的总名</div><div class="tap">点击展开</div></div><div class="back">第一类品类，指神境、宿住、天耳、天眼、他心、漏尽六种智通——下一章起逐个拆解。<em>先记住：神通只是威力五类中的一类，不是全部。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">法威力</div><div class="sub">六度法门自带之力</div><div class="tap">点击展开</div></div><div class="back">不是「我会法术」，而是布施乃至般若这套法本身有大威力——第⑥章会用四相表格逐度展开。<em>威力挂在法上，谁修谁受益。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">俱生威力</div><div class="sub">福德资粮满额的自带属性</div><div class="tap">点击展开</div></div><div class="back">不靠当下发功，靠多生累积的福德自然现前——第⑦章看佛从出生到涅槃的一连串稀有事迹。<em>攒够了，生来就有。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">共诸声闻独觉威力</div><div class="sub">与小乘圣者重叠的部分</div><div class="tap">点击展开</div></div><div class="back">论中明说：其余威力的粗相，声闻独觉同样具足——显浅层面的能力并非佛菩萨专利。<em>不必把一切能力都神秘化。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">不共声闻独觉威力</div><div class="sub">唯佛菩萨独有</div><div class="tap">点击展开</div></div><div class="back">差别在三相：微细、品类、界——第⑦章末尾细讲。<em>差距不在「有没有」，在多细、多全、多广。</em></div></div>
+  </div>
+
+  <div class="case"><b>抢救室里的手：</b>深夜 ICU，心电警报乱响、家属在门外哭喊，资深护士手上的操作依然一步不乱——多年训练让「心稳」本身成了能力，事情才随心得手。这正是「心调柔故善修心」的现代影子：先修心，再成事，顺序不能反。</div>
+
+  <div class="case"><b>英语班的发现：</b>一位英语老师复盘发现：真正让学生进步的不是她的个人魅力，而是「每天听写＋每周复盘」这套方法——换哪个老师执行都有效。这就是「法威力」的结构：威力属于方法系统本身，而不是某个牛人。</div>
+
+  <div class="case"><b>不怯场的新人：</b>同事小李第一次陪主管谈判就不怯场、条理分明，后来才知道：他大学打了四年辩论，家里开餐馆、从小帮着招呼各路客人——「先集广大福德资粮」，底气是一点点攒出来的，攒够之后看起来就像天生。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 03 能变十八变 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>第一神通·神境智通：能变十八变</h2></div>
+  <p class="sec-lead">六神通里排第一的是「神境智通」（对物质世界随心运转的智慧通），它分两支：<b>能变</b>——把已经存在的东西变掉；<b>能化</b>——造出原本没有的东西。本章先看能变的十八种变化。</p>
+
+  <div class="card">
+    <h3>能变通：拿到世界的「底层权限」</h3>
+    <div class="quote">云何能变神境智通⑩品类差别。谓十八变。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">神通不是凭空变魔法，而是「依定自在」对物质世界做自由改写：振动、炽然、流布、示现、转变、往来、卷、舒……一共十八类，每一类又「一一分别无量无数」。</div>
+    <div class="analogy"><b>比喻：</b>像游戏开发者拿到了世界的底层权限——物体的「贴图」和「碰撞体积」在他手里随便改。能变通，就是拿到现实世界底层权限的版本。</div>
+  </div>
+
+  <div class="card">
+    <h3>两个代表：卷舒与往来</h3>
+    <div class="quote">谓佛菩萨依定自在。能卷一切雪山王等如一极微。舒一极微令如一切雪山王等。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">卷舒是空间尺度的自由缩放：一座雪山卷成一粒微尘，一粒微尘舒展成雪山；往来则是空间障碍的取消：墙壁山石中穿行无碍、远途瞬间到达。</div>
+    <div class="analogy"><b>比喻：</b>地图 App 双指一捏，整座城市缩成一枚图标；再一张开，街区铺满屏幕——「卷舒」就是这种缩放的极限版，只不过缩放的不再是图，而是事物本身。</div>
+  </div>
+
+  <div class="quote">或运粗重四大种身。或于远处作近胜解。或如意势速疾往来。<span class="src">—— 卷37原文 · 威力品 · 释「往来」</span></div>
+
+  <div class="case"><b>跨城上班的人：</b>住城东、公司在城西，每天通勤两小时的人最懂「往来无碍」值多少钱——早高峰地铁里挤成照片，时间与空间硬生生卡住一个人。「如意势速疾往来」说的是：在定自在面前，空间障碍这种全人类每天缴纳的「税」，可以直接清零。</div>
+
+  <div class="case"><b>派驻山区的志愿者：</b>小陈驻村前先学方言、换上当地衣物、按当地礼节打招呼，等村里人把他当「自己人」，才开始讲推行饮水改造的事——「同其色类如彼形量似彼言音」正是这个逻辑：先成为「他们」，再说法。化事做完悄然离开，只留下被改变观念的村庄。</div>
+
+  <details class="dict"><summary>十八变清单<span class="hint">可跳过 · 每条一句话</span></summary>
+    <div class="body">
+      <p><b>① 振动：</b>依定自在，从寺舍村邑到无量无数三千大千世界，皆能振动。</p>
+      <p><b>② 炽然：</b>身上出火、身下出水，身下出火、身上出水，遍身现出青黄赤白等种种焰色。</p>
+      <p><b>③ 流布：</b>流布光明，遍满舍宅乃至无量无数世界，无不充满。</p>
+      <p><b>④ 示现：</b>令会众现见恶趣人天、他方佛土与彼土如来，并宣说彼佛土名、如来名。</p>
+      <p><b>⑤ 转变：</b>地水火风互相转变；草叶牛粪变饮食车乘，沙石瓦砾变末尼真珠，好色恶色随胜解而转。</p>
+      <p><b>⑥ 往来：</b>于墙壁山石中纵身往来无滞碍，上至色究竟天还来无碍，或运身速疾往来。</p>
+      <p><b>⑦ 卷／⑧ 舒：</b>卷雪山王如一极微，舒一极微如雪山王。</p>
+      <p><b>⑨ 众像入身：</b>大众、村落、山林、大地一切色像摄入身中，大众各各自知入其身内。</p>
+      <p><b>⑩ 同类往趣：</b>化作刹帝利等同类形貌言音，为其说法，化事完毕忽然隐没。</p>
+      <p><b>⑪ 显／⑫ 隐：</b>于大众前百次千次隐没自身，复令显现。</p>
+      <p><b>⑬ 所作自在：</b>令去即去，令住即住；令来即来，令语即语。</p>
+      <p><b>⑭ 制他神通：</b>能制伏他人所现神通；如来神通普能制伏一切具神通者。</p>
+      <p><b>⑮ 能施辩才：</b>有情辩才穷尽时，能给予辩才。</p>
+      <p><b>⑯ 能施忆念：</b>有情于法失念时，能给予忆念。</p>
+      <p><b>⑰ 能施安乐：</b>说法时予听法者身心轻安之乐，令离诸盖；灾疠疾疫皆得息灭。</p>
+      <p><b>⑱ 放大光明：</b>一光往十方世界息恶趣众苦；一光令天众觉悟来集；一光令他方菩萨来集。</p>
+    </div>
+  </details>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 04 能化 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>第二支·能化：无事而有</h2></div>
+  <p class="sec-lead">能变是「改写现成的东西」，能化是「造出从未有过的东西」。论中给了一个极锋利的定义，又把化分成化身、化境、化语三种，最后点明神通只干两件事。</p>
+
+  <div class="card">
+    <h3>化的定义：本无其事而能显现</h3>
+    <div class="quote">谓若略说。无事而有。是名为化。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">能变通是「转此物成彼物」，能化通是「无中生有」——凭空造出从未存在过的身形、环境与语言，随欲而现。</div>
+    <div class="analogy"><b>比喻：</b>游戏公司的小团队从一块空硬盘开始，一年后千万玩家进入一个从未存在过的世界种田、社交、冒险——人类日常里最接近「化」的，大概就是这种从零造境的创造。</div>
+  </div>
+
+  <div class="yuan-grid">
+    <div class="yuan-card"><span class="y-tag">对比</span><h4>能变 vs 能化</h4><p><b>能变：</b>转所余有自性物，令成余物——东西本来在，只是变了样子。<b>能化：</b>无事而有——本来没有，凭心造出。</p></div>
+    <div class="yuan-card"><span class="y-tag">化身及化境</span><h4>造身与造境</h4><p>化作似自似他的种种身形（只似根相、非真实根），又化饮食衣服、末尼真珠等境物：有的「如幻所作不堪受用」，只给你看；有的「与实无异」，能真受用。</p></div>
+    <div class="yuan-card"><span class="y-tag">化语</span><h4>凭空说的话</h4><p>从化身出音、从他身出音、甚至于虚空中出音；或妙音深远如云雷，或一音随类遍告无量众会——内容无非两样：宣说正法、诲责放逸。</p></div>
+    <div class="yuan-card"><span class="y-tag">收束</span><h4>能办二事</h4><p>一切能变能化，只干两件事：一是示现神通引人入佛圣教，二是施受苦众生利益安乐。神通从不为炫技。</p></div>
+  </div>
+
+  <div class="card">
+    <h3>神通的两用途：领进门，给实利</h3>
+    <div class="quote">如是二种诸佛菩萨神境智通能办二事。一者示现种种神通。引诸众生入佛圣教。二者示现种种神通。惠施无量受苦众生。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">全部神通事业的落点只有两个：把人领进法门（入门），给受苦者真实好处（受用）——前者是「接引」，后者是「救济」。</div>
+    <div class="analogy"><b>比喻：</b>公益组织的两套动作：一场打动人心的公益直播把路人变成关注者（引人入门），随后把物资真发到受灾家庭手上（给人实利）——只演示不发粮是空转，只发粮不示范也无人知道路在何方。</div>
+  </div>
+
+  <div class="case"><b>导航 App 的语音：</b>「前方拥堵，已为你重新规划路线」——车里没有人在对你说话，但这句「化」出来的话精准对着你的处境而说。化语正是这种「非人的、却对机的话」的极限版：宣说正法、诲责放逸，随类遍告，各得义利。</div>
+
+  <div class="case"><b>学习 App 的打卡提醒：</b>你快要放弃时，屏幕上跳出「已连续学习6天，今天还没打卡」——这句话由系统按你的状态生成，专为治你的放逸而设。化语「诲责放逸」的功能同构：对已得净信却懈怠的人，一句对机的话让他重新坐回书桌前。</div>
+
+  <div class="case"><b>两种化境的区别：</b>同是视频里的「美食」：探店短片里的红烧肉看着冒油，你却吃不到——「唯令众生睹见而已。如幻所作不堪受用」；而人道救援里真发放的粮包，拿到手就能煮——「与实无异」。论中把化的这两档分得清清楚楚：有的化只给看，有的化真能用。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 05 另外五种神通 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>另外五种神通：知过去、闻声、见生死、读心、断烦恼</h2></div>
+  <p class="sec-lead">六神通去掉已讲的神境智通，还剩五通。注意一个反复出现的句式：神通不是拿来炫的，是「知已——随其所应——施作利益」的三段作业流程。</p>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">随念宿住智通</div><div class="sub">随念自他过去世</div><div class="tap">点击展开</div></div><div class="back">以宿住智随念自己与众生过去生的种种，还能令他人也得此智；并借忆念本生、本事，为众生讲业果，破「人永远如此、不可改变」的常见。<em>看见来路，「注定」就松动了。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">天耳智通</div><div class="sub">远近大小圣凡之声皆闻</div><div class="tap">点击展开</div></div><div class="back">「下至耳语诸微细声皆悉能闻」，天声人声、圣声非圣声、化声非化声无不闻；闻声的落点是作业：「既闻彼已，随其所应、随其所宜，施作种种利益安乐」。<em>听得见，是为了帮得准。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">天眼·见死生智通</div><div class="sub">见死时生时、净不净业</div><div class="tap">点击展开</div></div><div class="back">以超过人的清净天眼，见有情死时生时的妙色恶色、诸根成熟与善恶业行；下至无间地狱上至色究竟宫，不作意也能见。<em>看见生死流转全程，才知道从哪里帮。</em></div></div>
+  </div>
+
+  <div class="card">
+    <h3>知心差别智通：圆满版的「读心」</h3>
+    <div class="quote">知诸有情诸根胜劣。知诸有情种种胜解。知诸有情种种界行。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">他心通不只「知道你在想什么」，更知道你的根器高下、兴趣倾向、习性行径——然后把你安放到通向涅槃的恰当正行上。读心是手段，安处才是目的。</div>
+    <div class="analogy"><b>比喻：</b>资深班主任扫一眼教室，就知道谁没听懂、谁在走神、谁家里出了事，并且知道该给谁换座位、给谁单独补课——「知心」的高配，是知道该把每个人安放到哪条路上。</div>
+  </div>
+
+  <div class="card">
+    <h3>漏尽智通：威力中最殊胜的一个</h3>
+    <div class="quote">菩萨于有漏事及与诸漏不速舍离。虽行种种有漏事中而不染污。如是威力于诸威力最为殊胜。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">最厉害的神通不是飞，是烦恼真的断尽；而菩萨更进一步——明知可以彻底出离，却「不速舍离」，留在有漏世间做事而不被染污，这一条被称为最殊胜。</div>
+    <div class="analogy"><b>比喻：</b>戒酒十年的人可以坐在满桌酒局里谈事而滴酒不沾——「不染污」不是躲开诱惑，是在诱惑中间仍然自在。菩萨的漏尽智就是这种自在的圆满版。</div>
+  </div>
+
+  <div class="case"><b>心理咨询室的档案：</b>一位来访者坚信「我这脾气是天生的，改不了」。咨询师带他回看成长记录：父母常年争吵、转学三次、被孤立的经历一页页摊开——他发现「脾气」是一段段经历叠出来的，不是命定的属性。看见来路，「注定」就松动了。宿住智通破常见，正是这个道理的极致版。</div>
+
+  <div class="case"><b>社区网格员的台账：</b>网格员小王对辖区几百户的难处都有台账：谁家老人独居、谁家孩子辍学、谁家欠着医药费，出了事能第一时间帮到点上。天眼天耳的作业方式正是如此——先普见普闻众生「身之所作净不净业」「语之所作净不净业」，再「随其所宜」精准施助，而不是知道之后干瞪眼。</div>
+
+  <div class="case"><b>产品经理看日志：</b>优秀的产品经理盯着用户行为日志，就能「读」出用户此刻的困惑与期待，随即调整界面、把新功能推给最需要的人——他心通是这种「知心」的圆满版：知烦恼心、知胜解、知界行，然后「随其所应」安处正行，一步不错位。</div>
+
+  <div class="case"><b>不离开诱惑的人：</b>健身圈流行一句忠告：「别考验意志力，离零食远点」——普通人的策略是回避。而论中的菩萨反着来：对有漏之事「不速舍离」，留在诱惑中间成办利生的事，靠的是漏已尽的真实自由。这正是「于诸威力最为殊胜」的含义：能躲开的干净不算最难，留在里面而不染污才最难。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 06 六度四相 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>法威力：六度各有四相</h2></div>
+  <p class="sec-lead">法威力是六波罗蜜多（布施、持戒、忍辱、精进、静虑、般若）各自携带的大威力。妙的是，论中给每一度都用<b>同一张四相表格</b>展开——学会读这张表，六度一次读懂。</p>
+
+  <div class="card">
+    <h3>四相模板：六度通用的说明书</h3>
+    <div class="quote">此布施等诸法威力。应知一一略有四相。一者断所对治相。二者资粮成熟相。三者饶益自他相。四者与当来果相。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">每度都回答四个问题：断掉什么毛病、怎么成为觉悟的资本、怎么利益自己和他人、来世结什么果——一张万能表格，套六个法门。</div>
+    <div class="analogy"><b>比喻：</b>像健身动作的标准说明：练哪块肌肉（对治）、消耗多少热量（资粮）、体态如何受益（自他饶益）、三个月后的身材（当来果）——六个动作，同一张说明书。</div>
+  </div>
+
+  <div class="card">
+    <h3>六度四相速查表</h3>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>六度</th><th>断什么（所对治）</th><th>通俗理解</th></tr>
+      <tr><td>布施</td><td>悭吝</td><td>舍出去一点东西，换来施前喜悦、施时清净、施已无悔的三时欢喜，与来世的富乐眷属</td></tr>
+      <tr><td>持戒</td><td>犯戒</td><td>守规矩换来自在（寝寤安乐），也让所有人可以在你面前安心——普施无畏</td></tr>
+      <tr><td>忍辱</td><td>不忍</td><td>不接招，提前拆掉冲突这颗雷；来世少怨敌、少隔阂，临终心无忧悔</td></tr>
+      <tr><td>精进</td><td>懈怠</td><td>不断档、不糊弄，越修越欢喜；还带动别人也发起劲来</td></tr>
+      <tr><td>静虑</td><td>烦恼、语言、寻伺、喜乐、色想等随烦恼</td><td>心静下来得现法乐住；因心寂静，智慧清净、能发神通</td></tr>
+      <tr><td>般若</td><td>无明</td><td>看清事实再行动；最终连烦恼障、所知障两种束缚一起解掉</td></tr>
+    </table></div>
+    <div class="quote">施先意悦施时心净施已无悔。于三时中心常欢喜。<span class="src">—— 卷37原文 · 威力品 · 释布施第三相</span></div>
+    <div class="quote">于当来世能证二障离系。谓烦恼障⑲离系。及所知障⑳离系。<span class="src">—— 卷37原文 · 威力品 · 释般若第四相</span></div>
+    <div class="plain">般若的当来果最高：烦恼障（情绪欲望的缠缚）与所知障（认知上的遮蔽）双双解脱——表格里六行的终点是这一行。</div>
+  </div>
+
+  <div class="case"><b>给山区孩子捐书：</b>双十一晚上下单捐书：浏览书单时就已经开心（施先意悦），付款时干干净净不求回报、不图晒图（施时心净），一周后刷到孩子们拆书的视频也不后悔、不惦记（施已无悔）——「于三时中心常欢喜」就是在这三个时间点上全都不拧巴。</div>
+
+  <div class="case"><b>夜里不怕遇到的人：</b>深夜独自走夜路，你最不怕撞见的是谁？是那个小区里出了名的守规矩、从不损人利己的邻居。戒的威力里有一条最朴素的：长期持戒的人，让所有人在他面前不设防——「普施一切有情无畏」，无畏是戒送出去的礼物。</div>
+
+  <div class="case"><b>第十次纠正动作的教练：</b>新学员第十次把深蹲做成膝盖内扣，教练仍是同一种语气，示范、分解、放慢，不挖苦也不放弃。忍辱不是憋气，而是看清「当场发火只会让关系破裂、教学中断」——把这类大怖畏事提前拔掉，教学才能一直进行下去。</div>
+
+  <div class="card">
+    <h3>归类练习：这事算哪一度？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">六个日常场景，对应六度。点选你觉得对的答案，会立即显示判定与理由。</p>
+    <div id="sorterArea" style="margin-top:8px"></div>
+  </div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 07 俱生威力 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>俱生威力：生而具足的稀有</h2></div>
+  <p class="sec-lead">俱生威力不是修出来的神通，而是福德资粮满额后「出厂自带」的品质——论中用佛从入胎到涅槃的一连串稀有事迹来展示它，再分成「见便饶益」与「贤圣行住」两组。</p>
+
+  <div class="card">
+    <h3>关键词：不假造作</h3>
+    <div class="quote">既出胎已即于地上不待扶侍。而行七步自称德号。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="quote">坐菩提座以慈定力摧伏众魔。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">俱生威力的特点是「不由当下发功」：出生即行七步、不待扶持，降魔靠的是慈定之力而非搏斗——福德熟到这一步，事情自然如此。</div>
+    <div class="analogy"><b>比喻：</b>退役多年的体操冠军随手一个倒立依然标准——几十年训练早已长进身体，不需要当下努力。俱生威力就是这种「连姿态都是功德」的圆满版。</div>
+  </div>
+
+  <div class="card">
+    <h3>两组自带属性：见便饶益 与 贤圣行住</h3>
+    <div class="quote">谓诸世间若见如来。癫痫心乱还得本心。逆胎得顺。盲者得视聋者能听。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="quote">谓佛菩萨常右胁卧如师子王。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">「见便饶益」：见到佛本身就受益——心乱的恢复本心、贪嗔痴缠得以远离；「贤圣行住」：连睡姿、步态、进门、吃饭这些日常小事，都在自然地示范与说法。</div>
+    <div class="analogy"><b>比喻：</b>儿科诊室里，有些医生还没开口，哭闹的孩子先安静了一半——白大褂、语气、姿态本身就在起作用。「见了就有益」，是这种效应的极限版。</div>
+  </div>
+
+  <div class="card">
+    <h3>与声闻独觉的共与不共：差在三个维度</h3>
+    <div class="quote">略由三相应知不共。一者微细故。二者品类故。三者界故。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">不共之处有三：做得更细（微细）、类型更全（品类）、范围更广（界——声闻以二千世界为境，独觉三千，佛以一切世界为境）。</div>
+    <div class="quote">由彼唯为调伏一身而修正行。非诸有情。<span class="src">—— 卷37原文 · 威力品</span></div>
+    <div class="plain">根本原因在发心：声闻独觉只为调伏自己一身而修，所以作用范围天然就小；菩萨为一切有情而修，威力之「界」随之展开。</div>
+    <div class="analogy"><b>比喻：</b>家用 Wi-Fi 路由器覆盖一套房，通信基站覆盖一座城——硬件原理相同，「界」（覆盖半径）不同。共不共的差别，不在有没有信号，在覆盖多广。</div>
+  </div>
+
+  <div class="case"><b>消防的两种现场：</b>同一场大火，勇敢的消防员冲进去能救出一层楼的人；而坐镇指挥、协调全网资源的指挥长，调度云梯、断电、疏散，救下的是一整栋楼。能力类型相似，「界」不同，结果差一个量级——声闻、独觉、佛的差别正是这种量级差，且根子在于「为谁而修」。</div>
+
+  <div class="case"><b>黑板上徒手画的圆：</b>退休数学老师在黑板上随手一画，圆得比圆规还标准——那不是他此刻在发力，而是三十年板书长进了手臂。贤圣行住所摄的俱生威力同理：右胁卧、师子步、大风不动身衣，都是福德与修行「长进身体」之后，连日常姿态都自带威仪，不需要刻意表演。</div>
+
+  <details class="dict"><summary>佛的天然稀有事迹清单<span class="hint">可跳过 · 出自俱生威力段</span></summary>
+    <div class="body">
+      <p><b>入胎：</b>放大光明普照世界；降胎、住胎、出胎三位皆正了知；忆念本生，不由思择便能堪忍长时大苦。</p>
+      <p><b>出生：</b>不待扶持行七步、自称德号；天龙药叉等散天妙花香、持伎乐衣服幢幡宝盖供养；三十二大丈夫相庄严其身。</p>
+      <p><b>菩提座：</b>住最后有中，怨敌、魔军、灾横不能侵害；以慈定力摧伏众魔；一一支节皆悉备足那罗延力。</p>
+      <p><b>幼年：</b>稚童时不由习学，自然善巧世间工巧业处；后来无师独处而证无上正等菩提。</p>
+      <p><b>缘起：</b>大梵天王自然来下，殷勤劝请宣说正法；定极寂静，大云巨雷曾无觉受。</p>
+      <p><b>慈悲感召：</b>为菩萨时一切禽兽皆极仰信、常来归趣；成佛后傍生也来供养——猕猴献蜜、龙云随浴降雨、出游则止、树影随荫其身。</p>
+      <p><b>成佛后：</b>六年之中魔求其便竟不能得；常俱行念恒现前，受想寻思生住灭无不觉了。</p>
+      <p><b>涅槃：</b>般涅槃时大地振动，众星晃耀交流而陨，诸方一时欻然大热，虚空奏天大乐——「皆是如来俱生威力。非是神通威力所作」。</p>
+    </div>
+  </details>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 08 成熟品·上 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>成熟品·上：果子熟了才能吃</h2></div>
+  <p class="sec-lead">下半场换话题：什么叫「成熟」？论者先给了三个日常比喻，再定义它的机制（种子＋串习），分清四类教学对象、三种成熟差别与二十七种方法。补特伽罗，即梵语音译，指「有情、个体的人」。</p>
+
+  <div class="card">
+    <h3>成熟自性：三喻说「熟」</h3>
+    <div class="quote">譬如痈痤熟至究竟无间可破。说名为熟。又如瓦器熟至究竟无间可用。说名为熟。又如众果熟至究竟无间可啖。说名为熟。<span class="src">—— 卷37原文 · 成熟品</span></div>
+    <div class="quote">谓由有善法种子及数习诸善法故。<span class="src">—— 卷37原文 · 成熟品</span></div>
+    <div class="plain">成熟的机制只有两个变量：本有的善法种子 + 反复串习。熟到究竟，自然可破、可用、可吃——成熟不新增什么，只是条件终于齐了。</div>
+    <div class="analogy"><b>比喻：</b>牛油果买回来硬邦邦不能吃，放几天捏上去微微发软——「熟」不是多了一个东西，是该有的条件到位了。修行成熟同理：种子加串习，到点自然可用。</div>
+  </div>
+
+  <div class="card">
+    <h3>三种成熟差别：各解一种障</h3>
+    <div class="quote">诸根成熟故解脱异熟障。善根成熟故能解脱业障。智慧成熟故解脱烦恼障<span class="src">—— 卷37原文 · 成熟品</span></div>
+    <div class="plain">诸根成熟（寿量、形色、族姓、自在、信言、大势、人性、大力八种具足）解的是果报身的障；善根成熟（性薄尘垢、诸盖轻微）解的是业力的障；智慧成熟（具足正念、俱生妙慧）解的是烦恼的障。</div>
+    <div class="analogy"><b>比喻：</b>像求职的三张牌：好身体好学历是硬件（诸根——异熟障），背调干净没污点是记录（善根——业障），真本事是软件（智慧——烦恼障）。三张牌齐了，路才真通。</div>
+  </div>
+
+  <div class="card">
+    <h3>四类教学对象：四条线路</h3>
+    <div class="quote">一者住声闻种姓。于声闻乘应可成熟补特伽罗。<span class="src">—— 卷37原文 · 成熟品</span></div>
+    <div class="plain">种姓（与生俱来的修行潜力类型）分四条线路：声闻种姓走声闻乘，独觉种姓走独觉乘，佛种姓走无上乘，无种姓者不取解脱果、只成熟到人天善趣——各有各的「应可成熟」。</div>
+    <div class="analogy"><b>比喻：</b>地铁线路图：不同线路通向不同终点，上车前先看清方向。教学者不把所有人塞进同一班车，而是按「这条线能到哪」来安排。</div>
+  </div>
+
+  <div class="case"><b>补习班的四种学生：</b>同一间机构里：立志艺考的、走竞赛保送的、备战普通高考的、纯粹为兴趣来的——负责人绝不用同一套课表：艺考生强化面试表达，竞赛生加压刷难题，普通生夯实基础，兴趣班只求点燃热情。四种补特伽罗对应四条成熟路线，「应可成熟」四字就是因材施教的边界感。</div>
+
+  <div class="case"><b>教分享的两个版本：</b>教五岁孩子「分享」，你说「玩具轮流玩，大家更开心」；教研究生伦理学，你才展开电车的两难与功利主义的分野。同一个道理，深浅两层讲法——「隐密说法」对婴儿智慧者隐覆甚深义、说粗浅易入之法，「显了说法」对已善悟入者开示广大甚深道理，分寸正是因材施教的分寸。</div>
+
+  <div class="case"><b>论坛版主的三级处理：</b>某知识社区版主对轻微违规者私信提醒（慈心谏诲），对屡犯者公开警告并禁言三天（慈心诃罚），对恶意营销号直接封禁（慈心驱摈）——且封号之后还要公示原因：其他用户看到后果，自然学会自防。原文的机制完全一致：前两级「令彼及余利益安乐」，驱摈一档重点在「余若见彼毁犯因缘既被驱摈。便自防护」——处罚的落点始终是教育与保护，不是泄愤。</div>
+
+  <div class="case"><b>先练出马甲线的博主：</b>健身博主自己先练出了成果，再出教程、带学员，评论区才服气；反过来，自己毫无训练痕迹却天天教人，只会被回怼「你自己行吗」。这正是「自成熟者」的逻辑：如自所说，亦自修行——「勿使他人作如是说。汝自不能出不善处安立善处。云何于他教授」。</div>
+
+  <div class="card">
+    <h3>流程推演：一个普通人被「成熟」的全流程</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">从二十七种方便中抽出骨干六环，点「下一步」逐步走完，看一条善根如何从种子长到成熟。</p>
+    <div class="demo-area">
+      <div class="flow-track" id="flowTrack"></div>
+      <div class="flow-detail" id="flowDetail"></div>
+      <div class="flow-ctrl"><button class="tri-btn" id="flowPrev">← 上一步</button> <button class="tri-btn" id="flowNext">下一步 →</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：你现在处于哪一品？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">下品、中品、上品成熟由两个因缘决定。拨动开关，看品级如何变化（此为义理演示，非自测评分）。</p>
+    <div class="cond-row"><div class="name">长久修习<small>「未久修习诸根善根」的反面——诸根善根智慧的成熟因缘已极增长</small></div><label class="switch"><input type="checkbox" id="condA"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">串习上胜<small>不是「串习下劣因缘」——练习的方向与质量都在线</small></div><label class="switch"><input type="checkbox" id="condB"><span class="slider"></span></label></div>
+    <div id="condResult"></div>
+  </div>
+
+  <details class="dict"><summary>二十七种成熟方便<span class="hint">可跳过 · 全部条目按功能分组</span></summary>
+    <div class="body">
+      <p><b>打地基类：</b>界增长（善法种子辗转增胜）、现缘摄受（今生闻法如理修行）、趣入（得净信而受持学处）、摄乐（于圣教深生爱乐）、初发处（最初厌离而创趣入）、非初发处（已趣入者辗转明了增进）、远清净（因懈怠违缘，久经多生多劫方清净）、近清净（与此相反，速得清净）、加行（怖恶趣怖讥毁而常勤护持）、意乐（于法正观察忍，于三宝深信无动）。</p>
+      <p><b>给资源类：</b>财摄受（施饮食等物解匮乏）、法摄受（宣说正法、开显正义）、神通引摄（示现神变，令有情意乐清净、加行清净）。</p>
+      <p><b>教学法类：</b>宣说正法（有堪能者随顺令速证通慧）、隐密说法（对初学者说粗浅易入处）、显了说法（对已悟入者开示甚深理）。</p>
+      <p><b>强度分级类：</b>下品加行（无间与殷重皆缺）、中品加行（随缺一种）、上品加行（无间加行与殷重加行二俱相应）、听闻（精勤听受读诵）、思惟（居远离处推度其义、解了决定）、修习（审察止举舍三相而深心欣乐修之）。</p>
+      <p><b>师资与机制类：</b>摄受（无染心为作依止，看病给药等别供事行）、降伏（下品谏诲、中品诃罚、上品驱摈，慈心为体）、自成熟（自说自修，以身作则）、请他成熟（劝请善知识令其成熟有情）、俱成熟（自成熟与劝请他，二者兼备）。</p>
+      <p style="margin-top:10px">二十七种方便合起来，正是令「诸根、善根、智慧、下、中、上」六种成熟差别趋于圆满的工具箱。</p>
+    </div>
+  </details>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 09 三品九阶·收官 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>成熟品·下与收官：三品九阶</h2></div>
+  <p class="sec-lead">成熟的最后一块拼图是「分级」：欲乐（想学的心）与加行（真下的功夫）的浓度决定下、中、上三品；每品又各分三品，铺成九阶天梯，对应菩萨六地、三个无数劫。</p>
+
+  <div class="card">
+    <h3>三品：由欲乐与加行的浓度决定</h3>
+    <div class="quote">若诸菩萨住胜解行地名下品成熟。<span class="src">—— 卷37原文 · 成熟品</span></div>
+    <div class="quote">住净胜意乐地名中品成熟。住堕决定到究竟地名上品成熟。<span class="src">—— 卷37原文 · 成熟品</span></div>
+    <div class="plain">下品（胜解行地）犹往恶趣；中品（净胜意乐地）不往恶趣、能证沙门果而未般涅槃；上品（堕决定到究竟地）一切成就。浓度不够会退，够了才一路向上。</div>
+    <div class="analogy"><b>比喻：</b>同一壶茶，茶叶下多下少，浓淡立见——欲乐与加行就是茶叶量：下品淡而无味还会返工，中品够喝，上品茶香满室。</div>
+  </div>
+
+  <div class="card">
+    <h3>上品的三个标签：炽然·无动·极善清净</h3>
+    <div class="quote">今于此中性淳厚故极猛盛故。能有上品广大果故大胜利故。名为炽然。不转还故不退堕故常胜进故。名为无动。<span class="src">—— 卷37原文 · 成熟品</span></div>
+    <div class="plain">「炽然」是火力足：性淳厚、极猛盛，能得上品广大果；「无动」是不回落：不转还、不退堕、常胜进；「极善清净」是顶格：菩萨地中最无上。</div>
+    <div class="analogy"><b>比喻：</b>烧水的三档：九十多度还在响（未相应）、滚沸翻腾（炽然）、接入保温档永不回落且杂质沉净（无动＋极善清净）——三个标签是一壶水的三种「到位」。</div>
+  </div>
+
+  <div class="card">
+    <h3>警惕五种「低强度方便」</h3>
+    <div class="quote">若财摄受所作成熟。若神通引摄所作成熟。若隐密说法所作成熟。若下品加行所作成熟。若唯听闻所作成熟。如是五种所作成熟。若于长时修习彼法。尚为下品。<span class="src">—— 卷37原文 · 成熟品</span></div>
+    <div class="plain">靠财物接引、看神通震撼、听浅近说法、低强度用功、纯听课——这五类途径喂出来的成熟，长期坚持也才下品，何况三天打鱼。缺的正是无间加行与殷重加行。</div>
+    <div class="analogy"><b>比喻：</b>点外卖凑单的小菜：再添多少样也撑不起一顿正餐——五类低强度方便做得再久，也只是成熟这桌宴席上的配菜。</div>
+  </div>
+
+  <div class="card">
+    <h3>九阶天梯：三品各有三品</h3>
+    <div class="quote">有下下下中下上三品成熟。于中品中。有中下中中中上三品成熟。于上品中。有上下上中上上三品成熟。<span class="src">—— 卷37原文 · 成熟品</span></div>
+    <div class="plain">下、中、上各再细分三档，成九品，且「展转差别道理有无量品」——没有一步登天，只有一格一格的连续光谱。</div>
+    <div class="analogy"><b>比喻：</b>游戏的段位系统：青铜里还分青铜Ⅲ、Ⅱ、Ⅰ，白银里又各三档——段位精确反映练习的浓度，也提醒你：从青铜到王者没有跳级键。</div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item"><div class="t">第一无数劫 · 胜解行地（下品成熟）</div><div class="d">下品欲乐、下品加行，「犹往恶趣」；炽然、无动、极善清净的觉品善法，一切未相应。</div></div>
+    <div class="tl-item"><div class="t">第二无数劫 · 净胜意乐地（中品成熟）</div><div class="d">中品欲乐、中品加行，不往恶趣；炽然、无动已相应，极善清净未相应。</div></div>
+    <div class="tl-item"><div class="t">第三无数劫 · 堕决定地到究竟地（上品成熟）</div><div class="d">上品欲乐、上品加行；炽然、无动、极善清净一切成就——六种菩萨住菩萨六地，能成熟有情。</div></div>
+  </div>
+
+  <div class="case"><b>考研人的三轮复习：</b>第一轮跟网课、在书上划线（近乎「唯听闻」），第二轮做题加错题本（开始有加行），第三轮每天固定三小时、雷打不动、笔记与刷题两手硬（无间加行＋殷重加行）——同样的复习「方便」，强度与持续度不同，最终成绩的「品级」完全不同。论中说五类低强度成熟「尚为下品」，说的就是这个差距。</div>
+
+  <div class="case"><b>收藏夹里的一百个教程：</b>小周收藏了一百个编程教程视频，参加见面会蹭过大神的饭（财摄受），被酷炫的演示作品震撼过（神通引摄），听的全是入门课（隐密说法）——一年过去代码没写过几行。收藏夹吃灰，正是「五类低强度方便」的现代画像：输入很多，成熟很少。</div>
+
+  <div class="card">
+    <h3>收官：全卷串成一句话</h3>
+    <div class="quote">诸佛菩萨略有三种神变威力。一者神境神变㉕所摄。二者记说神变㉖所摄。三者教诫神变㉗所摄。<span class="src">—— 卷37原文 · 威力品末</span></div>
+    <div class="plain">威力品回答「菩萨能做什么」：三种来源、六神通（只办引人与利生两件事）、六度四相、俱生稀有、共不共三相；成熟品回答「怎么帮别人也做到」：种子加串习方为熟，四类对象、六种差别、二十七方便、三品九阶、六地三劫。合起来一句话：自己练成，再帮别人练成——自利利他，就是菩萨事业的全部结构。</div>
+    <div class="analogy"><b>比喻：</b>威力品是体检报告上「各项机能」的成绩单，成熟品是你给家人订的训练计划——光自己强不算完整，能把别人也带强，这份事业才闭环。三种神变（神境、记说、教诫）正好回扣三种神通：能变能化靠神境，知心安处靠他心，破慢引净靠漏尽。</div>
+  </div>
+
+  <div class="case"><b>驾照的三段成长：</b>刚拿本不敢上路（下品：会退），半年后能自己通勤（中品：不再往「恶趣」，但长途还慌），几年后任何路况都稳（上品：一切成就）——欲乐与加行的浓度，就是方向盘后面的熟练度。九阶天梯没有跳级键，但每一格都作数。</div>
+
+  <div class="divider"></div>
+</section>
+
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第三十七（output/37.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga37-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* 翻转卡开合 */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
+/* 第⑥章：六度归类练习 */
+initSorter('sorterArea',[
+  {a:'加班到九点，你把最后一块蛋糕切给还在赶方案的同事，自己也挺开心。',opts:['布施','持戒','忍辱','精进','静虑','般若'],ans:'布施',exp:'舍己所需以饶益他，而且做的时候心情愉悦——正合「施先意悦」的布施正行。'},
+  {a:'深夜没车，你宁可绕路两公里，也不闯红灯、不翻护栏。',opts:['布施','持戒','忍辱','精进','静虑','般若'],ans:'持戒',exp:'受持身语律仪、约束行为——戒的底线感正是「能断犯戒」。'},
+  {a:'方案被同事当众甩锅，你深吸一口气没当场发作，第二天心平气和地对齐事实。',opts:['布施','持戒','忍辱','精进','静虑','般若'],ans:'忍辱',exp:'断除「不忍」，把冲突升级这类大怖畏事提前拔掉。'},
+  {a:'健身打卡第40天，外面下暴雨，你还是换上鞋去了健身房。',opts:['布施','持戒','忍辱','精进','静虑','般若'],ans:'精进',exp:'不断档、不糊弄，正是断除懈怠的勤精进。'},
+  {a:'睡前把手机放到客厅充电，自己静坐十分钟，只观呼吸。',opts:['布施','持戒','忍辱','精进','静虑','般若'],ans:'静虑',exp:'远离散乱寻伺、摄心一处——正是静虑要对治的那类躁动。'},
+  {a:'家族群里又出现耸人听闻的文章，你先查信源、再决定要不要转发。',opts:['布施','持戒','忍辱','精进','静虑','般若'],ans:'般若',exp:'先核实再判断，是「于所知事如义觉了」——般若断的是无明。'}
+]);
+
+/* 第⑧章：一个普通人被「成熟」的流程推演 */
+initStepper('flowTrack','flowDetail','flowPrev','flowNext',[
+  {t:'① 界增长',d:'<b>善法种子（前世带来的善根倾向）：</b>过去生反复练习留下的善法种子，今生继续辗转增盛、坚固安住——好比土里本来就埋着良种。'},
+  {t:'② 现缘摄受',d:'<b>现法说法（今生遇到正法）：</b>今生听见无颠倒的讲说、无颠倒地受持、如理修行。原文特别点明：界增长是先世之因现在成熟，现缘摄受是现在之因现在成熟——良种等来了阳光雨水。'},
+  {t:'③ 趣入',d:'<b>净信增上（被说服而进场）：</b>得了清净信心的力量，或在家远离恶行而受持学处，或出家离欲而受持学处——正式走上这条道，不再只是围观。'},
+  {t:'④ 摄乐',d:'<b>深生爱乐（尝到甜头）：</b>依出离众苦的行迹、远离「纵欲」与「自虐式苦行」两个极端，对佛的教法与戒律从心底喜欢——从「应该做」变成「喜欢做」。'},
+  {t:'⑤ 初发处',d:'<b>创趣入（正式立志）：</b>对可厌之法深生厌离，同时如实了知真实义有殊胜功德，「而创趣入」——厌离与向往两股力，拧成了发心的第一步。'},
+  {t:'⑥ 加行',d:'<b>无间殷重（持续真用功）：</b>怖畏将来堕恶趣、怖畏现在被讥毁，于是对学处恒勤护持——不间断（无间）、不糊弄（殷重），这是成熟的引擎。'},
+  {t:'⑦ 一路成熟',d:'<b>收束：</b>种子（界增长）→ 遇法（现缘摄受）→ 进场（趣入）→ 爱乐（摄乐）→ 立志（初发处）→ 用功（加行）——二十七种方便的骨干就是这条线，终点是无间断地证得烦恼障、所知障二障清净。'}
+]);
+
+/* 第⑧章：成熟三品条件模拟器 */
+function updateMaturity(){
+  var a=document.getElementById('condA').checked;
+  var b=document.getElementById('condB').checked;
+  var box=document.getElementById('condResult');
+  if(a&&b){
+    box.className='';
+    box.innerHTML='<b>上品成熟：</b>「二因缘俱无阙减」——修得够久、串习又上胜，欲乐与加行都是上品，对应菩萨的堕决定地到究竟地，一路不退。';
+  }else if(a||b){
+    box.className='';
+    box.innerHTML='<b>中品成熟：</b>两项强项只占一样（随一阙减随一具足）——欲乐与加行居中，对应净胜意乐地，不再堕恶趣，但还没到顶。';
+  }else{
+    box.className='fail';
+    box.innerHTML='<b>下品成熟：</b>「未久修习诸根善根」，又「串习下劣因缘」——时间不够、方向还偏，欲乐与加行皆下品，仍会退堕。';
+  }
+}
+document.getElementById('condA').addEventListener('change',updateMaturity);
+document.getElementById('condB').addEventListener('change',updateMaturity);
+updateMaturity();
+
+renderPath();
+</script>
+</body>
+</html>

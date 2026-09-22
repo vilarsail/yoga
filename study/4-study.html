@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第四 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中有寻有伺等三地之一</div>
+  <h1>卷第四 · 交互式学习模块</h1>
+  <p class="sub">这一卷是一张三界「地址簿」：先用「寻与伺」这把尺子把有情世界切成三块地，再逐一登记欲界三十六处的住址、身量、寿命，以及从地狱到天人各自的苦与乐。</p>
+  <div class="tagline">8 个主题 · 6 个学习步骤 · 25 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 三界与三地</a>
+<a href="#s3">③ 欲界三十六处</a>
+<a href="#s4">④ 身量与寿量</a>
+<a href="#s5">⑤ 八热地狱</a>
+<a href="#s6">⑥ 五趣苦清单</a>
+<a href="#s7">⑦ 天趣乐与忧</a>
+<a href="#s8">⑧ 收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+  <div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂全卷大地图</b><span>搞清本卷在整部论里的位置、五门框架与「寻伺」两词（01 章）</span></span></label></div>
+  <div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>抓住三地的判定标准</b><span>三界怎么分、三地按什么刻度划线，玩一遍判定模拟器（02 章）</span></span></label></div>
+  <div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>逛一遍欲界三十六处</b><span>从地底热狱到六欲天的垂直地址簿，点开处所卡片（03 章）</span></span></label></div>
+  <div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>查身量与寿量换算表</b><span>天上一日人间几岁？色界十八处全清单也在这（04 章）</span></span></label></div>
+  <div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>拆八热地狱的名字</b><span>推演等活地狱的循环流程，读词源卡；顺路看 06 章五趣苦与饿鬼三障归类</span></span></label></div>
+  <div class="step-item" data-target="#s8"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官：乐的层次与全卷回看</b><span>看 07 章天福与天忧是一枚硬币，再回 08 章对照两首嗢拖南收束全卷</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ 01 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：从意地到三地</h2></div>
+  <p class="sec-lead">前两卷的「意地」讲完了一颗心的构造；从这一卷起，论主换一张更大的图纸——把整个有情世界按「心中粗细思维活动的状态」划成三块地，再用五张分地图（五门）逐一测绘。本卷是这组地图的第一张：界。</p>
+
+  <div class="card">
+    <h3>先记住两个词：寻与伺</h3>
+    <div class="quote">云何有寻有伺地①。云何无寻唯伺地②。云何无寻无伺地③。<span class="src">—— 卷四原文</span></div>
+    <p><b>寻</b>：粗的推度，大方向上的扫视思量；<b>伺</b>：细的伺察，锁定目标后的精细跟踪。三地的名字，就是按「这两样活动全不全、在不在」起的。</p>
+    <div class="analogy"><b>比喻</b>：进家门找不到钥匙——先扫一眼整个客厅（寻：粗略推求），再盯着沙发缝一点一点翻（伺：细察）。寻与伺就是心的「扫视」和「对焦」两档镜头。</div>
+    <div class="plain">三地＝按「扫视与对焦这两档思维活动在不在」划分的心行地段。</div>
+  </div>
+
+  <div class="card">
+    <h3>总嗢拖南：五门就是本组三地的总目录</h3>
+    <div class="quote">界相如理不如理　　杂染等起最为后<span class="src">—— 卷四原文 · 总嗢拖南</span></div>
+    <div class="quote">一界施设建立。二相施设建立。三如理作意施设建立。四不如理作意施设建立。五杂染等起施设建立。<span class="src">—— 卷四原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">门一 · 本卷主角</span><h4>界</h4><p>世界的硬件测绘——分几块地、住在哪里、身量几何、寿命多长、受用什么。本卷开画。</p></div>
+      <div class="yuan-card"><span class="y-tag">门二</span><h4>相</h4><p>心行状态相——把心的静躁粗细状态逐相描写。</p></div>
+      <div class="yuan-card"><span class="y-tag">门三</span><h4>如理作意</h4><p>正确的思维导航：怎样想才算如理。</p></div>
+      <div class="yuan-card"><span class="y-tag">门四</span><h4>不如理作意</h4><p>错误的思维导航：邪思从哪来、把人带向哪里。</p></div>
+      <div class="yuan-card"><span class="y-tag">门五</span><h4>杂染等起</h4><p>烦恼与业是怎么被连带生起的——染污的运行机制。</p></div>
+    </div>
+    <div class="plain">五门是三地内容的总目录；卷四（及续卷）先精画第一门「界」，其余四门在后卷展开。</div>
+  </div>
+
+  <div class="card">
+    <h3>界门内部的八张分表</h3>
+    <div class="quote">当知界建立由八种相。一数建立。二处建立。三有情量建立。四有情寿建立。五有情受用建立。六生建立。七自体建立。八因缘果建立。<span class="src">—— 卷四原文</span></div>
+    <p>数＝分几块地；处＝地址；有情量＝身量；寿＝租期；受用＝过日子（苦乐、饮食、淫欲）；生＝投生方式；自体＝身体构成；因缘果＝因果账。</p>
+    <div class="analogy"><b>比喻</b>：像一份楼盘楼书——总共几期楼盘（数）、户型地址（处）、层高面积（量）、产权年限（寿）、入住体验（受用）、交房方式（生）、建材结构（自体）、付款条款（因缘果）。</div>
+    <div class="plain">本卷讲完界八相的前五相，且「受用」只讲到苦乐与天福；生、自体、因缘果三相留给卷五。</div>
+  </div>
+
+  <div class="case"><b>读综述先看目录：</b>研究生小林周五晚上打开一篇三百页的领域综述，没有从第一页硬啃，而是先把目录抄在便签上，把全书拆成五个板块，再给每块分配一周时间——总嗢拖南「界相如理不如理　　杂染等起最为后」就是原论自带的便签：先立五门框架，后面几千行细节才挂得上去。</div>
+  <div class="case"><b>换地图不换地球：</b>自驾进山，导航从「高速模式」切到「越野模式」，山还是那座山，但等高线、里程、危险标注全换了一套——意地讲完，世界没变，本卷换上「寻伺三地」这套新刻度重新测绘同一片有情世界。对应开场白「已说意地。云何有寻有伺地」：不是新世界，是新图纸。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 02 三界与三地 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>三界与三地：一把叫「寻伺」的尺子</h2></div>
+  <p class="sec-lead">「数建立」回答第一个问题：世界先分成几块？答案是三界——欲界、色界、无色界，合称「堕摄界」，即会被轮回收编的部分；此外还有一块不在轮回账本里的「非堕摄界」。三地则按寻伺的贪欲离没离来划线——注意：刻度是「欲」，不是「现行」。</p>
+
+  <div class="card">
+    <h3>数建立：世界先分几块</h3>
+    <div class="quote">云何数建立。略有三界⑤。谓欲界色界无色界。如是三种名堕摄界。<span class="src">—— 卷四原文</span></div>
+    <p><b>三界</b>：欲界（有饮食男女等欲）、色界（离欲但仍以色身与宫殿存在）、无色界（连色身也没有，纯依心识住）。三界合称<b>堕摄界</b>——被业力牵着、会坠落流转的世界。</p>
+    <div class="quote">非堕摄界者。谓方便。并萨迦耶。灭及无戏论。无漏界。<span class="src">—— 卷四原文</span></div>
+    <p><b>非堕摄界</b>：不落入轮回收编的部分（方便、萨迦耶灭、无戏论无漏界等）。本卷点到为止，只在卷末补一句它的性质：「一切粗重诸苦永断」（见 08 章）——它是三界地图之外的出口。</p>
+    <div class="plain">三界是轮回的范围，非堕摄界（无漏界等）是范围外。</div>
+  </div>
+
+  <div class="card">
+    <h3>三地的划分线画在哪里</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">有寻有伺地</div><div class="sub">欲界全境＋初静虑</div><div class="tap">点击展开</div></div><div class="back">欲界与色界初静虑（除去静虑中间定），无论以定现前还是受生其中，都属此地——扫视与对焦两档都在线。<em>原话：「此中欲界及色界初静虑。除静虑中间⑥若定若生。名有寻有伺地。」</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">无寻唯伺地</div><div class="sub">静虑中间定</div><div class="tap">点击展开</div></div><div class="back">初静虑与二静虑之间的「中间定」：大方向已定，只剩细察。随一有情修习此定，能感生大梵的果报。<em>原话：「即静虑中间若定若生。名无寻唯伺地随一有情由修此故。得为大梵⑦。」</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">无寻无伺地</div><div class="sub">二静虑以上至无色界</div><div class="tap">点击展开</div></div><div class="back">从第二静虑起，其余色界与无色界全部属此地——连细察也放下，心住在无寻伺的清净层。<em>原话：「从第二静虑。余有色界及无色界。全名无寻无伺地。」</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">堕摄界</div><div class="sub">三界的总名</div><div class="tap">点击展开</div></div><div class="back">欲、色、无色三界合称：会被轮回收编、按业力分房的世界，前面所有处所寿量的登记都发生在这里。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">非堕摄界</div><div class="sub">账本外的地带</div><div class="tap">点击展开</div></div><div class="back">方便、萨迦耶灭、无戏论、无漏界——不在轮回收编范围。本卷不展开，留作全卷末尾「胜义乐」的伏笔。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">无漏初静虑</div><div class="sub">缘真如的出世间定</div><div class="tap">点击展开</div></div><div class="back">依寻伺处法、以真如为所缘入的初静虑：虽也有寻伺活动，仍判入有寻有伺地——判定看所依所缘，不看当下有没有念头。<em>原话：「依寻伺处法。缘真如为境入此定故。不由分别现行故。」</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>最容易读错的一句：判定在「欲」，不在「现行」</h3>
+    <div class="quote">此中由离寻伺欲道理。故说名无寻无伺地。不由不现行故。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">未离欲界欲者。由教导作意差别故。于一时间亦有无寻无伺意现行。已离寻伺欲者。亦有寻伺现行。<span class="src">—— 卷四原文</span></div>
+    <p>为什么不能按「这一刻有没有寻伺冒头」来划地？因为两种反向情况都存在：没离欲的人受教导作意，也能<b>一时</b>不起寻伺；已离欲的人出定之后、或生到彼处，照样有寻伺活动。若按现行判，两边都会判错。</p>
+    <div class="analogy"><b>比喻</b>：判断手机是否「绑架」了你，不看这一小时有没有响铃，看你敢不敢关推送——关了推送偶尔弹出一条（现行），你不被绑；推送全开硬忍着不看（暂时不现行），绑缚依旧。</div>
+    <div class="plain">三地划线看「离没离对寻伺的贪著」，不看「这一刻寻伺有没有活动」。</div>
+  </div>
+
+  <div class="card">
+    <h3>拨一拨：这段心住哪一地？（判定模拟器）</h3>
+    <div class="cond-row"><div class="name">已离寻伺欲<small>已修得第二静虑以上，不再贪著粗细推求</small></div><label class="switch"><input type="checkbox" id="simAway"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">此刻寻伺现行<small>心里正有粗扫细察在活动</small></div><label class="switch"><input type="checkbox" id="simActive"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">所入是无漏初静虑<small>缘真如为境的出世间定</small></div><label class="switch"><input type="checkbox" id="simNir"><span class="slider"></span></label></div>
+    <div id="condResult">拨动上面的开关，看原文的判定逻辑。</div>
+    <div class="obstacle-tags"><span>判定刻度：离寻伺欲 与否</span><span>不是：寻伺现不现行</span><span>特例：无漏初静虑按所缘判</span></div>
+  </div>
+
+  <div class="case"><b>谁还在「抽烟」：</b>老周戒烟三年，上周聚餐有人递烟，他摆手摇头聊了一整晚；同事小李今天开会硬忍着没抽，一下楼就点了火。按本卷的刻度，判断「烟民」身份的标准是瘾（欲）离没离，不是这几小时有没有点上——正好对应「不由不现行故」：忍住不抽的仍是烟民，复吸一口的已是旧习现行而非烟民身份。</div>
+  <div class="case"><b>两小时的心流：</b>短视频重度用户小赵，某晚被一部九十分钟的纪录片抓住，两小时没划一次屏幕——「无寻无伺」的状态一时现前了；但他的刷屏欲未离，第二天照旧刷回原样。而修定多年的陈老师出定后给学生细讲回家路线，粗扫细察都在动，心却不粘。对应原文：未离欲者可一时无寻无伺现行，已离欲者也可有寻伺现行——两边都不能按现行判。</div>
+  <div class="case"><b>退坑玩家上线一局：</b>阿凯删号退游半年，昨晚被老友拉去打了一局，操作手感都还在。他玩了吗？玩了。他还是「已退坑的人」吗？是——一次现行不改变身份，因为对排位冲分的「欲」已经离了。对应「已离寻伺欲者。亦有寻伺现行。如出彼定及生彼者」：出定、受生时寻伺照常运作，地名不变。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 03 欲界三十六处 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>欲界三十六处：一张垂直地址簿</h2></div>
+  <p class="sec-lead">「处建立」给欲界逐一登记住址：八热地狱、八寒地狱、饿鬼、非天、傍生、人间四大洲、六欲天，连同近边地狱与独一地狱，凑齐三十六处。读法是看<b>垂直结构</b>——向下越深越苦，向上越高越乐，而楼层的分配依据是业。</p>
+
+  <div class="card">
+    <h3>垂直剖面：同一本地址簿的上下五层</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">地表之上：六欲天</div><div class="d">四大王众天→三十三天→时分天→知足天→乐化天→他化自在天，一层比一层高；摩罗天宫也属他化自在天摄，「然处所高胜」。</div></div>
+      <div class="tl-item"><div class="t">地表：人间</div><div class="d">四大洲（赡部洲、东毗提诃、西瞿陀尼、北拘卢洲）加八中洲；傍生与人天同处，所以不另立地址。</div></div>
+      <div class="tl-item"><div class="t">地表之下：饿鬼与非天</div><div class="d">别有饿鬼处所与非天处所——它们也有自己的「区」。</div></div>
+      <div class="tl-item"><div class="t">地下三万二千踰缮那：等活大那落迦</div><div class="d">八热地狱的第一层。踰缮那即由旬，古印度里程单位。大地狱「广十千踰缮那」，从这里再每隔四千踰缮那向下一层，直到无间。</div></div>
+      <div class="tl-item"><div class="t">同样排法：八寒地狱</div><div class="d">「如等活大那落迦处。初寒那落迦处亦尔」——疱至大红莲八层寒狱按同样间隔向下排布。</div></div>
+    </div>
+    <div class="quote">处所建立者。于欲界中有三十六处。<span class="src">—— 卷四原文</span></div>
+    <div class="analogy"><b>比喻</b>：一栋立体城市——顶层豪华公寓、中间住宅区、地下车库，再往下是封闭管理区。同一座「楼」，住哪层不由钱决定，由业决定。</div>
+    <div class="plain">欲界＝一栋按「业与欲的浓度」垂直分层的三十六层地址簿。</div>
+  </div>
+
+  <div class="card">
+    <h3>三十六处 · 逐区点名（点击翻看）</h3>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">八热地狱</div><div class="sub">八大那落迦</div><div class="tap">点击展开</div></div><div class="back">等活→黑绳→众合→号叫→大号叫→烧热→极烧热→无间，由浅入深八层，广十千踰缮那。那落迦＝地狱的音译。<em>细节见 05 章。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">八寒地狱</div><div class="sub">极寒之苦八层</div><div class="tap">点击展开</div></div><div class="back">疱、疱裂、喝哳詀、郝郝凡、虎虎凡、青莲、红莲、大红莲——名字一半来自身体冻成的样子，一半来自冻出的苦叫声。<em>细节见 06 章。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">近边地狱</div><div class="sub">大地狱的门外区域</div><div class="tap">点击展开</div></div><div class="back">每个大地狱四方四门之外设四处「游园」：煻煨齐膝、死尸粪泥、刃叶林、铁设拉末梨林（刀剑刃路总归一处，故有四园）。「以近边故不别立处」——附在大地狱边上，不单算地址。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">独一那落迦</div><div class="sub">自业自受的孤狱</div><div class="tap">点击展开</div></div><div class="back">各随自身自业所感、独自受种种大苦，没有统一场景。注意：<em>人间也有一分</em>——尊者取菉豆子说「我见诸有情。烧然。极烧然。遍极烧然总一烧然」。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">饿鬼</div><div class="sub">极饥渴之苦的住区</div><div class="tap">点击展开</div></div><div class="back">别有处所；卷后把它们的苦分成「外障碍、内障碍、饮食无有障碍」三种。<em>细节见 06 章。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">非天</div><div class="sub">战斗不息的一族</div><div class="tap">点击展开</div></div><div class="back">即常说的阿修罗类。原文特别说明其身份：「实是天类由不受行诸天法故说为非天。」——本属天类，因不受行诸天之法（多怀诈幻谄诳）被另行称呼。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">傍生</div><div class="sub">与人天同处</div><div class="tap">点击展开</div></div><div class="back">动物趣就住在人与天身边，「故不别建立」——地址簿不为它们单开一页，但苦的清单（见 06 章）照记不误。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">人间四大洲</div><div class="sub">四大洲＋八中洲</div><div class="tap">点击展开</div></div><div class="back">赡部洲（我们这里）、东毗提诃、西瞿陀尼、北拘卢洲，如前卷所说；另有八中洲环绕。四洲的身量寿量差别见 04 章。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">六欲天</div><div class="sub">欲界天的六层</div><div class="tap">点击展开</div></div><div class="back">四大王众天、三十三天、时分天、知足天、乐化天、他化自在天——「又欲界天有六处」。天福的清单在 07 章展开。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">摩罗天宫</div><div class="sub">高胜的天宫</div><div class="tap">点击展开</div></div><div class="back">「即他化自在天摄。然处所高胜」——挂在第六层名下，但位置更高一等。地址簿连这种「同级高档区」也标注清楚。</div></div>
+    </div>
+    <div class="quote">又于人中亦有一分独一那落迦可得。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">聚如是等三十六处。总名欲界。<span class="src">—— 卷四原文</span></div>
+  </div>
+
+  <div class="card">
+    <h3>别急：色界与无色界也在登记</h3>
+    <div class="quote">复次色界有十八处。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">复次无色界有四处所或无处所。<span class="src">—— 卷四原文</span></div>
+    <p>色界十八处按禅定修习的软、中、上品排座位；无色界四处所「或无处所」——连身体都没有，地址只剩坐标。完整清单在 04 章折叠区。</p>
+    <div class="plain">欲界最热闹（36 处），色界按定力排座位（18 处），无色界几乎没地址（4 处或无处所）。</div>
+  </div>
+
+  <div class="case"><b>地铁报站系统：</b>晚高峰的十号线上，广播每到一站精确报出站名，几千万人凭这套命名定位自己、约定见面地点。本卷给三界逐一命名登记，功能相同：修行者随时能报出自己的「站」——今天暴怒上头，是临时停靠「众合」一站；贪吃贪杯成了习惯，是长住「饿鬼」信号覆盖区。处所建立先给世界建坐标系，才谈得上导航。</div>
+  <div class="case"><b>爬山课的垂直分带：</b>生物老师带学生登贡嘎东坡，一天之内从常绿阔叶林走到高山流石滩，一条山道穿越五六个气候带，每个带住着固定物种，分布由海拔决定。本卷的欲界地图同理：往下三万二千踰缮那是热狱层，往上渐升是六欲天——「海拔」换成了业力，分布规律同样严格。</div>
+  <div class="case"><b>深夜烧伤病房：</b>大医院烧伤科的重症病房里，整夜能听到压抑的呻吟，翻身牵动创面的痛苦外人难以想象。原文特意记下尊者取菉豆子的话「我见诸有情。烧然。极烧然。遍极烧然总一烧然」，并说「于人中亦有一分独一那落迦可得」——这张地址簿并不把苦全部推给「另一个世界」，人间的极端苦难也被如实登记在册。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 04 身量与寿量 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>身量与寿量：三界换算表</h2></div>
+  <p class="sec-lead">「有情量建立」与「寿建立」登记每处住客的尺寸和租期。规律很整齐：赡部洲人两项都不定、全表浮动；越往上越稳定、越广大；色无色界按定力倍增。这一章是全卷最像「数据库」的部分——直接上表。</p>
+
+  <div class="card">
+    <h3>身量：越往上越大，唯独我们浮动</h3>
+    <div class="quote">人身量不定。或时高大或时卑小。然随自肘三肘半量。<span class="src">—— 卷四原文</span></div>
+    <p>赡部洲人（我们）身量以自己的肘为尺、约三肘半——因为肘不同，标准本身浮动。东毗提诃身量决定且更高，西瞿陀尼、北拘卢洲依次更高；欲天从四分之一拘卢舍起「渐渐各增一足」；梵众天半踰缮那起，以上诸天「各渐倍增」（唯无云天减三踰缮那）。造极重恶业的地狱有情反而「身形其量广大」。</p>
+    <div class="quote">当知无色界无有色故无有身量。<span class="src">—— 卷四原文</span></div>
+    <div class="analogy"><b>比喻</b>：像是宿舍床铺规格——北拘卢洲是统一标间（尺寸决定），六欲天是逐层加大的豪华套房（倍增），赡部洲像自带行军的帐篷（随自肘三肘半，人各不同），无色界干脆没有床位（无身则无量）。</div>
+    <div class="plain">身量随界递增、由定业决定，唯赡部洲浮动、无色界无量。</div>
+  </div>
+
+  <div class="card">
+    <h3>寿量换算表（本卷的「数据库」）</h3>
+    <div class="table-wrap">
+    <table class="nine">
+      <tr><th>名相</th><th>原文数据</th><th>通俗理解</th></tr>
+      <tr><td>赡部洲人寿</td><td>寿量不定</td><td>或八万岁或渐减乃至十岁——唯一随时代巨幅浮动的一行</td></tr>
+      <tr><td>余三洲人</td><td>250 / 500 / 1000 岁</td><td>东毗提诃、西瞿陀尼、北拘卢洲，依次翻倍且固定</td></tr>
+      <tr><td>六欲天</td><td>人间50岁＝四天王天一日</td><td>诸天日夜与寿量「各增前一倍」，四天王天五百岁起</td></tr>
+      <tr><td>八热地狱</td><td>四天王天寿＝等活地狱一日</td><td>六天寿量依次作六热狱的一日一夜——天寿即狱寿换算基准</td></tr>
+      <tr><td>极烧热／无间</td><td>半中劫 / 一中劫</td><td>劫为极大时间单位；狱寿最后两档改用「劫」计</td></tr>
+      <tr><td>八寒地狱</td><td>于大那落迦次第相望近半</td><td>寒狱寿量约为对应热狱的一半</td></tr>
+      <tr><td>无色四天</td><td>2万 / 4万 / 6万 / 8万劫</td><td>空无边、识无边、无所有、非想非非想，逐层加倍</td></tr>
+      <tr><td>中夭</td><td>除北拘卢洲悉有</td><td>寿量是上限不是保证，唯北洲租约不中途退租</td></tr>
+      <tr><td>身后残留</td><td>人鬼傍生有余滓身</td><td>人鬼畜死留遗体；天与地狱「与识俱没无余滓身」，随识全消</td></tr>
+    </table>
+    </div>
+    <div class="quote">又人间五十岁是四大王众天一日一夜。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">又四大王众天满足寿量。是等活大那落迦一日一夜。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">空无边处寿二万劫。识无边处寿四万劫。无所有处寿六万劫。非想非非想处寿八万劫。<span class="src">—— 卷四原文</span></div>
+    <div class="analogy"><b>比喻</b>：存款方式不同——北拘卢洲像固定利率的千岁定存；赡部洲像活期，随环境变化随时增减；色无色界像超长期理财，收益可观但账户仍在「堕摄界」名下，终有到期日（中夭）。</div>
+    <div class="plain">修为越高处身量寿量越「保值」；赡部洲是全表里唯一随业浮动的一行。</div>
+  </div>
+
+  <div class="card">
+    <h3>色界十八处 · 完整清单（可跳过）</h3>
+    <details class="dict">
+      <summary>色界十八处与无色界四处<span class="hint">按禅定水平排座位</span></summary>
+      <div class="body">
+        <p><b>初静虑三处</b>：梵众天、梵前益天、大梵天——「此三由软中上品。熏修初静虑故」。</p>
+        <p><b>第二静虑三处</b>：少光天、无量光天、极净光天——由软中上品熏修第二静虑。</p>
+        <p><b>第三静虑三处</b>：少净天、无量净天、遍净天——由软中上品熏修第三静虑。</p>
+        <p><b>第四静虑三处</b>：无云天、福生天、广果天——由软中上品熏修第四静虑；「即广果摄无别处所」，无想天附在广果名下。</p>
+        <p><b>五净宫（圣者所住）</b>：无烦、无热、善现、善见、色究竟——由软、中、上、上胜、上极品杂熏修第四静虑，诸圣住止的不共之地。</p>
+        <p><b>大自在住处</b>：超过五净宫的最高住处，「有十地菩萨。由极熏修第十地故得生其中」。</p>
+        <p><b>无色界四处所（或无处所）</b>：空无边处、识无边处、无所有处、非想非非想处——无色无身，只有心识与定的层级。</p>
+      </div>
+    </details>
+    <div class="plain">色界的座位表＝四禅各三档（软中上）＋圣者专属五净宫＋菩萨大自在宫；无色界连座位都只剩定境本身。</div>
+  </div>
+
+  <div class="case"><b>跨国时区会议：</b>深圳与柏林的团队每周三 21:00 连线，同一时刻两地一个深夜一个下午，日历上甚至快差出一整天——「几点」取决于你在哪个坐标。本卷的「人间五十岁是四大王众天一日一夜」同理：寿量不是绝对数字，而是一套坐标系之间的换算率，读表时先认坐标、再读数字。</div>
+  <div class="case"><b>电池健康度：</b>同一批手机，用一年的电池健康度有人 92%、有人 78%——衰减曲线由使用方式与环境决定。赡部洲人寿「或于一时寿八万岁。或于一时寿量渐减乃至十岁」，正是整代人共用的「电池曲线」：环境共业变了，全表一起浮动；北拘卢洲则像出厂标定的电池，恒定千岁不波动。</div>
+  <div class="case"><b>被提前解约的租客：</b>签了五年租约，第三年房东卖房，租客被迫搬走——合同上的「五年」从未承诺兑现到底。「除北拘卢洲。余一切处悉有中夭」说的就是这个：寿量只是租期上限，中途夭折遍布各处，唯一不退租的租客住北洲。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 05 八热地狱 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>八热地狱：每个名字都是说明书</h2></div>
+  <p class="sec-lead">「受用建立」分三块：受用苦乐、受用饮食、受用淫欲。本卷先画苦乐。第一站是八热地狱——读这段最容易当成猎奇恐怖故事，其实每个名字都是一份<b>刑具说明书＋业相图</b>：看结构，每个地狱的结尾都是同一句「业未尽未出」。</p>
+
+  <div class="card">
+    <h3>先看五趣苦的总表</h3>
+    <div class="quote">谓那落迦有情多分受用极治罚苦。傍生有情多分受用相食啖苦。饿鬼有情多分受用极饥渴苦。人趣有情多分受用匮乏追求种种之苦。天趣有情多分受用衰恼坠没之苦。<span class="src">—— 卷四原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">主打苦 · 五趣之一</span><h4>那落迦</h4><p><b>极治罚苦</b>——最重的「惩罚性」痛苦，八热地狱逐层展开。</p></div>
+      <div class="yuan-card"><span class="y-tag">主打苦 · 五趣之二</span><h4>傍生</h4><p><b>相食啖苦</b>——弱肉强食＋不自在被驱驰。</p></div>
+      <div class="yuan-card"><span class="y-tag">主打苦 · 五趣之三</span><h4>饿鬼</h4><p><b>极饥渴苦</b>——想吃喝而不得的煎熬。</p></div>
+      <div class="yuan-card"><span class="y-tag">主打苦 · 五趣之四</span><h4>人趣</h4><p><b>匮乏追求苦</b>——整张清单见 06 章，苦得最「日常」。</p></div>
+      <div class="yuan-card"><span class="y-tag">主打苦 · 五趣之五</span><h4>天趣</h4><p><b>衰恼坠没苦</b>——乐到头就是衰，细节在 07 章。</p></div>
+    </div>
+    <div class="quote">受用建立者。略有三种。谓受用苦乐受用饮食。受用淫欲。<span class="src">—— 卷四原文</span></div>
+    <div class="plain">受用分苦乐、饮食、淫欲三块记账；本卷讲完苦乐并铺开天福，饮食与淫欲留待续卷。</div>
+  </div>
+
+  <div class="card">
+    <h3>等活地狱的一天（流程推演）</h3>
+    <p>用推演看懂「等活」这个名字的由来——注意每一步都是原文的直接复述。</p>
+    <div class="flow-track" id="huoTrack"></div>
+    <div class="flow-detail" id="huoDetail"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="huoPrev">← 上一步</button> <button class="tri-btn" id="huoNext">下一步 →</button></div>
+    <div class="quote">此诸有情可还等活可还等活。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">乃至先世所造一切恶不善业未尽未出故。此那落迦名为等活。<span class="src">—— 卷四原文</span></div>
+    <div class="analogy"><b>比喻</b>：像没还完的分期账单——每月自动扣款、扣完再生新账，不是银行恨你，是账（业）没平；还清的那期自动停止。八热地狱每一层的结尾「业未尽未出」，都是在说：循环的时长由业量结算。</div>
+    <div class="plain">八热的共同结尾都是「业未尽未出」——刑期由业量决定，不由狱卒决定。</div>
+  </div>
+
+  <div class="card">
+    <h3>七个名字 · 七份说明书（词源卡）</h3>
+    <div class="ety-grid">
+      <div class="ety"><div class="zi">等活</div><div class="gc">此诸有情可还等活可还等活。</div><div class="bhu">空中一声令下，闷绝的众生齐齐复活再受——「等」（一同）活过来，故得名。</div></div>
+      <div class="ety"><div class="zi">黑绳</div><div class="gc">狱卒以黑绳拼之。或为四方或为八方。</div><div class="bhu">像木匠先弹墨线再依线开凿：黑绳画出加工图纸，或凿或斫或剜，依图施刑，故名黑绳。</div></div>
+      <div class="ety"><div class="zi">众合</div><div class="gc">两山迫之。既被迫已一切门中血便流注。</div><div class="bhu">众刑合发——铁羺头山夹迫、铁槽压之「如压甘蔗」、大铁山下堕，众法齐上，故名众合。</div></div>
+      <div class="ety"><div class="zi">号叫</div><div class="gc">彼才入已即便火起。</div><div class="bhu">寻求舍宅才进铁室，火即烧起，苦逼号叫。大号叫更进一步：「谓彼室宅其如胎藏故此那落迦名大号叫」——困在腹内般的宅中出不去。</div></div>
+      <div class="ety"><div class="zi">烧热</div><div class="gc">左右转之表里烧煿。</div><div class="bhu">放在大铁鏊上翻转烤炙，「又如炙鱼」——铁丳从下贯顶、反复炙烤，如炉上烤鱼，故名烧热。</div></div>
+      <div class="ety"><div class="zi">极烧热</div><div class="gc">唯骨琐在。寻复漉之置铁地上。令其皮肉及以血脉复生如故。还置镬中。</div><div class="bhu">灰水镬中煮到只剩骨架，捞出来让皮肉复生如故，再放回去——「业未尽」被演成一道可见的程序。</div></div>
+      <div class="ety"><div class="zi">无间</div><div class="gc">火焰和杂无有间隙。所受苦痛亦无间隙。</div><div class="bhu">四方猛火与身和杂，只见火聚不见有情，唯闻号叫之声知有众生。无间＝苦没有空档——不是最狠的一刀，而是刀与刀之间没有间隙。「多是造作无间之业来生是中」。</div></div>
+    </div>
+    <div class="quote">从其口中拔出其舌。以百铁钉钉而张之。令无皱襵如张牛皮。<span class="src">—— 卷四原文（无间狱刑具之一例）</span></div>
+  </div>
+
+  <div class="case"><b>凌晨一点的循环：</b>小杜又刷短视频刷到眼睛刺痛，困到「断电」睡去，第二天同一时间又坐回沙发同一个位置。循环不停，不是因为手机抓人，而是习惯（业）的「未尽未出」没有变——「可还等活」的复活机制，就是把「戒不掉」这个日常结构放大到业力的尺度：闷绝、复活、重演，直到账平。</div>
+  <div class="case"><b>按罪行分监区：</b>法治纪录片里，监狱按刑期与暴力程度分设不同监区，重罪者单独关押在管理最严的区域。八热地狱从等活到无间层层加深，原文明确写「多是造作无间之业来生是中」——最深的监区对应最重的业，整座「监狱」的分区规则写在入狱者的档案里。</div>
+  <div class="case"><b>反复回放的对话：</b>深夜复盘白天说错的那句话，越想越烧心；念头刚按下去，换个角度又冒出来，怎么都走不出去。「大号叫」的画像正与此同构——「谓彼室宅其如胎藏」：人困在自己造的宅子里，火即烧起、出离无门。名字的由来就是心理结构的极端放大。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 06 寒狱傍生饿鬼人苦 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>寒狱、傍生、饿鬼与人：苦的清单</h2></div>
+  <p class="sec-lead">苦的清单继续往下走：八寒地狱用「冻成什么样、裂成几瓣」命名；傍生苦的核心不是疼而是不自在；饿鬼的苦分成三种障碍模式；人趣拿到一张最长的匮乏清单——也最贴近读者。</p>
+
+  <div class="card">
+    <h3>八寒地狱：以相与音立名</h3>
+    <div class="quote">谓疱那落迦中受生有情。即为彼地极重广大寒触所触。一切身分悉皆卷缩犹如疮疱。<span class="src">—— 卷四原文</span></div>
+    <p>名字分三类起法：<b>疱状</b>（疱、疱裂——冻出疮疱，疱溃脓血流出）；<b>苦音</b>（喝哳詀、郝郝凡、虎虎凡——苦到发出的声音各不相同）；<b>花色</b>（青莲、红莲、大红莲——身分青瘀，「皮肤破裂或五或六」，乃至裂十、裂百，形如花瓣层层绽开）。</p>
+    <div class="quote">此三那落迦由彼有情苦音差别。以立其名。<span class="src">—— 卷四原文</span></div>
+    <div class="analogy"><b>比喻</b>：气象台给寒潮分级——黄色预警看结冰形态，红色预警连报警电话的声音都变了。寒狱的命名系统：前两档看「冻相」，中间三档干脆用惨叫的「音标」记名，后三档看身体绽裂的颜色与层数。</div>
+    <div class="plain">寒狱命名三法：冻相（疱）、苦音（三声名）、花色（青红莲裂瓣层数）。</div>
+  </div>
+
+  <div class="card">
+    <h3>傍生：苦在「选择权归别人」</h3>
+    <div class="quote">又傍生趣更相残害如羸弱者为诸强力之所杀害。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">以不自在他所驱驰多被鞭挞。与彼人天为资生具。<span class="src">—— 卷四原文</span></div>
+    <p>两层苦：互相残害（弱者被强者杀），以及不自在——被驱驰、被鞭挞、当作人与天的资生工具。注意清单的措辞：核心是「不自在」，不只是「会疼」。</p>
+    <div class="plain">傍生之苦＝同类的弱肉强食＋彻底失去对自身的支配权。</div>
+  </div>
+
+  <div class="card">
+    <h3>饿鬼三种 · 障碍模式归类练习</h3>
+    <div class="quote">谓彼有情由习上品悭故生鬼趣中。<span class="src">—— 卷四原文（饿鬼之因：上品悭吝）</span></div>
+    <p>原文把饿鬼的饥渴分成三种模式：<b>外障碍</b>（想吃喝，资源在外部被人拦守）、<b>内障碍</b>（东西在手，自身却咽不下）、<b>饮食无有障碍</b>（没人拦，但受用本身变成烧灼与污秽）。下面每组场景属于哪种？点击标签归类。</p>
+    <div id="sorterGhost"></div>
+    <div class="quote">所到泉池为余有情手执刀杖及以罥索。行列守护令不得趣。<span class="src">—— 卷四原文（外障碍）</span></div>
+    <div class="quote">谓彼有情口或如针。口或如炬。或复颈瘿其腹宽大。<span class="src">—— 卷四原文（内障碍）</span></div>
+    <div class="quote">随所饮啖皆被烧然。<span class="src">—— 卷四原文（无障碍之一：猛焰鬘）</span></div>
+    <div class="case"><b>外障碍·抢票：</b>周五 12:00，小何掐着表守在开票页，刷新三秒后页面跳出「已售罄」，转手就是黄牛价翻五倍——想喝的水明明存在，却有人持「刀杖罥索」守在售票口。对应外障碍饿鬼的泉池场景：「或强趣之。便见其泉变成脓血自不欲饮」——强行凑近，得到的东西也变了味。</div>
+    <div class="case"><b>内障碍·咽不下：</b>失恋第一周，朋友把满桌好菜推到小雯面前，她夹了一筷子就放下——没有谁拦她，喉咙自己关了门。对应内障碍「纵得饮食无他障碍。自然不能若啖若饮」：障碍长在身心内部，资源到位也没用。</div>
+    <div class="case"><b>无障碍·越刷越灼：</b>失眠的阿斌整晚报复性刷短视频，没有人拦、账号随便刷，可四小时后只剩空虚发烫的心——受用的动作毫无障碍，受用本身成了烧灼。对应猛焰鬘鬼「随所饮啖皆被烧然。由此因缘。饥渴大苦未尝暂息」。</div>
+  </div>
+
+  <div class="card">
+    <h3>人趣：一张最长的匮乏清单</h3>
+    <details class="dict">
+      <summary>人趣七种匮乏＋老病死<span class="hint">可跳过 · 但建议对号入座</span></summary>
+      <div class="body">
+        <p><b>俱生饥渴匮乏苦</b>——与生俱来的饥渴，一天不进食就发作。</p>
+        <p><b>所欲不果匮乏苦</b>——想要的总落空，求而不得。</p>
+        <p><b>粗疏饮食匮乏苦</b>——即便吃到，也多是粗糙将就的一口。</p>
+        <p><b>逼切追求摄受等匮乏苦</b>——为保有已得的东西而被迫不停追逐。</p>
+        <p><b>时节变异若寒若热匮乏苦</b>——寒暑交替，冷热都难受。</p>
+        <p><b>无有舍宅覆障所作淋漏匮乏苦</b>——没有遮蔽，劳作成果被日晒雨淋糟蹋。</p>
+        <p><b>黑闇等障所作事业皆悉休废匮乏苦</b>——天黑了、停电了，事情只能停摆。</p>
+        <p><b>变坏老病死苦</b>——最后还有身体一路变坏这条总账。原文补刀：那落迦中「谓死为乐。故于彼趣不立为苦」——苦到死亡成了解脱，可见清单上限在哪。</p>
+      </div>
+    </details>
+    <div class="quote">所谓俱生饥渴匮乏苦。所欲不果匮乏苦。粗疏饮食匮乏苦。<span class="src">—— 卷四原文</span></div>
+    <div class="plain">人趣的苦是「匮乏型」的：不致命的日常短缺，一天补不完、一生补不全。</div>
+  </div>
+
+  <div class="case"><b>同一条街两套天气：</b>三伏天，写字楼的中央空调恒定 24 度，写字楼下的外卖骑手在 39 度的路面爬六楼送餐，头盔里的汗顺着下巴滴在保温箱上。同一时刻同一街区，寒与热的「匮乏」按处境分配——对应人趣「时节变异若寒若热匮乏苦」：温度本身就是一张账单，只是有人由别人代付。</div>
+  <div class="case"><b>马场排班表：</b>骑马场的马按排班表被骑，宠物狗按主人的作息被遛，拉车的骡子被鞭子催着赶完最后一趟。它们「会疼」，但清单强调的是另一件事：吃住由别人定，行程由别人定，「以不自在他所驱驰多被鞭挞。与彼人天为资生具」——不自在，才是这一趣苦的核心标签。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 07 天趣：福报的兑现与代价 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>天趣：福报的兑现与代价</h2></div>
+  <p class="sec-lead">天不是苦的豁免区。先看死前五相、被新人碾压的惶怖、与非天的战争；再看天福清单——如意树、普胜殿、善法堂。乐与忧是同一枚硬币的两面：福聚兑现的那一刻，就注定了衰相的日程表。</p>
+
+  <div class="card">
+    <h3>死堕五相：天人的「体检预警」</h3>
+    <div class="quote">一衣无垢染有垢染现。二鬘旧不萎今乃萎瘁。三两腋汗流。四身便臭秽。五天及天子不乐本座。<span class="src">—— 卷四原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">衣垢</div><div class="sub">从不脏的衣服脏了</div><div class="tap">点击展开</div></div><div class="back">天人衣裳天然无垢，垢染一现即是警报——像从不报错的系统第一次弹出错误日志，分量比经常出错重得多。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">鬘萎</div><div class="sub">花鬘枯萎</div><div class="tap">点击展开</div></div><div class="back">头上花鬘本不该蔫，如今萎瘁——鲜花保鲜期的尽头，就是寿量清单上的倒计时开始。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">腋汗</div><div class="sub">两腋汗流</div><div class="tap">点击展开</div></div><div class="back">天身不出汗，出汗即失守——相当于一项基础指标首次越界，身体健康度肉眼可见地下行。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">身臭</div><div class="sub">身便臭秽</div><div class="tap">点击展开</div></div><div class="back">「其身内外皆悉清洁无有臭秽」本是天人的出厂设定，臭秽现前即出厂设定失效。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">不乐本座</div><div class="sub">坐立不安</div><div class="tap">点击展开</div></div><div class="back">连宝座都坐不住了——最主观也最准的一条：身体还没报完指标，心里已经先知道要走了。</div></div>
+    </div>
+    <div class="quote">所有婇女与余天子共为游戏。彼既见已由此因缘生大忧苦。<span class="src">—— 卷四原文</span></div>
+    <div class="plain">天趣无解支节苦，但有死堕苦——衰相五条逐一亮灯，位子先被别人坐热。</div>
+  </div>
+
+  <div class="card">
+    <h3>天三种苦（附归类练习）</h3>
+    <div class="quote">是故诸天受三种苦。谓死堕苦。陵蔑苦。斫截破坏残害驱摈苦。<span class="src">—— 卷四原文</span></div>
+    <p><b>死堕苦</b>：五相先现＋眼看自己的位置被替代。<b>陵蔑悚栗苦</b>：「由有广大福聚成就及广大五欲。天子生时所余薄福诸旧天子见已惶怖」——大福新人一来，旧人先慌。<b>斫截破坏驱摈苦</b>：与非天持金银颇胝琉璃四仗交战，「若断其首即便殒没」；败的一方退回自宫，「己之同类竟不慰问。由此因缘便怀忧戚」。</p>
+    <div id="sorterHeaven"></div>
+    <div class="case"><b>输球后的更衣室：</b>大比分落败，队员挨个回更衣室收拾装备，毛巾一丢各自看手机，没人开口说一句「没事」。体育记者管这叫「更衣室氛围降到了冰点」——原文叫「若为他胜即退入自宫。己之同类竟不慰问。由此因缘便怀忧戚」：败退之后的沉默，比失败本身更伤。</div>
+  </div>
+
+  <div class="card">
+    <h3>天福清单 · 随念随至</h3>
+    <details class="dict">
+      <summary>欲界天的富乐配置表<span class="hint">可跳过 · 对比 06 章的匮乏清单读</span></summary>
+      <div class="body">
+        <p><b>身体</b>：「其身内外皆悉清洁无有臭秽」——无尘垢筋骨脾肾心肝诸不净。</p>
+        <p><b>宫殿</b>：四种宫殿，金银颇胝琉璃所成，种种台阁楼观罗网，末尼周匝放光。</p>
+        <p><b>诸树</b>：食树出青黄赤白四味苏陀；饮树、乘树、衣树、庄严具树、熏香鬘树、歌笑舞乐树、资具树各司其职。</p>
+        <p><b>大集会树</b>：根深五十、身高百、枝叶覆八十踰缮那，香顺风熏百踰缮那——三十三天在此雨四月中以妙五欲娱乐。</p>
+        <p><b>随念现前</b>：「又彼诸天欲受用时。随欲随业应其所须来现手中。」</p>
+        <p><b>北拘卢洲</b>：如意树随取随得「不由思惟」，「复有粳稻不种而获无有我所」。</p>
+        <p><b>帝释普胜殿</b>：百楼观、一一台阁七房室、一一房室七天女、一一天女七侍女。</p>
+        <p><b>善法堂</b>：「诸天入中思惟称量观察妙义」——天上也有正经开会的地方。</p>
+        <p><b>地面</b>：平正如掌，下足陷膝、举足还起，「时有微风吹去萎华复引新者」。</p>
+      </div>
+    </details>
+    <div class="quote">随欲随业应其所须来现手中。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">恒为放逸之所持行。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">恒为是乐。牵引其意以度其时。<span class="src">—— 卷四原文</span></div>
+    <div class="analogy"><b>比喻</b>：无限量供应的自助餐厅——免去了点单付账的一切摩擦，但也正是这种「零阻力」让人从中午吃到半夜。天福是福聚的兑现期，也是消耗期；唯一的例外配置是善法堂——那张会议桌上摆的不是美食，是「妙义」。</div>
+    <div class="plain">天福零摩擦，也正因零摩擦而「恒为放逸之所持行」——乐即牵引，牵引即度日。</div>
+  </div>
+
+  <div class="case"><b>退休高管的第一晚：</b>王总退休交接那天下午，办公室还围满了人；当晚家庭群照常热闹，公司群安静得只剩系统通知。第二天路过原工位，新主人的绿植已经摆上了。天趣死堕五相的现代版一模一样：衰相逐条亮灯（体检异常、权限收回），婇女与余天子共游（办公室照转），「彼既见已由此因缘生大忧苦」。</div>
+  <div class="case"><b>空降的年轻总监：</b>部门周一晨会，HR 介绍新总监：比所有人年轻、履历漂亮。散会后老员工群里没人说话，晚上有人默默更新了简历。「由有广大福聚成就及广大五欲。天子生时所余薄福诸旧天子见已惶怖」——陵蔑悚栗之苦不是被欺负，而是新福报一进场，旧福报自动贬值。</div>
+  <div class="case"><b>随叫随到的即时零售：</b>小宋想要什么下单即达，三十分钟到手，账单月底统一扣——她自称过上了「天一样的生活」。但细看：天的版本连下单和账单都没有，「随欲随业应其所须来现手中」，福报本身就是支付方式；也正因为无摩擦，原文用一句「恒为放逸之所持行」给这份便利贴上了价签。</div>
+
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 08 收官 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>收官：乐的层次与全卷回看</h2></div>
+  <p class="sec-lead">回到开卷的地图：本卷讲完五门中的第一门「界」，界八相中的前五相。收官前还要回答一个隐藏问题——如果三界是本苦乐账本，账有清零的一天吗？原文的答案是：只有一处，账是真正清零的。</p>
+
+  <div class="card">
+    <h3>乐的分层表：从相杂到胜义</h3>
+    <div class="table-wrap">
+    <table class="nine">
+      <tr><th>名相</th><th>出处成员</th><th>通俗理解</th></tr>
+      <tr><td>四那落迦</td><td>八热八寒近边独一</td><td>纯苦无乐——四种地狱中「无有乐受」</td></tr>
+      <tr><td>三种饿鬼</td><td>外障／内障／无障</td><td>同样无乐受，只有饥渴的三种变体</td></tr>
+      <tr><td>资具乐</td><td>大力鬼、傍生、人</td><td>有乐可得，「然为众苦之所相杂」——乐里掺着苦</td></tr>
+      <tr><td>转轮王乐</td><td>人趣顶配</td><td>七宝自现、四洲顺化，仍属人趣乐，未出相杂</td></tr>
+      <tr><td>色无色界</td><td>诸定地有情</td><td>「由彼有情非苦受器故」，但仍有粗重苦</td></tr>
+      <tr><td>无漏界</td><td>非堕摄界</td><td>「一切粗重诸苦永断」——唯此是胜义乐</td></tr>
+    </table>
+    </div>
+    <div class="quote">然为众苦之所相杂。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">然由粗重苦故说彼有苦。有烦恼故。有障碍故。于死及住不自在故。<span class="src">—— 卷四原文</span></div>
+    <div class="quote">又无漏界中一切粗重诸苦永断。是故唯此是胜义乐。当知所余一切是苦。<span class="src">—— 卷四原文</span></div>
+    <p>色无色界虽不现行上述诸苦，但「有烦恼故。有障碍故。于死及住不自在故」——苦的根子还在，只是暂时不发作。全卷的账算到这里收口：<b>除了无漏界，一切乐都要打折。</b></p>
+    <div class="plain">乐分三层：欲乐被众苦相杂、定乐有粗重苦潜伏、唯无漏界是胜义乐。</div>
+  </div>
+
+  <div class="card">
+    <h3>转轮王：人趣乐的天花板</h3>
+    <div class="quote">何等为七。所谓轮宝象宝马宝末尼珠宝女宝主藏臣宝主兵臣宝。<span class="src">—— 卷四原文</span></div>
+    <p>转轮王出现于世，七宝自然现前；统四洲则小王「望风顺化」，统三洲先遣使、二洲兴师、一洲须亲往奋戈。轮王的敕令只有一句总纲：</p>
+    <div class="quote">当以如法勿以非法。<span class="src">—— 卷四原文</span></div>
+    <div class="plain">连人趣最高的乐也分四档（四洲／三洲／二洲／一洲），且以「如法」为治理底线——乐的账本里，等级与规则一并记账。</div>
+  </div>
+
+  <div class="card">
+    <h3>全卷结构回顾（30 秒版）</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">开场</div><div class="d">已说意地 → 三地问名 → 总嗢拖南立五门 → 界门下开八相。</div></div>
+      <div class="tl-item"><div class="t">数</div><div class="d">三界（堕摄界）＋非堕摄界；三地按「离寻伺欲」划线，不按现行。</div></div>
+      <div class="tl-item"><div class="t">处</div><div class="d">欲界三十六处垂直分层（八热八寒＋饿鬼非天傍生＋四洲＋六欲天）；色界十八处；无色界四处。</div></div>
+      <div class="tl-item"><div class="t">量与寿</div><div class="d">身量寿量逐处登记；天人地狱互相换算；除北洲悉有中夭；无色界以劫计。</div></div>
+      <div class="tl-item"><div class="t">受用（本卷部分）</div><div class="d">五趣主打苦逐趣展开（八热地狱名相详解＋寒狱傍生饿鬼人趣清单）；天三种苦与天福清单；乐的分层收口于无漏界。</div></div>
+      <div class="tl-item"><div class="t">下一卷预告</div><div class="d">界八相的后三相——生建立、自体建立、因缘果建立，以及受用的饮食、淫欲两块，续卷接讲。</div></div>
+    </div>
+  </div>
+
+  <div class="gatha">
+    <div class="lines">界相如理不如理　　杂染等起最为后<br>数处量寿受用生　　自体因缘果分别</div>
+    <div class="mean">上二句：总嗢拖南——五门目录，本卷讲完「界」。下二句：别嗢拖南——界八相歌诀，前五相（数处量寿受用）本卷已讲，后三相（生自体、因缘果）留给续卷。两首歌诀就是本卷的压缩包，解压后是整张三界地址簿。</div>
+  </div>
+
+  <div class="case"><b>考前一张便利贴：</b>考研的小蒋把整本专业课压成一张 A4 思维导图贴在书桌前，每复习完一章回看一次定位进度——细节忘了一半，框架从来没丢。两首嗢拖南就是原论自带的便利贴：十行歌诀锁住五门八相，读到任何一段地狱苦、天福账，都能在歌诀里找到自己的坐标。</div>
+  <div class="case"><b>理财课的资产分层：</b>理财课把账户分三层：活期随取随花、随通胀缩水；定期锁息但有到期日；保险年金写进合同、不受行情波动。本卷给「乐」也分了三层：欲界资具乐「为众苦之所相杂」（活期，随时贬值）；色无色界定乐有粗重苦潜伏（定期，有到期日）；无漏界胜义乐「一切粗重诸苦永断」（合同保证，不随行情）。对应那句总评：「当知所余一切是苦。」</div>
+
+  <div class="divider"></div>
+</section>
+
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第四（output/4.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga4-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+
+/* 翻转卡：点击开合 */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
+/* 三地判定模拟器（02 章） */
+function updSim(){
+  var A=document.getElementById('simAway').checked,
+      B=document.getElementById('simActive').checked,
+      C=document.getElementById('simNir').checked,
+      el=document.getElementById('condResult'),html='',fail=false;
+  if(C){
+    html='<b>有寻有伺地（无漏初静虑）</b>：虽依寻伺处法、寻伺也在活动，但因为缘真如为境入此定，仍判入有寻有伺地——原文点明「不由分别现行故」。判定看所依所缘，不看当下有没有念头。';
+  }else if(A){
+    html='<b>无寻无伺地</b>：寻伺欲已离，地的归属就此确定。'+(B?'此刻虽也有寻伺现行（如出定之后、或生彼处的有情），地名并不因此改写——「已离寻伺欲者。亦有寻伺现行」。':'此刻寻伺不起，与地名一致。');
+  }else if(B){
+    html='<b>有寻有伺地</b>：未离寻伺欲，寻伺又在现行——最标准的情形，欲界与初静虑的日常。';
+  }else{
+    fail=true;
+    html='<b>仍属有寻有伺地</b>：未离欲者由教导作意，也能<b>一时</b>现起无寻无伺心——但那是一时的天气预报，不是搬家。判定在「欲离未离」，不在「现行与否」——「不由不现行故」。';
+  }
+  el.classList.toggle('fail',fail);
+  el.innerHTML=html;
+}
+['simAway','simActive','simNir'].forEach(function(id){
+  document.getElementById(id).addEventListener('change',updSim);
+});
+updSim();
+
+/* 等活地狱流程推演（05 章） */
+var HUO_STEPS=[
+  {t:'聚集',d:'<b>业增上生（苦的启动键）：</b>「谓彼有情多共聚集业增上生」——众生由业力聚在一处，种种刑具次第而起。狱卒与苦具不是外来的暴政，是自业的放映。'},
+  {t:'苦具现前',d:'<b>种种苦具次第而起：</b>刑具按序登场，没有编排者，业力本身就是导演。'},
+  {t:'更相残害',d:'<b>互相残害：</b>众生彼此加害，「更相残害闷绝躄地」——打到昏死倒地，像死了一回。'},
+  {t:'空中声音',d:'<b>可还等活：</b>虚空中发出大声音：「此诸有情可还等活可还等活」——可以还生了！可以还生了！'},
+  {t:'复活重演',d:'<b>欻然复起：</b>忽然又活过来，同样的刑具、同样的残害再演一遍——复活的不是恩赦，是循环。'},
+  {t:'长时循环',d:'<b>乃至业未尽：</b>「由此因缘长时受苦。乃至先世所造一切恶不善业未尽未出」——循环持续到业量结算完毕为止。'},
+  {t:'得名等活',d:'<b>点题：</b>「等活」＝一同再活过来。循环之所以精确运转，因为它就是业本身在计时——名字即结构。'}
+];
+initStepper('huoTrack','huoDetail','huoPrev','huoNext',HUO_STEPS);
+
+/* 归类练习一：饿鬼三种障碍（06 章） */
+var GHOST_ITEMS=[
+  {a:'开票三秒售罄，黄牛价翻五倍，想要的票怎么都进不去',opts:['外障碍','内障碍','饮食无有障碍'],ans:'外障碍',exp:'资源在外部被拦守——对应「所到泉池为余有情手执刀杖及以罥索。行列守护令不得趣」。'},
+  {a:'失恋第一周，满桌好菜却一口咽不下，没人拦她',opts:['外障碍','内障碍','饮食无有障碍'],ans:'内障碍',exp:'障碍长在自身——「纵得饮食无他障碍。自然不能若啖若饮」，口如针、颈瘿腹大都是这类。'},
+  {a:'重感冒鼻塞一周，山珍海味摆在面前全无味道',opts:['外障碍','内障碍','饮食无有障碍'],ans:'内障碍',exp:'受用器官自身失灵，资源到位也受用不了——内障碍。'},
+  {a:'报复性刷视频一整晚，没人拦，越刷心里越空虚发烫',opts:['外障碍','内障碍','饮食无有障碍'],ans:'饮食无有障碍',exp:'受用动作毫无障碍，但受用本身变成烧灼——猛焰鬘「随所饮啖皆被烧然。由此因缘。饥渴大苦未尝暂息」。'},
+  {a:'只对炸鸡有胃口，健康餐摆在面前就是下不去筷',opts:['外障碍','内障碍','饮食无有障碍'],ans:'饮食无有障碍',exp:'能受用的范围被业锁死——食粪秽之类「纵得香美而不能食」，只受用秽劣。'}
+];
+initSorter('sorterGhost',GHOST_ITEMS);
+
+/* 归类练习二：天三种苦（07 章） */
+var HEAVEN_ITEMS=[
+  {a:'空降的年轻总监能力超强，老员工人人自危、悄悄更新简历',opts:['死堕苦','陵蔑苦','斫截驱摈苦'],ans:'陵蔑苦',exp:'新福报一进场，旧福报自动贬值——「所余薄福诸旧天子见已惶怖」，此为陵蔑悚栗之苦。'},
+  {a:'项目竞标失败，团队散会各自收拾，没人说一句安慰',opts:['死堕苦','陵蔑苦','斫截驱摈苦'],ans:'斫截驱摈苦',exp:'败退之后同类不慰问——「己之同类竟不慰问。由此因缘便怀忧戚」。'},
+  {a:'资深高管退休当天，工位第二天就换了新主人',opts:['死堕苦','陵蔑苦','斫截驱摈苦'],ans:'死堕苦',exp:'衰相先现、位子先被替代——五相先现中「天及天子不乐本座」，继而看他人游戏其位。'},
+  {a:'游戏里顶级账号过气，新人榜单天天刷新，老玩家黯然退服',opts:['死堕苦','陵蔑苦','斫截驱摈苦'],ans:'陵蔑苦',exp:'被后来者碾压的惶怖，对应薄福旧天子见大福新天子「见已惶怖」。'},
+  {a:'重组后被裁的员工抱着纸箱离开，同事沉默围观无人送别',opts:['死堕苦','陵蔑苦','斫截驱摈苦'],ans:'斫截驱摈苦',exp:'被驱逐摈弃且无人慰问——对应「诸劣天子便被驱摈出其自宫」后的忧戚。'}
+];
+initSorter('sorterHeaven',HEAVEN_ITEMS);
+/* 两个归类区共用组件会生成重复 id：为第二区重绑按钮处理并改 id，避免冲突 */
+document.querySelectorAll('#sorterHeaven .tri-btn').forEach(function(b){
+  b.onclick=function(){
+    var i=+b.dataset.i,t=HEAVEN_ITEMS[i],row=b.closest('.tri-row');
+    row.querySelectorAll('.tri-btn').forEach(function(x){
+      x.classList.remove('correct','wrong');
+      if(x.dataset.v===t.ans)x.classList.add('correct');
+      else if(x===b)x.classList.add('wrong');
+    });
+    row.querySelector('.tri-exp').classList.add('show');
+  };
+});
+document.querySelectorAll('#sorterHeaven .tri-exp').forEach(function(el,i){el.id='heavenExp'+i;});
+
+renderPath();
+</script>
+</body>
+</html>

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷23 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中声闻地第十三初瑜伽处出离地第三之二</div>
+  <h1>卷第23 · 交互式学习模块</h1>
+  <p class="sub">这一卷是一部“修行日常操作手册”：上半场教你怎么守住眼耳鼻舌身意六个感官入口（根律仪），下半场教你怎么吃一顿饭（于食知量）——想修行，先从这两件每天都要做的事开始。</p>
+  <div class="tagline">9 个主题 · 6 个学习步骤 · 23 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 密护根门·两股正念</a>
+<a href="#s3">③ 念防护意·行平等位</a>
+<a href="#s4">④ 取相与取随好</a>
+<a href="#s5">⑤ 恶不善法·两道防线</a>
+<a href="#s6">⑥ 略义与两种力</a>
+<a href="#s7">⑦ 食之过患</a>
+<a href="#s8">⑧ 食之正确打开</a>
+<a href="#s9">⑨ 收官总纲</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>这一卷只讲两件每天要做的事：守好六个感官入口、吃好每顿饭。对应第①章。</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>认识防护系统的两台发动机</b><span>防守正念（念从哪来）与常委正念（念怎么保养）。对应第②章。</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>走一遍“心被带走”的慢动作</b><span>用流程推演看清烦恼生起的六步链条，找到拦截点。对应第③章。</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>分清「取相」与「取随好」</b><span>做一组归类练习：看见≠上头，上头才是漏洞。对应第④章。</span></span></label></div>
+<div class="step-item" data-target="#s7"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>切换到“吃饭”频道：三段过患观</b><span>受用、变异、追求——把一口饭的全部代价看清楚（两道防线与两种力见第⑤⑥章）。</span></span></label></div>
+<div class="step-item" data-target="#s9"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官：总纲与速查</b><span>平等食五非、五句总纲、名词速查——把全卷装进口袋。</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ ① 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：两件每天都要做的事</h2></div>
+  <p class="sec-lead">本卷属《瑜伽师地论·本地分·声闻地》初瑜伽处「出离地」的第二部分。前一卷立「出离」的大义，本卷把“想修行”落到两项日常防护功夫上：白天守住六个感官入口（根律仪），饭点管好一张嘴（于食知量）。修行不在深山玄想里，就在这两件事上。</p>
+
+  <div class="card">
+    <h3>上半场：根律仪——六根的防火墙</h3>
+    <div class="quote">云何根律仪①。谓如有一能善安住密护根门②。防守正念③常委正念④。乃至广说。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">上半场讲“输入管理”——眼睛看什么、耳朵听什么、心随什么转，全要装上闸门。</p>
+    <div class="analogy"><b>比喻：</b>出门要锁门、进门要洗手。根律仪就是修行版的“个人卫生”：眼耳鼻舌身意是六个入口，每天从睁眼到入睡，都要防着外境“病菌”从这些门进来。</div>
+  </div>
+
+  <div class="card">
+    <h3>下半场：于食知量——吃饭这件事的正念版</h3>
+    <div class="quote">云何名为于食知量⑮。谓如有一由正思择⑯食于所食。不为倡荡⑰。不为憍逸⑱。不为饰好不为端严。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">下半场讲“吃饭管理”——吃不是欲望的加油站，而是支撑修行的能源补给，怎么吃、为什么吃，全部要审。</p>
+    <div class="analogy"><b>比喻：</b>健身圈有句话，“三分练、七分吃”：训练再猛，吃乱了一切白费。修行同理——护根是“练”，知量是「吃」；两件事不做，功课全从这两个洞漏光。</div>
+  </div>
+
+  <div class="table-wrap">
+  <table class="nine">
+    <tr><th>名相</th><th>出处成员</th><th>通俗理解</th></tr>
+    <tr><td>根律仪</td><td>密护根门 · 防守正念 · 常委正念</td><td>给六根装闸门的总称</td></tr>
+    <tr><td>念防护意</td><td>眼色为缘生眼识 → 分别意识 → 正念介入</td><td>在念头将生未生时拦截</td></tr>
+    <tr><td>行平等位</td><td>善舍 · 无记舍</td><td>心的平稳巡航档</td></tr>
+    <tr><td>取相 · 取随好</td><td>直接执取境界相 / 依语言文字想象加工</td><td>看见≠上头，上头才是漏洞</td></tr>
+    <tr><td>两种根律仪</td><td>思择力所摄 · 修习力所摄</td><td>靠讲道理守住 vs 靠习练成本能</td></tr>
+    <tr><td>于食知量</td><td>受用 · 变异 · 追求 三类过患 + 平等食</td><td>把吃饭变成观察与练习</td></tr>
+  </table>
+  </div>
+
+  <div class="case"><b>健身房新手：</b>小李办了年卡头一个月天天猛练，可乐奶茶照旧，体重纹丝不动；教练一句话点醒他：“三分练七分吃。”他这才明白——动作（护根）和饮食（知量）是同一套系统里必须同时做的两件事，缺一个，全部白费。这正是本卷把「根律仪」和「于食知量」编在同一卷的原因：它们是修行这项工程的两个基础工序。</div>
+  <div class="case"><b>打工人小陈的自控组合：</b>小陈装了“屏幕使用时间”监控（管住每天从睁眼开始的输入），又用 App 记录三餐热量（管住每天最重要的输出）。一个月后他发现：输入干净了，下午就不烦躁；吃得有数了，晚上就不熬夜。这两件事对应本卷的两大主题——守护根门，决定你摄入什么；于食知量，决定你被吃什么牵着走多远。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ② 密护根门·两股正念 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>密护根门：两股正念</h2></div>
+  <p class="sec-lead">「密护根门」听起来玄，拆开其实是一台双引擎防护系统：先要有一份正念在手（防守正念——它从哪来），再把这份正念训练到不间断、不敷衍（常委正念——它怎么保养）。</p>
+
+  <div class="card">
+    <h3>防守正念：念不是天生的，是攒出来、养出来的</h3>
+    <div class="quote">于时时中即于多闻若思若修正作瑜伽。正勤修习不息加行。不离加行。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">正念靠“听—想—练”（闻思修）攒出来，再靠时时维护不丢失；断了加行，念就漏电。</p>
+    <div class="analogy"><b>比喻：</b>正念像手机里装的常驻安全软件：听课读书是“下载安装”（闻），反复琢磨原理是“调试”（思），拿去实际用是“运行”（修）。装完还得保持后台常开、定期更新——进程一被杀掉，防护立刻失效。</div>
+  </div>
+
+  <div class="card">
+    <h3>常委正念：两个指标都要满格</h3>
+    <div class="quote">当知此中恒常所作名无间作。委细所作名殷重作。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">「常」＝不间断（无间作），「委」＝不敷衍（殷重作）——时间上不断档，质量上不打折。</p>
+    <div class="analogy"><b>比喻：</b>银行金库的值守标准：排班二十四小时无缝衔接，是「无间」；每一次交接都逐件核对、绝不扫一眼过场，是「殷重」。少掉哪一条，防线都有缝。</div>
+    <div class="quote">如其所有常委正念。如是即于无忘失念得任持力。即由如是功能势力。制伏色声香味触法。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">常委正念给“不忘失的念”加上持力，这股力气才压得住色声香味触法六尘——力是练出来的，不是许愿来的。</p>
+  </div>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">密护根门</div><div class="sub">总开关的名字</div><div class="tap">点开看释义 →</div></div>
+      <div class="back">「谓防守正念常委正念。广说乃至防护意根。及正修行意根律仪。如是名为密护根门。」五根防的是外面的门，意根防的是屋里人自己开门——最难的一关也包含在内。<em>密护＝护到别人看不见的地方：你脑子里闪过的念头。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">防守正念</div><div class="sub">正念的来源与保养</div><div class="tap">点开看释义 →</div></div>
+      <div class="back">由闻思修三步集成，再「于时时中」保持运转、不息加行。念是消耗品，不充电就会掉电。<em>像健身：练一次不等于有肌肉，要一直练。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">常委正念</div><div class="sub">两个满格指标</div><div class="tap">点开看释义 →</div></div>
+      <div class="back">无间作＋殷重作。值班表排满全天是「常」，每次都认真看监控不走过场是「委」。<em>两个词合起来：全天候 × 全心思。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">意根律仪</div><div class="sub">六根里最特殊的一关</div><div class="tap">点开看释义 →</div></div>
+      <div class="back">前五根只能接触外境，意根却会自己“放电影”——独处、睡前、发呆时的胡思乱想，同样需要防护。<em>门锁好了，屋里还得有人不乱动。</em></div></div>
+  </div>
+
+  <div class="case"><b>小周的注意力改造：</b>小周每次刷完短视频都后悔。他没硬扛，而是先每天早上听二十分钟讲书（闻），通勤时琢磨“我一般在什么情绪下开始刷”（思），一有冲动就先起身倒杯水（修），并把这套流程排进日程、天天执行不断档。三个月后，“一刷三小时”变成了“刷二十分钟”。这正是「由闻思修增上力故获得正念」加「不息加行。不离加行」的完整复刻——先攒出念，再养住念。</div>
+  <div class="case"><b>健身教练的两条铁律：</b>教练给学员定的规矩：一、每周六天雷打不动（无间作）；二、每个动作拍视频逐帧自查，不许“差不多就行”（殷重作）。半年后动作定型的是两条都守的学员；天天来却糊弄的、认真练但三天打鱼的，全都失败了。这就是「恒常所作名无间作。委细所作名殷重作」在训练场上的直接对应。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ③ 念防护意·行平等位 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>念防护意：心被带走的慢动作</h2></div>
+  <p class="sec-lead">这一章把“心被带走”的全过程拆成慢动作：条件怎么凑齐、烦恼在哪一帧冒头、正念在哪一帧介入。看懂链条，才知道闸门该装在哪个位置——不是事后灭火，而是事前拦截。</p>
+
+  <div class="card">
+    <h3>念防护意：在「将生」之际动手</h3>
+    <div class="quote">谓眼色为缘生眼识。眼识无间生分别意识。由此分别意识。于可爱色色将生染着。于不可爱色色将生憎恚。<span class="src">—— 卷23原文</span></div>
+    <div class="quote">即由如是念增上力。能防护此非理分别起烦恼意。令其不生所有烦恼。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">烦恼不是“看见”的那一瞬间就有的，而是意识“随后加工”出来的；正念的作用，就是在加工启动前把它拦下。</p>
+    <div class="analogy"><b>比喻：</b>眼识像监控摄像头，只负责成像；分别意识像弹幕机，画面一出来就刷评论——“他凭什么”“我真差劲”。正念是弹幕开关：关掉它，画面还是画面，情绪烧不起来。</div>
+  </div>
+
+  <div class="card">
+    <h3>行平等位：防护成功后的“平稳档”</h3>
+    <div class="quote">平等位者。谓或善舍或无记舍。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">防护之后心不是死水，而是回到平稳运行：要么与善相应（善舍），要么中性安静（无记舍）——两种都叫平等位。</p>
+    <div class="analogy"><b>比喻：</b>平等位像汽车的定速巡航：不猛踩油门（不起贪），也不急刹骂街（不起嗔），车照常走，只是稳。</div>
+  </div>
+
+  <div class="card">
+    <h3>流程推演：一条朋友圈引发的防护战</h3>
+    <p>点节点看每一步发生了什么；用按钮逐步推进。</p>
+    <div class="flow-track" id="st3Track"></div>
+    <div class="flow-detail" id="st3Detail"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="st3Prev">← 上一步</button> <button class="tri-btn" id="st3Next">下一步 →</button></div>
+  </div>
+
+  <div class="case"><b>朋友圈里的新车：</b>周一下午，小陈刷到同事晒的新车。眼识成像只用了半秒，随即脑内小剧场开演：“他凭什么”“我这些年白干了”——越想越堵。他忽然想起早上读到的那句「于可爱色色将生染着」，自嘲一笑，弹幕关掉，继续改他的方案。对应原文的链条：分别意识加工出染着，正念在「将生」之际介入，心退回平等位。</div>
+  <div class="case"><b>凌晨一点的五折弹窗：</b>购物 App 弹出“限时五折”，手指悬停的三秒里，小方想起上个月吃灰的空气炸锅，点了关闭。那一单没有被“砍掉”——它压根没生成。这正是「令其不生所有烦恼」：防护的靶子是「生起」本身，不是事后补救。</div>
+  <div class="case"><b>被绝杀的老球迷：</b>支持的球队补时被绝杀，老郑没有摔遥控器，也没装作无所谓；他叹了半句“唉”，起身把碗洗了，十点照常睡觉，第二天照常上班。这对应「正行善舍无记舍中」——平等位不是没情绪，而是情绪来了也不被它拖走下一个小时。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ④ 取相与取随好 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>不取相、不取随好：八字口诀拆开看</h2></div>
+  <p class="sec-lead">「不取其相不取随好」是本卷反复出现的口诀。这一章把两个词拆开：相是第一眼的画面，随好是画面之后脑子接的戏。论主还给了第二组定义：亲眼所见是取相，凭听来的语言文字去想象加工，是取随好。</p>
+
+  <div class="card">
+    <h3>取相：感官直接抓取眼前这一帧</h3>
+    <div class="quote">言取相者。谓于眼识所行色中。由眼识故取所行相。是名于眼所识色中执取其相。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">取相＝感官对当下画面的直接抓取——看见并“认领”了它。</p>
+    <div class="analogy"><b>比喻：</b>摄像头拍到画面本身还不是事；但镜头一直怼着看、舍不得移开，就开始“录像”了。</div>
+  </div>
+
+  <div class="card">
+    <h3>取随好：画面之后，意识接的戏</h3>
+    <div class="quote">谓即于眼所识色中。眼识无间俱生分别意识。执取所行境相。或能起贪或能起嗔或能起痴。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">取随好＝意识接着画面加工、贴标签、展开联想，贪嗔痴从这里开始“上头”。</p>
+    <div class="analogy"><b>比喻：</b>相是素材，随好是剪辑配乐上字幕的成片——情绪是剪辑台上产生的，不是素材自带的。</div>
+  </div>
+
+  <div class="card">
+    <h3>第二组定义：语言标签也能「取随好」</h3>
+    <div class="quote">谓即色境在可见处能生作意。正现在前眼见色已。然彼先时从他闻有如是如是眼所识色。即随所闻名句文身。为其增上为依为住。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">第二组定义更狠：直接见到是「取相」；而凭听来的语言文字（名句文身）去想象、脑补、先行定性，是「取随好」。</p>
+    <div class="analogy"><b>比喻：</b>刷到一条没点开的热搜标题，就已经在心里开庭审判——你看到的不是事件，是「名句文身」（文字标签）。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：这是取相，还是取随好？</h3>
+    <p>点选你认为正确的归类，答案会展开理由。</p>
+    <div id="sort4"></div>
+  </div>
+
+  <div class="case"><b>橱窗前的十分钟：</b>商场里，小聂在一只包的橱窗前驻足，盯着看了很久，心里开始盘算分期方案——从“看见”（相）滑到“想要”（随好起贪），中间没有装刹车。对应原文：执取所行境相之后「或能起贪」；不取的功夫，就是在两步之间安一道门。</div>
+  <div class="case"><b>还没到岗的“严领导”：</b>新领导还没报到，办公室已经传开“这人特别严”。小何没等见面，先紧张了两天；见了面发现对方挺好说话。他紧张的不是那个人，而是听来的那串字——「即随所闻名句文身。为其增上为依为住」，凭语言标签先行分别，是取随好的标准剧本。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑤ 恶不善法·两道防线 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>恶不善法与两道防线</h2></div>
+  <p class="sec-lead">防线不止一道。第一道设在「取」的环节：不取相、不取随好，恶法就没有入口。万一失守——忘念了、烦恼太猛了——还有第二道：恶念已生，就别追着它演完，当场断掉。</p>
+
+  <div class="card">
+    <h3>恶不善法与「心流漏」</h3>
+    <div class="quote">谓诸贪欲及贪所起诸身恶行。诸语恶行。诸意恶行。<span class="src">—— 卷23原文</span></div>
+    <div class="quote">谓若于彼彼所缘境界。心意识生游行流散。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">恶不善法＝贪、嗔、痴三种根，加上由它们带出的身、口、意行为；「流漏」形容心顺着境界到处跑、越漏越多。</p>
+    <div class="analogy"><b>比喻：</b>心像一套不断电的水管系统，境界是水龙头：一旦开了不关，水不只弄湿一件衣服，会顺着地板流进每个房间——从“看不惯一件事”漏成“一整晚心情全毁”。</div>
+  </div>
+
+  <div class="card">
+    <h3>第二道防线：修律仪——不给恶法写续集</h3>
+    <div class="quote">或由烦恼极炽盛故。虽离取相⑧及取随好。而复发生恶不善法令心流漏。便修律仪。<span class="src">—— 卷23原文</span></div>
+    <div class="quote">随所发生而不执着。寻便断灭除弃变吐。是名于彼修行律仪⑨。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">忘念或烦恼太猛时，恶法照样会生；关键动作是“不执着、随即断”——不追加剧情，不自我原谅，也不破罐破摔。</p>
+    <div class="analogy"><b>比喻：</b>电脑中招不可怕，可怕的是病毒自启动、自我复制。第二道防线就是发现异常进程，立刻结束进程、清出系统——而不是一边骂病毒一边围观它跑完全程。</div>
+  </div>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">贪欲</div><div class="sub">三毒之一：抓取</div><div class="tap">点开 →</div></div>
+      <div class="back">对可爱境「将生染着」的那个拉力。行为出口：贪所起的身、语、意恶行。<em>三毒是恶不善法的根，恶行是它的枝叶。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">嗔恚</div><div class="sub">三毒之二：推开</div><div class="tap">点开 →</div></div>
+      <div class="back">对不可爱境「将生憎恚」的推力；出口同样通向身语意恶行。<em>拉力与推力是同一台机器的两个方向。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">愚痴</div><div class="sub">三毒之三：看错</div><div class="tap">点开 →</div></div>
+      <div class="back">不见过患、不知出离——前两毒的土壤。原文反复说「不见过患不知出离」正是它的画像。<em>灯不亮，屋里才会撞东西。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">策发与不策发</div><div class="sub">根门的油门与刹车</div><div class="tap">点开 →</div></div>
+      <div class="back">该用时主动用：「若于其眼所识色中应策眼根。及于其耳鼻舌身意所识法中应策意根。即便于彼作意策发。」不该展开时全关：「即便于彼遍一切种而不策发。不策发故令不杂染。」<em>律仪不是关机，是按需供电。</em></div></div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：这一战守住了吗？</h3>
+    <p>拨动三个开关，看防护战的各种走向。</p>
+    <div class="cond-row"><div class="name">正念现前<small>不取其相、不取随好——第一道防线在岗</small></div><label class="switch"><input type="checkbox" id="c51" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">失守后能修律仪<small>恶法一生起，就不执着、随即断——第二道防线在岗</small></div><label class="switch"><input type="checkbox" id="c52" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">当下烦恼不炽盛<small>贪嗔痴没有处在「极炽盛」的爆发档</small></div><label class="switch"><input type="checkbox" id="c53" checked><span class="slider"></span></label></div>
+    <div id="cond5"></div>
+  </div>
+
+  <div class="case"><b>被送错的外卖：</b>外卖送错、电话里对方还嘴硬，小火苗窜上来，小齐已经在输入框打下三个感叹号。发送前他删掉，只写“麻烦按订单重送”。嗔恚（根子）起了，语恶行（点火的动作）被拦在半路。对应原文：贪嗔痴与身语意恶行是两步——先有根，再有由根带出的行为；拦截发生在第二步之前，恶不善法就缺了一半。</div>
+  <div class="case"><b>“就一杯”的后续：</b>小牧戒糖三个月，同事生日请喝奶茶，“就一杯”之后整晚都想再点。她没有顺着“反正破戒了”点第二杯，第二天早上照常执行原计划——那一晚的反复没有续集。这正是「随所发生而不执着。寻便断灭除弃变吐」：失败不追加剧情，才叫修律仪。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑥ 略义与两种力 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>略义压缩包与两种力</h2></div>
+  <p class="sec-lead">论主在这一章做“复习＋升级”：先用五个问题把根律仪压成一张卡片，再指出持守有“两种力”的层级差——知道过患，不等于除得掉惯性。</p>
+
+  <div class="card">
+    <h3>五问压缩：根律仪的一页说明书</h3>
+    <div class="quote">谓若能防护。若所防护。若从防护。若如防护。若正防护。如是一切总略为一名根律仪。<span class="src">—— 卷23原文</span></div>
+    <div class="quote">谓由正念防护于意行平等位。是名正防护。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">一句话浓缩：谁来守（两股正念）、守什么（六根）、防什么（可爱不可爱的六境）、怎么守（不取相不取随好＋修律仪）、守到哪（由正念防护于意，行平等位）。</p>
+    <div class="analogy"><b>比喻：</b>保安公司接单先问五件事：派谁来守、守哪扇门、防的是谁、用什么规程、守成什么样算达标——五问齐了，合同才算写完整。原文自己的总结是：谁来守＝「防守正念及所修习常委正念」；怎么守＝「谓不取相不取随好⑩」。</div>
+  </div>
+
+  <div class="table-wrap">
+  <table class="nine">
+    <tr><th>五问</th><th>原文成员</th><th>通俗理解</th></tr>
+    <tr><td>谁能防护</td><td>防守正念 · 常委正念</td><td>防护系统里唯一的工作人员</td></tr>
+    <tr><td>所防护</td><td>防护眼耳鼻舌身意根</td><td>六个需要看住的入口</td></tr>
+    <tr><td>从何防护</td><td>可爱不可爱色……乃至可爱不可爱法</td><td>引你上头的一切境界，无论顺逆</td></tr>
+    <tr><td>如何防护</td><td>不取相 · 不取随好 · 修律仪</td><td>不抓画面、不接戏；漏了就地切断</td></tr>
+    <tr><td>正防护</td><td>由正念防护于意行平等位</td><td>终极验收标准：心稳稳开在平稳档</td></tr>
+  </table>
+  </div>
+
+  <div class="card">
+    <h3>两种力：知道过患 ≈ 除掉惯性？</h3>
+    <div class="quote">又根律仪略有二种。一者思择力所摄。二者修习力所摄。<span class="src">—— 卷23原文</span></div>
+    <div class="quote">于所缘境令烦恼缠不复生起。不复现前。而于依附所依随眠。不能断除不能永拔。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">缠＝烦恼正在发作（症状现前）；随眠＝潜伏心底、遇缘即起的惯性种子（没发作但还在）。思择力管得住「缠」，管不了「随眠」；修习力连根拔。</p>
+    <div class="analogy"><b>比喻：</b>缠是感冒发作——鼻涕眼泪都在明处；随眠是体内的过敏体质——平时没事，一到春天就复发。「不复现前」只是不发作，「亦能永拔」才是换了体质。</div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">资粮道⑬所摄</span><h4>思择力所摄</h4>
+        <p>「谓于境界深见过患。不能于此所有过患除遣断灭。」靠深刻理解过患而守住——行为能管住，本能还认得路。<b>资粮道：修行积累资粮的最初阶段。</b></p></div>
+      <div class="yuan-card"><span class="y-tag">离欲地⑭所摄</span><h4>修习力所摄</h4>
+        <p>「谓于境界深见过患。亦能于此所有过患除遣断灭。」习练成的力量，遇缘心也不动——「一切时分依附所依所有随眠亦能断除。亦能永拔。」<b>离欲地：已离欲染的更高阶段。</b></p></div>
+    </div>
+  </div>
+
+  <div class="case"><b>烟盒上的警告图：</b>老赵把“一包烟＝一顿早饭钱”的账和肺部对比图贴在烟盒上（思择力：深见过患），确实做到不在家、不在办公室抽——烦恼缠不再现前。可路过别人抽烟，喉咙还是会痒一下：过患「知道」了，惯性“没拔”——随眠还在。这正是「不能于此所有过患除遣断灭」与「亦能于此所有过患除遣断灭」的分界线。</div>
+  <div class="case"><b>药片与养胃：</b>急性胃痉挛，吃一片药十分钟后就能去上班——当场压住症状，病根还在（思择力所摄）；接着一年规律吃饭、认真忌口，胃镜复查病灶消失（修习力所摄，除遣断灭）。两段都用得上，但只有第二段算“除根”——原文把它分判为资粮道与离欲地两个阶段，正是这个意思。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑦ 于食知量·过患观 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>于食知量：一口饭的三段过患</h2></div>
+  <p class="sec-lead">下半场换主题：吃饭。论主的思路很硬核——先把“一口饭”的三段旅程全部拉出来做尽调（受用、变异、追求），看清全部代价之后，饭还是要吃，但吃的那颗心已经完全不同。</p>
+
+  <div class="card">
+    <h3>三种观察：像尽调一件“网红商品”</h3>
+    <div class="quote">谓即于此所食段食。或观受用种类过患⑳。或观变异种类过患㉑。<span class="src">—— 卷23原文</span></div>
+    <div class="quote">云何追求种类过患㉒。谓于饮食追求种类有多过患。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">段食的过患清单分三段：入口前后（受用）、在身体里（变异）、为了得到它（追求）。</p>
+    <div class="analogy"><b>比喻：</b>买一件网红商品前做尽调：开箱体验的差评（受用）、使用损耗的差评（变异）、为买到它所付代价的差评（追求）——三份差评都读完还要买，就买得清醒。</div>
+  </div>
+
+  <div class="card">
+    <h3>三段时间轴</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">受用种类过患</div><div class="d">「从此无间进至口中。牙齿咀嚼。津唾浸烂。涎液缠裹。转入咽喉。」入嘴之后，「悦意妙相」当场下线，「次后转成可恶秽相」——净妙相没、过患相生。</div></div>
+      <div class="tl-item"><div class="t">变异种类过患</div><div class="d">一份化成血肉筋脉，一分「变成便秽。变已趣下展转流出」，顺带生成一张长长的疾病清单——胃只是中转站，不是终点站。</div></div>
+      <div class="tl-item"><div class="t">追求种类过患</div><div class="d">为了得到并守住食物付出的全部代价：积集之苦、防护之忧、关系之裂、厌足之贪、不自在之迫、恶行之报（六种，见下方折叠清单）。</div></div>
+    </div>
+    <div class="quote">次后一分变成便秽。变已趣下展转流出。<span class="src">—— 卷23原文</span></div>
+  </div>
+
+  <details class="dict">
+    <summary>追求六过患 + 疾病清单<span class="hint">清单式内容，可跳过</span></summary>
+    <div class="body">
+      <p><b>① 积集所作过患：</b>「谓如有一为食因缘。寒时为寒之所逼恼。热时为热之所逼恼。种种策励劬劳勤苦。」求而不得，则「所作事业若不谐遂。由是因缘愁忧燋恼。拊胸伤叹悲泣迷闷。」</p>
+      <p><b>② 防护所作过患：</b>得到之后开始怕失去——怕王贼侵夺、水火漂焚，「或即家中当生家火。由是当令财宝亏损。」财富越多，安保预算越高。</p>
+      <p><b>③ 能坏亲爱所作过患：</b>「谓诸世间为食因缘多起斗诤。父子母女兄弟朋友尚为饮食互相非毁。」——饭桌上最亲的人，也能为一口饭翻脸。</p>
+      <p><b>④ 无厌足所作过患：</b>国王已「位登灌顶」，仍不满足而兴兵征讨，「或便致死或等死苦」——不满足是一个无底洞，装多少王位都填不平。</p>
+      <p><b>⑤ 不自在所作过患：</b>被王所使去讨坚城，热油熔铁浇身——为了一口饭，把命运交到别人手里。</p>
+      <p><b>⑥ 恶行所作过患：</b>为食造作身语意恶行，临终见山影垂覆，自知「唯罪非福」，「既舍命已随业差别生诸恶趣。」——账最后结在业上。</p>
+      <p><b>变异的疾病清单：</b>痈、痤、干癣、湿癣、疥癞、疸疔、上气、疱浆、哕噎、干消、癫痫、寒热、黄病、热血……「如是等类无量疾病。由饮食故身中生起。」不消化时更糟：「或由所食不平和故。于其身中不消而住。」</p>
+    </div>
+  </details>
+
+  <div class="ety-grid">
+    <div class="ety"><div class="zi">段</div><div class="gc">「和杂为抟段段吞食。故名段食。」</div><div class="bhu">食物调和成团、一段一段咽下去——所以叫「段食」。今天的一日三餐，全都是段食。</div></div>
+    <div class="ety"><div class="zi">食</div><div class="gc">「所言食者。所谓餐啖咀嚼。吞咽尝啜饮等。名之差别。」</div><div class="bhu">「食」统指餐、啖、咀嚼、吞咽、尝、啜、饮这一串动作——重点不在叫什么，而在动作本身在发生。</div></div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：这是哪一种过患？</h3>
+    <p>判断下面的场景属于三段过患中的哪一段。</p>
+    <div id="sort7"></div>
+  </div>
+
+  <div class="case"><b>早午餐的半小时：</b>周六早午餐店，小柠点了照片最漂亮的一款，端上来先拍照九张；半小时后，桌上只剩酱汁凝在盘边。同一份食物，「净妙相」与「秽相」之间只隔半小时——「次后转成可恶秽相。当转异时状如变吐」，受用种类的过患就摆在她眼前，只是平时没人按下慢放键。</div>
+  <div class="case"><b>火锅周的账单：</b>“入冬火锅局”连吃一周，小樊的体检报告多了“血脂偏高”和“轻度脂肪肝”。不是哪一顿的错——是每一顿的「变异」在身体里慢慢记账，对应「又由此缘发生身中多种疾病」：疾病清单不是吓唬人，是流水账。</div>
+  <div class="case"><b>凌晨五点的骑手：</b>外卖骑手老韩冬天凌晨五点出门，冻得手指握不住车把；月底冲单差了一单，他坐在马路牙子上捶头盔。「寒时为寒之所逼恼」「所作事业若不谐遂。由是因缘愁忧燋恼」——为食积集之苦，两千年前写的就是今天路上的他。</div>
+  <div class="case"><b>群里的两百块：</b>家族群里，兄妹俩为“妈妈的赡养费谁多摊两百”翻脸互删好友；同一个晚上，另一栋楼里有人为抽卡“差一张保底”又充了六百八。前者是「能坏亲爱」（为食起斗诤），后者是「无厌足」——一个毁关系，一个毁钱包与心，都写在本卷的追求清单里。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑧ 少胜利与正确吃法 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>段食的少胜利与正确吃法</h2></div>
+  <p class="sec-lead">观完三段过患，论主话锋一转：段食也有「少胜利」——身体靠它才能立得住。所以结论不是不吃，而是换个理由吃、换个方式吃：先列四种错动机，再立五个正确目的。</p>
+
+  <div class="card">
+    <h3>少胜利：饭的合法性，与「妙行」的用法</h3>
+    <div class="quote">谓即此身由食而住依食而立。非无有食。<span class="src">—— 卷23原文</span></div>
+    <div class="quote">而即依此暂时住身修集梵行令得圆满。乃为妙行亦妙喜足。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">吃的合法性来自它支撑身体；但身体只是「暂时住」的工具——用它修梵行，才把这份少胜利用到满分。</p>
+    <div class="analogy"><b>比喻：</b>汽车加油是为了上路办事，不是为了在加油站过夜；把油箱当KTV，加再多油也是错用。</div>
+  </div>
+
+  <div class="fn-grid">
+    <div class="fn-card"><div class="front"><div class="cn">倡荡</div><div class="sub">错动机一：为夜里的欲乐而吃</div><div class="tap">点开 →</div></div>
+      <div class="back">「所食啖时令其诸根皆悉掉举。令意躁扰令意不安令意不静。」——为放纵而吃，吃本身就在喂养躁动。<em>现代版：为了通宵追剧的夜宵状态而吃，越吃越静不下来。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">憍逸</div><div class="sub">错动机二：为“我能打”的身体而吃</div><div class="tap">点开 →</div></div>
+      <div class="back">原文举的例子全是角武之事：按摩、拍鞠、托石、跳踯、蹴蹋——「依如是等诸角武事。当得勇健肤体充实。长夜无病久时少壮。」<em>现代版：为了秀体能、炫身材的“吃粉自由”。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">饰好</div><div class="sub">错动机三：为梳洗打扮而吃</div><div class="tap">点开 →</div></div>
+      <div class="back">「此中沐浴理发涂香名为饰好。」吃出一身力气，全花在形象管理上。<em>现代版：吃是为了气色好、出片好看。</em></div></div>
+    <div class="fn-card"><div class="front"><div class="cn">端严</div><div class="sub">错动机四：为庄严其身而吃</div><div class="tap">点开 →</div></div>
+      <div class="back">「庄饰其身名为端严。」上妙衣服、花鬘严具层层加码——食能量最终变现为“排面”。<em>现代版：吃出好状态，为了朋友圈里的照片。</em></div></div>
+  </div>
+
+  <div class="card">
+    <h3>如子肉想：不吃的自由，与郑重地吃</h3>
+    <div class="quote">为求如是食出离故。如子肉想㉙食于段食。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">看清全部过患后仍要吃，但要像渡荒时不得已用亲骨肉那样郑重——不贪恋、不糟蹋，时刻记得方向是「出离」。</p>
+    <div class="analogy"><b>比喻：</b>沙漠徒步时背包里只剩一升水：每一口都喝得清清楚楚，因为它是保命的，不是享受的。对一日三餐用上这种注意力，就是「如子肉想」的现代版。</div>
+  </div>
+
+  <div class="card">
+    <h3>月喻：去别人家，做一轮月亮</h3>
+    <div class="quote">当随月喻㉚往施主家。荡涤身心安住惭愧。远离憍傲不自高举。不轻蔑他。<span class="src">—— 卷23原文</span></div>
+    <div class="quote">设不惠施终不于彼起怨害心及嗔恚心而相嫌恨。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">受供养时要像月亮——只洒清光、不烫人；对方给不给、给多少、给好坏、给快慢，都不构成你起嗔的理由。</p>
+    <div class="analogy"><b>比喻：</b>去朋友家吃饭，别自带“重点顾客”人设：人家手忙脚乱、上菜慢、菜不合口，你照常道谢——修养不随菜单浮动。原文连给的四种不如意都替你预演了：不惠施、不恭敬、少非多、粗非妙、迟缓非速疾，一律「亦不于彼起怨害心及嗔恚心」。</div>
+  </div>
+
+  <div class="card">
+    <h3>五个正确目的（总清单）</h3>
+    <div class="quote">若受饮食为除饥渴为摄梵行㊱。为断故受㊲。为令新受当不更生㊳。为当存养力乐无罪安隐而住。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">五句话是“正确吃法”的验收标准：止饥渴、支应功课、还旧账（老病）、不开新账（新病）、安稳地活着。</p>
+    <div class="analogy"><b>比喻：</b>五句话像一份用车守则：加油为了行驶（除饥渴）、行驶去办正事（摄梵行）、修旧伤（断故受）、不留新伤（新受不更生）、车况良好安顺开（存养力乐无罪安隐而住）。</div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：这顿饭「平等」吗？</h3>
+    <p>四个开关各对应平等食的一条「非」——全拨上去，才是平等所作。</p>
+    <div class="cond-row"><div class="name">非极少食<small>为除饥渴——不把身体饿到失速</small></div><label class="switch"><input type="checkbox" id="c81" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">非极多食<small>为摄梵行——吃撑等于负重训练</small></div><label class="switch"><input type="checkbox" id="c82" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">非不宜食 · 非不消食<small>为断故受、新受不更生——吃对、吃慢</small></div><label class="switch"><input type="checkbox" id="c83" checked><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">非染污食<small>为无罪安隐而住——不带贪嗔吃</small></div><label class="switch"><input type="checkbox" id="c84" checked><span class="slider"></span></label></div>
+    <div id="cond8" style="margin-top:16px;padding:16px 20px;border-radius:14px;background:#e2eaf1;color:#2e4a62;font-size:.98rem"></div>
+  </div>
+
+  <div class="case"><b>教练饭桌的一句话：</b>教练的饭桌原则只有一句：“吃是为了明天还有力气训练。”小杜把“吃爽了再说”改成蛋白质定量，一个月后训练量和睡眠都上来了。对应「为摄梵行受诸饮食」——吃的目的是支撑功课，原文补的那句是「由是速疾有力有能。得所未得。触所未触。证所未证」：吃饱是为了能往前走。</div>
+  <div class="case"><b>胃镜之后的食谱：</b>查出浅表性胃炎后，医生给小池的医嘱：忌辛辣、少食多餐、不饿过头也不撑。这份“无聊”的食谱一半在还旧账（为断故受），一半不给未来埋雷（为令新受当不更生）——原文的两个目的，被写成了一张冰箱贴。</div>
+  <div class="case"><b>乡下亲戚家的慢饭：</b>小眷去乡下亲戚家做客，亲戚临时才有空，饭菜简单、上得也慢。她照常帮忙摆碗筷、饭后认真道谢，一句“怎么就这几个菜”都没说——去之前她就没把“被好好招待”写进行程。对应「设不惠施终不于彼起怨害心及嗔恚心而相嫌恨」：期待值归零，月喻随身。</div>
+  <div class="case"><b>十点半的粥：</b>加班到十点的小应站在便利店冷柜前：重辣便当“犒劳自己”，还是一碗清淡的粥？她想起原文「或有食已令身沉重。无所堪能不任修断」，拿了粥。十一点半，她还能清醒地读完二十页书——「为身安住」不是为了舒服，是为了之后还能用功。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑨ 收官总纲 ============ -->
+<section class="chapter" id="s9">
+  <div class="sec-head"><span class="num">09</span><h2>收官：速查、总纲与回去怎么用</h2></div>
+  <p class="sec-lead">收官三件事：一张名词速查表、五句总纲、一个“明天就能用”的落地方案。全卷的落点，原文自己给出来了——「于食平等所作」：守根与吃饭，都要做成「平等所作」这道功夫。</p>
+
+  <div class="card">
+    <h3>平等食：五个「非」就是执行标准</h3>
+    <div class="quote">平等食者。谓非极少食。非极多食。非不宜食。非不消食。非染污食。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">平等食五个「非」，就是全卷吃饭部分的全部操作规范；原文还给出对应关系：「谓若说言为除饥渴。由此遮止所食极少」——每一句目的都各挡一种不平等。</p>
+    <div class="analogy"><b>比喻：</b>像给手机充电的五条守则：不见底才充（非极少）、不充到过热（非极多）、不用不匹配的充电器（非不宜）、没充满不拔了又插（非不消）、充电时不跑大型游戏（非染污）——电池健康，手机才能长久干活。</div>
+  </div>
+
+  <details class="dict">
+    <summary>全卷名词速查<span class="hint">可跳过，查漏补缺用</span></summary>
+    <div class="body">
+      <p><b>根律仪：</b>以正念守护六根的总称，本卷上半场主题。</p>
+      <p><b>密护根门：</b>由防守正念、常委正念直至防护意根、修意根律仪——根门防护的总开关。</p>
+      <p><b>防守正念：</b>由闻思修集成的正念，时时保养不令忘失。</p>
+      <p><b>常委正念：</b>无间作（恒常）＋殷重作（委细）——不断档、不敷衍。</p>
+      <p><b>念防护意：</b>凭正念之力，在烦恼「将生」之际防护非理分别。</p>
+      <p><b>行平等位：</b>防护之后心行于善舍或无记舍——平稳巡航档。</p>
+      <p><b>取相：</b>感官直接执取眼前境相；「正现在前眼见众色」。</p>
+      <p><b>取随好：</b>意识随后加工、或依语言文字想象，由此起贪嗔痴。</p>
+      <p><b>恶不善法：</b>贪嗔痴三根＋由其带出的身语意恶行。</p>
+      <p><b>心流漏：</b>心意识于境界游行流散，恶法顺着越漏越多。</p>
+      <p><b>缠与随眠：</b>缠＝烦恼现行发作；随眠＝潜伏遇缘即起的惯性。思择力断缠，修习力拔随眠。</p>
+      <p><b>段食：</b>「谓四种食㉛。一者段食。二者触食。三者意等思食。四者识食。」本卷专讲第一种——一日三餐这类物质性的食。</p>
+      <p><b>平等食：</b>非极少、非极多、非不宜、非不消、非染污——五个「非」全达标。</p>
+      <p><b>月喻：</b>往施主家如月亮，只洒清光不烫人；给的多少好坏快慢，都不动嗔。</p>
+    </div>
+  </details>
+
+  <div class="gatha">
+    <div class="lines">
+      不取相不取随好<br>
+      由正念防护于意行平等位<br>
+      由正思择食于所食<br>
+      不为倡荡。不为憍逸。不为饰好。不为端严。<br>
+      为当存养力乐无罪安隐而住<br>
+      如子肉想㉙食于段食
+    </div>
+    <div class="mean">本卷原文无结颂，此处取六个关键原句作总纲：六根入口不抓不接戏 ｜ 防的终点是心回平稳档 ｜ 吃饭先思择 ｜ 四种错动机一律不做 ｜ 五个正确目的兜底 ｜ 以出离之心郑重受食。逐句皆为卷23原文。</div>
+  </div>
+
+  <div class="case"><b>体检问卷的新一页：</b>体检中心的问卷多了一页“饮食方式”：是否常吃到撑？是否边刷手机边吃？是否带着情绪吃？小唐认真答完才发现——问题全是“怎么吃”，没有一个问“吃了什么”。这正对应“平等食五非”：功夫全在方式上，原文叫它「于食平等所作」。</div>
+  <div class="case"><b>三个月的“吃饭只吃饭”：</b>小赵坚持“吃饭只吃饭”：不配剧、不刷手机，七分饱即停，饭桌上不动气。月底她发现变化不在体重，而在下午不犯困、晚饭后能安静看书了。对应原文「安隐住」的两条路径：「一者远离所食极多」「二者于食不生味着」——一个管量，一个管心，两条她都走对了。</div>
+
+  <div class="card">
+    <h3>全卷一句话</h3>
+    <div class="quote">是故如此一切诸句皆为宣示开显于食平等所作如是名为广略宣说于食知量。<span class="src">—— 卷23原文</span></div>
+    <p class="plain">修行不在别处：白天守好六个门，饭点管好一张嘴——把这两件事做成本能，资粮就开始积累。</p>
+    <div class="analogy"><b>比喻：</b>本卷像修行这件事的“日常通勤模式”：没有高深招式，只有每天重复的守门与吃饭——但所有大工程，都是从这两个动作开始堆的。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第23（output/23.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga23-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+
+/* 翻转卡：点击展开释义 */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
+/* ③ 流程推演：心被带走的六步 */
+var chain3=[
+  {t:'根＋境',d:'<b>眼色为缘：</b>眼睛与画面相遇——条件凑齐的第一帧。光有眼睛不行，光有画面也不行，两个缘碰上，识才会生。'},
+  {t:'眼识',d:'<b>眼识生起：</b>「谓眼色为缘生眼识。」纯粹的看见——像监控摄像头成像：只有画面，还没有评价。这一步是中性的，谁都会发生。'},
+  {t:'分别意识',d:'<b>分别意识无间生起：</b>「眼识无间生分别意识。」大脑立刻接手：这是谁的年终奖？比我多吧？——弹幕机开机，评价机器启动。'},
+  {t:'染着将生',d:'<b>烦恼萌芽：</b>「于可爱色色将生染着。于不可爱色色将生憎恚。」喜欢与讨厌在这一两秒冒头。注意原文用词是「将生」——还没成形，正是拦截窗口。'},
+  {t:'正念介入',d:'<b>念防护意：</b>「即由如是念增上力。能防护此非理分别起烦恼意。令其不生所有烦恼。」正念像值班保安进场：这条评价不合理，撤回。防护的对象是非理分别，不是正常认知。'},
+  {t:'行平等位',d:'<b>回到平稳档：</b>「平等位者。谓或善舍或无记舍。」心不被拉走，安稳运行——防护战收官。万一没拦住怎么办？看第⑤章的两道防线。'}
+];
+initStepper('st3Track','st3Detail','st3Prev','st3Next',chain3);
+
+/* ④ 归类练习：取相 / 取随好 / 远离不取 */
+var sort4Items=[
+  {a:'夜市路过烤串摊，香味飘来，鼻子闻到了——脚步没停，心里也没起波澜。',opts:['取相','取随好','远离不取'],ans:'远离不取',exp:'看见了不等于必须抓取——「若能远离如是眼识所行境相。是名于眼所识色中不取其相。」见过即过，就是防护的功夫。'},
+  {a:'刷短视频，画面一张接一张划过，眼睛一直在追着看。',opts:['取相','取随好','远离不取'],ans:'取相',exp:'「正现在前眼见众色。如是名为执取其相。」亲见现前之境并执取，是取相；若再回味上头，就滑向取随好。'},
+  {a:'朋友说“新同事特别难相处”，你还没见过人，先在脑中给他画了张脸谱。',opts:['取相','取随好','远离不取'],ans:'取随好',exp:'「即随所闻名句文身。为其增上为依为住。」凭语言标签先行想象加工，正是第二类取随好。'},
+  {a:'读到一条“某明星人设崩塌”的热搜，没点开原视频就转发开评。',opts:['取相','取随好','远离不取'],ans:'取随好',exp:'依据标题文字（名句文身）生起种种分别——随所闻而分别、先行定性，是取随好的典型。'},
+  {a:'名包橱窗前驻足细看，越看越想要，开始盘算分期方案。',opts:['取相','取随好','远离不取'],ans:'取随好',exp:'执取所行境相之后意识接戏，「或能起贪」——从看见滑到贪着，已经是取随好起贪了。'}
+];
+initSorter('sort4',sort4Items);
+
+/* ⑦ 归类练习：三种过患 */
+var sort7Items=[
+  {a:'朋友圈晒的精致早午餐，半小时后桌上只剩狼藉，酱汁凝在盘边。',opts:['受用种类','变异种类','追求种类'],ans:'受用种类',exp:'入口前后净妙相没、过患相生——「尔时此食先曾所有悦意妙相一切皆舍。次后转成可恶秽相。」'},
+  {a:'连吃一周火锅，体检报告多了一行“血脂偏高”。',opts:['受用种类','变异种类','追求种类'],ans:'变异种类',exp:'「又由此缘发生身中多种疾病。」食物在身中转变、生出疾病的账，记在变异这一段。'},
+  {a:'外卖骑手寒冬凌晨出车，冻得手指握不住车把。',opts:['受用种类','变异种类','追求种类'],ans:'追求种类',exp:'「寒时为寒之所逼恼。热时为热之所逼恼。」为得到食物付出的代价——积集所作过患。'},
+  {a:'两个合伙人为分红当众翻脸，十年交情散伙。',opts:['受用种类','变异种类','追求种类'],ans:'追求种类',exp:'「谓诸世间为食因缘多起斗诤。」——能坏亲爱所作过患。'},
+  {a:'晚饭吃太急，胃胀到半夜，没消化第二天又接着吃。',opts:['受用种类','变异种类','追求种类'],ans:'变异种类',exp:'「或由所食不平和故。于其身中不消而住。」不消而住，是变异种类的过患。'}
+];
+initSorter('sort7',sort7Items);
+
+/* ⑤ 条件模拟器：这一战守住了吗 */
+var c51=document.getElementById('c51'),c52=document.getElementById('c52'),c53=document.getElementById('c53'),cond5=document.getElementById('cond5');
+function upd5(){
+  var a=c51.checked,b=c52.checked,c=c53.checked,html='',bg='#e2eaf1',fg='#2e4a62';
+  if(a&&c){
+    html='<b>二相防护圆满。</b>「谓于色声香味触法。不取其相不取随好⑦。终不依彼发生诸恶不善寻思令心流漏。」第一道防线守住入口，心正行善舍无记舍中。';
+  }else if(a&&!c){
+    if(b){
+      bg='#f4ecd4';fg='#8a6d1f';
+      html='<b>险情已处置。</b>烦恼炽盛时第一道防线不稳：「或由烦恼极炽盛故。虽离取相⑧及取随好。而复发生恶不善法令心流漏。便修律仪。」好在第二道防线在岗——随生随断，没有续集。';
+    }else{
+      bg='#f3e2dd';fg='#9a3b2e';
+      html='<b>杂染流漏。</b>烦恼极炽盛，第一道防线失守、第二道也不在岗，恶不善法顺境蔓延——这正是原文要你提前预演的最坏剧本。';
+    }
+  }else{
+    if(b){
+      bg='#f4ecd4';fg='#8a6d1f';
+      html='<b>第二道防线救场。</b>「随所发生而不执着。寻便断灭除弃变吐。是名于彼修行律仪⑨。」入口失守了，但恶法一生起就被切断——这就叫修律仪。';
+    }else{
+      bg='#f3e2dd';fg='#9a3b2e';
+      html='<b>恶不善法令心流漏。</b>取相取随好，忘念又失守，心意识于境界游行流散——从看不惯一件事，漏成一整晚心情全毁。';
+    }
+  }
+  cond5.style.background=bg;cond5.style.color=fg;cond5.innerHTML=html;
+}
+[c51,c52,c53].forEach(function(x){x.addEventListener('change',upd5);});
+upd5();
+
+/* ⑧ 条件模拟器：这顿饭平等吗 */
+var c81=document.getElementById('c81'),c82=document.getElementById('c82'),c83=document.getElementById('c83'),c84=document.getElementById('c84'),cond8=document.getElementById('cond8');
+function upd8(){
+  var miss=[];
+  if(!c81.checked)miss.push('缺「非极少食」——「由极少食。虽存寿命而有饥羸亦少存活。」');
+  if(!c82.checked)miss.push('缺「非极多食」——「由极多食。如极重担镇压其身。不能以时所食消变。」');
+  if(!c83.checked)miss.push('缺「非不宜食。非不消食」——「由不消食或住身中。成不消病。」');
+  if(!c84.checked)miss.push('缺「非染污食」——「由彼诸恶不善寻思。令心流漏令心相续。」不安隐住。');
+  var bg,fg,html;
+  if(miss.length===0){
+    bg='#e0eee5';fg='#3d6b4f';
+    html='<b>平等食圆满。</b>「由平等食非极少食。令身饥羸未生不生已生断灭。」「由平等食非染污食。当得无罪安隐而住。」——这就是于食平等所作。';
+  }else{
+    bg='#f3e2dd';fg='#9a3b2e';
+    html='<b>还不是平等食</b>（缺 '+miss.length+' 条）：<br>'+miss.join('<br>');
+  }
+  cond8.style.background=bg;cond8.style.color=fg;cond8.innerHTML=html;
+}
+[c81,c82,c83,c84].forEach(function(x){x.addEventListener('change',upd8);});
+upd8();
+
+renderPath();
+</script>
+</body>
+</html>

@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷六 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中有寻有伺等三地之三</div>
+  <h1>卷第六 · 交互式学习模块</h1>
+  <p class="sub">这一卷是一座「错误思想标本馆」：论主把世间最容易犯的十六种异论登记造册，本卷逐一拆解前五种——果早已藏在因里？只是被遮住？过去未来实体存放？里面住着常一的「我」？世界永恒不变？每一种都用连环两难审问到无处可站。</p>
+  <div class="tagline">7 个主题 · 6 个学习步骤 · 21 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 因中有果论</a>
+<a href="#s3">③ 从缘显了论</a>
+<a href="#s4">④ 去来实有论</a>
+<a href="#s5">⑤ 计我论</a>
+<a href="#s6">⑥ 计常论</a>
+<a href="#s7">⑦ 收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>十六异论是什么、本卷要拆哪几个靶子——对应第一章「全卷地图」</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>拆靶一：因中有果论</b><span>「果实早就藏在种子里」为什么站不住——用两难审问与「五种相」检验</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>拆靶二：从缘显了论</b><span>「不是生出来，只是被显出来」的漏洞在哪——四个开关全堵死</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>拆靶三：去来实有论</b><span>过去与未来不是仓库里码好的存货，而是依「习气」与「密意」假说为有</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>拆靶四：计我论</b><span>最大的执著「我」，以及佛陀为什么也天天说「我」——假我四因</span></span></label></div>
+<div class="step-item" data-target="#s6"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>拆靶五：计常论</b><span>用「常住三关」检验一切「永恒」，然后到第七章收官听总纲颂</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ 第一章 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：一座「错误思想标本馆」</h2></div>
+  <p class="sec-lead">本卷开启一个新话题——「不如理作意」的施设建立。所谓不如理作意：不合道理的思维方式，心沿着错误的推理路线一路走到底。所谓异论：与正理不同的主张。论主先把世人最常见的十六种错误推理陈列成标本，再逐一拆解——本卷详破前五件。</p>
+
+  <div class="card">
+    <h3>话题从一句问话开始</h3>
+    <div class="quote">复次云何不如理作意①施设建立。<span class="src">—— 卷六原文</span></div>
+    <p>「施设建立」是本论的工作方式：把一类现象系统地分门别类、立目陈列。这一次要陈列的对象，是人类思维跑偏后的种种成品。论主先用一首<b>嗢拖南（总纲摄颂，把要义压成韵文便于记诵）</b>报出全部清单。</p>
+    <div class="plain">十六异论不是十六个怪人的怪想法，而是十六种「人人都有可能滑进去的推理滑坡」——本卷的任务是给每种滑坡画出精确的断面图。</div>
+    <div class="analogy"><b>比喻：</b>像手机相册的「智能分类」——分类出错不是照片的问题，是分类算法跑偏了。不如理作意就是心里装了一套会跑偏的算法，十六异论就是它跑偏后的十六种典型输出。看清输出，才能回头修算法。</div>
+  </div>
+
+  <div class="card">
+    <h3>十六件标本全目录</h3>
+    <div class="quote">一因中有果论④。二从缘显了论⑤。三去来实有论⑥。四计我论⑦。五计常论⑧。六宿作因论。七计自在等为作者论。八害为正法论。九有边无边论。十不死矫乱论。十一无因见论。十二断见论。十三空见论。十四妄计最胜论。十五妄计清净论。十六妄计吉祥论。<span class="src">—— 卷六原文</span></div>
+    <p>十六件听起来吓人，其实可以按「执著的对象」分成五组。点开下面的卡片看分组——前三件与第五组里的「我与常」两类，正是本卷要逐一详破的靶子。</p>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">果的三桩冤案</div><div class="sub">因中有果 · 从缘显了 · 去来实有</div><div class="tap">点击展开</div></div><div class="back">把「果」的位置搞错的三种方式：果早就在因里；果只是被缘显出来；过去未来像现在一样实有。本卷第二、三、四章逐一拆解。<em>好比收货地址写错，包裹永远到不了认知的门口。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">我与常的执著</div><div class="sub">计我论 · 计常论</div><div class="tap">点击展开</div></div><div class="back">认定身心里面住着一个恒常真实的「我」，再把「我」和世界一起判为常住不变。本卷第五、六章详破。<em>像给流水刻名字，还想让名字千年不磨。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">造物主与害法</div><div class="sub">宿作因 · 自在等为作者 · 害为正法</div><div class="tap">点击展开</div></div><div class="back">宿作因论：一切都由宿世所作决定；计自在等为作者论：把世界归给大自在天等造作；害为正法论：把伤害众生的做法当成正法。三件都在后续部分继续讨论。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">边见与矫乱</div><div class="sub">有边无边 · 不死矫乱 · 无因 · 断 · 空</div><div class="tap">点击展开</div></div><div class="back">世界有边还是无边？被问到关键处就装糊涂（不死矫乱）；再加上无因论、断灭见、空见——五件打包，同属「跑向极端或含糊其辞」的一族。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">虚荣三件套</div><div class="sub">妄计最胜 · 清净 · 吉祥</div><div class="tap">点击展开</div></div><div class="back">宣称自家种姓、行持、仪轨最殊胜、最清净、能招吉祥——本质是给执著镀金，让偏见看起来像荣耀。</div></div>
+    </div>
+    <div class="plain">读这一卷的正确姿势：不是记十六个名词，而是学论主的拆法——先让对方把话说完整，再用「汝何所欲」式的两难追问，怎么答都错，错误自然现形。</div>
+  </div>
+
+  <div class="case"><b>直播间玄学：</b>周五晚十一点，小李连刷到三条视频——「你的命出生时就写好了」「宇宙由大神创造」「转发锦鲤本周走运」。这正是十六异论在今天轮流营业；论主的做法不是逐条吵架，而是先全部登记造册（对应「由十六种异论差别。显不如理作意」），再一件件上秤。</div>
+  <div class="case"><b>会议室里的「祖训」：</b>方案评审会上，老王反对新流程的全部理由是「我们二十年来一直这么干」。这正是异论起见的来源之一「教」——祖传文本代代口耳相传、无人检验。传承本身不构成理由，这正是「不如理」最常见的温床。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 第二章 因中有果论 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>靶子一：因中有果论——果实早就藏在种子里？</h2></div>
+  <p class="sec-lead">第一个靶子主张：结果在原因里本来就存在着，一切时候都是如此。种子还没下地，大树已经「在」里面了。这是十六异论中被拆得最细的一件，本卷为它示范了整套「审问流程」。</p>
+
+  <div class="card">
+    <h3>论主的主张与来历</h3>
+    <div class="quote">谓如有一若沙门若婆罗门。起如是见立如是论。常常时恒恒时。于诸因中具有果性。<span class="src">—— 卷六原文</span></div>
+    <p>持此论的是<b>雨众外道</b>（信奉这一说的一派外道）。为什么他们会这么想？论主给出两个来源：「教」与「理」。</p>
+    <div class="quote">谓彼先师所造教藏。随闻转授传至于今。<span class="src">—— 卷六原文</span></div>
+    <p><b>教</b>＝祖师留下的典籍，一代代听来传到今天；<b>理</b>＝本人喜欢寻思观察，自己推出一套道理。可见错误有两种进口：别人灌进来的，与自己想出来的。</p>
+    <div class="plain">因中有果论的核心句式是：既然此果从此因生，那果必定早就「待」在因里——否则为什么偏偏这个因生这个果？</div>
+    <div class="analogy"><b>比喻：</b>这套推理像在说：毛衣织成之前就「藏」在毛线里。可毛线只是可能性，一针一针织（缘）才把毛衣「生」出来；若毛衣真早就待在里面，拆开毛线团应该能抖出一件现成毛衣。</div>
+  </div>
+
+  <div class="card">
+    <h3>论主的四条理由与一条归谬</h3>
+    <p>他们的论证是：世人共同认可「此果唯此因生」、求果的人只取此因、只在因上下功夫、果只从此因不从余因生——所以果必定因中已有。</p>
+    <div class="quote">是故彼果因中已有。若不尔者应立一切是一切因。为求一果应取一切。<span class="src">—— 卷六原文</span></div>
+    <p>这是一招归谬：若果不在因里，那一切法就该是一切法的因，想买一个果就得囤积全世界。听起来唬人，但成立的前提——「果必须预先有地方待着」——本身未经验证。</p>
+    <div class="plain">「为什么偏偏此因生此果」的正确答案是「因缘的确定组合」，不必是「果预先存放在因里」。</div>
+  </div>
+
+  <div class="card">
+    <h3>审问流程：一步一步怎么拆</h3>
+    <p>这是全卷的标准动作，值得亲手走一遍。点击节点或用按钮推进。</p>
+    <div class="flow-track" id="flowS2"></div>
+    <div class="flow-detail" id="detailS2"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="prevS2">← 上一步</button> <button class="tri-btn" id="nextS2">下一步 →</button></div>
+    <div class="plain">两难追问（异／不异、未生／已生）把论主逼进死角，正面立论只用一句「因待缘果生」，再配一套「五种相」的检验标准。</div>
+  </div>
+
+  <div class="card">
+    <h3>「有」的五道检验（五种相）</h3>
+    <p>论主反问：你说因中「有」果——那什么叫「有」？凡要成立「某处有某物」，得通过五种检验之一：</p>
+    <div class="quote">一于处所可得。如瓮中水。二于所依可得。如眼中眼识。<span class="src">—— 卷六原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">处所可得</div><div class="sub">说得出「在哪儿」</div><div class="tap">点击展开</div></div><div class="back">原文的例子是瓮中有水——去瓮里看得到水。<em>现代版：说冰箱里有牛奶，开冰箱门看得见；说种子里有大树，拿显微镜也只能看见种皮与胚，树在哪一格？</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">所依可得</div><div class="sub">依托之处现前</div><div class="tap">点击展开</div></div><div class="back">如眼识依眼根而现起——所依处上可验证。<em>现代版：监控画面依赖摄像头，摄像头在线画面才在。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">自相可得</div><div class="sub">不必推测，当下呈现</div><div class="tap">点击展开</div></div><div class="back">如因的自体不必经由比度（推理）而知，直接呈现。<em>现代版：桌上的苹果直接看见，不用猜。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">自作业可得</div><div class="sub">它干过的活看得见</div><div class="tap">点击展开</div></div><div class="back">由它自身的作用认出它。<em>现代版：案发现场的脚印能指认来过的人；「藏在因里的果」却一件事都没做过。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">因变果变</div><div class="sub">因变异则果变异</div><div class="tap">点击展开</div></div><div class="back">原文：「五由因变异故。果成变异。」因变了果跟着变，说明果待因而生，不是早已成件。<em>现代版：面团发酵程度一变，馒头松软度就变。</em></div></div>
+    </div>
+    <div class="plain">拿五道检验去量「因中先有果」，一道都通不过——所以「常常时恒恒时因中有果」非如理说。</div>
+  </div>
+
+  <div class="case"><b>外卖订单：</b>中午十二点，小赵点了外卖便说「这顿饭已经在我胃里了，反正我等下必然会吃它」。荒谬感立刻出现：订单（因）里并不先有吃饱（果），要待配送、开饭等缘聚齐才生——正对应「因中非先有果。然要有因待缘果生」。</div>
+  <div class="case"><b>阳台上的鸡蛋：</b>邻居阿姨把一筐种蛋端进屋说：「这些都是小鸡，孵不孵它们都已经在里面了。」可缺了温度与翻动，鸡蛋放一年也变不出小鸡——种蛋变雏鸡是因待缘生，不是「因中先有果」。</div>
+  <div class="case"><b>年卡健身：</b>小周办完健身年卡发朋友圈「肌肉已经在杠铃里了」。肌肉并不预先藏在训练动作里：训练是因，饮食睡眠是缘，聚齐才生果。五道检验里的「自作业可得」也帮不了他——杠铃还没替他做过任何事。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 第三章 从缘显了论 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>靶子二：从缘显了论——不是生出来，只是被显出来？</h2></div>
+  <p class="sec-lead">第二件标本看穿了第一件的破绽，于是改口：果不是因「生」的，而是本来就有、被障缘遮住，众缘只是把它「显」出来。同一阵营还有<b>声相论</b>（主张声音本有，说出来只是显了）。</p>
+
+  <div class="card">
+    <h3>论主改口的原因</h3>
+    <div class="quote">一切诸法性本是有。从众缘显。不从缘生。<span class="src">—— 卷六原文</span></div>
+    <p>他们是这样想的：说「果先是有，又从因生」确实矛盾；可做事又分明有用功——那用功是为了什么？</p>
+    <div class="quote">然非不用功为成于果。彼复何缘而作功用。岂非唯为显了果耶。<span class="src">—— 卷六原文</span></div>
+    <p>「既然不是不用功就能成果，那用功难道不就为了把果显出来吗？」——一步滑进了「显了论」。</p>
+    <div class="plain">从缘显了论＝把「缘生」整体改写成「缘显」：东西早就在，缘只负责掀开遮布。</div>
+    <div class="analogy"><b>比喻：</b>雾散了看见远山，是「显」；种子发芽长成树，是「生」。显了论把后者也说成了前者——于是树「本来就在」种子里。可种子里既没有年轮，也没有树荫。</div>
+  </div>
+
+  <div class="card">
+    <h3>两问拆法：障缘与异同</h3>
+    <p>论主的追问分两路。第一路问「障缘」：你说的遮蔽之物到底有没有？<b>没有障缘</b>——没东西遮它，何来「显」？<b>有障缘</b>——那它为什么只遮果不遮因？</p>
+    <div class="quote">譬如黑闇障盆中水亦能障盆。<span class="src">—— 卷六原文</span></div>
+    <p>黑暗既遮住盆里的水，也遮住盆本身；障缘若存在，就该把因和果一起遮住，凭什么「只显果不显因」？第二路问「本法与所显是同是异」：同一个，就该常显，「显已复显」不成话；不同一个，显了便成了无因而显。两问各成两难。</p>
+    <div class="plain">「显」要成立，就得说清谁在遮、遮住了什么；一较真，遮布的每个位置都站不住。</div>
+  </div>
+
+  <div class="card">
+    <h3>拨一拨：显了论还剩几条活路？</h3>
+    <p>论主只剩两个开关可拨：本法与「所显」是不是同一个东西？承不承认有障缘？四种组合逐一看结果。</p>
+    <div class="cond-row">
+      <div class="name">本法与所显是同一个？<small>开＝同一个（不异）　关＝不是同一个（异）</small></div>
+      <label class="switch"><input type="checkbox" id="s3same"><span class="slider"></span></label>
+    </div>
+    <div class="cond-row">
+      <div class="name">承认有障缘？<small>开＝有东西遮蔽它　关＝没有遮蔽</small></div>
+      <label class="switch"><input type="checkbox" id="s3obs"><span class="slider"></span></label>
+    </div>
+    <div id="condResult">拨动开关，看论主的立场还站不站得住。</div>
+    <p class="plain">无论开关怎么拨，四种组合条条堵死——这套「组合穷举」正是本卷拆异论的标准手法。</p>
+  </div>
+
+  <div class="card">
+    <h3>正理一方的承认：有而不可取</h3>
+    <p>论主顺势亮出正理的立场：东西可以存在，而你取不到它的相——这与「果待在因里等被显」完全是两回事。</p>
+    <div class="quote">虽复是有不可取相。<span class="src">—— 卷六原文</span></div>
+    <div class="quote">谓或有远故虽有而不可取。<span class="src">—— 卷六原文</span></div>
+    <p>「有而不可取」的情形有六种，一一对应生活里的常见体验：</p>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">太远</span><h4>远故不可取</h4><p>千里外的山此刻存在，你却取不到它的相。</p></div>
+      <div class="yuan-card"><span class="y-tag">因障</span><h4>因障故不可取</h4><p>被别的东西挡住——黑暗障住盆中水，也障住盆。</p></div>
+      <div class="yuan-card"><span class="y-tag">太细</span><h4>极微细故不可取</h4><p>小到感官分辨不出，存在与取相之间隔着尺度。</p></div>
+      <div class="yuan-card"><span class="y-tag">心乱</span><h4>心散乱故不可取</h4><p>心思飞了，东西在眼前也视而不见。</p></div>
+      <div class="yuan-card"><span class="y-tag">根坏</span><h4>根损坏故不可取</h4><p>眼睛坏了，色再明显也见不到。</p></div>
+      <div class="yuan-card"><span class="y-tag">无智</span><h4>未得相应智故不可取</h4><p>缺少相应的智慧，摆在面前也认不出是什么。</p></div>
+    </div>
+    <div class="plain">承认「有而取不到相」不等于承认「果本来生好藏在因里」——前者是认知条件问题，后者是存在方式问题，显了论把两者混为一谈。</div>
+  </div>
+
+  <div class="card">
+    <h3>附带的靶子：声相论</h3>
+    <div class="quote">声相常住无生无灭。然由宣吐方得显了。<span class="src">—— 卷六原文</span></div>
+    <p>声相论主张：声音之性本来常住、无生无灭，开口说话只是把本有的声显出来。破法与显了论完全同款——若声本有常住，不说话时它藏在哪儿？拿「障缘」「异不异」一问，同样无处可站。</p>
+    <div class="plain">一件异论换一套词汇卷土重来时，审问的框架可以原样搬用——这是本卷示范的「可复用的拆法」。</div>
+  </div>
+
+  <div class="case"><b>芝麻与油：</b>厨房里常说「油本来就待在芝麻里，压榨只是让它现身」——这正是显了论的雏形。但若油「本来就在」，芝麻放一百年不榨，为何不见一滴油流出来？可见不是「显」，是因缘和合方生。</div>
+  <div class="case"><b>手机更新：</b>发布会上有人说「新功能其实一直都在你手机里，更新只是把它露出来」。可旧机型刷不进新系统就永远没有这功能——「本来就有」与「待缘方生」是两种完全不同的主张，混着说就是显了论的口吻。</div>
+  <div class="case"><b>擦灰的油画：</b>掸掉灰尘看见一幅旧画，这确实是「显」——但画是先已画成的已生之体。显了论的错不在承认有「显」这回事，而在把一切「缘生」都改写成「显」：果实并不是先画好再藏进了种子。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 第四章 去来实有论 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>靶子三：去来实有论——过去未来是仓库里的存货？</h2></div>
+  <p class="sec-lead">第三件标本主张：过去与未来像现在一样真实存在、其相成就、并非假有。有意思的是，论主指出这一见甚至可能从佛经中「不如理分别」而来——经典说「一切有」，被读成了「一切法三世实体皆有」。</p>
+
+  <div class="card">
+    <h3>论主的主张与底气</h3>
+    <div class="quote">有过去有未来。其相成就犹如现在实有非假。<span class="src">—— 卷六原文</span></div>
+    <p>他们的底气有两条：一是经中说<b>十二处</b>（眼耳鼻舌身意六根，加色声香味触法六境——心识活动的全部入口与对象）「一切有」；二是佛说有过去业、有过去色未来色。再加上自家的推理：</p>
+    <div class="quote">此若未来无者。尔时应未受相。此若过去无者。尔时应失自相。<span class="src">—— 卷六原文</span></div>
+    <p>——若未来法是「无」，它就没接过相状；若过去法是「无」，它就丢了自相；没有自相，诸法不成诸法。听起来严谨，实则把「假说为有」与「实体有」混为一谈。</p>
+    <div class="plain">去来实有论的要害：把「可以有意义地谈论过去未来」偷换成「过去未来如现在般实体存放」。</div>
+    <div class="analogy"><b>比喻：</b>像因为账本上写着「欠款三万」，就主张那三万块钱已经成品化地「存放」在某个过去的抽屉里。账目可查≠现金在抽屉。</div>
+  </div>
+
+  <div class="card">
+    <h3>未来法怎么到「现在」？四种说法全堵</h3>
+    <p>论主连发四问：你主张的未来法，到底怎么进入现在？点击卡片看每一种说法的归谬。</p>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">自己走过来？</div><div class="sub">「未来法来至现在世」</div><div class="tap">点击展开</div></div><div class="back">那它就得有方所（占个位置）、与现在法没有差别、而且一路不变——应是常。三头撞墙。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">死了再投生？</div><div class="sub">「彼死已于此生」</div><div class="tap">点击展开</div></div><div class="back">未来还没生，谈何「死没」？且如此一来成了「本无今生」——现在法竟是无中生有，与「未来生现在」自相矛盾。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">原地当跳板？</div><div class="sub">「住未来为缘生现在」</div><div class="tap">点击展开</div></div><div class="back">安住不动的未来法应是常；且「本无今生」的毛病照旧——仍不是未来法生出现在。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">本来没作用？</div><div class="sub">「本无业用今有业用」</div><div class="tap">点击展开</div></div><div class="back">本无今有，与前同样的过失；再说业用与本法是异是异不异，两头皆堵（原文并举「相圆满、异相、未来分」同此过失）。</div></div>
+    </div>
+    <div class="plain">四条路径全部走不通，说明「未来如实物般等着走进现在」这个图景本身画错了。</div>
+  </div>
+
+  <div class="card">
+    <h3>正解之一：取无之觉</h3>
+    <p>有人反难：若过去未来是「无」，为什么我们还能对「无」生起觉知？这不是与「一切有」的经文冲突了吗？论主以「取无之觉」（了知「此物不存在」的认知）作答。</p>
+    <div class="quote">能取无我。兔角。石女儿。<span class="src">—— 卷六原文</span></div>
+    <p>我们能清清楚楚地知道「兔子没有角」「石女的儿子不存在」——「缘无而有觉」本是认知的常态，不须过去未来实体存在来托底。</p>
+    <div class="quote">若有相法能持有相。若无相法能持无相。是故俱名为法俱名为有。<span class="src">—— 卷六原文</span></div>
+    <div class="plain">经说「一切有」，是连「无」也被如实地了知、安立——「有」字里本来就包含如实地知道「无」。</div>
+  </div>
+
+  <div class="case"><b>兔子的角：</b>孩子问「兔子的角长在哪里」，你答「兔子根本没有角」——这个「知道它无」的觉知照样清晰运作。既然「缘无也能有觉」，过去未来的「有」就更不必是实体的存放：说「有」与说「无」，都可以是如实的认知。</div>
+
+  <div class="card">
+    <h3>正解之二：习气——过去业凭什么说「有」</h3>
+    <div class="quote">谓于诸行中。曾有净不净业。若生若灭由此因缘彼行胜异相续而转是名习气。<span class="src">—— 卷六原文</span></div>
+    <p><b>习气</b>：行为在生命相续中留下的余势。曾有过的善恶业，生起又谢灭，但由此因缘，诸行的殊异之相相续而转——凭这个相续的余势，爱与不爱的结果得以生起，于是「密意假说为有」过去业。</p>
+    <div class="analogy"><b>比喻：</b>过去业不是云盘里存着一支原片，而是像揉皱又展平的纸——折痕还在，新的褶皱会顺着旧痕生成。感果时说「过去有业」，凭的是折痕（习气相续），不是回仓库取原片。</div>
+    <div class="plain">佛说「有过去业、有过去色、有未来色」，是依三种行相的<b>密意</b>（随根机意在言外的说法方式）而说：依因相说有未来，依自相说有现在，依果相说有过去。</div>
+    <div class="quote">依彼因相密意说有未来。依彼自相密意说有现在依彼果相密意说有过去。<span class="src">—— 卷六原文</span></div>
+  </div>
+
+  <div class="card">
+    <h3>三世各十二相：清单在折叠区</h3>
+    <p>本卷为未来、现在、过去各列十二种相，说明三世法各自的「存在方式」。枚举主体收进折叠区，你只需记住钥匙：<b>未来以「因」显、现在以「自相」显、过去以「果」显</b>。</p>
+    <details class="dict">
+      <summary>三世三十六相全表<span class="hint">可跳过：抓首尾即可</span></summary>
+      <div class="body">
+        <p><b>未来十二相</b>（原文：一因所显相。二体未生相。三待众缘相。四已生种类相。五可生法相。六不可生法相。七未生杂染相。八未生清净相。九应可求相。十不应求相。十一应观察相。十二不应观察相。）——首项「因所显相」定基调：未来由现在的因来谈。</p>
+        <p><b>现在十二相</b>（原文：一果所显相。二体已生相。三众缘会相。四已生种类相。五一刹那相。六不复生法相。七现杂染相。八现清净相。九可喜乐相。十不可喜乐相。十一应观察相。十二不应观察相。）——「一刹那相」「不复生法相」最刺眼：现在法刹那即逝、一去不返。</p>
+        <p><b>过去十二相</b>（原文：一已度因相。二已度缘相。三已度果相。四体已坏相。五已灭种类相。）（原文：六不复生法相。七静息杂染相。八静息清净相。九应顾恋处相。十不应顾恋处相。十一应观察相。十二不应观察相。）——「已度」「已坏」「已灭」：过去是走完的因果，不是封存的实体。</p>
+      </div>
+    </details>
+    <div class="plain">三张清单合起来读：未来体未生、现在一刹那、过去体已坏——三世从头到尾没有给「实体存货」留一个格子。</div>
+  </div>
+
+  <div class="case"><b>云盘怀旧：</b>深夜翻出十年前的毕业照，配文「那时的我们永远都在」。照片与记忆是习气与果相的延续，依此说「过去有」是密意假说；若以为那个瞬间本体仍实存于某处「仓库」，就滑进了去来实有论。</div>
+  <div class="case"><b>婚礼请柬：</b>请柬提前一年发出，小林总觉得「那一天已经存在，正在前面等我」。其实未来只依因所显相（订好的场地、发出的请柬）假说为有——「体未生相」明明白白：未来的体还没生。</div>
+  <div class="case"><b>快递轨迹：</b>物流页显示「包裹已揽收」，你据此说「过去某刻它被收走了」。依据的是留下的痕迹（果相与习气相续），不是过去打包成一个能回去的仓库——说「有过去业」正是这种凭痕迹的假说。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 第五章 计我论 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>靶子四：计我论——里面住着一个「我」吗？</h2></div>
+  <p class="sec-lead">第四件标本分量最重：主张有真实常住的「我」。它不止一个名字——论中一口气列出六个称号，先认全它们，再看论主怎么拆。</p>
+
+  <div class="card">
+    <h3>「我」的六种名号</h3>
+    <div class="quote">起如是见立如是论。有我萨埵⑱命者⑲生者。有养育者数取趣者⑳。<span class="src">—— 卷六原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">我</div><div class="sub">常一自主的主人翁</div><div class="tap">点击展开</div></div><div class="back">「我觉得」「我要」背后假定的那个不变主体。<em>日常每句话都在用它，问题只在：把它当成实体，还是当成称呼。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">萨埵</div><div class="sub">有情</div><div class="tap">点击展开</div></div><div class="back">「这是个活物、有情感」的直觉——见到的当下立刻判「这是个人」。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">命者</div><div class="sub">一期寿命的持有者</div><div class="tap">点击展开</div></div><div class="back">「我的这条命」的主人——寿命仿佛是它可以持有的一段财产。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">生者</div><div class="sub">能受生的那位</div><div class="tap">点击展开</div></div><div class="back">轮回叙事里「去投胎的那一位」。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">养育者</div><div class="sub">抚育作为的作者</div><div class="tap">点击展开</div></div><div class="back">「是他把我养大的」——被指认为养育这件事担当者的那个实体。</div></div>
+      <div class="fn-card"><div class="front"><div class="cn">数取趣</div><div class="sub">数数取受诸趣者</div><div class="tap">点击展开</div></div><div class="back">一次次取受生命形态、往返生死的「常客」——像反复取票进场的观众。</div></div>
+    </div>
+    <div class="plain">六个名号是同一执著的六顶帽子：都在给「身心的活动」追封一个不变的主人。</div>
+  </div>
+
+  <div class="card">
+    <h3>为什么人会觉得「有我」？两条来路</h3>
+    <div class="quote">由二种因故。一先不思觉率尔而得有萨埵觉故。二先已思觉得有作故。<span class="src">—— 卷六原文</span></div>
+    <p>一是<b>率尔觉</b>：不经思索，当下任运就冒出「有人／有我」的直觉；二是<b>思觉有作</b>：先起「我打算做、我在做」的念头，由此反推有个作者。</p>
+    <div class="case"><b>凌晨的「有人！」：</b>凌晨三点，客厅一声轻响，你脱口而出「有人！」——没经过任何推理，「有有情」的觉先跳出来。这正是「先不思觉率尔而得有萨埵觉」：觉知先到，论证后补。</div>
+    <div class="plain">直觉有「我」≠ 存在有「我」；论主接下来正是把这两条来路逐一审倒。</div>
+  </div>
+
+  <div class="card">
+    <h3>五事五觉：直觉错在哪</h3>
+    <p>论主反诘：若真有一个「我」，为何所见之事与所起之觉对不上号？五组对照：</p>
+    <div class="table-wrap">
+    <table class="nine">
+      <tr><th>所见之事</th><th>该起的觉</th><th>多余附加上的「我」觉</th></tr>
+      <tr><td>见到色相形貌</td><td>色形之觉</td><td>萨埵之觉</td></tr>
+      <tr><td>见到顺苦顺乐的运行</td><td>受觉</td><td>胜劣萨埵之觉</td></tr>
+      <tr><td>见到已立名字的名相应行</td><td>想觉</td><td>刹帝利、婆罗门、吠舍、戍陀罗、佛授、德友等萨埵之觉</td></tr>
+      <tr><td>见到造作净与不净的相应行</td><td>行觉</td><td>愚者、智者萨埵之觉</td></tr>
+      <tr><td>见到识随境界转动</td><td>心觉</td><td>我、能见等萨埵之觉</td></tr>
+    </table>
+    </div>
+    <div class="quote">一见色形已。唯应起于色形之觉。不应起于萨埵之觉。<span class="src">—— 卷六原文</span></div>
+    <div class="plain">「这是个人」「这是聪明人」是在色、受、想、行、识五类素材上追加的诠表；把诠表坐实为内在实体，就与直觉的来源对不上。</div>
+    <div class="analogy"><b>比喻：</b>像地图上「北京市」三个字——字印在纸上，但你不会去纸里找一座城。「人」「我」之名印在五蕴素材上，名与素材的关系是标注，不是包装盒里另有藏品。</div>
+  </div>
+
+  <div class="card">
+    <h3>审问精华：颠倒觉</h3>
+    <div class="quote">若即于所见事起萨埵觉者。汝不应言即于色等计有萨埵。计有我者是颠倒觉。<span class="src">—— 卷六原文</span></div>
+    <p>若「我觉」就起在所见事物本身上，那「我」不过是把色等误认了一遍——误认即是颠倒；若起在事物之外，「我」便该有形状数量、有胜有劣、有愚有智——可谁都拿不出这样一个东西。两头皆堵。后文还以身、芽、河、灯、车乘为喻：</p>
+    <div class="quote">如于身芽河灯乘等。流转作用中虽无有我。即彼诸行得有流转及与止息何须计我。<span class="src">—— 卷六原文</span></div>
+    <p>流水、灯火、车乘的流转与止息，无须一个「我」主持——诸行自身具足「一有因。二可生三可灭。四展转相续生起。五有变异。」五种流转相，自成因果。</p>
+    <div class="plain">世界的运转本来不需要「我」这个中间商；抽掉它，因果照样分毫不错。</div>
+  </div>
+
+  <div class="case"><b>球场解说：</b>「王大雷大脚开向前场！」——实际发生的是腿、球鞋、草皮、风向与多年训练的合力，但解说必须用「某人」才能说话。这暗合假我四因之首「为令世间言说易故」：没有「我」字，语言先瘫痪。</div>
+  <div class="case"><b>快递单：</b>寄件人、分拣机、快递员都没见过「李小姐的实我」，一单包裹却精准送达——大家只依名字与地址的假名协作。这就是「随顺世间」的假说有：用得，执不得。</div>
+  <div class="case"><b>周日夜里的情绪低谷：</b>小杨加班后觉得「那个疲惫又委屈的才是真正的我」。把情绪、记忆、身体感受（诸行）的某个切片封王加冕，正是「计有我者是颠倒觉」的现代剧本——切片在换，「王冠」却总想世袭。</div>
+
+  <div class="card">
+    <h3>那佛陀为什么也说「我」？——假我与四个理由</h3>
+    <div class="quote">所言我者。唯于诸法假立为有。非实有我。<span class="src">—— 卷六原文</span></div>
+    <p>「我」只是在诸法上<b>假立</b>为有——安立的称呼，不是实有的自体。这个假我还被描述为「无常相、非恒相、非安保相、变坏相」。佛陀沿用它，有四个理由：</p>
+    <div class="flow-track" id="flowS5"></div>
+    <div class="flow-detail" id="detailS5"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="prevS5">← 上一步</button> <button class="tri-btn" id="nextS5">下一步 →</button></div>
+    <div class="quote">一为令世间言说易故。二为欲随顺诸世间故。三为欲断除谓定无我诸怖畏故。四为宣说自他就成功德成就过失。令起决定信解心故。<span class="src">—— 卷六原文</span></div>
+    <div class="analogy"><b>比喻：</b>「假我」像「班级」这个称呼——你找不到一个叫「班级」的实体，但点名、比赛、合影全靠它顺畅运转。称呼有用，不等于里面藏着实物。</div>
+    <div class="plain">说「无我」破的是实体执，不是废除称呼——假名之我照说不误：用得，执不得。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 第六章 计常论 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>靶子五：计常论——我和世界是永恒不变的？</h2></div>
+  <p class="sec-lead">第五件标本把「我执」升级成「常执」：我与世间真实常住、非造作、不可损害。论主先指出：这多半是对「常见来源」的误判——记忆、天眼、神秘经验、物质分析，都可能被误读成「常」的证据。</p>
+
+  <div class="card">
+    <h3>论主的主张</h3>
+    <div class="quote">我及世间皆实常住。非作所作。非化所化。不可损害积聚而住。如伊师迦㉘。<span class="src">—— 卷六原文</span></div>
+    <p><b>伊师迦</b>：譬喻中坚固不坏之物的名字。论主眼中的我与世界就像它——摸上去千年不改。而按「谁在执常」细分：有计前际（追到过去尽头）说一切常、说一分常；有计后际（望向未来尽头）说有相、无相、非想非非想；还有计极微是常。</p>
+    <div class="plain">「常」的主张五花八门，但证据来源只有几条；逐条审问，每条都经不起两难。</div>
+  </div>
+
+  <div class="card">
+    <h3>「常见」是怎么被想出来的？——来源归类练习</h3>
+    <p>下面五个生活场景，各自对应本卷点名的哪条「误推为常」的来路？点选你认为正确的归类。</p>
+    <div id="sortS6"></div>
+    <div class="quote">或依下中上静虑㉛。起宿住随念㉜。不善缘起㉝故。<span class="src">—— 卷六原文</span></div>
+    <p><b>宿住随念</b>：忆念宿世（前世记忆）。依静虑生起宿命式的记忆，却不懂缘起，对过去诸行「但唯忆念不如实知」，于是把记忆的延续误认成主体的不朽。计后际者则是「于想及受虽见差别。然不见自相差别」——只见感受的种类在换，不见它刹那生灭。</p>
+    <div class="plain">常执的证据没有一条是「常」本身，全是记忆、相续、相似相续被读错了。</div>
+  </div>
+
+  <div class="card">
+    <h3>专拆「极微常」：最小颗粒 = 永恒地基？</h3>
+    <p>一种更「科学范」的常执：把物质一路分析下去，认为分到不可再分的极微（最小单位），就找到了常住的地基——「从众微性粗物果生。渐析粗物乃至微住」，于是粗物无常、极微是常。论主的第一问就很釜底抽薪：</p>
+    <div class="quote">汝为观察计极微常。为不观察计彼常耶。<span class="src">—— 卷六原文</span></div>
+    <p>不观察而断常——是迷信；观察了才断常——违背诸量（与现量比量相违）。接着再问：因为「细」所以常？可越分析越离散损减、「转复羸劣」，细与常根本不相干。粗物与极微不异，则粗物也该常；异，则因果决定失坏；说极微如种子生果，种子自身无常；说如陶师造器，极微却无思虑。</p>
+    <div class="quote">是故粗物无常极微是常。<span class="src">—— 卷六原文</span></div>
+    <div class="plain">「小」不等于「常」——把粒子切得再小，也只是更小的无常之物。</div>
+    <div class="analogy"><b>比喻：</b>像把乐高城堡拆到最小颗粒，宣称「颗粒不变所以城堡不朽」。论主会问：颗粒与城堡是同是异？同则城堡也该不朽；异则颗粒如何拼出城堡说不清；何况「越细越常」本身就不成道理——拆得越散，离「常」越远。</div>
+  </div>
+
+  <div class="card">
+    <h3>常住检验器：真「常」要过哪几关？</h3>
+    <p>论主最后正面给出「常住之相」的定义——不是感觉出来的永恒，而是严格条件。拨动开关，看你手里的「永恒」能过几关：</p>
+    <div class="quote">若一切时。无变异相。若一切种无变异相。若自然无变异相。若由他无变异相。又无生相当知是常住相。<span class="src">—— 卷六原文</span></div>
+    <div class="cond-row">
+      <div class="name">第一关：一切时无变异<small>任何时刻都不改变</small></div>
+      <label class="switch"><input type="checkbox" id="s6c1"><span class="slider"></span></label>
+    </div>
+    <div class="cond-row">
+      <div class="name">第二关：一切种无变异<small>任何方面、任何因缘下都不改变（自然不坏、他力也不能坏）</small></div>
+      <label class="switch"><input type="checkbox" id="s6c2"><span class="slider"></span></label>
+    </div>
+    <div class="cond-row">
+      <div class="name">第三关：无生相<small>从来不曾生起——有生必有灭</small></div>
+      <label class="switch"><input type="checkbox" id="s6c3"><span class="slider"></span></label>
+    </div>
+    <div id="condResult2" style="margin-top:16px;padding:16px 20px;border-radius:14px;font-size:.98rem;background:var(--accent-soft);color:var(--accent)">三关全开之前，先想想你手里的「永恒」能过几关。</div>
+    <div class="plain">「常」是有严格定义的（无变异、无生）；拿这把尺一量，山河、石碑、原子、自我，全都量不住——计常论非如理说。</div>
+  </div>
+
+  <div class="case"><b>景区石碑：</b>千年石碑号称「永恒不朽」，管理员每年却记录：刻字又浅了一毫米。风吹、日晒、雨淋逐字逐笔地改写它——「一切时无变异相」这关，石碑第一年就挂了。</div>
+  <div class="case"><b>红酒渍：</b>广告词说「大理石台面，永恒高贵」。一次家宴的红酒渍让它永久变色——外缘一碰就变，「由他无变异」当场失守。</div>
+  <div class="case"><b>核心价值观墙：</b>某公司墙上刻着「百年不变的核心价值观」，五年内却随负责人更迭改了三个版本。大家嘴上信「常」，档案里存的全是变异相——计常论在写字楼里一样营业。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ 第七章 收官 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>收官：五靶拆完，总纲在耳</h2></div>
+  <p class="sec-lead">本卷拆了五个靶子：果早就在（因中有果）、只是被遮住（从缘显了）、过去未来实体存放（去来实有）、里面住着常一的我（计我）、我和世界永不改变（计常）。回头看，每一件都是同一套剧本。</p>
+
+  <div class="card">
+    <h3>本卷的「破论剧本」</h3>
+    <p>五章靶子，走的全是同一条流水线——看懂它，后续卷中拆余下诸论时你已提前入场：</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">一、立宗</div><div class="d">论主亮出主张：「因中先有果」「我及世间皆实常住」……先让对方把话说完整。</div></div>
+      <div class="tl-item"><div class="t">二、问因由</div><div class="d">为什么会这么想？答曰「由教及理」——祖传的文本，加上自己的寻思观察。</div></div>
+      <div class="tl-item"><div class="t">三、审问</div><div class="d">「汝何所欲」连环两难：异不异、常无常、有因无因……每种回答都撞墙。</div></div>
+      <div class="tl-item"><div class="t">四、示正理</div><div class="d">正面立论：「要有因待缘果生」「假我施设」「常住之相」——破完必须立，不给虚无留位置。</div></div>
+      <div class="tl-item"><div class="t">五、结判</div><div class="d">「非如理说」——登记归档，标本馆又添一件注解完整的展品。</div></div>
+    </div>
+    <div class="plain">破而不立的不是佛法，破完必须立——每一章的落点都是正理：缘生、假名、三世行相。</div>
+  </div>
+
+  <div class="card">
+    <h3>总纲颂（卷首嗢拖南回放）</h3>
+    <div class="gatha">
+      <div class="lines">执因中有果　　显了有去来<br>我常宿作因　　自在等害法<br>边无边矫乱　　计无因断空<br>最胜净吉祥　　由十六异论</div>
+      <div class="mean">逐句：执著果在因中本有、从缘显了、去来实有（本卷已拆）；执我、执常、宿作因（我与常本卷已拆，宿作因后续再论）；执自在天等为作者、执害他为正法；有边无边、不死矫乱、无因、断见、空见；妄计最胜、清净、吉祥——末句点题：这十六种异论，总由不如理作意而来。</div>
+    </div>
+    <div class="quote">由十六种异论差别。显不如理作意。<span class="src">—— 卷六原文</span></div>
+    <div class="plain">总纲颂是全篇的目录压缩包：十六个名词各领一件标本，本卷完成前五件的精细拆解，其余诸论待后续各卷继续。</div>
+  </div>
+
+  <div class="case"><b>两难自查：</b>再听到「你的果报出生就定了」「宇宙有个造物主」时，不妨学论主问一句「汝何所欲」：这话的两种回答是不是都站不住？两难一问，多数豪言当场泄气。</div>
+  <div class="case"><b>转发锦鲤：</b>「转发这条锦鲤，本周必有好事」——这是清单压轴「妄计吉祥论」的微缩版：把吉祥安放在转发动作里，而不是因缘里。清单最后一号留给它，本身就是一种提醒。</div>
+
+  <div class="analogy"><b>结课比喻：</b>这一卷像一份「思维体检报告」：十六项指标，本卷细查了五项。报告的用处不在让人焦虑，而在下次同样的念头冒出来时，你能认出它的编号——认出，就是松动的开始。</div>
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第六（output/6.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga6-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* 流程推演一：拆「因中有果论」的审问流程 */
+initStepper('flowS2','detailS2','prevS2','nextS2',[
+  {t:'立宗',d:'<b>因中有果（论主的牌）：</b>常常时、恒恒时，一切因中本来就带着果——种子还没下地，大树已经「在」里面了。为什么？因为「此果唯此因生」，果总得有个地方预先待着。'},
+  {t:'第一问：因果异不异',d:'<b>汝何所欲——何者因相？何者果相？因果两相，为异不异？</b>若因与果没有差别相，那「因」与「果」两个字就失去了各自的含义，「因中有果」无从谈起；若有差别相，请接下一问。'},
+  {t:'第二问：未生还是已生',d:'<b>因中的果性，是未生之相还是已生之相？</b>说未生——果还没生出来，你却说它「有」，自语相违；说已生——果体已经生起了，还要再从因里生一次，难道要出生两回？'},
+  {t:'正理登场',d:'<b>因中非先有果，然要有因待缘果生：</b>果不是预先存放在因里，而是因与缘聚齐了才生起。种子＋水土＋温度＋时间，才有苗；抽掉任何一环，都无苗可说。'},
+  {t:'收束：五道检验',d:'<b>谈「有」要过五种相的检验：</b>处所可得（瓮中水）、所依可得（眼中眼识）、自相可得、自作业可得、因变异则果变异。五道全过不了，「常常时因中有果」归档为——非如理说。'}
+]);
+
+/* 流程推演二：佛陀为什么也说「我」——假我四因 */
+initStepper('flowS5','detailS5','prevS5','nextS5',[
+  {t:'先破后立',d:'<b>破完实体我，佛陀照样说「我」：</b>「所言我者。唯于诸法假立为有。非实有我。」假立之我用而不执。为什么非用不可？四个理由，一步步看。'},
+  {t:'一：言说易',d:'<b>为令世间言说易故：</b>不说「我」，连「今天我迟到了」都没法说。语言需要主语与代词，假名是社会的基础设施。'},
+  {t:'二：随顺世间',d:'<b>为欲随顺诸世间故：</b>世人本按「你我他」说话，佛陀入乡随俗，不故意拗口示异——教导不靠制造交流障碍。'},
+  {t:'三：断除怖畏',d:'<b>为欲断除谓定无我诸怖畏故：</b>一听「无我」就恐慌「那我岂不是彻底没了？」——说假我，是先扶住人，再慢慢讲清「没的只是实体执，不是这个人」。'},
+  {t:'四：功德过失有着落',d:'<b>为宣说自他就成功德成就过失。令起决定信解心故：</b>说「你做了好事、他犯了错」，责任与成长才能落到可信的安立上，修与不修才有分别。结论：计实体我非如理，假名之我照用不误。'}
+]);
+
+/* 归类练习：常见是怎么被想出来的 */
+initSorter('sortS6',[
+  {a:'老周入定后「想起」自己前世是个牧羊人，从此坚信有个不死的灵魂在一世世转生。',opts:['宿住随念','天眼见流转','见造物主变异','计极微是常'],ans:'宿住随念',exp:'依静虑起宿住随念，「于过去诸行。但唯忆念不如实知」——把记忆片段的延续，误当成了不朽主体的证据。'},
+  {a:'某人自称有天眼，看见众生的识从此生流向彼生不曾中断，便断言识背后有个恒常者在流转。',opts:['宿住随念','天眼见流转','见造物主变异','计极微是常'],ans:'天眼见流转',exp:'「见诸识流转相续从此世间至彼世间。无断绝故。发起常见」——相续是链条在延续，不等于链条上住着一个常人。'},
+  {a:'有人见造物主般的存在「随愿成立」世界，或见构成世界的大种种种变化，于是认定背后有个永恒的作者。',opts:['宿住随念','天眼见流转','见造物主变异','计极微是常'],ans:'见造物主变异',exp:'「或见梵王随意成立。或见四大种变异。或见诸识变异」——把变化背后的现象误读为常体，是计后际常见的一条来路。'},
+  {a:'物理系学生把物质一路切到「最小颗粒」，宣称颗粒不灭，所以物质世界有不变的地基。',opts:['宿住随念','天眼见流转','见造物主变异','计极微是常'],ans:'计极微是常',exp:'正是「从众微性粗物果生。渐析粗物乃至微住」，于是「粗物无常极微是常」——被「由细计常」「粗微异不异」等连环审问拆解。'},
+  {a:'老陈觉得念头与感受千变万化，但「能感受的那个」一直没变，所以灵魂常在。',opts:['宿住随念','天眼见流转','见造物主变异','计极微是常','计后际'],ans:'计后际',exp:'「于想及受虽见差别。然不见自相差别。是故发起常见」——只见想受的种类在换，不见其自相刹那生灭，便把背后的「感受者」误执为常。'}
+]);
+
+/* 条件模拟器一：显了论的两个开关 */
+(function(){
+  var same=document.getElementById('s3same'),obs=document.getElementById('s3obs'),box=document.getElementById('condResult');
+  function upd(){
+    var a=same.checked,b=obs.checked,txt;
+    if(a&&b){txt='<b>不异＋有障缘：</b>同一个法既「常显」又「常被障」，显了又再显——「显已复显」，不成话。';}
+    else if(a&&!b){txt='<b>不异＋无障缘：</b>没有东西遮它，那「显」从何谈起？无障缘而有障碍，不应道理。';}
+    else if(!a&&b){txt='<b>异＋有障缘：</b>障缘既能障果，为何不障因？黑闇既障盆中水、亦能障盆——「同是有故」，说不通。';}
+    else{txt='<b>异＋无障缘：</b>与因无关却被「显」出来，这显了便是无因而显，同样不成话。';}
+    box.innerHTML=txt+'<br><span style="font-size:.85rem;opacity:.75">四个方向全部堵死——这就是论主的处境。</span>';
+    box.classList.add('fail');
+  }
+  same.onchange=upd;obs.onchange=upd;upd();
+})();
+
+/* 条件模拟器二：常住三关检验 */
+(function(){
+  var a=document.getElementById('s6c1'),b=document.getElementById('s6c2'),c=document.getElementById('s6c3'),box=document.getElementById('condResult2');
+  function upd(){
+    var f=[];
+    if(!a.checked)f.push('<b>一切时无变异</b>——会随时间变化，第一关就出局');
+    if(!b.checked)f.push('<b>一切种无变异</b>——任何一个方面、任何外缘下的改变都算变异');
+    if(!c.checked)f.push('<b>无生相</b>——有生起的东西必然走向坏灭');
+    if(f.length===0){
+      box.innerHTML='<b>三关全过：</b>一切时无变异、一切种无变异、无生相——按论中的标尺，这才配谈「常住」。现在，用这三关量一量身边的任何东西？';
+      box.style.background='var(--green-soft)';box.style.color='var(--green)';
+    }else{
+      box.innerHTML='<b>未通过常住检验（'+f.length+'／3）：</b>'+f.join('；')+'。诸行——身体、感受、念头、山河——三关一个都过不了。';
+      box.style.background='var(--accent-soft)';box.style.color='var(--accent)';
+    }
+  }
+  a.onchange=upd;b.onchange=upd;c.onchange=upd;upd();
+})();
+
+/* 翻转卡：点击展开 */
+(function(){
+  document.querySelectorAll('.fn-card').forEach(function(c){
+    c.addEventListener('click',function(){c.classList.toggle('open');});
+  });
+})();
+
+renderPath();
+</script>
+</body>
+</html>

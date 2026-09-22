@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷39 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中菩萨地初持瑜伽处施品第九</div>
+  <h1>卷第三十九 · 交互式学习模块</h1>
+  <p class="sub">菩萨六度修行的第一门课——布施。这一卷不问你捐了多少钱，而是用九种相状、上百条细则把「给予」彻底拆开：以什么心给、给什么、什么时候反而不能给、没有钱又怎么给。</p>
+  <div class="tagline">8 个主题 · 6 个学习步骤 · 27 组案例</div>
+</header>
+
+<nav class="toc" id="toc">
+<a href="#s1">① 全卷地图</a>
+<a href="#s2">② 自性施</a>
+<a href="#s3">③ 一切施·给不给</a>
+<a href="#s4">④ 巧慧布施</a>
+<a href="#s5">⑤ 施障对治</a>
+<a href="#s6">⑥ 清净施</a>
+<a href="#s7">⑦ 分类字典</a>
+<a href="#s8">⑧ 收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+<div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>布施为何是六度之首？九种相状的总框架——对应第①章</span></span></label></div>
+<div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>抓住自性施</b><span>一次「合格给予」的四项内在标准——对应第②章</span></span></label></div>
+<div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>学会判断给不给</b><span>一切施的取舍公式与红线清单——对应第③章</span></span></label></div>
+<div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>进阶巧慧布施</b><span>没钱也能给、拒绝也得体的完整方案——对应第④章</span></span></label></div>
+<div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>对治四种施障</b><span>为什么我们舍不得，一障一药——对应第⑤章</span></span></label></div>
+<div class="step-item" data-target="#s8"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>收官：九相偈颂</b><span>清净施检查表、分类字典与全卷总纲——对应第⑥至⑧章</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 0</div>
+</div>
+
+<!-- ============ ① 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：布施的九张切片</h2></div>
+  <p class="sec-lead">本卷属〈本地分·菩萨地〉「初持瑜伽处」，从这一品起正式展开六波罗蜜多——菩萨修行的六门主课，本卷专讲第一门：施波罗蜜多。原文开头先用一首四句颂立起总框架，再按九种相逐一展开。</p>
+
+  <div class="card">
+    <h3>六波罗蜜多与施品的位置</h3>
+    <div class="quote">复次菩萨次第圆满六波罗蜜多①已。能证无上正等菩提②。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">布施排在六度第一门；九种相圆满之后，才谈得上菩提之路。第一门课的学分，是后面五门的地基。</div>
+    <div class="analogy"><b>比喻：</b>六度像六门必修课，布施是第一学期——排在第一不是因为最简单，而是因为它最容易检验：舍不舍得，一测便知；而学的好坏，直接决定后面五门课能修多深。</div>
+  </div>
+
+  <div class="card">
+    <h3>九种相：本卷的目录结构</h3>
+    <div class="quote">一自性施④。二一切施。三难行施⑤。四一切门施⑥。五善士施⑦。六一切种施⑧。七遂求施⑨。八此世他世乐施⑩。九清净施⑪。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">前六相层层加码讲「怎么给」；后三相（遂求、二世乐、清净）讲「给得多精准、多纯净」。点击下面的卡片，九相各是一张切片。</div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">自性施</div><div class="sub">一次合格给予的内在标准</div><div class="tap">点击展开</div></div><div class="back">一切施行的共同底色：无贪之心、合规之业、正见之眼、应需之物。任何一次给予都要先过这四关。<em>像体检：不看捐了多少，先看给予那一刻心里流的是什么。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">一切施</div><div class="sub">什么都能给，但有前提</div><div class="tap">点击展开</div></div><div class="back">内物（身体劳力）与外物（财物）皆可施。但原文用最大篇幅讲「何时不该给」：只图安乐不生利益的不给，助纣为虐的更不给。<em>家长不让孩子只吃糖——爱不是有求必应。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">难行施</div><div class="sub">最难给出的三种</div><div class="tap">点击展开</div></div><div class="back">穷着还敢给、心尖上的东西能割舍、血汗钱也肯给。难在哪一关，功夫就练在哪一关。<em>搬家时才知哪件东西你真舍不得。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">一切门施</div><div class="sub">给予的四个入口</div><div class="tap">点击展开</div></div><div class="back">用自己的财物、劝化他人所得、施与亲属、施与来求者——四个渠道都算布施。<em>捐款不只是转账：认真转发筹款链接也算劝化。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">善士施</div><div class="sub">君子的给法五件套</div><div class="tap">点击展开</div></div><div class="back">净信、恭敬、亲手、应时、不损恼他——一个体面的好人怎么把东西给出去。<em>递东西用双手，把好菜先给客人。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">一切种施</div><div class="sub">十三格全谱覆盖</div><div class="tap">点击展开</div></div><div class="back">无依施、广大施、欢喜施……从对象、物品、时间、地点四个维度把布施铺满一切角落。<em>像一张全谱坐标图，13 个点覆盖所有可能。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">遂求施</div><div class="sub">缺什么就给什么</div><div class="tap">点击展开</div></div><div class="back">饮食、车乘、衣服、严具、资生什物、涂饰香鬘、舍宅、光明——八种匮乏一一对应供给，精准匹配需求。<em>对口支援：不是送一堆，而是送最缺的那一件。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">此世他世乐施</div><div class="sub">让今生来世都得安乐</div><div class="tap">点击展开</div></div><div class="back">财施三、无畏施三、法施三，共九相。财施与无畏施令此世安乐，法施令后世安乐。<em>既要救急（输血），也要教他养生（法施）。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">清净施</div><div class="sub">心地纯净十项检查</div><div class="tap">点击展开</div></div><div class="back">不留滞、不执取、不积聚、不高举、无所依、不退弱、不下劣、不向背、不望报、不希异熟——给的心要有多干净。<em>像无菌室标准：动作对还不够，环境也要净。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>开卷先立总纲：嗢拖南</h3>
+    <div class="quote">如是九种相　　是名略说施<span class="src">—— 卷39原文</span></div>
+    <div class="plain">全卷就是按这九个名字展开的。收官章会完整回到这首四句颂——先混个眼熟，读完全卷再回头看它会完全不一样。</div>
+  </div>
+
+  <div class="case"><b>深夜的捐款按钮：</b>加班到十一点，你刷到山区图书馆的募捐链接，手指悬在「捐 50 元」上方。此刻你心里翻涌的不止一个念头——「我舍得吗」（自性施）、「这钱用得对吗」（一切施）、「我这点钱算什么」（难行施）、「发了朋友圈会怎样」（清净施）。本卷九相，就是把这零点五秒的犹豫拆成九个可练习的角度。</div>
+  <div class="case"><b>年会上的一场争论：</b>部门团建时同事 A 说「捐款看金额」，同事 B 说「要看怎么捐、捐给谁」。资深主管没有站队，只说了一句「方式比数目重要」——这正是本卷的立场：布施不是一个数字，而是一套有结构的行为，九相就是它的九个观察面。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ② 自性施 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>自性施：一次「合格给予」的标准</h2></div>
+  <p class="sec-lead">「自性」就是一件事物的本质规定。原文用一段话回答：一次布施要同时具备心态、行为、见地、对象四项条件，才配叫菩萨的布施。这是全卷一切细则的公分母。</p>
+
+  <div class="card">
+    <h3>总标准：先舍心，再舍物</h3>
+    <div class="quote">谓诸菩萨于自身财无所顾惜。能施一切所应施物。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">先对自身财物没有顾惜之心，再谈给出东西——心是第一位，物是第二位；有物无心，不算布施。</div>
+  </div>
+
+  <div class="card">
+    <h3>心态关：无贪俱生思</h3>
+    <div class="quote">无贪俱生思。及因此所发。能施一切无罪施物。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">给予的动力必须是「与无贪同起」的决意（思＝决断发动的心理活动），而且施物本身必须「无罪」——来路干净、不是害人之物。</div>
+    <div class="analogy"><b>比喻：</b>像体检看血液成分而不是看体重——本卷不先问你给了多少，先问给出去那一刻，心里流的是什么。</div>
+  </div>
+
+  <div class="card">
+    <h3>行为与见地关：律仪与两种正见</h3>
+    <div class="quote">身语二业安住律仪⑫阿笈摩⑬见定有果见。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">施的行动（身业）与言语（语业）都安住在戒律之内；并且持两种正见——相信圣言教导（阿笈摩见）、相信善行必有结果（定有果见）。</div>
+    <div class="analogy"><b>比喻：</b>像开车：心态是发动机，律仪是交规，正见是导航——三者齐了车才开得远。缺导航的车也能跑，但不知道为什么跑。</div>
+  </div>
+
+  <div class="card">
+    <h3>对象关：随所希求</h3>
+    <div class="quote">随所希求即以此物而行惠施。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">对方缺什么、求什么，就给那个东西本身，不擅自换成别的方式——给予要精准对接需求。</div>
+    <div class="analogy"><b>比喻：</b>朋友说「帮我看看简历」，你却回他一篇「年轻人要沉住气」的长文——给了很多，唯独没给他要的那一样。</div>
+  </div>
+
+  <div class="card">
+    <h3>流程推演：一次递伞的解剖</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">一个再普通不过的场景——同事在门口躲雨，你递出备用伞。点「下一步」，看它如何逐项通过自性施的四关。</p>
+    <div class="flow-track" id="s2Track"></div>
+    <div class="flow-detail" id="s2Detail"></div>
+    <div class="flow-ctrl"><button class="tri-btn" id="s2Prev">◀ 上一步</button> <button class="tri-btn" id="s2Next">下一步 ▶</button></div>
+  </div>
+
+  <div class="case"><b>凑单捐物：</b>双十一你为了凑满减随手多买一箱临期酸奶，回家塞进小区捐赠柜。行为上是给予，但一来发起的「思」由贪（凑单省钱）推动，二来施物本身可疑（临期食品）——对照原文「无贪俱生思」「能施一切无罪施物」，这不算一次合格的自性施，更像一次顺便。</div>
+  <div class="case"><b>借高利贷捐款：</b>有人为了在慈善晚宴上牌面十足，借钱捐出一大笔。金额巨大，但来路（借贷作秀）与动机（憍慢）都不干净——原文「身语二业安住律仪」一项直接不及格。这份评分表上，心态与来路排在金额前面。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ③ 一切施·给不给 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>一切施：给，还是不给</h2></div>
+  <p class="sec-lead">「一切施」先说范围：内物（身体）与外物（财物）都在可施之列；但它真正的重点是分寸——原文用最大篇幅回答「什么时候不该给」。这一章是全卷的判断力训练。</p>
+
+  <div class="card">
+    <h3>范围：内物与外物</h3>
+    <div class="quote">一内所施物⑭。二外所施物⑮。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">内物＝自己的身体与劳力；外物＝一切财物。中间还有「杂施内外」的极端情形——施给以呕吐物活命者自己吐出的饮食，内外交杂。</div>
+    <div class="case"><b>总求与别求：</b>原文把求身者分两种——对方要的是「你这个人」（如以身为仆、随他差遣），便以身相随、如同为衣食为人做工的仆使；对方分别求取手足血肉，也随其所欲一切施与。现代读法可以把「身体」理解为你的时间与劳力：有人要雇你半生（总求），有人只是要你搭把手（别求），菩萨都随顺付出。</div>
+  </div>
+
+  <div class="card">
+    <h3>核心判断公式：利益优先于安乐</h3>
+    <div class="quote">谓诸菩萨若知种种内外施物。于彼众生唯令安乐不作利益。或复于彼不作安乐不作利益。便不施与。<span class="src">—— 卷39原文</span></div>
+    <div class="quote">若知种种内外施物于彼众生定作利益不定安乐。或复于彼定作利益定作安乐。即便施与<span class="src">—— 卷39原文</span></div>
+    <div class="plain">底线是「利益」：只有安乐没有利益→不给；有利益（哪怕不讨喜）→给。安乐是加分项，利益是及格线。</div>
+    <div class="analogy"><b>比喻：</b>像给孩子配餐——只哄开心没营养的零食可以不买；有营养他不爱吃的，照样买。会拒绝，才是负责的爱。</div>
+  </div>
+
+  <div class="card">
+    <h3>同一物品，两种命运：毒火刀酒</h3>
+    <div class="quote">若有众生来求毒火刀酒等物。或为自害或为害他。即不应施。若有众生来求毒火刀酒等物或自饶益或饶益他。是即应施。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">刀、酒本身中性，用途定生死：为害己害人→不给；为正常生活或助人→给。判断对象是「用途」，不是「物品」。</div>
+    <div class="case"><b>车钥匙：</b>聚会上朋友喝多了，伸手要车钥匙自己开回去——这就是「为自害」的刀酒，再熟也不能给，替他叫代驾才是真的布施。同一串钥匙，第二天他借去医院接家属，就是「为自饶益」，应当给。</div>
+    <div class="case"><b>一把菜刀：</b>邻居搬家想借你家的新菜刀过渡几天——工具中性、用途正当，「是即应施」；但换成那个跟人结怨、扬言要「讨个说法」的邻居来借刀，同一把刀就成了「为害他」，不给。</div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：该不该把「身体」交给来求者？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">原文对「以身相施」设了三道排除条件。拨动开关，看哪些情况出现时不能给。</p>
+    <div class="cond-row"><div class="name">来求者想拉你合伙作恶<small>「共为伴侣欲作非理逼迫损害诳惑」——借你的手去害人</small></div><label class="switch"><input type="checkbox" id="s3cond1"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">来求者痴狂心乱<small>神志不清、「不住自性心」，空有浮妄言说</small></div><label class="switch"><input type="checkbox" id="s3cond2"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">来求者是魔众天或受其驱使<small>怀着恼乱之心来求身分支节</small></div><label class="switch"><input type="checkbox" id="s3cond3"><span class="slider"></span></label></div>
+    <div id="condResult">三关全空：随其所欲应施彼身——把身体交付给他，随他要做什么就系属随顺于他，这是「唯施内物」的圆满形态。</div>
+  </div>
+
+  <div class="card">
+    <h3>红线清单：十一类「不应施」</h3>
+    <details class="dict"><summary>展开完整清单<span class="hint">原文条目＋现代对照，可跳过</span></summary><div class="body">
+      <p><b>① 以身助恶：</b>有人借你的手去逼迫、损害、诳惑众生——原文说菩萨「宁于百反千反或百千反。舍自身命施诸众生。终不随他教命」，宁可千百次舍身，也不随顺一次作恶。</p>
+      <p><b>② 魔众与狂人：</b>魔众天怀着恼乱心来求支节，「不应分碎支节施与」——给了反而令他获上品过罪；痴狂心乱者来求，因其「由彼不住自性心故。不为义利而求乞故」，给了也无义利。</p>
+      <p><b>③ 正忙利生：</b>有无量利益众生的大事正现在前，此时来求身分肢节——意乐已清净者不必舍眼前大事去施身分；意乐未净者则先舍事再施，两种情况原文都替你想好了。</p>
+      <p><b>④ 猎具与祠祀：</b>「终不施人捕猎等法」；罩罗罝弶等捕猎器具、杀羊祠祀、杂秽祠祀都不自作不教他——「所有一切逼追损害他诸有情戏乐等具。有来求者。是诸菩萨皆不施与」。</p>
+      <p><b>⑤ 怨家工具：</b>怨家来求东西是为了报复——「为欲呵骂缚录杀害夺财治罚。终不施与」。</p>
+      <p><b>⑥ 病人违宜：</b>「若有病者。来求非量非宜饮食亦不施与」；吃饱后馋嘴再来讨珍味的，也不给。</p>
+      <p><b>⑦ 求死求助：</b>被愁忧所逼想自杀自残的——食毒、坠岩、投渊、赴火，「皆悉不应施其所欲」。要救，不是递工具。</p>
+      <p><b>⑧ 父母师长：</b>「若来求父母师长。定不应施」——对乳哺养育之恩「于长夜中常思顶戴不生厌倦」，连私下起施心都不敢，何况明着给人。</p>
+      <p><b>⑨ 人与权：</b>不行媒妁、不以他人妻妾行布施；自眷属不先晓喻令欢喜绝不强逼施人；也不施与怨家恶友凶暴之辈；暴恶者来求王位不给——他若在位，菩萨有力还应废黜他。</p>
+      <p><b>⑩ 侵夺之物：</b>不侵夺父母妻子眷属的财物去施人；不以非法、卒暴、逼恼他人的方式积财行施。</p>
+      <p><b>⑪ 不合仪物：</b>给出家人残余不净饮食、给不食葱者葱染饮食、给不饮酒者酒染饮食——「如是等类不合仪施。菩萨不为」。</p>
+    </div></details>
+  </div>
+
+  <div class="case"><b>转赠前先问一句：</b>年会抽中的耳机你想送同事，先发消息问行政「奖品可以转送吗」——原文「不以属他非同意物而行惠施」：不是你的东西，连送人的资格都先要确认。同理，公司库房里的样品、代朋友保管的相机，都不能顺手做人情。</div>
+  <div class="case"><b>深夜的求助私信：</b>表弟凌晨发消息说「活着没意思」，让你把家里的安眠药都拿给他「一次性睡个好觉」。你不给药，也没有骂他矫情，第二天一早带他去见了心理咨询师——正是「愁忧所逼……皆悉不应施其所欲」：不递工具，也不丢下人。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ④ 巧慧布施 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>巧慧布施：给的技术含量</h2></div>
+  <p class="sec-lead">同样是给，菩萨的给带着智慧。巧慧布施是本卷技术含量最高的部分：资源不够怎么办、对方是小气鬼怎么办、自己没钱怎么办、人家想要的是法怎么办——原文给了四套完整方案。</p>
+
+  <div class="card">
+    <h3>方案一：两难抉择——二求者俱来</h3>
+    <div class="quote">即应方便发遣安乐非贫非贱有依有怙。尽己所有施彼危苦是贫是贱无依无怙。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">两人同时来求、财物只够一人：够就都给；不够，就把宽裕有依靠的那位好好辞谢，把全部给最危苦无依的——先分诊，再解释。</div>
+    <div class="analogy"><b>比喻：</b>急诊分诊——两位病人同时到，医生不按先来后到，按危重程度排序。婉拒那位也要好好说话：不是不爱给，是先紧着最疼的人。</div>
+    <div class="case"><b>一台备用笔记本：</b>你手头只有一台备用电脑。实习生的电脑坏了，明天一早要交稿；同事只是想多一台机子挂机下载。你把电脑给了实习生，回头对同事说清楚：「这台昨天先答应他了，实在抱歉，下台我优先想着你。」——先尽危苦、再作辞谢，原文的顺序一步不少。</div>
+  </div>
+
+  <div class="card">
+    <h3>方案二：度化悭家——让小气鬼长出「给」的肌肉</h3>
+    <div class="quote">令渐修习自舍少财。依下无贪进得中品。依中无贪进得上品。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">对最悭吝的人，先请他「随喜」（你出钱他得名），再引导他亲手舍一点点小钱——无贪从下品练到中品、上品，是渐进训练，不是一步到位。</div>
+    <div class="analogy"><b>比喻：</b>健身从不可能第一天就卧推一百公斤——先陪练（随喜）、再空杆（施少财）、再加片（中品）、上重量（上品）。</div>
+    <div class="case"><b>室友的第一次：</b>从不捐款的室友被你约去公司义卖帮忙看摊，你事先说好：「钱我出，你只管吆喝，卖的钱算你捐的。」半年后的冬季募捐，他自己的第一个 50 元转账记录出现了——他就是当年的「悭家」，你干的就是菩萨去悭吝人家干的事：让他「于我库藏既无所减。复得称彼善男子心」。</div>
+  </div>
+
+  <div class="card">
+    <h3>方案三：没钱也能施的四条路</h3>
+    <div class="quote">先所串习彼彼世间工巧业处作意现前。少用功力多集财宝施诸众生。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">现前无财的四条路：① 用手艺去挣——「少用功力多集财宝」；② 说法令人乐施，让贫者也敢给；③ 引导乞者去找常乐施之家；④ 亲自到施主家「身助语助」，把布施场子的瑕疵补齐。</div>
+    <div class="analogy"><b>比喻：</b>没有钱也可以「入股服务」：手艺是你的钱，嗓子是你的钱，跑腿也是你的钱——原文连搭把手、说好话都列进去了。</div>
+    <div class="case"><b>跑腿式行善：</b>社区募捐日，这个月手头实在紧，你一分没捐，但一早就去帮着摆桌、搬水、给排队的老人登记。散场时负责人说「你今天比捐五百块还管用」——这正是原文「躬诣其所翘勤无惰……身助语助。令施求者得善满足」：布施是个系统工程，缺的环节恰好就是你今天的力气。</div>
+  </div>
+
+  <div class="card">
+    <h3>方案四：法施的门槛——经卷不是想给就给</h3>
+    <div class="quote">勿我于法悭垢缠心不能施耶。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">给法比给财更严：求者若是为了转卖、囤积、不求胜智，不给；但给之前先审察自己——若只是自己「法悭」舍不得，那就「不忍烦恼尚应法施。况令阙乏妙智资粮」，豁出去也要给。</div>
+    <div class="case"><b>绝版教程：</b>学弟想要你那套绝版设计教程，你先问自己三问（对应原文的三察）：我是舍不得吗？我对它另有胜用吗？给他确实有害吗？想完发现自己纯属收藏癖——你把网盘链接发了过去。那三问，就是「勿我于法悭垢缠心不能施耶」的现代操作流程。</div>
+  </div>
+
+  <div class="card">
+    <h3>方案五：净施——把拒绝说漂亮</h3>
+    <div class="quote">为作净故以净意乐舍与十方诸佛菩萨。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">先在心里把一切财物「过户」给十方诸佛菩萨（净施），从此自己只是保管员：该给就取出来给，不该给就说「如是等物是他所有不许施汝」，再拿别的东西二倍三倍恭敬补上——拒绝也得体，对方还明白你并非悭贪。</div>
+    <div class="analogy"><b>比喻：</b>像代管朋友房子的管家：求租者上门，他只能说「房子不是我的，无权租你」，再热心帮指两处好房源——不冒充房主，也不让人空手走。</div>
+    <div class="case"><b>加倍的补偿：</b>同事想借你仅有的一台投影仪，可它早已答应周末给社区放映会用（你心里早已作净）。你如实相告，转头把自己私藏的便携音响二话不说借给了他——「或持余物。二倍三倍恭敬施与」：连拒绝这件事，都要带着加倍的诚意。</div>
+  </div>
+
+  <div class="card">
+    <h3>进阶：四种意乐——给谁，就换哪颗心</h3>
+    <div class="quote">于诸有怨。以慈意乐而行惠施。于诸有苦。以悲意乐而行惠施。于诸有德。以喜意乐而行惠施。于诸有恩亲善同意。以舍意乐而行惠施。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">对象不同，带着的心不同：怨者以慈、苦者以悲、德者以喜、亲者以舍——这是四无量心在布施上的落地。</div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">对有过节的人</span><h4>慈意乐</h4><p>用「愿他好」的心给——把施当作和解，而不是居高临下的施舍。给得罪过你的人倒杯水，练的就是这一格。</p></div>
+      <div class="yuan-card"><span class="y-tag">对受苦的人</span><h4>悲意乐</h4><p>用「拔苦」的心给——重点不是给多少，是他疼在哪里。对加班到崩溃的同事，一杯热粥胜过一堆安慰话。</p></div>
+      <div class="yuan-card"><span class="y-tag">对有德的人</span><h4>喜意乐</h4><p>用「随喜」的心给——为他高兴，不较高低。前辈退休时你送他念想之物，是敬，也是喜。</p></div>
+      <div class="yuan-card"><span class="y-tag">对有恩亲善的人</span><h4>舍意乐</h4><p>用「平等舍」的心给——不因亲厚而失了分寸与平等。对家人反而最需要这一格：亲，但不占。</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：该给，还是不该给？</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">五个现代场景，逐个判断——点选项即可查看答案与原文依据。</p>
+    <div id="s4Sorter"></div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑤ 施障对治 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>四种施障：为什么我们舍不得</h2></div>
+  <p class="sec-lead">为什么明知该给却给不出？原文精准诊断出四种「施障」，并且一障配一药——这部分读起来最像现代心理学里的行为改变技术：先诊断，再对症练习。</p>
+
+  <div class="card">
+    <h3>诊断书：四种障碍</h3>
+    <div class="quote">此中施障略有四种。一先未串习。二施物鲜阙。三耽着上妙悦意财物。四观见当来具足财果而深欣乐。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">四种障碍：没习惯、没东西、太舍不得、图回报。先认出自己卡在哪一关，再取对应的药——四张卡片正面是病，背面是药。</div>
+    <div class="fn-grid">
+      <div class="fn-card"><div class="front"><div class="cn">障① 先未串习</div><div class="sub">药：觉悟·力励思择</div><div class="tap">点击展开</div></div><div class="back">从没练习过「给」，念头自然不动。对治是先看清「这不是我小气，是我没练过」，然后「力励思择而行惠施」——像久不运动的肌肉，第一周全靠咬牙。<em>月月说「下个月再捐」的人，缺的不是钱，是第一次。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">障② 施物鲜阙</div><div class="sub">药：忍受众苦</div><div class="tap">点击展开</div></div><div class="back">财物匮乏时起悲愍心，宁可自受匮乏也要给——原文连退路都算好了：「况当更有诸菜叶等可以活命」，意思是：我还没到只剩菜叶的地步，怕什么。<em>月底只剩三百，仍随喜了三十——匮乏是真的，给的能力也是真的。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">障③ 耽着上妙</div><div class="sub">药：遍知颠倒</div><div class="tap">点击展开</div></div><div class="back">越贵越舍不得，因为对苦物起了乐想——「我今于苦发起虚妄乐想颠倒。由此能生当来众苦」。看破这个颠倒，才敢把最好的东西给出去。<em>新餐具舍不得开封待客——锁住它的不是爱物，是颠倒。</em></div></div>
+      <div class="fn-card"><div class="front"><div class="cn">障④ 邪果见</div><div class="sub">药：见一切行性不坚牢</div><div class="tap">点击展开</div></div><div class="back">为求大财回报而施，是「邪果见」。观察「一切诸行皆不坚牢。一切诸行皆念念灭」，受用之果速疾离散，于是「不观其果而行布施。一切布施皆为回向㉒速证无上正等菩提」——把果报升级成方向。<em>为抽奖金条而捐款，练出来的是贪，不是施。</em></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>药方：四种对治智</h3>
+    <div class="quote">一者觉悟。二者忍受众苦。三者遍知颠倒。四者见一切行性不坚牢。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">前三种药让人「迈得出去」，第四种药让人「收得住心」——迈出去给、给完不执着果报，才是一套完整的施。</div>
+  </div>
+
+  <div class="card">
+    <h3>归类练习：认出你的施障</h3>
+    <p style="font-size:.92rem;color:var(--ink-soft)">五个场景，判断各属于哪种障碍——对号入座，是最快的学习方式。</p>
+    <div id="s5Sorter"></div>
+  </div>
+
+  <div class="card">
+    <h3>彩蛋：观想施——没钱时的「模拟施」</h3>
+    <div class="quote">由此因缘是诸菩萨以少功用生无量福。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">在闲静处以淳厚净信与胜解力，心中反复缘念上妙财宝施与众生——观想布施本身就能生福，这是菩萨独有的练法。</div>
+    <div class="analogy"><b>比喻：</b>像运动员的表象训练：赛前在脑中反复演练动作，一滴汗没流，神经通路却真的在生长。心理预演有真实效力——原文叫「以胜解力」。</div>
+  </div>
+
+  <div class="case"><b>地铁上的练习：</b>通勤路上你闭眼两分钟，把准备给老家小学买书的三千元在心里一件件「给」出去：书的封面、孩子接书的手、教室后面的架子。到站时发现，昨天还紧巴巴的「舍不得」松了——「给」这个动作，先在心上跑通，才容易在手上实现。</div>
+  <div class="case"><b>动机体检：</b>同一笔助学捐款，A 想「孩子考上大学我脸上有光」，B 想「这笔钱只是助力，成不成在他」。半年后 A 的捐款断了（孩子成绩平平），B 还在续。原文把这条线画得很硬——「不观其果而行布施」「唯由悲愍众生意乐而行布施」：动机的燃料纯度，决定这辆车能开多远。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑥ 清净施 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>清净施：给的心有多干净</h2></div>
+  <p class="sec-lead">前面讲给什么、怎么给；清净施十相检查的是「给的心有多干净」。这是全卷的质检环节：十项里任何一项不过关，布施就带着杂味。</p>
+
+  <div class="card">
+    <h3>十项检查表</h3>
+    <div class="quote">一不留滞施。二不执取施。三不积聚施。四不高举施。五无所依施。六不退弱施。七不下劣施。八不向背施。九不望报恩施㊴。十不希异熟施㊵。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">十相可归为三组：动作上的净（不留滞、不积聚）、动机上的净（不高举、无所依、不望报、不希异熟）、品质上的净（不退弱、不下劣、不向背、不执取）。下面拆三个最反直觉的。</div>
+  </div>
+
+  <div class="card">
+    <h3>重点一：不积聚施——「攒个大招」是陷阱</h3>
+    <div class="quote">谓诸菩萨不于长时渐渐积集聚多财物然后顿施。<span class="src">—— 卷39原文</span></div>
+    <div class="quote">见积聚施其施有罪。见随得施其施无罪。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">攒大钱做一次大施主，意味着让眼前一百个来求者空等生怨；随得随施，来的每一个都被接住。</div>
+    <div class="analogy"><b>比喻：</b>像消防——平时零星小喷淋一直工作，胜过攒到火灾那天开一次大火；前者救人于起烟，后者只救得了新闻。</div>
+    <div class="case"><b>年终奖方案：</b>你原本计划攒到年底，用年终奖做一笔「像样」的大额捐款。读完这一相你改了主意：设了每月发薪日自动转账——十一个月里，每个月的求助者都被接住了。攒大招爽的是施主，随得随施救的是人。</div>
+  </div>
+
+  <div class="card">
+    <h3>重点二：无所依施——点赞是秆堆</h3>
+    <div class="quote">体达世间称誉声颂虚妄分别。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">不为名声、赞颂、感恩回馈而行施——原文自带比喻：「譬如世间[禾*肙][麥*弋]叶聚」，名誉像秸秆麦秆堆成的垛，看着一大堆，风一吹就散。</div>
+    <div class="case"><b>99 个赞的第二天：</b>你把捐款截图发到朋友圈，收获 99 个赞和 12 条评论；第三天，没有一个人再提起这件事，你自己也忘了当时的澎湃。而受助的图书馆寄来的借书卡，在你钱包里躺了三年——名声是秆堆，受益是真的。</div>
+  </div>
+
+  <div class="card">
+    <h3>重点三：不希异熟施——把果报升级为方向</h3>
+    <div class="quote">观一切行性是虚伪。观大菩提最胜功德。<span class="src">—— 卷39原文</span></div>
+    <div class="plain">施完不求来世财宝、自身圆满——有为的果报都会散，把这一切回向无上菩提，果报才被「升级」成方向。</div>
+  </div>
+
+  <div class="card">
+    <h3>条件模拟器：施心三时自查</h3>
+    <div class="quote">施前意悦施时心净施后无悔。<span class="src">—— 卷39原文</span></div>
+    <p style="font-size:.92rem;color:var(--ink-soft)">回忆你最近一次给予，拨动三个开关自检。</p>
+    <div class="cond-row"><div class="name">施前意悦<small>给之前心里是欢喜的，不是被磨到不耐烦才给</small></div><label class="switch"><input type="checkbox" id="s6cond1"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">施时心净<small>递出去的瞬间没在盘算人情与回报</small></div><label class="switch"><input type="checkbox" id="s6cond2"><span class="slider"></span></label></div>
+    <div class="cond-row"><div class="name">施后无悔<small>给完不后悔、不想收回、不逢人诉苦</small></div><label class="switch"><input type="checkbox" id="s6cond3"><span class="slider"></span></label></div>
+    <div id="mindResult" style="margin-top:16px;padding:16px 20px;border-radius:14px;background:var(--blue-soft);color:var(--blue);font-size:.98rem">三个开关都拨到这边，看看「三时俱净」是什么感觉。</div>
+  </div>
+
+  <div class="card">
+    <h3>十相速查字典</h3>
+    <details class="dict"><summary>清净施十相逐条<span class="hint">可跳过</span></summary><div class="body">
+      <p><b>① 不留滞施：</b>「见来求者正现在前。速疾惠施不作留滞」——快是你自己的品质，「非来求者疾望得财」，不是被人催的。</p>
+      <p><b>② 不执取施：</b>不以邪见执取布施：不信「施无果」的断见，不学杀生祭祀，也不认为只有施到极净才算究竟。</p>
+      <p><b>③ 不积聚施：</b>随得随施，不攒大招（见上文重点一）。</p>
+      <p><b>④ 不高举施：</b>谦下心施，不与人竞赛施，施完不想「我能施、我是施主、余则不尔」。</p>
+      <p><b>⑤ 无所依施：</b>「不依称誉声颂而施」——名誉是秆垛（见上文重点二）。</p>
+      <p><b>⑥ 不退弱施：</b>听闻别人行广大第一最胜之施，不自轻、不恐怖、不退却——比自己捐得多的人很多，不必自卑。</p>
+      <p><b>⑦ 不下劣施：</b>「勤数简择最胜最妙饮食车乘衣服等物。持用布施」——给就挑最好的给，不拿快过期的凑数。</p>
+      <p><b>⑧ 不向背施：</b>不站队、不结党，「于怨亲中悲心等施」。</p>
+      <p><b>⑨ 不望报恩施：</b>「终不于他希望反报。但观求乐爱火所烧。无有势力。性苦众生。深心悲愍而行惠施」——只看见对方被求乐之火烧着，悲愍而给。</p>
+      <p><b>⑩ 不希异熟施：</b>不求来世果报，回向无上菩提（见上文重点三）。</p>
+    </div></details>
+  </div>
+
+  <div class="case"><b>随手一扔的代价：</b>你把旧衣服打包给楼道保洁阿姨，袋子随手一撂：「放这儿了啊。」晚上想起原文「于卑贱者行布施时。尚无不敬撩掷而与。况于有德」——次日你双手递过去，还挑了最新的三件。给东西的姿态，比东西本身先到达。</div>
+  <div class="case"><b>被拒绝 200 次的募捐人：</b>同学做公益筹款，被人当面挂断、被保安请出门，一度想放弃。后来读到「不退弱施」：听闻别人行广大最胜之施尚且不自轻，何况只是被拒绝——他把 200 个「不」当作练习数据，第 201 通电话筹到了教室的一整面书墙。给的人先要自己站得稳。</div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑦ 分类字典 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>分类字典：五份清单的结构</h2></div>
+  <p class="sec-lead">全卷后半是几份清单：难行施 3 相、一切门施 4 相、善士施 5 相、一切种施 13 相、遂求施 8 相、此世他世乐施 9 相。这一章只讲每份清单背后的结构与逻辑，完整条目收进折叠区。</p>
+
+  <div class="card">
+    <h3>九相一览表</h3>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>名相</th><th>条目</th><th>通俗理解</th></tr>
+      <tr><td>自性施</td><td>总标准</td><td>一次合格给予的内在四条件</td></tr>
+      <tr><td>一切施</td><td>内外二分</td><td>什么都可给，但利益优先、红线森严</td></tr>
+      <tr><td>难行施</td><td>3 相</td><td>最难舍的三种东西</td></tr>
+      <tr><td>一切门施</td><td>4 相</td><td>给予的四个入口</td></tr>
+      <tr><td>善士施</td><td>5 相</td><td>君子给法五件套</td></tr>
+      <tr><td>一切种施</td><td>13 相</td><td>物品·对象·时间·空间全谱覆盖</td></tr>
+      <tr><td>遂求施</td><td>8 相</td><td>缺什么给什么的精准匹配</td></tr>
+      <tr><td>此世他世乐施</td><td>9 相</td><td>令今生来世都得安乐</td></tr>
+      <tr><td>清净施</td><td>10 相</td><td>给心纯净度的十项检查</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h3>五份清单速览</h3>
+    <details class="dict"><summary>难行施（3 相）<span class="hint">穷着给、割爱给、血汗给</span></summary><div class="body">
+      <div class="quote">谓若诸菩萨财物鲜少。自忍贫苦惠施于他。是名菩萨第一难行施。<span class="src">—— 卷39原文</span></div>
+      <p><b>第一难：</b>财物鲜少，自忍贫苦而施——穷着还敢给。</p>
+      <p><b>第二难：</b>所爱之物（本性深爱／长时串习／上品恩／最上妙物）能自开解而施——心尖上的东西。</p>
+      <p><b>第三难：</b>极大艰辛所获财物而施——一分一毛挣来的血汗钱。</p>
+      <div class="case"><b>五千块存款：</b>刚毕业的你存款五千，老家小学要建图书角，你捐了三千，那个月吃泡面。这正是第一难行施——难的不是三千这个数，是它占了你存款的六成。富人的百万与你的三千，在难行施的天平上未必谁重。</div>
+    </div></details>
+    <details class="dict"><summary>一切门施（4 相）<span class="hint">四个入口</span></summary><div class="body">
+      <div class="quote">谓诸菩萨或自财物。或劝化他所得财物。<span class="src">—— 卷39原文</span></div>
+      <p><b>入口一：</b>自财物——自己的东西给出去。</p>
+      <p><b>入口二：</b>劝化他所得——劝他人共同捐输，众人合力。</p>
+      <p><b>入口三：</b>施亲属——父母、妻子、奴婢、善友、大臣、眷属也在福田之列。</p>
+      <p><b>入口四：</b>施他来求者——上门来求的人。</p>
+      <div class="case"><b>转发也是门：</b>你没钱，但把筹款链接转发并认真补了一段受助孩子的近况，三小时后多了 47 位捐款人——「劝化他所得财物」也是布施之门。门有很多扇，进哪扇都算进。</div>
+    </div></details>
+    <details class="dict"><summary>善士施（5 相）<span class="hint">君子给法五件套</span></summary><div class="body">
+      <div class="quote">净信而施。恭敬而施。自手而施。应时而施。不损恼他而行惠施。<span class="src">—— 卷39原文</span></div>
+      <p><b>净信而施：</b>信此施有果，不是糊弄。</p>
+      <p><b>恭敬而施：</b>给的态度里带着尊重。</p>
+      <p><b>自手而施：</b>亲手给，不假手他人打发。</p>
+      <p><b>应时而施：</b>雪中送炭，不雨后送伞。</p>
+      <p><b>不损恼他：</b>不以呵骂、捶打、恐怖、毁辱为前提。</p>
+      <div class="case"><b>姜茶的一百种送法：</b>给环卫工人送姜茶，你可以把整箱交给物业「帮我分一下」，也可以连着三天自己站在路口一杯杯递。后者是「自手而施」——温度是从手上过去的，不是从物流单上过去的。</div>
+    </div></details>
+    <details class="dict"><summary>遂求施（8 相）<span class="hint">精准匹配八种匮乏</span></summary><div class="body">
+      <div class="quote">匮乏饮食而求乞者。施以饮食。<span class="src">—— 卷39原文</span></div>
+      <p>八相对应八种匮乏：<b>饮食 / 车乘 / 衣服 / 严具 / 资生什物 / 涂饰香鬘 / 舍宅 / 光明</b>——对方缺哪样，就精确补哪样，连「光明」都算一种匮乏。</p>
+      <div class="case"><b>灯泡与米面：</b>独居老人家里灯泡坏了半年。志愿者送来两袋米，老人客气地收下；你上周上门，花十分钟换了灯泡，老人笑了。遂求施的核心是精准：「匮乏光明而求乞者。施以光明」——缺光给光，缺车给车，不是缺啥都给米。</div>
+    </div></details>
+    <details class="dict"><summary>此世他世乐施（9 相）<span class="hint">财三＋无畏三＋法三</span></summary><div class="body">
+      <div class="quote">财施无畏施法施。总说名为能令众生此世他世乐施。<span class="src">—— 卷39原文</span></div>
+      <p><b>财施三：</b>以上妙清净如法财物而行惠施；调伏悭吝垢（舍财物执着）；调伏积藏垢（舍受用执着）。</p>
+      <p><b>无畏施三：</b>济拔师子虎狼鬼魅等畏；拔济王贼等畏；拔济水火等畏——一切让人恐惧的，都在救护之列。</p>
+      <p><b>法施三：</b>无倒说法；称理说法；劝修学处。</p>
+      <div class="quote">财施无畏施及此差别。能令众生此世安乐。法施及此差别。能令众生后世安乐。<span class="src">—— 卷39原文</span></div>
+      <div class="case"><b>手术室外与夜校：</b>陪朋友进医院，你在手术室外握着他家人的手讲流程——这是无畏施（拔济怖畏）；周末你在社区夜校教老人识破电信诈骗——这是法施（既给今生安全感，也是后世的资粮）。两件事隔了五天，却是同一份清单里的两相。</div>
+    </div></details>
+    <details class="dict"><summary>一切种施（13 相）<span class="hint">全谱覆盖</span></summary><div class="body">
+      <div class="quote">十三财谷物施如是十三种相。当知是名菩萨一切种施。<span class="src">—— 卷39原文</span></div>
+      <p><b>① 无依施</b>给无依无怙者　<b>② 广大施</b>量大　<b>③ 欢喜施</b>心欢喜　<b>④ 数数施</b>常常给　<b>⑤ 田器施</b>给有德福田　<b>⑥ 非田器施</b>也给贫苦无德者　<b>⑦ 一切物施</b>物无不尽　<b>⑧ 一切处施</b>处无不遍　<b>⑨ 一切时施</b>时不间断　<b>⑩ 无罪施</b>来路干净　<b>⑪ 有情物施</b>施与有情相关之物　<b>⑫ 方土物施</b>各地土产皆可施　<b>⑬ 财谷物施</b>钱财谷物。</p>
+      <p><b>结构作用：</b>这一相把「给」铺满一切维度——对象（田/非田）、空间（一切处）、时间（一切时）、物品（一切物），像一张覆盖网，把可能漏给的角落全部补上。</p>
+    </div></details>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑧ 收官 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>收官：一颂收尽全卷</h2></div>
+  <p class="sec-lead">回到开卷那首颂。九个名字现在都有了血肉——它们不是并列的名词，而是一条从「心」到「术」再到「纯度」的进阶路线。</p>
+
+  <div class="gatha">
+    <div class="lines">自性一切难　　一切门善士<br>一切种遂求　　二世乐清净<br>如是九种相　　是名略说施</div>
+    <div class="mean">自性、一切、难行——前三相：给的心、给的范围、给的难度；一切门、善士——四五相：给的入口与风度；一切种、遂求、二世乐、清净——六至九相：铺满一切、精准匹配、两世安乐、心地纯净。四句九名，全卷结构一颂收尽。</div>
+  </div>
+
+  <div class="card">
+    <h3>全卷回顾：三层结构</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">第一层 · 心（自性施）</div><div class="d">无贪俱生思＋律仪＋两种正见＋随所希求——所有给予共用的内在标准。</div></div>
+      <div class="tl-item"><div class="t">第二层 · 术（一切施·巧慧）</div><div class="d">给与不给的判断公式、没钱也给得了的四条路、拒绝也要拒绝得漂亮的净施方便。</div></div>
+      <div class="tl-item"><div class="t">第三层 · 纯度（施障对治·清净施）</div><div class="d">四种障碍一一对治，十项清净检查——从「给得出」走到「给得净」。</div></div>
+    </div>
+    <div class="plain">原文最后一句收束全卷：布施圆满之后，才能谈无上菩提——第一门课的学分，是后面五门课的地基。</div>
+    <div class="quote">如是菩萨依止九相所行惠施。圆满施波罗蜜多已。能证无上正等菩提。<span class="src">—— 卷39原文</span></div>
+  </div>
+
+  <div class="case"><b>年度复盘：</b>年底你翻捐款记录，对照九相自检：金额不算少（一切种），但全是转账，没有一次「自手而施」；有三笔是刷到朋友圈不好意思才捐的（无所依施不达标）。明年你只改两条：亲手给一次、删掉所有求回报的期待——复盘用的尺子，就是本卷给的。</div>
+  <div class="case"><b>下一次有人开口：</b>读完这一卷，再有人向你求助，你心里会自然跑过三道门：第一道叫「利益吗」（一切施）——他真正缺什么，给了会不会有害；第二道叫「合适吗」（巧慧）——给法、时机、来路对不对；第三道叫「心净吗」（清净施）——我是想给，还是想被看见。三道门跑完，给出去的不只是东西。</div>
+  <div class="divider"></div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第三十九（output/39.md 重译校对版）制作 · 交互式学习模块<br>比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga39-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+/* ---- 翻转卡（① 九相地图 / ⑤ 四种施障） ---- */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
+/* ---- 流程推演：一次递伞的解剖（② 自性施） ---- */
+initStepper('s2Track','s2Detail','s2Prev','s2Next',[
+ {t:'① 一念无贪',d:'<b>无贪俱生思：</b>同事在门口躲雨，你拿起备用伞递过去——没有「他会不会不还」的盘算，也没有「做了好事」的自我感动，只是「他需要、我有」这口气自然推动。原文把这一念发起的意志叫「无贪俱生思」。'},
+ {t:'② 发为身口',d:'<b>身语二业：</b>念头推着手把伞递出去，嘴里说「拿去用，不用还」——决意落成动作与言语，这才叫「因此所发」。光想不做，布施还没发生。'},
+ {t:'③ 安住律仪',d:'<b>安住律仪：</b>伞是你自己的，递的方式没让任何人难堪——行动全程合规、不损恼人，原文叫「身语二业安住律仪」。'},
+ {t:'④ 见地纯正',d:'<b>定有果见：</b>你隐约相信这样的给予有它的好结果，而不是「反正也没用」——原文要求「阿笈摩见」与「定有果见」两种正见在场，给得心明眼亮。'},
+ {t:'⑤ 给他要的',d:'<b>随所希求即以此物而行惠施：</b>他缺的是伞，你给的是伞——不是塞给他二十元让他自己想办法。四关全过，这一次递伞就符合菩萨「自性施」的内在标准。点题收束：布施的合格线，不在金额，在结构。'}
+]);
+
+/* ---- 条件模拟器：该不该以身相施（③ 一切施） ---- */
+(function(){
+  var ids=['s3cond1','s3cond2','s3cond3'];
+  var r=document.getElementById('condResult');
+  var reasons={
+    s3cond1:'来求者想借你的手做非理逼迫损害诳惑之事——原文：菩萨宁于百反千反舍自身命施诸众生，「终不随他教命」称悦彼情而害众生。',
+    s3cond2:'来求者痴狂心乱——「由彼不住自性心故。不为义利而求乞故」，空有浮妄言说，施了没有义利。',
+    s3cond3:'来求者是魔众天或受其驱使者，怀恼乱心而来——施了恐怕「当获上品过罪及损害」，不能给。'
+  };
+  function upd(){
+    var on=ids.filter(function(i){return document.getElementById(i).checked;});
+    if(on.length===0){
+      r.classList.remove('fail');
+      r.innerHTML='三关全过：随其所欲应施彼身——把身体交付给他，随他要做什么就系属随顺于他，这是「唯施内物」的圆满形态。';
+    }else{
+      r.classList.add('fail');
+      r.innerHTML='不应施与。原因：<br>'+on.map(function(i){return '· '+reasons[i];}).join('<br>');
+    }
+  }
+  ids.forEach(function(i){document.getElementById(i).addEventListener('change',upd);});
+  upd();
+})();
+
+/* ---- 归类练习：该给还是不该给（④ 巧慧布施） ---- */
+initSorter('s4Sorter',[
+ {a:'朋友想借你的鱼竿周末去水库钓鱼放松',opts:['应施','不应施'],ans:'应施',exp:'戏乐等具、无损害之虞——原文对戏乐器具的原则是：能摄受饶益、不令堕恶趣、不增长不善根者，「随彼所求悉皆施与」。'},
+ {a:'网友出高价想买你自制的捕兽夹',opts:['应施','不应施'],ans:'不应施',exp:'「终不施人捕猎等法」——凡能逼迫损害其他有情的器具与方法，有求皆不施，出价再高也不行。'},
+ {a:'刚被医生禁酒的病人托你带两瓶他最爱的啤酒',opts:['应施','不应施'],ans:'不应施',exp:'「若有病者。来求非量非宜饮食亦不施与」——病人求不合宜的饮食，给了不是关心，是害他。'},
+ {a:'同事想借你的编程笔记，真心想转行做开发',opts:['应施','不应施'],ans:'应施',exp:'法施的门槛是「必求胜智」——真心求智慧、其义已辩者，即随所乐如应施与。他想学，就给。'},
+ {a:'有人出五倍价钱，想收你手上代公司保管的一批样品',opts:['应施','不应施'],ans:'不应施',exp:'「不以属他非同意物而行惠施」——物属他人（公司），加上交易不正当，双重红线，门都没有。'}
+]);
+
+/* ---- 归类练习：认出你的施障（⑤ 施障对治） ---- */
+initSorter('s5Sorter',[
+ {a:'每次想捐款都对自己说「下个月一定捐」，说了一年',opts:['先未串习','施物鲜阙','耽着上妙','邪果见'],ans:'先未串习',exp:'念头从不动，是因为「给」没进过习惯回路——原文判「是我于施先未串习所作过失」，药是力励思择：先做一次。'},
+ {a:'月底只剩三百元，募捐链接就在眼前，你盯着余额发呆',opts:['先未串习','施物鲜阙','耽着上妙','邪果见'],ans:'施物鲜阙',exp:'匮乏本身就是障碍——对治不是等富了再给，而是「忍受匮乏所作众苦」，起悲愍心给力所能及的一份。'},
+ {a:'朋友想借你那双限量球鞋拍照，你编了个「外借了」',opts:['先未串习','施物鲜阙','耽着上妙','邪果见'],ans:'耽着上妙',exp:'越美越舍不得，是「于苦发起虚妄乐想」——鞋终会旧，执着当下就在造苦。'},
+ {a:'你持续大额捐款，因为页面写着「满额可抽金条」',opts:['先未串习','施物鲜阙','耽着上妙','邪果见'],ans:'邪果见',exp:'为财果而施是「观见当来具足财果而深欣乐」——观察「一切诸行皆不坚牢」，金条会散，回向菩提才是方向。'},
+ {a:'新家那套好餐具摆了一年，没舍得用来请朋友吃饭',opts:['先未串习','施物鲜阙','耽着上妙','邪果见'],ans:'耽着上妙',exp:'「最上妙故。于行惠施心不趣入」——好东西反成了施的障碍，恰是第三障的标准像。'}
+]);
+
+/* ---- 条件模拟器：施心三时自查（⑥ 清净施） ---- */
+(function(){
+  var items=[
+    {id:'s6cond1',miss:'施前意悦——你是被「请求」磨到才给，不是心意先欢喜。'},
+    {id:'s6cond2',miss:'施时心净——递出去的瞬间还在盘算人情与回报。'},
+    {id:'s6cond3',miss:'施后无悔——给完又后悔、想收回，或逢人诉苦。'}
+  ];
+  var r=document.getElementById('mindResult');
+  function upd(){
+    var miss=items.filter(function(x){return !document.getElementById(x.id).checked;});
+    if(miss.length===0){
+      r.style.background='var(--green-soft)';r.style.color='var(--green)';
+      r.innerHTML='三时俱净：施前意悦、施时心净、施后无悔——这一施就是本卷说的「清净最极清净」。';
+    }else{
+      r.style.background='var(--accent-soft)';r.style.color='var(--accent)';
+      r.innerHTML='还差 '+miss.length+' 步才清净：<br>'+miss.map(function(x){return '· '+x.miss;}).join('<br>');
+    }
+  }
+  items.forEach(function(x){document.getElementById(x.id).addEventListener('change',upd);});
+  upd();
+})();
+
+renderPath();
+</script>
+</body>
+</html>

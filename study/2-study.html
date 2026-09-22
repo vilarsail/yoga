@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《瑜伽师地论》卷第二 · 交互式学习模块</title>
+<style>
+:root{
+  --ink:#2b2620;
+  --ink-soft:#5c5348;
+  --paper:#f7f3ec;
+  --card:#fffdf8;
+  --accent:#9a3b2e;      /* 朱红 */
+  --accent-soft:#f3e2dd;
+  --blue:#2e4a62;        /* 藏青 */
+  --blue-soft:#e2eaf1;
+  --gold:#8a6d1f;
+  --gold-soft:#f4ecd4;
+  --green:#3d6b4f;
+  --green-soft:#e0eee5;
+  --line:#e4dccc;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
+
+/* ===== 顶部 ===== */
+header.hero{
+  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
+  color:#f5efe2;text-align:center;padding:64px 20px 56px;
+}
+header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
+header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
+header.hero p.sub{max-width:640px;margin:0 auto;opacity:.88;font-size:1.02rem}
+header.hero .tagline{
+  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
+  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
+}
+
+/* ===== 导航 ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(247,243,236,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(6px);
+  overflow-x:auto;white-space:nowrap;padding:10px 12px;
+}
+nav.toc a{
+  display:inline-block;padding:4px 12px;margin:0 3px;border-radius:999px;
+  font-size:.86rem;color:var(--ink-soft);text-decoration:none;
+}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+nav.toc a.done{color:var(--green)}
+
+/* ===== 学习路径 ===== */
+.path-box{
+  margin:34px 0 10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px 26px;
+}
+.path-box h2{font-size:1.15rem;margin-bottom:6px;color:var(--blue)}
+.path-box p.hint{font-size:.88rem;color:var(--ink-soft);margin-bottom:14px}
+.step-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.step-item:first-of-type{border-top:none}
+.step-item label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;flex:1}
+.step-item input{margin-top:8px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.step-item .no{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+  color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-top:4px;
+}
+.step-item.completed .no{background:var(--green);color:#fff}
+.step-item .txt b{font-size:1rem}
+.step-item .txt span{display:block;font-size:.87rem;color:var(--ink-soft)}
+.progress-bar{height:8px;background:var(--blue-soft);border-radius:99px;overflow:hidden;margin-top:14px}
+.progress-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),#6fa585);transition:width .4s}
+.progress-text{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:4px}
+
+/* ===== 章节 ===== */
+section.chapter{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .num{
+  font-size:2.4rem;font-weight:700;color:var(--accent);opacity:.25;line-height:1;
+}
+.sec-head h2{font-size:1.5rem;color:var(--ink)}
+.sec-lead{color:var(--ink-soft);font-size:.98rem;margin-bottom:22px;max-width:720px}
+.divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:18px}
+
+/* ===== 卡片 ===== */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:18px;
+}
+.card h3{font-size:1.08rem;color:var(--blue);margin-bottom:10px}
+.card .quote{
+  background:var(--blue-soft);border-left:3px solid var(--blue);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.9rem;color:var(--blue);
+  margin:10px 0;
+}
+.card .quote .src{display:block;text-align:right;font-size:.78rem;opacity:.65;margin-top:4px}
+.analogy{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.93rem;margin:10px 0;
+}
+.analogy b{color:var(--gold)}
+.plain{background:var(--green-soft);border-left:3px solid var(--green);
+  padding:10px 16px;border-radius:0 10px 10px 0;font-size:.95rem;margin:10px 0}
+.plain::before{content:"一句话 ";font-weight:700;color:var(--green);font-size:.82rem;letter-spacing:.1em}
+.case{
+  background:var(--accent-soft);border:1px dashed var(--accent);
+  padding:10px 16px;border-radius:10px;font-size:.93rem;margin:10px 0;
+}
+.case::before{content:"案例 · ";font-weight:700;color:var(--accent);font-size:.82rem;letter-spacing:.1em}
+
+/* 翻转卡片 */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fn-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(60,50,30,.1)}
+.fn-card .front .cn{font-size:1.15rem;font-weight:700;color:var(--accent)}
+.fn-card .front .sub{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+.fn-card .front .tap{position:absolute;right:16px;bottom:12px;font-size:.75rem;color:#b7ab98}
+.fn-card.open{background:var(--blue-soft);border-color:var(--blue)}
+.fn-card .back{display:none;font-size:.9rem;margin-top:12px;border-top:1px dashed var(--blue);padding-top:12px}
+.fn-card.open .back{display:block}
+.fn-card .back em{display:block;color:var(--blue);font-size:.85rem;margin-top:8px}
+
+/* 演示区 */
+.demo-area{text-align:center;padding:10px 0}
+
+/* 流程推演 */
+.flow-track{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 10px;justify-content:center}
+.flow-node{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:.9rem;color:var(--ink-soft);transition:all .25s;cursor:pointer;
+}
+.flow-node.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-node.past{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.flow-detail{
+  min-height:96px;background:var(--card);border:1px dashed var(--accent);
+  border-radius:var(--radius);padding:18px 22px;font-size:.97rem;
+}
+.flow-detail b{color:var(--accent)}
+.flow-ctrl{text-align:center;margin-top:12px}
+
+/* 条件模拟器 */
+.cond-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 6px;border-top:1px dashed var(--line)}
+.cond-row:first-of-type{border-top:none}
+.cond-row .name{font-weight:700}
+.cond-row .name small{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem}
+.switch{position:relative;width:52px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#cfc4b2;border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider::before{transform:translateX(24px)}
+#condResult{
+  margin-top:16px;padding:16px 20px;border-radius:var(--radius);
+  background:var(--blue-soft);color:var(--blue);font-size:.98rem;
+}
+#condResult.fail{background:var(--accent-soft);color:var(--accent)}
+.obstacle-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obstacle-tags span{font-size:.83rem;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:3px 12px;color:var(--ink-soft)}
+
+/* 时间轴 */
+.timeline{position:relative;margin:22px 0 6px;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:6px 0 20px}
+.tl-item::before{content:"";position:absolute;left:-25px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--accent)}
+.tl-item .t{font-weight:700;color:var(--accent)}
+.tl-item .d{font-size:.92rem;color:var(--ink-soft)}
+
+/* 对比卡片 */
+.yuan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.yuan-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.yuan-card h4{color:var(--blue);font-size:1.02rem;margin-bottom:6px}
+.yuan-card .y-tag{display:inline-block;font-size:.75rem;background:var(--blue-soft);color:var(--blue);
+  border-radius:99px;padding:2px 10px;margin-bottom:8px}
+.yuan-card p{font-size:.9rem;color:var(--ink-soft)}
+.yuan-card p b{color:var(--ink)}
+
+/* 归类练习 */
+.tri-row{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:10px 6px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.tri-row:first-of-type{border-top:none}
+.tri-row .acts{display:flex;gap:8px}
+.tri-btn{font-family:inherit;font-size:.85rem;padding:5px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+.tri-btn.correct{background:var(--green);border-color:var(--green);color:#fff}
+.tri-btn.wrong{background:var(--accent);border-color:var(--accent);color:#fff}
+.tri-exp{width:100%;font-size:.86rem;color:var(--green);display:none;padding-top:4px}
+.tri-exp.show{display:block}
+
+/* 字典区 */
+details.dict{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin-bottom:10px;overflow:hidden}
+details.dict summary{cursor:pointer;padding:15px 20px;font-weight:700;color:var(--blue);
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.dict summary::after{content:"展开 ▾";font-size:.8rem;color:var(--ink-soft);font-weight:400}
+details.dict[open] summary::after{content:"收起 ▴"}
+details.dict summary .hint{font-size:.8rem;font-weight:400;color:var(--ink-soft);margin-left:10px}
+details.dict .body{padding:0 20px 18px;font-size:.92rem;color:var(--ink-soft)}
+details.dict .body p{margin-bottom:8px}
+details.dict .body p b{color:var(--ink)}
+
+/* 词源卡 */
+.ety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ety{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.ety .zi{font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.ety .gc{font-size:.85rem;color:var(--ink-soft);margin:8px 0;font-style:italic}
+.ety .bhu{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
+table.nine{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--card);
+  border-radius:var(--radius);overflow:hidden}
+table.nine th,table.nine td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+table.nine th{background:var(--blue);color:#fff;font-weight:600}
+table.nine td:nth-child(2){color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 偈颂 */
+.gatha{
+  text-align:center;background:linear-gradient(135deg,#2e4a62,#5a4632);
+  color:#f5efe2;border-radius:var(--radius);padding:34px 20px;margin:26px 0;
+}
+.gatha .lines{font-size:1.15rem;letter-spacing:.2em;line-height:2.4}
+.gatha .mean{margin-top:16px;font-size:.9rem;opacity:.8;letter-spacing:.05em}
+
+footer{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:.84rem}
+@media (max-width:640px){
+  .sec-head .num{font-size:1.8rem}
+  header.hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">瑜伽师地论 · 本地分中意地第二之二</div>
+  <h1>卷第二 · 交互式学习模块</h1>
+  <p class="sub">上一卷末尾讲到「识在肉心处初次依托」（羯罗蓝）。这一卷从一颗受精卵讲起：先看人怎么在胎中长成、出生后怎么成长，再把镜头拉远——看整个世界怎么被烧掉、又怎么重建。</p>
+  <div class="tagline">8 个主题 · 6 个学习步骤 · 22 组生活案例</div>
+</header>
+
+<nav class="toc" id="toc">
+  <a href="#s1">① 全卷地图</a>
+  <a href="#s2">② 一切种子识</a>
+  <a href="#s3">③ 胎藏八位</a>
+  <a href="#s4">④ 出生与成长</a>
+  <a href="#s5">⑤ 三灾与劫</a>
+  <a href="#s6">⑥ 世间成</a>
+  <a href="#s7">⑦ 世间清单</a>
+  <a href="#s8">⑧ 收官</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 学习路径 ============ -->
+<div class="path-box">
+  <h2>学习路径（由易到难）</h2>
+  <p class="hint">按顺序勾选，进度会自动保存在浏览器里。每一步对应下方一个章节。</p>
+  <div id="steps">
+    <div class="step-item" data-target="#s1"><label><input type="checkbox" data-step="1"><span class="no">1</span><span class="txt"><b>看懂大地图</b><span>本卷从「人怎么形成」讲到「世界怎么形成」（章节①）</span></span></label></div>
+    <div class="step-item" data-target="#s2"><label><input type="checkbox" data-step="2"><span class="no">2</span><span class="txt"><b>理解「种子」</b><span>一切种子识、粗重与随眠、行苦（章节②）</span></span></label></div>
+    <div class="step-item" data-target="#s3"><label><input type="checkbox" data-step="3"><span class="no">3</span><span class="txt"><b>走完「胎藏八位」</b><span>从羯罗蓝到出生，两周一个台阶（章节③）</span></span></label></div>
+    <div class="step-item" data-target="#s4"><label><input type="checkbox" data-step="4"><span class="no">4</span><span class="txt"><b>看清「出生与成长」</b><span>出生后的人生路线图，以及父母与子女的四种缘（章节④）</span></span></label></div>
+    <div class="step-item" data-target="#s5"><label><input type="checkbox" data-step="5"><span class="no">5</span><span class="txt"><b>经历「三灾与劫」</b><span>火灾水灾风灾、成住坏空的宇宙循环（章节⑤）</span></span></label></div>
+    <div class="step-item" data-target="#s6"><label><input type="checkbox" data-step="6"><span class="no">6</span><span class="txt"><b>看完「世界重建与清单」</b><span>从大梵的孤单到最初的王，再到世间万物清单（章节⑥⑦⑧）</span></span></label></div>
+  </div>
+  <div class="progress-bar"><div id="pathBar"></div></div>
+  <div class="progress-text" id="pathText">0 / 6</div>
+</div>
+
+<!-- ============ ① 全卷地图 ============ -->
+<section class="chapter" id="s1">
+  <div class="sec-head"><span class="num">01</span><h2>全卷地图：从受精卵到宇宙循环</h2></div>
+  <p class="sec-lead">卷一讲到死与生的交界（中有入胎）。卷二顺着讲下去，视野逐级放大——从一个人的形成，到山河大地的形成，再到整个宇宙的成坏循环。</p>
+
+  <div class="card">
+    <h3>本卷的三级阶梯</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">第一级：人（内分）</div><div class="d">种子识 → 胎藏八位 → 出生成长 → 内分死生收束。关注「我」这个身体怎么来。</div></div>
+      <div class="tl-item"><div class="t">第二级：世界（外分）</div><div class="d">外分坏成（三灾）→ 世间成（风轮地轮苏迷卢山）→ 日月星辰 → 劫初人类与社会起源。</div></div>
+      <div class="tl-item"><div class="t">第三级：万象清单</div><div class="d">三千大千世界 → 五趣四生 → 六依持、四食、七摄受、十资具……世间现象总清点。</div></div>
+    </div>
+    <div class="case"><b>镜头语言：</b>这一卷像一部纪录片的剪辑——开场是显微镜下的受精卵（羯罗蓝），中段切换到航拍的大地山脉（苏迷卢山），结尾拉升到太空俯瞰无数世界同时生灭（「犹如天雨，注如车轴，无间无断」）。读的时候记得随时注意「镜头」现在对准哪一级。</div>
+    <div class="case"><b>内分与外分：</b>论文用「内分」指有情身心的死生，「外分」指山河器世界的成坏。两者动力相同——业，但机制不同：内分由「寿量尽」而坏，外分由「能感坏业现前」而坏。一句话：人会死，世界会塌，账都记在业上。</div>
+    <div class="plain">本卷的一句话：<b>身心与世界，是同一套「种子 → 现行 → 熏习」机制在不同尺度上的重演。</b></div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ② 一切种子识 ============ -->
+<section class="chapter" id="s2">
+  <div class="sec-head"><span class="num">02</span><h2>一切种子识：你的身体里装着三界</h2></div>
+  <p class="sec-lead">卷二开篇先给「种子」建档：你此刻是人，但你的种子库里同时存着三界一切种子——这是一个惊人的设定。</p>
+
+  <div class="card">
+    <h3>三界种子随身携带</h3>
+    <div class="quote">「随所生处自体之中，余体种子皆悉随逐。是故欲界自体中，亦有色界、无色界的一切种子。」<span class="src">—— 卷二原文</span></div>
+    <div class="plain">你生在哪里不重要——<b>每个人的种子库里都装着全部三界（欲界、色界、无色界）的种子</b>，差别只在哪个被缘触发现行。</div>
+    <div class="case"><b>全套安装包：</b>像一台电脑预装了所有操作系统的镜像，此刻运行的是其中一个；重启（死亡转生）时按「业」选择加载哪个系统。你现在身在欲界人间，但色界的禅定种子、无色界的空定种子都在库里沉睡——禅修理论（后文「三摩呬多地」）之所以可能，正因为这些种子「随身携带」。</div>
+    <div class="case"><b>染欲的全或无：</b>原文有个对称句：「若于一处有染欲，即说一切处有染欲；若于一处得离欲，即说于一切处得离欲。」——因为一切处种子本就在你身上，染欲或离欲是对整个种子库状态的定义，不是对某个「地方」的。</div>
+  </div>
+
+  <div class="card">
+    <h3>粗重与随眠：种子上的标签</h3>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">烦恼品所摄</span><h4>粗重 · 随眠</h4><p>烦恼类种子既叫「粗重」（沉重拖拽）又叫「随眠」（潜伏随行）。</p></div>
+      <div class="yuan-card"><span class="y-tag">异熟品/无记品</span><h4>唯名粗重</h4><p>果报类、中性类种子只叫粗重，不叫随眠。</p></div>
+      <div class="yuan-card"><span class="y-tag">善法品（信等）</span><h4>两者都不是</h4><p>善法种子既不是粗重也不是随眠——它不拖累你。</p></div>
+    </div>
+    <div class="case"><b>后台程序：</b>粗重像手机里常驻的后台进程——看不见却耗电、拖慢一切；随眠是其中「休眠但会自动唤醒」的那批（遇到对境就弹出通知）。善法种子则是你主动安装的健康工具，不占后台。修行的目标就是清后台：般涅槃时「转舍一切染污法种子」。</div>
+    <div class="case"><b>行苦：</b>因为一切所依身体「粗重所随、粗重所生、粗重自性」，诸佛安立为苦——注意这不是明显的痛苦，而是<b>行苦</b>：像长期住在嘈杂的空调机房旁，单听一刻不难受，但那种底噪从未停止。不苦不乐的「自性受」正是行苦的驻地——它依识增长，直到转依才息。</div>
+    <div class="plain">种子的别名清单（界、种姓、自性、因、萨迦耶、戏论、阿赖耶、取、苦……）不必背——重点是：<b>种子不只是「记忆」，它同时是苦的载体、我见的据点、轮回的引擎。</b></div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ③ 胎藏八位 ============ -->
+<section class="chapter" id="s3">
+  <div class="sec-head"><span class="num">03</span><h2>胎藏八位：两周一个台阶</h2></div>
+  <p class="sec-lead">卷一末尾讲「羯罗蓝位」，卷二接着展开：胎儿在母胎中共经三十八个七日，按形态分八个阶段。这是全书最「科学」的段落之一。</p>
+
+  <div class="card">
+    <h3>胎中四大的分工</h3>
+    <div class="quote">「由于地界的缘故，依止造色渐渐增广；由于水界的缘故，摄持不散；由于火界的缘故，使其成熟……由于风界的缘故，分别肢节，各安其位。」<span class="src">—— 卷二原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">地界</span><h4>增广</h4><p>让身体组织渐渐长大——骨架建材。</p></div>
+      <div class="yuan-card"><span class="y-tag">水界</span><h4>摄持</h4><p>凝聚不散——水泥的粘合力。</p></div>
+      <div class="yuan-card"><span class="y-tag">火界</span><h4>成熟</h4><p>温养熟成——养护温度。</p></div>
+      <div class="yuan-card"><span class="y-tag">风界</span><h4>分别</h4><p>肢节各安其位——空间分区与布局。</p></div>
+    </div>
+    <div class="case"><b>盖房子：</b>地界 = 钢筋骨架越搭越高（增广）；水界 = 混凝土把构件粘住不散（摄持）；火界 = 恒温养护让材料达到强度（成熟）；风界 = 图纸把管线房间各归各位（分别）。一个胎儿的发育，四大各司其职，缺一即停工。</div>
+    <div class="case"><b>坚鞕由无润故：</b>原文顺带解释了「硬」的本质——坚硬是因为缺乏润泽（水少）。头发指甲牙齿硬，正因为那里水大少。这个观察把「软硬」归约为含水量，思路极其现代。</div>
+  </div>
+
+  <div class="card">
+    <h3>八位发育流水线（点击推进）</h3>
+    <div class="flow-track" id="flowTrack"></div>
+    <div class="flow-detail" id="flowDetail"></div>
+    <div class="flow-ctrl">
+      <button class="btn ghost" id="flowPrev">← 上一步</button>
+      <button class="btn" id="flowNext">下一步 →</button>
+    </div>
+    <div class="case"><b>B超视角：</b>把八位对照产科影像：羯罗蓝≈受精卵着床，遏部昙≈囊胚（「表里如酪」），闭尸≈胚胎初具（「已成肉仍极柔软」），键南≈可辨认的组织团（「稍堪摩触」），钵罗赊佉≈四肢显形，随后毛发生长、感官形成、轮廓分明——三十八个七日后，再经四日出生。</div>
+    <div class="plain">原文说这是「极满足者」（九月以上）；八月为圆满，七月六月「不名圆满，或复缺减」——论文连早产与足月都做了分级。</div>
+  </div>
+
+  <div class="card">
+    <h3>胎中变异：业 + 现缘的合资企业</h3>
+    <p>为什么有的胎儿发稀、肤色异常、肢体有缺？论文给出统一公式：<b>先世业因 + 母亲现前习惯</b>，两者叠加导致变异。</p>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>变异</th><th>先业因</th><th>母亲的现缘（论文所列）</th></tr>
+      <tr><td>发毛稀鲜</td><td>感此恶不善业</td><td>多习灰盐等味（饮食过咸）</td></tr>
+      <tr><td>黑黯色</td><td>先业因</td><td>习近暖热</td></tr>
+      <tr><td>极白色</td><td>先业因</td><td>习近极寒室</td></tr>
+      <tr><td>极赤色</td><td>先业因</td><td>多啖热食</td></tr>
+      <tr><td>癣疥恶皮</td><td>宿业因</td><td>多习淫欲</td></tr>
+      <tr><td>支分缺减</td><td>先业因</td><td>多习驰走跳踯、不避不平等</td></tr>
+    </table></div>
+    <div class="case"><b>孕期营养学的古版：</b>「母亲多习灰盐等味，令此胎藏发毛稀鲜」——孕期饮食过咸影响胎儿毛发的说法，与今天「孕期营养影响胎儿发育」的常识方向一致。注意论文的结构：它从不说单一原因——<b>业是底账，现缘是变量</b>，两者合资才能出结果。这个「远因 + 近缘」的双因子模型，是全论解释现象的通用格式。</div>
+    <div class="case"><b>出生的瞬间：</b>胎满时母不堪重、内风起、大苦恼，「生分风起，令头向下足便向上，胎衣缠裹而趣产门」——论文连胎位倒转、胎衣破裂、头位分娩都写到了。出产门时即「正生位」，从这一刻起，人生计时开始。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ④ 出生与成长 ============ -->
+<section class="chapter" id="s4">
+  <div class="sec-head"><span class="num">04</span><h2>出生与成长：人生路线图与四种缘</h2></div>
+  <p class="sec-lead">出生之后呢？论文给出一条极简的人生流水线，然后指出：每一代人的成长，都依赖上一代的四种付出。</p>
+
+  <div class="card">
+    <h3>出生后的人生流水线</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">触生分触</div><div class="d">出生后渐次生起眼触乃至意触——六条感官频道逐个上线。</div></div>
+      <div class="tl-item"><div class="t">堕施设事</div><div class="d">随学世间之事与言说——学话、学规则、学命名。</div></div>
+      <div class="tl-item"><div class="t">耽着家室</div><div class="d">「长大种类故，诸根成就故」——长大成人，成家立业。</div></div>
+      <div class="tl-item"><div class="t">造诸业</div><div class="d">发起世间工巧业处——进入生产与劳作。</div></div>
+      <div class="tl-item"><div class="t">受用境界</div><div class="d">领受可爱不可爱的色等境界，受苦受乐。</div></div>
+      <div class="tl-item"><div class="t">随缘所牵</div><div class="d">「由先业因，或由现在缘，随缘所牵——或往五趣，或向涅槃。」路线分岔点在此。</div></div>
+    </div>
+    <div class="case"><b>对照一生：</b>婴儿睁眼看世界（触）→ 幼儿园学说话认字（施设事）→ 成年成家（耽着家室）→ 上班干活（造诸业）→ 享受与受苦（受用境界）→ 一生轨迹被习气与境遇推着走（随缘所牵）。论文用五句话概括了人生，最后一句是分岔口：同样的流水线，终点可以是五趣，也可以是涅槃——差别在业与缘。</div>
+  </div>
+
+  <div class="card">
+    <h3>四种缘：每代人如何被上一代托举</h3>
+    <div class="quote">「彼有情类于此有情作四种缘：即由种子所引、由饮食所资养、随逐守护、随学造作身语业。」<span class="src">—— 卷二原文</span></div>
+    <div class="fn-grid">
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">种子所引</div><div class="sub">给你身体</div><div class="tap">→</div></div><div class="back">父母精血所引——你以这个身体存在。<em>基因层面的「出厂设置」。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">饮食资养</div><div class="sub">喂你长大</div><div class="tap">→</div></div><div class="back">「生已知其所欲，方求饮食而用资长」——读懂你的需求再喂养。<em>奶粉与辅食的学问。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">随逐守护</div><div class="sub">盯着你安全</div><div class="tap">→</div></div><div class="back">「常随逐，专志守护，不令起作非时之行及不平等行」——不许爬窗、不许摸插座。<em>盯着写作业时守住的安全线。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">随学造作</div><div class="sub">教你言行</div><div class="tap">→</div></div><div class="back">「令习学世俗言说等事」——教你说话、待人、做事。<em>身教大于言传的那部分。</em></div></div>
+    </div>
+    <div class="case"><b>现代父母的一天：</b>十月怀胎与出生（种子所引）→ 冲奶粉换尿布、观察孩子想吃什么（饮食资养）→ 游泳池边寸步不离、路口牵紧手（随逐守护）→ 教说「谢谢」、示范怎么跟人道歉（随学造作）。论文总结的四种缘，恰好是一位父母责任清单的古代版本——「又于其余，如是展转」，这份清单代代相传，无始以来没有停过。</div>
+    <div class="plain">原文随后点出全段的落点：「诸有情类无始时来受苦受乐，未曾获得出苦乐法」——这份托举接力了很多很多代，但<b>只有闻法音 + 内正思惟，才可能「漏尽」</b>。生理的传承不断，解脱的传承靠学。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑤ 三灾与劫 ============ -->
+<section class="chapter" id="s5">
+  <div class="sec-head"><span class="num">05</span><h2>三灾与劫：世界怎么被烧掉</h2></div>
+  <p class="sec-lead">镜头拉远到「外分」。论文给出了一个宏大的宇宙时钟：每八十中劫为一大劫，其中「坏」的阶段由三种灾接力完成。</p>
+
+  <div class="card">
+    <h3>劫的数学</h3>
+    <div class="quote">「二十中劫坏，二十中劫坏已空，二十中劫成，二十中劫成已住。」<span class="src">—— 卷二原文</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">坏（二十中劫）</div><div class="d">世界被三灾逐步摧毁（见下）。</div></div>
+      <div class="tl-item"><div class="t">空（二十中劫）</div><div class="d">虚空状态，无有所依。</div></div>
+      <div class="tl-item"><div class="t">成（二十中劫）</div><div class="d">世界从上往下逐层重建（见下一章）。</div></div>
+      <div class="tl-item"><div class="t">住（二十中劫）</div><div class="d">安住期——我们此刻就在某个住劫里。合计 80 中劫 = 1 大劫。</div></div>
+    </div>
+    <div class="plain">一个中劫内部还有自己的节奏：人寿从八万岁每百年减一岁减到十岁，再由十岁增回八万岁——「一减一增合成一中劫」。<b>减劫与增劫，是由人类的道德水平标注的。</b></div>
+    <div class="case"><b>减劫的曲线：</b>人寿八万 → 十岁，靠的是「受行不善法」；十岁 → 八万，靠的是「获得厌离之心，受行善法」。论文把寿命曲线与道德水平绑定——社会风气败坏则人寿递减，行善则回升。把它当作一份古代的「社会健康指数」来读，比当作天文数据更有味道。</div>
+  </div>
+
+  <div class="card">
+    <h3>三种灾：逐级升高的破坏（点击翻转）</h3>
+    <div class="fn-grid">
+      <div class="fn-card" onclick="this.classList.toggle('open')">
+        <div class="front"><div class="cn">火 灾</div><div class="sub">烧到初禅（梵世）</div><div class="tap">点击展开 →</div></div>
+        <div class="back">七个太阳渐次出现，从沟坑河海到苏迷卢山大地逐一烧尽，「火焰为风所鼓，展转炽盛，极至梵世」。<em>毁灭层级：欲界 + 初禅。</em></div>
+      </div>
+      <div class="fn-card" onclick="this.classList.toggle('open')">
+        <div class="front"><div class="cn">水 灾</div><div class="sub">坏到二禅</div><div class="tap">点击展开 →</div></div>
+        <div class="back">七火灾过后，二禅有俱生水界起，「坏器世间如水消盐」——整个世界像盐溶进水里。<em>毁灭层级：至第二静虑。</em></div>
+      </div>
+      <div class="fn-card" onclick="this.classList.toggle('open')">
+        <div class="front"><div class="cn">风 灾</div><div class="sub">坏到三禅</div><div class="tap">点击展开 →</div></div>
+        <div class="back">七水灾 + 七火灾之后，三禅有俱生风界起，「如风吹干肢节，复能消尽」。<em>毁灭层级：至第三静虑。</em></div>
+      </div>
+      <div class="fn-card" onclick="this.classList.toggle('open')">
+        <div class="front"><div class="cn">第四禅</div><div class="sub">三灾之顶 · 无灾能坏</div><div class="tap">点击展开 →</div></div>
+        <div class="back">为什么四禅无灾？「彼诸天身与宫殿俱生俱没」——四禅天的身体和宫殿是一体的、随业生灭，没有外物可毁。<em>最稳定的世界，恰恰是「没有什么身外之物」的世界。</em></div>
+      </div>
+    </div>
+    <div class="case"><b>七日轮的末日清单：</b>论文精确列出烧毁顺序：第一日现，沟坑枯竭；第二日，小河大河枯竭；第三日，无热大池枯竭；第四日，大海枯竭；第五、六日，苏迷卢山与大地烧燃；第七日，火焰被风鼓动直冲梵世。像一份逐条打勾的末日时刻表——细节到「先干沟坑、再干大河、最后烧山」的物理次序。</div>
+    <div class="case"><b>三灾与「减劫小三灾」别混淆：</b>大尺度有火水风三灾（毁世界），中劫内部另有小三灾——俭、病、刀（毁人口）。一个是宇宙级，一个是人间级。</div>
+  </div>
+
+  <div class="card">
+    <h3>中劫小三灾：俭 · 病 · 刀</h3>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">俭灾 · 寿三十岁</span><h4>饥荒</h4><p>精妙饮食不可复得，「唯煎煮朽骨共为宴会」；得一粒稻麦「重若末尼，藏置箱箧而守护之」。经七年七月七日七夜乃过。</p></div>
+      <div class="yuan-card"><span class="y-tag">病灾 · 寿二十岁</span><h4>瘟疫</h4><p>疫气障疠相续而生，多悉殒没。经七月七日七夜乃过。</p></div>
+      <div class="yuan-card"><span class="y-tag">刀灾 · 寿十岁</span><h4>人祸</h4><p>「展转相见，各起猛利杀害之心」——所执草木瓦石皆成利刃，更相残害。极经七日乃过。</p></div>
+    </div>
+    <div class="case"><b>「执草木皆成刀剑」：</b>刀灾最惊人的设定不是武器，而是心——当所有人的杀意足够猛利，随手抄起的一根木棍就是致命凶器。反过来读：武器从来只是媒介，<b>杀心才是灾</b>。而每次灾后，都是「共聚集起厌离」、行善、寿量回升——走出灾难的方式论文写得很清楚： collective 反省 + 行善。</div>
+    <div class="case"><b>三种衰损：</b>刀灾时的人间还剩什么？论文清单：寿量衰损（活不过十岁）、依止衰损（身高一搩一握）、资具衰损（粟稗为第一等食、粗毛布为第一等衣、铁为第一等庄严，酥蜜油盐甘蔗味全部消失）。文明崩塌被量化成三行清单——读来比任何末日文学都冷峻。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑥ 世间成 ============ -->
+<section class="chapter" id="s6">
+  <div class="sec-head"><span class="num">06</span><h2>世间成：世界怎么重建</h2></div>
+  <p class="sec-lead">坏尽之后是空劫，空尽之后——世界从上往下逐层重建。这一段兼具宇宙论与「人类社会起源神话」两重内容。</p>
+
+  <div class="card">
+    <h3>从上往下的重建顺序</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">第三静虑先成</div><div class="d">三禅（第三灾顶）的有情寿尽、业尽、福尽后，生到新成的三禅——世界自上而下逐层开工。</div></div>
+      <div class="tl-item"><div class="t">大梵的孤单</div><div class="d">初禅先来一人为大梵，「由于独处一人的缘故心感不悦，便生起希望：如今怎样才能让其余有情也生于此？」</div></div>
+      <div class="tl-item"><div class="t">风轮 · 水轮 · 金性地轮</div><div class="d">大风轮（量等三千大千世界）起于下方托住一切；金藏云降雨，风鼓水坚，成金性地轮。</div></div>
+      <div class="tl-item"><div class="t">苏迷卢山与七金山</div><div class="d">水被风鼓坚固后：最精妙者成苏迷卢山（四宝为体，高八万踰缮那）；中品成七金山；下品成四大洲及轮围山。</div></div>
+      <div class="tl-item"><div class="t">日月星宿</div><div class="d">依止光明灭后有大黑暗，日月渐起——「日轮以火颇胝所成，月轮以水颇胝所成」。</div></div>
+    </div>
+    <div class="case"><b>大梵的误会：</b>这段是全卷最生动的哲学寓言——大梵一个人先到新世界，孤孤单单，发愿「要有人来陪我」；恰在发心之时，其他有情陆续到来。后世「梵天创造世界」的误会，论者认为源流在此：他只是<b>先到的住户</b>，不是造物主——大家都是「业增上力」感生的，谁也没造谁。原文不着一字批判，只讲时间线，读者自见分晓。</div>
+    <div class="case"><b>日月：</b>日轮火颇胝（火晶）、月轮水颇胝（水晶），日恒照二洲、暗二洲，绕苏迷卢山半腰运行；月轮行速「及与不定」；月面黑相是「大海中有鱼鳖等影现月轮」——月亮上的阴影来自水中生物的倒影。古人无法用光学解释月海，便给出了一套自洽的模型；模型虽异，观察（月行不匀、月面有暗斑）是真的。</div>
+  </div>
+
+  <div class="card">
+    <h3>劫初：人类社会的起源五部曲</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="t">① 身光时代</div><div class="d">劫初有情从极净光天没而来生此，「有色从意所生」——身体自带光明，地面平坦，无家宅聚落。</div></div>
+      <div class="tl-item"><div class="t">② 地味出现</div><div class="d">福业力故，「有地味生」——如酥如蜜的大地美味；随后地饼、林藤、自然粳稻（无糠无𥝛）次第出现。</div></div>
+      <div class="tl-item"><div class="t">③ 贪吃与退化</div><div class="d">受用味等资缘后，「恶色便起，光明遂灭」——多食者身极沉重；互相轻毁，美味渐没于地。粳稻也有了糠壳，要收割储藏。</div></div>
+      <div class="tl-item"><div class="t">④ 男女与隐私</div><div class="d">男女根生起，递相陵犯，「遂为他人之所诃呰，方造室宅以自隐蔽」——房子最早的功能是遮羞。</div></div>
+      <div class="tl-item"><div class="t">⑤ 占有与王法</div><div class="d">为摄受粳稻而起田界，「更相争夺，不与取法从此而生」——于是立司契者（执掌契约者），最初之王名大等意；四姓（刹帝利、婆罗门、吠舍、戍陀罗）次第出现。</div></div>
+    </div>
+    <div class="case"><b>一部极简文明史：</b>光明 → 食物过剩 → 贪吃变丑 → 出现性别 → 需要房子（隐私）→ 需要田界（产权）→ 需要法律与国王（秩序）。论文把国家、私产、法律的起源全部归因于一个「摄受粳稻」——<b>资源占有一旦开始，争夺、契约、权力就必然连锁出现</b>。这与现代政治哲学对「私有制起源」的讨论，惊人地同构。</div>
+    <div class="case"><b>「不与取」的定义时刻：</b>注意原文的逻辑：先有「于其地起摄受」（圈地），才有「更相争夺」，才有「不与取法从此而生」——偷盗罪的前提是产权制度的存在。没有「你的我的」，就没有偷。概念随制度而生，这是全段最锋利的一笔。</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑦ 世间清单 ============ -->
+<section class="chapter" id="s7">
+  <div class="sec-head"><span class="num">07</span><h2>世间清单：三千大千世界与万象总表</h2></div>
+  <p class="sec-lead">世界建成后，论文开始大规模清点：世界结构、生命形态、生活资具、心理标签……这一章当字典翻，但有几处值得停下来。</p>
+
+  <div class="card">
+    <h3>世界的尺度：小千 · 中千 · 大千</h3>
+    <div class="quote">「一小千界，谓千日月乃至梵世总摄为一；二中千界，谓千小千；三大千界，谓千中千。合此名为三千大千世界。」<span class="src">—— 卷二原文</span></div>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">小千世界</span><h4>1000 个「日月系统」</h4><p>千个日月乃至梵世总摄为一。</p></div>
+      <div class="yuan-card"><span class="y-tag">中千世界</span><h4>1000 个小千</h4><p>百万个日月系统。</p></div>
+      <div class="yuan-card"><span class="y-tag">大千世界</span><h4>1000 个中千</h4><p>十亿个日月系统——即「三千大千世界」，一佛土。</p></div>
+    </div>
+    <div class="case"><b>宇宙尺度感：</b>「百拘胝四大洲、百拘胝苏迷卢……俱成俱坏」——三千大千世界同时生成、同时毁灭；而这样的三千大千世界「四方上下，无边无际……犹如天雨，注如车轴，无间无断」。古印度人给出的宇宙不是「一个世界」，而是<b>无限ongoing的多世界流</b>——这一图景的尺度感，放在今天也毫不逊色。</div>
+  </div>
+
+  <div class="card">
+    <h3>四食：众生靠什么「活着」</h3>
+    <div class="yuan-grid">
+      <div class="yuan-card"><span class="y-tag">段食</span><h4>一口一口吃</h4><p>常规饮食——分段而食，滋养色身。</p></div>
+      <div class="yuan-card"><span class="y-tag">触食</span><h4>「感受」当饭吃</h4><p>以愉悦接触资养——婴儿的拥抱、晒太阳的舒服。</p></div>
+      <div class="yuan-card"><span class="y-tag">意思食</span><h4>「盼头」当饭吃</h4><p>以意欲思愿资养——有希望的人能撑过极苦。</p></div>
+      <div class="yuan-card"><span class="y-tag">识食</span><h4>识执持身心</h4><p>识执持名色——最深层的生命维持机制。</p></div>
+    </div>
+    <div class="case"><b>「饿的不是胃」：</b>失恋时吃不下饭却刷剧停不下来（触食）；绝症患者靠「想看到孩子高考」多撑半年（意思食）；深度昏迷者生命不散（识食）。论文的四食模型把「活下去需要的能量」分成四层——食物只是最粗的一层，<b>心也要吃饭，而且吃的花样比胃多。</b></div>
+  </div>
+
+  <div class="card">
+    <h3>动手归类：四种生</h3>
+    <div id="sortArea"></div>
+  </div>
+
+  <div class="card">
+    <h3>值得停留的几组清单</h3>
+    <div class="fn-grid">
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">四种入胎</div><div class="sub">觉知程度定身份</div><div class="tap">→</div></div><div class="back">正知入、不正知住出 = 转轮王；正知入住、不正知出 = 独觉；<b>入住出全部正知 = 菩萨</b>；全不正知 = 其余有情。入胎时的清醒程度，被列为修行位次的指标。<em>「不觉而入」是我们所有人的默认设置。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">七种慢</div><div class="sub">比较心七档</div><div class="tap">→</div></div><div class="back">慢（我与他等）、过慢（他实等，谓己胜）、慢过慢（他实胜，谓己胜）、我慢、增上慢（未得谓得）、卑慢（他多胜，谓己少劣）、邪慢（实无德，谓己有德）。<em>一把「比较心」的七级刻度尺。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">七种憍</div><div class="sub">骄傲的七个入口</div><div class="tap">→</div></div><div class="back">无病憍、少年憍、长寿憍、族性憍、色力憍、富贵憍、多闻憍——身体健康、年轻、长寿、出身、美貌、有钱、有学问，<b>任何一项优势都能变成憍的燃料</b>。<em>优势本身无罪，憍才是问题。</em></div></div>
+      <div class="fn-card" onclick="this.classList.toggle('open')"><div class="front"><div class="cn">四种言说</div><div class="sub">你凭什么开口</div><div class="tap">→</div></div><div class="back">依见（亲眼所见）、依闻（听人所说）、依觉（自己思量推断）、依知（内身亲证）四种发言资格。网转时代尤其好用：<em>这条消息属于哪一类？亲眼见的，还是听说的，还是猜的？</em></div></div>
+    </div>
+    <div class="case"><b>七憍对照朋友圈：</b>晒体检报告（无病憍）、晒毕业照（少年憍）、晒家世（族性憍）、晒健身成果（色力憍）、晒豪车豪宅（富贵憍）、晒书单与见解（多闻憍）。论文的清单提醒：每个「晒」的背后都有一个憍的入口——优势被用来「凌人」的那一刻，它就变成了烦恼。</div>
+    <div class="case"><b>六种活命与六种守护：</b>谋生六法（营农、商贾、牧牛、事王、书算印、工巧）几乎就是古代职业表；守护六法（象马车步四军、藏力、友力）是古代国防清单。今天读它们的价值在于格式：<b>论文把「过日子」的全部维度都做了穷举分类</b>——职业、国防、社交（三种世事：庆慰、婚宴、互助）、语言（有法/无法/余）……一份古代生活的完整人口普查。</div>
+  </div>
+
+  <details class="dict"><summary>其余清单速查 <span class="hint">十种时分 · 七摄受事 · 十资具 · 六十二类等</span></summary><div class="body">
+    <p><b>十种时分：</b>时、年、月、半月、日、夜、刹那、怛刹那、腊缚、目呼剌多——从年到刹那的时间单位表。</p>
+    <p><b>七种摄受事：</b>自父母事、妻子事、奴婢仆使事、朋友官僚兄弟眷属事、田宅邸肆事、福业事及方便作业事、库藏事——一个人的「社会关系与资产」七栏。</p>
+    <p><b>十种身资具：</b>食、饮、乘、衣、庄严具、歌笑舞乐、香鬘涂末、什物之具、照明、男女受行——古代版的「消费品类目表」。</p>
+    <p><b>八种世间法：</b>得、不得、誉、毁、称、讥、苦、乐（利衰毁誉称讥苦乐）——心境随外境起伏的八种典型情形。</p>
+    <p><b>六十二种有情之类：</b>从五趣、四姓、男女、在家出家、律仪、离欲、三聚，到苾刍苾刍尼、轨范师、亲教师、声闻、独觉、菩萨、如来、转轮王——一张从凡夫到佛陀的「人群全景图」。转轮王又按金铜银铁四轮分王四三二一洲。</p>
+    <p><b>八位：</b>处胎、出生、婴孩、童子、少年（至三十）、中年（至五十）、老年（至七十）、耄熟（七十以上）——人生八站。</p>
+    <p><b>其余：</b>二十二种发愤（伪斗、伪称、伪函、骂詈、迫胁、妄语……——发怒的二十二种形态）、六种守护、七种苦（生老病死怨憎会爱别离求不得）、众多言说句等，均为清点性质，需要时回原文查询。</p>
+  </div></details>
+  <div class="divider"></div>
+</section>
+
+<!-- ============ ⑧ 收官 ============ -->
+<section class="chapter" id="s8">
+  <div class="sec-head"><span class="num">08</span><h2>收官：全卷的落点</h2></div>
+  <p class="sec-lead">清单之后再回头看，卷二真正想说的其实只有一件事——内分与外分、人与世界，同一套机制，同一个出路。</p>
+
+  <div class="card">
+    <h3>内外对照表</h3>
+    <div class="table-wrap"><table class="nine">
+      <tr><th>维度</th><th>内分（有情）</th><th>外分（器世间）</th></tr>
+      <tr><td>形成</td><td>羯罗蓝 + 识托，38 个七日</td><td>风轮水轮地轮，山洲次第成</td></tr>
+      <tr><td>维持</td><td>四食任持</td><td>六依持安立</td></tr>
+      <tr><td>毁坏</td><td>寿量尽（时死/非时死）</td><td>三灾（火水风）</td></tr>
+      <tr><td>动力</td><td>乐着戏论 + 净不净业</td><td>能感成坏业</td></tr>
+    </table></div>
+    <div class="plain">内外分的「动力」一栏是同一个词根：<b>业</b>。人死世界塌，从来不是意外事故，都是账户结算。</div>
+  </div>
+
+  <div class="card">
+    <h3>那一句「甚为难悟」</h3>
+    <div class="quote">「如是句义甚为难悟：谓我无有若分、若谁、若事；我也都不是若分、若谁、若事。」<span class="src">—— 卷二原文</span></div>
+    <p>在讲完内分死生后，论文说有一句话极难领悟：<b>「我」之中找不到任何可指认的部分、任何主体、任何实体；「我」也不属于任何部分、主体、实体。</b>前面讲的胎藏八位、四种缘、临终现起的我爱，都是为这句做铺垫——你精心维护了一辈子的「我」，在发育清单、因缘清单、死亡清单里，始终没有入册。</p>
+    <div class="case"><b>拆解「我的手机」：</b>你说「我的手机」——可拆成屏幕、电池、芯片、系统、账号，每一部分都不是「手机本身」，合起来也只是零件与关系。你在这个「我的」上花的焦虑（摔屏、丢机、卡顿），对象其实始终找不到。论文把同样的拆解用到「我」身上——若分（哪部分是我？）、若谁（谁是那个拥有者？）、若事（哪件事里是我？）——三问皆空。</div>
+    <div class="case"><b>与临终我爱呼应：</b>卷二说众生临终「长时所习我爱现行，由此力故谓我当无，便爱自身」——正因为无始乐着「我」，死亡才成其为大苦。而「我无有若分若谁若事」的领悟之所以是出路，因为它拆的不是身体，是那个「我当无」的恐惧所依附的据点。</div>
+    <div class="plain">本卷读法总结：<b>前半卷看「人」如何被组装，后半卷看「世界」如何被组装——组装的账本翻到底，最后一页写着：没有那个「组装者」。</b></div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+基于《瑜伽师地论》卷第二（output/2.md 重译校对版）制作 · 交互式学习模块<br>
+比喻仅作理解辅助，法义以原文为准
+</footer>
+
+<script>
+/* ===== 学习路径进度（固定，勿改） ===== */
+const STUDY_KEY='yoga2-study-progress';
+function loadProgress(){try{return JSON.parse(localStorage.getItem(STUDY_KEY))||{}}catch(e){return{}}}
+function saveProgress(p){localStorage.setItem(STUDY_KEY,JSON.stringify(p))}
+function renderPath(){
+  const p=loadProgress();
+  const steps=document.querySelectorAll('#steps input');
+  let done=0;
+  steps.forEach(cb=>{
+    cb.checked=!!p[cb.dataset.step];
+    cb.closest('.step-item').classList.toggle('completed',cb.checked);
+    if(cb.checked)done++;
+    const item=cb.closest('.step-item');
+    const target=item.dataset.target;
+    if(target){
+      const link=document.querySelector('#toc a[href="'+target+'"]');
+      if(link)link.classList.toggle('done',cb.checked);
+    }
+  });
+  document.getElementById('pathBar').style.width=(steps.length?done/steps.length*100:0)+'%';
+  document.getElementById('pathText').textContent=done+' / '+steps.length;
+}
+document.querySelectorAll('#steps input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const p=loadProgress();p[cb.dataset.step]=cb.checked;saveProgress(p);renderPath();
+  });
+});
+
+/* ===== 流程推演组件（通用，勿改） ===== */
+function initStepper(trackId,detailId,prevId,nextId,data){
+  let idx=0;
+  const track=document.getElementById(trackId),detail=document.getElementById(detailId);
+  function render(){
+    track.innerHTML=data.map((c,i)=>'<div class="flow-node '+(i===idx?'active':i<idx?'past':'')+'">'+c.t+'</div>').join('');
+    track.querySelectorAll('.flow-node').forEach((n,i)=>n.onclick=()=>{idx=i;render();});
+    detail.innerHTML=data[idx].d;
+  }
+  if(prevId)document.getElementById(prevId).onclick=()=>{idx=Math.max(0,idx-1);render();};
+  if(nextId)document.getElementById(nextId).onclick=()=>{idx=Math.min(data.length-1,idx+1);render();};
+  render();
+}
+
+/* ===== 归类练习组件（通用，勿改） ===== */
+function initSorter(areaId,items){
+  const area=document.getElementById(areaId);
+  area.innerHTML=items.map((t,i)=>
+    '<div class="tri-row"><div style="flex:1;min-width:200px;font-size:.95rem">'+t.a+'</div>'+
+    '<div class="acts">'+t.opts.map(o=>'<button class="tri-btn" data-i="'+i+'" data-v="'+o+'">'+o+'</button>').join('')+'</div>'+
+    '<div class="tri-exp" id="triExp'+i+'">✓ 正确答案：'+t.ans+' —— '+t.exp+'</div></div>'
+  ).join('');
+  area.querySelectorAll('.tri-btn').forEach(b=>{
+    b.onclick=()=>{
+      const i=+b.dataset.i,v=b.dataset.v,t=items[i];
+      b.closest('.tri-row').querySelectorAll('.tri-btn').forEach(x=>{
+        x.classList.remove('correct','wrong');
+        if(x.dataset.v===t.ans)x.classList.add('correct');
+        else if(x===b)x.classList.add('wrong');
+      });
+      document.getElementById('triExp'+i).classList.add('show');
+    };
+  });
+}
+
+/* ===== 本章定制交互 ===== */
+
+/* 胎藏八位流程推演 */
+initStepper('flowTrack','flowDetail','flowPrev','flowNext',[
+  {t:'羯罗蓝位',d:'<b>羯罗蓝：</b>「已结凝，箭内仍稀」——刚刚凝结、中心还是稀的。受精卵刚刚着床的一小团，一切从这滴「熟乳凝结」开始。'},
+  {t:'遏部昙位',d:'<b>遏部昙：</b>「表里如酪，未至肉位」——内外都像奶酪，还没到肉的质地。约两周形态：均质的细胞团。'},
+  {t:'闭尸位',d:'<b>闭尸：</b>「已成肉，仍极柔软」——已成肉但极柔软。组织分化开始，形态软得像嫩豆腐。'},
+  {t:'键南位',d:'<b>键南：</b>「已坚厚，稍堪摩触」——坚厚起来，稍微能承受触压。第一次「有了手感」。'},
+  {t:'钵罗赊佉位',d:'<b>钵罗赊佉：</b>「肉抟增长，支分相现」——肉团长大，四肢的轮廓开始显现。B超里第一次能认出「人形」。'},
+  {t:'发毛爪位',d:'<b>发毛爪位：</b>从此以后，头发、毛发、指甲显现——细节开始生长。'},
+  {t:'根 位',d:'<b>根位：</b>从此以后，「眼等根生」——眼耳鼻舌身诸感官逐个形成。'},
+  {t:'形 位',d:'<b>形位：</b>「彼所依处分明显现」——各部分轮廓分明，小人的模样齐备。'},
+  {t:'正生位',d:'<b>正生位：</b>共三十八个七日后，再经四日——生分风起，头下足上，胎衣缠裹趣向产门，「出产门时名正生位」。人生正式开场。'}
+]);
+
+/* 四生归类练习 */
+initSorter('sortArea',[
+  {a:'鹅雁孔雀破壳而出',opts:['卵生','胎生','湿生','化生'],ans:'卵生',exp:'「破[穀-禾+卵]而出」——破壳而生即卵生。'},
+  {a:'象马牛驴出生',opts:['卵生','胎生','湿生','化生'],ans:'胎生',exp:'「胎所缠裹，剖胎而出」——被胎包裹后出生即胎生。'},
+  {a:'虫蝎飞蛾的出生',opts:['卵生','胎生','湿生','化生'],ans:'湿生',exp:'「随因一种湿气而生」——依湿气聚生即湿生，如虫蝎飞蛾。'},
+  {a:'天人与地狱有情',opts:['卵生','胎生','湿生','化生'],ans:'化生',exp:'「业增上故，具足六处而生」——天与那洛迦全部是化生，无卵无胎无湿气，业力直接变现。'},
+  {a:'人与鬼、傍生中的一部分',opts:['卵生','胎生','湿生','化生'],ans:'化生',exp:'原文：「人鬼傍生一分」——人、鬼、傍生中各有一部分是化生，四生在人间并不排他。'}
+]);
+
+renderPath();
+</script>
+</body>
+</html>
