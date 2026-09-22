@@ -852,6 +852,11 @@ initStepper('pathTrack','pathDetail','pathPrev','pathNext',[
   {t:'四沙门果',d:'<b>里程碑：</b>圣道名沙门，烦恼断名果——预流（断三结）、一来（还生一次）、不还（不再回此间）、阿罗汉（永断一切能感生有烦恼），四级台阶，层层断尽。'}
 ]);
 
+/* 翻转卡：点击展开 / 收起（页面所有 fn-card 通用） */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
 renderPath();
 </script>
 </body>

@@ -760,6 +760,11 @@ document.querySelectorAll('#seedSim input').forEach(function(el){el.addEventList
 updateSeedSim();
 
 
+/* 翻转卡：点击展开 / 收起（页面所有 fn-card 通用） */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
 renderPath();
 </script>
 </body>

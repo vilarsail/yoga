@@ -839,6 +839,11 @@ initStepper('sanxTrack','sanxDetail','sanxPrev','sanxNext',[
   {t:'圣见成就',d:'<b>增上慧学：</b>「能得第三成就圣见远离恶见。」定水之上开出慧的花，三学次第生起。'}
 ]);
 
+/* 翻转卡：点击展开 / 收起（页面所有 fn-card 通用） */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
 renderPath();
 </script>
 </body>

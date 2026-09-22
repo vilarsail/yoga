@@ -3,261 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>《瑜伽师地论》交互学习目录</title>
+<title>瑜伽师地论 · 学习目录</title>
 <style>
-:root{
-  --ink:#2b2620;
-  --ink-soft:#5c5348;
-  --paper:#f7f3ec;
-  --card:#fffdf8;
-  --accent:#9a3b2e;      /* 朱红 */
-  --accent-soft:#f3e2dd;
-  --blue:#2e4a62;        /* 藏青 */
-  --blue-soft:#e2eaf1;
-  --gold:#8a6d1f;
-  --gold-soft:#f4ecd4;
-  --green:#3d6b4f;
-  --green-soft:#e0eee5;
-  --line:#e4dccc;
-  --radius:14px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
-  background:var(--paper);color:var(--ink);line-height:1.85;
-}
-a{color:var(--blue)}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px 120px}
-
-/* ===== 顶部 ===== */
-header.hero{
-  background:linear-gradient(135deg,#2e4a62 0%,#3d5f7d 60%,#5a4632 100%);
-  color:#f5efe2;text-align:center;padding:64px 20px 56px;
-}
-header.hero .kicker{letter-spacing:.35em;font-size:.85rem;opacity:.75;margin-bottom:14px}
-header.hero h1{font-size:2rem;font-weight:600;letter-spacing:.08em;margin-bottom:14px}
-header.hero p.sub{max-width:680px;margin:0 auto;opacity:.88;font-size:1.02rem}
-header.hero .tagline{
-  display:inline-block;margin-top:26px;padding:10px 26px;border:1px solid rgba(245,239,226,.4);
-  border-radius:999px;font-size:.95rem;letter-spacing:.12em;
-}
-
-/* ===== 使用说明 ===== */
-.intro{
-  margin:40px 0 10px;background:var(--card);border:1px solid var(--line);
-  border-radius:var(--radius);padding:26px 30px;
-}
-.intro h2{font-size:1.2rem;color:var(--blue);margin-bottom:12px}
-.intro p{font-size:.95rem;color:var(--ink-soft);margin-bottom:10px}
-.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:16px}
-.feature{
-  background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
-}
-.feature b{display:block;font-size:.98rem;margin-bottom:4px}
-.feature.f1 b{color:var(--blue)}
-.feature.f2 b{color:var(--gold)}
-.feature.f3 b{color:var(--accent)}
-.feature.f4 b{color:var(--green)}
-.feature span{font-size:.85rem;color:var(--ink-soft)}
-
-/* ===== 分组 ===== */
-section.group{margin-top:56px}
-section.group h2{
-  font-size:1.45rem;color:var(--ink);
-  padding-left:14px;border-left:4px solid var(--accent);
-}
-section.group p.gdesc{font-size:.92rem;color:var(--ink-soft);margin:8px 0 18px;max-width:820px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
-a.vol{
-  display:block;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:12px 14px;text-decoration:none;color:var(--ink);transition:all .15s;
-}
-a.vol:hover{border-color:var(--blue);box-shadow:0 3px 10px rgba(46,74,98,.12);transform:translateY(-2px)}
-a.vol .vno{display:block;font-size:1.02rem;font-weight:700;color:var(--blue);margin-bottom:2px}
-a.vol .vname{display:block;font-size:.78rem;color:var(--ink-soft);line-height:1.5}
-a.vol.visited{border-color:var(--green)}
-a.vol.visited .vno{color:var(--green)}
-a.vol.visited::after{content:"✓ 已学";float:right;font-size:.72rem;color:var(--green)}
-
-/* ===== 页脚 ===== */
-footer{
-  margin-top:70px;text-align:center;color:var(--ink-soft);font-size:.85rem;
-  border-top:1px solid var(--line);padding-top:24px;
-}
-footer a{color:var(--blue)}
-
-@media (max-width:600px){
-  header.hero h1{font-size:1.5rem}
-  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
-}
+body{margin:0;background:#f7f3ec;color:#2b2620;line-height:1.8;
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",serif}
+header{background:linear-gradient(135deg,#2e4a62,#5a4632);color:#f5efe2;
+  text-align:center;padding:44px 16px 36px}
+header h1{font-size:1.6rem;letter-spacing:.12em;margin:0 0 8px}
+header p{opacity:.85;margin:0;font-size:.95rem}
+main{max-width:860px;margin:26px auto 80px;padding:0 18px}
+table{width:100%;border-collapse:collapse;background:#fffdf8;
+  border:1px solid #e4dccc;border-radius:14px;overflow:hidden}
+th,td{padding:9px 14px;border-bottom:1px solid #efe9db;text-align:left}
+th{background:#e2eaf1;color:#2e4a62;font-weight:600}
+tr:last-child td{border-bottom:none}
+td.no{width:30%;color:#9a3b2e;font-weight:600}
+a{color:#2e4a62;text-decoration:none}
+a:hover{color:#9a3b2e}
+.na{opacity:.3}
 </style>
 </head>
 <body>
-<header class="hero">
-  <div class="kicker">瑜伽师地论 · 弥勒菩萨说 · 玄奘译</div>
-  <h1>交互式学习目录</h1>
-  <p class="sub">一百卷逐卷交互学习模块：由易到难的学习路径、核心概念拆解与生活案例，帮助现代人读懂这部瑜伽行派根本大论。</p>
-  <div class="tagline">共 100 卷 · 点击任意一卷开始</div>
-</header>
-
-<div class="wrap">
-
-<div class="intro">
-  <h2>这些页面是什么？</h2>
-  <p>本目录下每卷对应一个 <code>{N}-study.html</code> 交互学习网页，专为不熟悉文言文的读者设计。打开任意一卷，你会依次看到：</p>
-  <div class="feature-grid">
-    <div class="feature f1"><b>① 学习路径</b><span>把本卷内容拆成由易到难的几个小步骤，可逐项勾选记录进度。</span></div>
-    <div class="feature f2"><b>② 核心概念三件套</b><span>每个关键名相配「原文引用 + 一句话白话 + 生活化比喻」，先懂意思再看原文。</span></div>
-    <div class="feature f3"><b>③ 生活案例</b><span>用工作、情绪、人际等日常场景解释抽象义理。</span></div>
-    <div class="feature f4"><b>④ 交互演练</b><span>流程推演、条件模拟、归类练习等小组件，动手点一点加深理解。</span></div>
-  </div>
-  <p style="margin-top:14px">建议按卷号顺序学习（前卷是后卷的地基）；勾选进度保存在浏览器本地，下次打开自动恢复。</p>
-</div>
-
-<section class="group">
-  <h2>本地分</h2>
-  <p class="gdesc">卷一至卷五十 · 全论主体，广辨十七地：从五识身相应地、意地，经有寻有伺等三地、三摩呬多地、闻思修三所成地，到声闻地、独觉地、菩萨地，止于有余依、无余依二地。</p>
-  <div class="grid"><a class="vol" href="1-study.html" data-vol="1"><span class="vno">卷1</span><span class="vname">本地分 · 五识身相应地第一 · 意地之一</span></a>
-<a class="vol" href="2-study.html" data-vol="2"><span class="vno">卷2</span><span class="vname">本地分中意地第二之二</span></a>
-<a class="vol" href="3-study.html" data-vol="3"><span class="vno">卷3</span><span class="vname">本地分中意地第二之三</span></a>
-<a class="vol" href="4-study.html" data-vol="4"><span class="vno">卷4</span><span class="vname">本地分中有寻有伺等三地之一</span></a>
-<a class="vol" href="5-study.html" data-vol="5"><span class="vno">卷5</span><span class="vname">本地分中有寻有伺等三地之二</span></a>
-<a class="vol" href="6-study.html" data-vol="6"><span class="vno">卷6</span><span class="vname">本地分中有寻有伺等三地之三</span></a>
-<a class="vol" href="7-study.html" data-vol="7"><span class="vno">卷7</span><span class="vname">本地分中有寻有伺等三地之四</span></a>
-<a class="vol" href="8-study.html" data-vol="8"><span class="vno">卷8</span><span class="vname">本地分中有寻有伺等三地之五</span></a>
-<a class="vol" href="9-study.html" data-vol="9"><span class="vno">卷9</span><span class="vname">本地分中有寻有伺等三地之六</span></a>
-<a class="vol" href="10-study.html" data-vol="10"><span class="vno">卷10</span><span class="vname">本地分中有寻有伺等三地之七</span></a>
-<a class="vol" href="11-study.html" data-vol="11"><span class="vno">卷11</span><span class="vname">本地分中三摩呬多地第六之一</span></a>
-<a class="vol" href="12-study.html" data-vol="12"><span class="vno">卷12</span><span class="vname">本地分中三摩呬多地第六之二</span></a>
-<a class="vol" href="13-study.html" data-vol="13"><span class="vno">卷13</span><span class="vname">本地分 · 三摩呬多地之余／非三摩呬多地／有心无心二地／闻所成地之一</span></a>
-<a class="vol" href="14-study.html" data-vol="14"><span class="vno">卷14</span><span class="vname">本地分中闻所成地第十之二</span></a>
-<a class="vol" href="15-study.html" data-vol="15"><span class="vno">卷15</span><span class="vname">本地分中闻所成地第十之三</span></a>
-<a class="vol" href="16-study.html" data-vol="16"><span class="vno">卷16</span><span class="vname">本地分中思所成地第十一之一</span></a>
-<a class="vol" href="17-study.html" data-vol="17"><span class="vno">卷17</span><span class="vname">本地分中思所成地第十一之二</span></a>
-<a class="vol" href="18-study.html" data-vol="18"><span class="vno">卷18</span><span class="vname">本地分中思所成地第十一之三</span></a>
-<a class="vol" href="19-study.html" data-vol="19"><span class="vno">卷19</span><span class="vname">本地分中思所成地第十一之四</span></a>
-<a class="vol" href="20-study.html" data-vol="20"><span class="vno">卷20</span><span class="vname">本地分中修所成地第十二</span></a>
-<a class="vol" href="21-study.html" data-vol="21"><span class="vno">卷21</span><span class="vname">本地分中声闻地第十三 · 初瑜伽处</span></a>
-<a class="vol" href="22-study.html" data-vol="22"><span class="vno">卷22</span><span class="vname">本地分中声闻地第十三初瑜伽处出离地第三之一</span></a>
-<a class="vol" href="23-study.html" data-vol="23"><span class="vno">卷23</span><span class="vname">本地分中声闻地第十三初瑜伽处出离地第三之二</span></a>
-<a class="vol" href="24-study.html" data-vol="24"><span class="vno">卷24</span><span class="vname">本地分中声闻地第十三 · 初瑜伽处出离地第三之三</span></a>
-<a class="vol" href="25-study.html" data-vol="25"><span class="vno">卷25</span><span class="vname">本地分中声闻地第十三初瑜伽处出离地第三之四</span></a>
-<a class="vol" href="26-study.html" data-vol="26"><span class="vno">卷26</span><span class="vname">本地分中声闻地第二瑜伽处之一</span></a>
-<a class="vol" href="27-study.html" data-vol="27"><span class="vno">卷27</span><span class="vname">本地分中声闻地第二瑜伽处之二</span></a>
-<a class="vol" href="28-study.html" data-vol="28"><span class="vno">卷28</span><span class="vname">本地分中声闻地第二瑜伽处之三</span></a>
-<a class="vol" href="29-study.html" data-vol="29"><span class="vno">卷29</span><span class="vname">本地分中声闻地第二瑜伽处之四</span></a>
-<a class="vol" href="30-study.html" data-vol="30"><span class="vno">卷30</span><span class="vname">本地分中声闻地第三瑜伽处之一</span></a>
-<a class="vol" href="31-study.html" data-vol="31"><span class="vno">卷31</span><span class="vname">本地分中声闻地第三瑜伽处之二</span></a>
-<a class="vol" href="32-study.html" data-vol="32"><span class="vno">卷32</span><span class="vname">本地分中声闻地第三瑜伽处之三</span></a>
-<a class="vol" href="33-study.html" data-vol="33"><span class="vno">卷33</span><span class="vname">本地分中声闻地第四瑜伽处之一</span></a>
-<a class="vol" href="34-study.html" data-vol="34"><span class="vno">卷34</span><span class="vname">本地分中声闻地第四瑜伽处之二</span></a>
-<a class="vol" href="35-study.html" data-vol="35"><span class="vno">卷35</span><span class="vname">本地分中独觉地第十四 / 菩萨地第十五初持瑜伽处</span></a>
-<a class="vol" href="36-study.html" data-vol="36"><span class="vno">卷36</span><span class="vname">本地分中菩萨地 · 自他利品第三之二 / 真实义品第四</span></a>
-<a class="vol" href="37-study.html" data-vol="37"><span class="vno">卷37</span><span class="vname">本地分中菩萨地初持瑜伽处 威力品第五 · 成熟品第六</span></a>
-<a class="vol" href="38-study.html" data-vol="38"><span class="vno">卷38</span><span class="vname">本地分中菩萨地初持瑜伽处 · 菩提品第七 · 力种姓品第八</span></a>
-<a class="vol" href="39-study.html" data-vol="39"><span class="vno">卷39</span><span class="vname">本地分中菩萨地初持瑜伽处施品第九</span></a>
-<a class="vol" href="40-study.html" data-vol="40"><span class="vno">卷40</span><span class="vname">本地分中菩萨地初持瑜伽处戒品第十之一</span></a>
-<a class="vol" href="41-study.html" data-vol="41"><span class="vno">卷41</span><span class="vname">本地分中菩萨地初持瑜伽处戒品第十之二</span></a>
-<a class="vol" href="42-study.html" data-vol="42"><span class="vno">卷42</span><span class="vname">本地分中菩萨地初持瑜伽处 · 戒品第十之三 / 忍品第十一 / 精进品第十二</span></a>
-<a class="vol" href="43-study.html" data-vol="43"><span class="vno">卷43</span><span class="vname">本地分中菩萨地初持瑜伽处 · 静虑品第十三 / 慧品第十四 / 摄事品第十五</span></a>
-<a class="vol" href="44-study.html" data-vol="44"><span class="vno">卷44</span><span class="vname">本地分中菩萨地初持瑜伽处</span></a>
-<a class="vol" href="45-study.html" data-vol="45"><span class="vno">卷45</span><span class="vname">本地分中菩萨地初持瑜伽处菩提分品第十七之二</span></a>
-<a class="vol" href="46-study.html" data-vol="46"><span class="vno">卷46</span><span class="vname">本地分中菩萨地初持瑜伽处（菩提分品第十七之三 · 菩萨功德品第十八）</span></a>
-<a class="vol" href="47-study.html" data-vol="47"><span class="vno">卷47</span><span class="vname">本地分中菩萨地 · 第二持随法瑜伽处</span></a>
-<a class="vol" href="48-study.html" data-vol="48"><span class="vno">卷48</span><span class="vname">本地分中菩萨地 · 住品第四之二 · 生品第一 · 摄受品第二</span></a>
-<a class="vol" href="49-study.html" data-vol="49"><span class="vno">卷49</span><span class="vname">本地分中菩萨地第三持究竟瑜伽处　地品第三 · 行品第四 · 建立品第五之一</span></a>
-<a class="vol" href="50-study.html" data-vol="50"><span class="vno">卷50</span><span class="vname">本地分 · 建立品第五之二 / 发正等菩提心品 / 有余依地 / 无余依地</span></a></div>
-</section>
-<section class="group">
-  <h2>摄决择分</h2>
-  <p class="gdesc">卷五十一至卷八十 · 对本地分十七地逐一决择深义，补所未详，如意地的阿赖耶识、菩萨地的真实义等，是全论义理最精微处。</p>
-  <div class="grid"><a class="vol" href="51-study.html" data-vol="51"><span class="vno">卷51</span><span class="vname">摄决择分中五识身相应地意地之一</span></a>
-<a class="vol" href="52-study.html" data-vol="52"><span class="vno">卷52</span><span class="vname">摄决择分中五识身相应地意地之二</span></a>
-<a class="vol" href="53-study.html" data-vol="53"><span class="vno">卷53</span><span class="vname">摄决择分中五识身相应地意地之三</span></a>
-<a class="vol" href="54-study.html" data-vol="54"><span class="vno">卷54</span><span class="vname">摄决择分中五识身相应地意地之四</span></a>
-<a class="vol" href="55-study.html" data-vol="55"><span class="vno">卷55</span><span class="vname">摄决择分中五识身相应地意地之五</span></a>
-<a class="vol" href="56-study.html" data-vol="56"><span class="vno">卷56</span><span class="vname">摄决择分中五识身相应地意地之六</span></a>
-<a class="vol" href="57-study.html" data-vol="57"><span class="vno">卷57</span><span class="vname">摄决择分中五识身相应地意地之七</span></a>
-<a class="vol" href="58-study.html" data-vol="58"><span class="vno">卷58</span><span class="vname">摄决择分中有寻有伺等三地之一</span></a>
-<a class="vol" href="59-study.html" data-vol="59"><span class="vno">卷59</span><span class="vname">摄决择分中有寻有伺等三地之二</span></a>
-<a class="vol" href="60-study.html" data-vol="60"><span class="vno">卷60</span><span class="vname">摄决择分中有寻有伺等三地之三</span></a>
-<a class="vol" href="61-study.html" data-vol="61"><span class="vno">卷61</span><span class="vname">摄决择分中有寻有伺等三地之四</span></a>
-<a class="vol" href="62-study.html" data-vol="62"><span class="vno">卷62</span><span class="vname">摄决择分中三摩呬多地之一</span></a>
-<a class="vol" href="63-study.html" data-vol="63"><span class="vno">卷63</span><span class="vname">摄决择分 · 三摩呬多地之二 至 无心地</span></a>
-<a class="vol" href="64-study.html" data-vol="64"><span class="vno">卷64</span><span class="vname">摄决择分中闻所成慧地</span></a>
-<a class="vol" href="65-study.html" data-vol="65"><span class="vno">卷65</span><span class="vname">摄决择分中思所成慧地之一</span></a>
-<a class="vol" href="66-study.html" data-vol="66"><span class="vno">卷66</span><span class="vname">摄决择分中思所成慧地之二</span></a>
-<a class="vol" href="67-study.html" data-vol="67"><span class="vno">卷67</span><span class="vname">摄决择分中修所成慧地 · 声闻地之一</span></a>
-<a class="vol" href="68-study.html" data-vol="68"><span class="vno">卷68</span><span class="vname">摄决择分中声闻地之二</span></a>
-<a class="vol" href="69-study.html" data-vol="69"><span class="vno">卷69</span><span class="vname">摄决择分中声闻地之三</span></a>
-<a class="vol" href="70-study.html" data-vol="70"><span class="vno">卷70</span><span class="vname">摄决择分中声闻地之四</span></a>
-<a class="vol" href="71-study.html" data-vol="71"><span class="vno">卷71</span><span class="vname">摄决择分中声闻地之五</span></a>
-<a class="vol" href="72-study.html" data-vol="72"><span class="vno">卷72</span><span class="vname">摄决择分中菩萨地之一</span></a>
-<a class="vol" href="73-study.html" data-vol="73"><span class="vno">卷73</span><span class="vname">摄决择分中菩萨地之二</span></a>
-<a class="vol" href="74-study.html" data-vol="74"><span class="vno">卷74</span><span class="vname">摄决择分中菩萨地之三</span></a>
-<a class="vol" href="75-study.html" data-vol="75"><span class="vno">卷75</span><span class="vname">摄决择分中菩萨地之四</span></a>
-<a class="vol" href="76-study.html" data-vol="76"><span class="vno">卷76</span><span class="vname">摄决择分中菩萨地之五</span></a>
-<a class="vol" href="77-study.html" data-vol="77"><span class="vno">卷77</span><span class="vname">摄决择分中菩萨地之六</span></a>
-<a class="vol" href="78-study.html" data-vol="78"><span class="vno">卷78</span><span class="vname">摄决择分中菩萨地之七</span></a>
-<a class="vol" href="79-study.html" data-vol="79"><span class="vno">卷79</span><span class="vname">摄决择分中菩萨地之八</span></a>
-<a class="vol" href="80-study.html" data-vol="80"><span class="vno">卷80</span><span class="vname">摄决择分中菩萨地之九 / 有余依及无余依二地</span></a></div>
-</section>
-<section class="group">
-  <h2>摄释分</h2>
-  <p class="gdesc">卷八十一至卷八十二 · 解释佛经的体例与名义：十二分教、经的五种分位、说法仪则等。</p>
-  <div class="grid"><a class="vol" href="81-study.html" data-vol="81"><span class="vno">卷81</span><span class="vname">摄释分之上</span></a>
-<a class="vol" href="82-study.html" data-vol="82"><span class="vno">卷82</span><span class="vname">摄释分之下</span></a></div>
-</section>
-<section class="group">
-  <h2>摄异门分</h2>
-  <p class="gdesc">卷八十三至卷八十四 · 以异门（不同名相角度）解释经中诸法的同义异名，如蕴、界、处等种种异门。</p>
-  <div class="grid"><a class="vol" href="83-study.html" data-vol="83"><span class="vno">卷83</span><span class="vname">摄异门分之上</span></a>
-<a class="vol" href="84-study.html" data-vol="84"><span class="vno">卷84</span><span class="vname">摄异门分之下</span></a></div>
-</section>
-<section class="group">
-  <h2>摄事分</h2>
-  <p class="gdesc">卷八十五至卷一百 · 摄释契经之事：对应《杂阿含》等经的行择、处择、缘起食谛界择、菩提分法择，及调伏（律）、本母（论母）的抉择。</p>
-  <div class="grid"><a class="vol" href="85-study.html" data-vol="85"><span class="vno">卷85</span><span class="vname">摄事分中契经事行择摄第一之一</span></a>
-<a class="vol" href="86-study.html" data-vol="86"><span class="vno">卷86</span><span class="vname">摄事分中契经事行择摄第一之二</span></a>
-<a class="vol" href="87-study.html" data-vol="87"><span class="vno">卷87</span><span class="vname">摄事分中契经事行择摄第一之三</span></a>
-<a class="vol" href="88-study.html" data-vol="88"><span class="vno">卷88</span><span class="vname">摄事分中契经事行择摄第一之四</span></a>
-<a class="vol" href="89-study.html" data-vol="89"><span class="vno">卷89</span><span class="vname">摄事分中契经事处择摄第二之一</span></a>
-<a class="vol" href="90-study.html" data-vol="90"><span class="vno">卷90</span><span class="vname">摄事分中契经事处择摄第二之二</span></a>
-<a class="vol" href="91-study.html" data-vol="91"><span class="vno">卷91</span><span class="vname">摄事分中契经事处择摄第二之三</span></a>
-<a class="vol" href="92-study.html" data-vol="92"><span class="vno">卷92</span><span class="vname">摄事分中契经事处择摄第二之四</span></a>
-<a class="vol" href="93-study.html" data-vol="93"><span class="vno">卷93</span><span class="vname">摄事分中契经事缘起食谛界择摄第三之一</span></a>
-<a class="vol" href="94-study.html" data-vol="94"><span class="vno">卷94</span><span class="vname">摄事分中契经事缘起食谛界择摄第三之二</span></a>
-<a class="vol" href="95-study.html" data-vol="95"><span class="vno">卷95</span><span class="vname">摄事分中契经事缘起食谛界择摄第三之三</span></a>
-<a class="vol" href="96-study.html" data-vol="96"><span class="vno">卷96</span><span class="vname">摄事分中契经事缘起食谛界择摄第三之四</span></a>
-<a class="vol" href="97-study.html" data-vol="97"><span class="vno">卷97</span><span class="vname">摄事分中契经事菩提分法择摄第四之一</span></a>
-<a class="vol" href="98-study.html" data-vol="98"><span class="vno">卷98</span><span class="vname">摄事分中契经事菩提分法择摄第四之二</span></a>
-<a class="vol" href="99-study.html" data-vol="99"><span class="vno">卷99</span><span class="vname">摄事分中调伏事总择摄第五之一</span></a>
-<a class="vol" href="100-study.html" data-vol="100"><span class="vno">卷100</span><span class="vname">摄事分中调伏事择摄第五之二 ／ 本母事序辩摄</span></a></div>
-</section>
-
-<footer>
-  <p>《瑜伽师地论》· 一百卷 · 瑜伽行派根本典籍</p>
-  <p style="margin-top:6px">学习进度仅保存在本设备浏览器中 · 学习内容如有疑义请以原典为准</p>
-</footer>
-
-</div>
-<script>
-(function(){
-  try{
-    var visited = JSON.parse(localStorage.getItem('yoga-study-visited') || '[]');
-    var set = new Set(visited);
-    document.querySelectorAll('a.vol').forEach(function(a){
-      if(set.has(a.dataset.vol)) a.classList.add('visited');
-      a.addEventListener('click', function(){
-        if(!set.has(a.dataset.vol)){
-          set.add(a.dataset.vol);
-          localStorage.setItem('yoga-study-visited', JSON.stringify(Array.from(set)));
-        }
-      });
-    });
-  }catch(e){}
-})();
-</script>
+<header><h1>瑜伽师地论 · 学习目录</h1>
+<p>100 份交互学习网页 · 100 份思维导图</p></header>
+<main><table>
+<tr><th>卷</th><th>交互学习</th><th>思维导图</th></tr>
+<tr><td class="no">第 1 卷</td><td><a href="1-study.html">学习网页</a></td><td><a href="1-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 2 卷</td><td><a href="2-study.html">学习网页</a></td><td><a href="2-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 3 卷</td><td><a href="3-study.html">学习网页</a></td><td><a href="3-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 4 卷</td><td><a href="4-study.html">学习网页</a></td><td><a href="4-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 5 卷</td><td><a href="5-study.html">学习网页</a></td><td><a href="5-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 6 卷</td><td><a href="6-study.html">学习网页</a></td><td><a href="6-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 7 卷</td><td><a href="7-study.html">学习网页</a></td><td><a href="7-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 8 卷</td><td><a href="8-study.html">学习网页</a></td><td><a href="8-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 9 卷</td><td><a href="9-study.html">学习网页</a></td><td><a href="9-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 10 卷</td><td><a href="10-study.html">学习网页</a></td><td><a href="10-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 11 卷</td><td><a href="11-study.html">学习网页</a></td><td><a href="11-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 12 卷</td><td><a href="12-study.html">学习网页</a></td><td><a href="12-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 13 卷</td><td><a href="13-study.html">学习网页</a></td><td><a href="13-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 14 卷</td><td><a href="14-study.html">学习网页</a></td><td><a href="14-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 15 卷</td><td><a href="15-study.html">学习网页</a></td><td><a href="15-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 16 卷</td><td><a href="16-study.html">学习网页</a></td><td><a href="16-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 17 卷</td><td><a href="17-study.html">学习网页</a></td><td><a href="17-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 18 卷</td><td><a href="18-study.html">学习网页</a></td><td><a href="18-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 19 卷</td><td><a href="19-study.html">学习网页</a></td><td><a href="19-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 20 卷</td><td><a href="20-study.html">学习网页</a></td><td><a href="20-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 21 卷</td><td><a href="21-study.html">学习网页</a></td><td><a href="21-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 22 卷</td><td><a href="22-study.html">学习网页</a></td><td><a href="22-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 23 卷</td><td><a href="23-study.html">学习网页</a></td><td><a href="23-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 24 卷</td><td><a href="24-study.html">学习网页</a></td><td><a href="24-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 25 卷</td><td><a href="25-study.html">学习网页</a></td><td><a href="25-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 26 卷</td><td><a href="26-study.html">学习网页</a></td><td><a href="26-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 27 卷</td><td><a href="27-study.html">学习网页</a></td><td><a href="27-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 28 卷</td><td><a href="28-study.html">学习网页</a></td><td><a href="28-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 29 卷</td><td><a href="29-study.html">学习网页</a></td><td><a href="29-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 30 卷</td><td><a href="30-study.html">学习网页</a></td><td><a href="30-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 31 卷</td><td><a href="31-study.html">学习网页</a></td><td><a href="31-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 32 卷</td><td><a href="32-study.html">学习网页</a></td><td><a href="32-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 33 卷</td><td><a href="33-study.html">学习网页</a></td><td><a href="33-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 34 卷</td><td><a href="34-study.html">学习网页</a></td><td><a href="34-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 35 卷</td><td><a href="35-study.html">学习网页</a></td><td><a href="35-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 36 卷</td><td><a href="36-study.html">学习网页</a></td><td><a href="36-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 37 卷</td><td><a href="37-study.html">学习网页</a></td><td><a href="37-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 38 卷</td><td><a href="38-study.html">学习网页</a></td><td><a href="38-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 39 卷</td><td><a href="39-study.html">学习网页</a></td><td><a href="39-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 40 卷</td><td><a href="40-study.html">学习网页</a></td><td><a href="40-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 41 卷</td><td><a href="41-study.html">学习网页</a></td><td><a href="41-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 42 卷</td><td><a href="42-study.html">学习网页</a></td><td><a href="42-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 43 卷</td><td><a href="43-study.html">学习网页</a></td><td><a href="43-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 44 卷</td><td><a href="44-study.html">学习网页</a></td><td><a href="44-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 45 卷</td><td><a href="45-study.html">学习网页</a></td><td><a href="45-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 46 卷</td><td><a href="46-study.html">学习网页</a></td><td><a href="46-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 47 卷</td><td><a href="47-study.html">学习网页</a></td><td><a href="47-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 48 卷</td><td><a href="48-study.html">学习网页</a></td><td><a href="48-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 49 卷</td><td><a href="49-study.html">学习网页</a></td><td><a href="49-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 50 卷</td><td><a href="50-study.html">学习网页</a></td><td><a href="50-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 51 卷</td><td><a href="51-study.html">学习网页</a></td><td><a href="51-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 52 卷</td><td><a href="52-study.html">学习网页</a></td><td><a href="52-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 53 卷</td><td><a href="53-study.html">学习网页</a></td><td><a href="53-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 54 卷</td><td><a href="54-study.html">学习网页</a></td><td><a href="54-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 55 卷</td><td><a href="55-study.html">学习网页</a></td><td><a href="55-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 56 卷</td><td><a href="56-study.html">学习网页</a></td><td><a href="56-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 57 卷</td><td><a href="57-study.html">学习网页</a></td><td><a href="57-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 58 卷</td><td><a href="58-study.html">学习网页</a></td><td><a href="58-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 59 卷</td><td><a href="59-study.html">学习网页</a></td><td><a href="59-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 60 卷</td><td><a href="60-study.html">学习网页</a></td><td><a href="60-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 61 卷</td><td><a href="61-study.html">学习网页</a></td><td><a href="61-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 62 卷</td><td><a href="62-study.html">学习网页</a></td><td><a href="62-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 63 卷</td><td><a href="63-study.html">学习网页</a></td><td><a href="63-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 64 卷</td><td><a href="64-study.html">学习网页</a></td><td><a href="64-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 65 卷</td><td><a href="65-study.html">学习网页</a></td><td><a href="65-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 66 卷</td><td><a href="66-study.html">学习网页</a></td><td><a href="66-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 67 卷</td><td><a href="67-study.html">学习网页</a></td><td><a href="67-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 68 卷</td><td><a href="68-study.html">学习网页</a></td><td><a href="68-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 69 卷</td><td><a href="69-study.html">学习网页</a></td><td><a href="69-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 70 卷</td><td><a href="70-study.html">学习网页</a></td><td><a href="70-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 71 卷</td><td><a href="71-study.html">学习网页</a></td><td><a href="71-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 72 卷</td><td><a href="72-study.html">学习网页</a></td><td><a href="72-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 73 卷</td><td><a href="73-study.html">学习网页</a></td><td><a href="73-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 74 卷</td><td><a href="74-study.html">学习网页</a></td><td><a href="74-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 75 卷</td><td><a href="75-study.html">学习网页</a></td><td><a href="75-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 76 卷</td><td><a href="76-study.html">学习网页</a></td><td><a href="76-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 77 卷</td><td><a href="77-study.html">学习网页</a></td><td><a href="77-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 78 卷</td><td><a href="78-study.html">学习网页</a></td><td><a href="78-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 79 卷</td><td><a href="79-study.html">学习网页</a></td><td><a href="79-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 80 卷</td><td><a href="80-study.html">学习网页</a></td><td><a href="80-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 81 卷</td><td><a href="81-study.html">学习网页</a></td><td><a href="81-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 82 卷</td><td><a href="82-study.html">学习网页</a></td><td><a href="82-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 83 卷</td><td><a href="83-study.html">学习网页</a></td><td><a href="83-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 84 卷</td><td><a href="84-study.html">学习网页</a></td><td><a href="84-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 85 卷</td><td><a href="85-study.html">学习网页</a></td><td><a href="85-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 86 卷</td><td><a href="86-study.html">学习网页</a></td><td><a href="86-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 87 卷</td><td><a href="87-study.html">学习网页</a></td><td><a href="87-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 88 卷</td><td><a href="88-study.html">学习网页</a></td><td><a href="88-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 89 卷</td><td><a href="89-study.html">学习网页</a></td><td><a href="89-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 90 卷</td><td><a href="90-study.html">学习网页</a></td><td><a href="90-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 91 卷</td><td><a href="91-study.html">学习网页</a></td><td><a href="91-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 92 卷</td><td><a href="92-study.html">学习网页</a></td><td><a href="92-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 93 卷</td><td><a href="93-study.html">学习网页</a></td><td><a href="93-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 94 卷</td><td><a href="94-study.html">学习网页</a></td><td><a href="94-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 95 卷</td><td><a href="95-study.html">学习网页</a></td><td><a href="95-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 96 卷</td><td><a href="96-study.html">学习网页</a></td><td><a href="96-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 97 卷</td><td><a href="97-study.html">学习网页</a></td><td><a href="97-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 98 卷</td><td><a href="98-study.html">学习网页</a></td><td><a href="98-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 99 卷</td><td><a href="99-study.html">学习网页</a></td><td><a href="99-mindmap.html">思维导图</a></td></tr>
+<tr><td class="no">第 100 卷</td><td><a href="100-study.html">学习网页</a></td><td><a href="100-mindmap.html">思维导图</a></td></tr>
+</table></main>
 </body>
 </html>

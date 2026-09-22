@@ -809,6 +809,11 @@ initStepper('flowTrack8','flowDetail8','stepPrev8','stepNext8',[
   {t:'第7步·贪嗔痴现前',d:'<b>三事成链，后果现前：</b>分别戏论所依缘事为所依止。生萨迦耶见及以我慢。萨迦耶见我慢为依生贪嗔痴。一条朋友圈走完全程——这就是「能起一切有情世间及器世间」的微缩版。关掉手机，从第1步重新观察，就是四寻思的入口。'}
 ]);
 
+/* 翻转卡：点击展开 / 收起（页面所有 fn-card 通用） */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
 renderPath();
 </script>
 </body>

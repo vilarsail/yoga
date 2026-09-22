@@ -825,6 +825,11 @@ initSorter('kuSorter',[
  {a:'连续四小时的周会让浑身不适、坐立难安。',opts:['苦苦','坏苦','行苦'],ans:'苦苦',exp:'苦受现前即苦苦，痛感直接可指。'}
 ]);
 
+/* 翻转卡：点击展开 / 收起（页面所有 fn-card 通用） */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
 renderPath();
 </script>
 </body>

@@ -815,6 +815,11 @@ initSorter('sorterArea1',[
  {a:'医生按压你的患处，你如实感受疼痛并配合诊治',opts:['无明触所生受','明触所生受','非明非无明触所生受'],ans:'非明非无明触所生受',exp:'疼痛由内外色法为缘的有对触而生；接受诊治时既没有邪名言加码，也没有正观现前——属非明非无明触所生受。'}
 ]);
 
+/* 翻转卡：点击展开 / 收起（页面所有 fn-card 通用） */
+document.querySelectorAll('.fn-card').forEach(function(c){
+  c.addEventListener('click',function(){c.classList.toggle('open');});
+});
+
 renderPath();
 </script>
 </body>
