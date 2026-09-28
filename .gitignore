@@ -2,3 +2,7 @@
 *.~undo-tree~
 paragraphs_*.json
 translations_*.json
+smooth_*
+check_33_batch*.json
+__pycache__/
+.claude/settings.local.json
