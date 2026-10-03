@@ -13,18 +13,19 @@ prepare_reading.py - 从 output/{N}.md 提取「原文-only 紧凑文本」供 L
 """
 
 from __future__ import annotations
+import re
 import sys
 from pathlib import Path
 
 OUTPUT_DIR = Path('output')
 TMP_PREFIX = 'reading_{n}_orig.txt'
 
-# 圈号 1-50（与 build_reading.py 保持一致），用于剥离上一轮残留标注
+# 编号方案与 build_reading.py 保持一致：统一样式〔n〕 + 圈号表（仅识别历史遗留），用于剥离上一轮残留标注
 CIRCLED = ('①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
            '㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚'
            '㉛㉜㉝㉞㉟'
            '㊱㊲㊳㊴㊵㊶㊷㊸㊹㊺㊻㊼㊽㊾㊿')
-CIRCLED_SET = set(CIRCLED)
+MARKER_RE = re.compile(r'〔\d+〕|[' + ''.join(CIRCLED) + ']')
 
 
 def parse_md(n: int):
@@ -48,8 +49,8 @@ def parse_md(n: int):
                 title = line.lstrip('#').strip()
             headings.append(line)
         elif line.startswith('　　'):
-            # 剥离旧圈号（幂等：重跑时清除上一轮标注，避免 LLM 把圈号当原文）
-            line = ''.join(ch for ch in line if ch not in CIRCLED_SET)
+            # 剥离旧标注（幂等：重跑时清除上一轮的圈号与〔n〕扩展标记，避免 LLM 把标记当原文）
+            line = MARKER_RE.sub('', line)
             if cur is None:
                 cur = [line]
             else:

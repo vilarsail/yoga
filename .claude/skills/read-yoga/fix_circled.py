@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-fix_circled.py - 检测并修复 output/{N}.md / {N}.notes.md 中的圈号跳号问题。
+fix_circled.py - 检测并修复 output/{N}.md / {N}.notes.md 中的标记跳号问题。
 
 原理：
-1. 读取 {N}.md 原文段（　　开头）中的圈号，按阅读顺序应为 ①②③… 连续递增
-2. 若检测到跳号，建立 {实际圈号: 应有圈号} 映射
+1. 读取 {N}.md 原文段（　　开头）中的标记（圈号 ①-㊿ 或扩展〔n〕），按阅读顺序应为 ①②③…〔51〕〔52〕… 连续递增
+2. 若检测到跳号，建立 {实际标记: 应有标记} 映射
 3. 用临时占位符两遍替换（避免连锁冲突），同时修复 {N}.md 与 {N}.notes.md
 4. 修复后重新校验连续性
 
@@ -25,12 +25,16 @@ CIRCLED = ('①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
            '㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚'
            '㉛㉜㉝㉞㉟'
            '㊱㊲㊳㊴㊵㊶㊷㊸㊹㊺㊻㊼㊽㊾㊿')
-CIRCLED_SET = set(CIRCLED)
-CIRCLED_INDEX = {ch: i + 1 for i, ch in enumerate(CIRCLED)}
+# 编号方案与 build_reading.py 一致：统一样式〔1〕〔2〕…；圈号表仅用于识别历史遗留标注
+MARKER_RE = re.compile(r'〔\d+〕|[' + ''.join(CIRCLED) + ']')
+
+
+def marker(i: int) -> str:
+    return f'〔{i}〕'
 
 
 def extract_md_sequence(n: int) -> list[str]:
-    """提取 {N}.md 原文段（　　开头）中的圈号序列。"""
+    """提取 {N}.md 原文段（　　开头）中的标记序列（token 化）。"""
     path = OUTPUT_DIR / f'{n}.md'
     if not path.exists():
         return []
@@ -38,9 +42,7 @@ def extract_md_sequence(n: int) -> list[str]:
     seq = []
     for line in text.split('\n'):
         if line.startswith('　　'):
-            for ch in line:
-                if ch in CIRCLED_SET:
-                    seq.append(ch)
+            seq.extend(MARKER_RE.findall(line))
     return seq
 
 
@@ -48,25 +50,23 @@ def build_fix_map(actual_seq: list[str]) -> dict[str, str]:
     """对比实际序列与标准序列，返回 {actual: expected} 映射。空 = 无需修复。"""
     fix = {}
     for i, actual in enumerate(actual_seq):
-        if i >= len(CIRCLED):
-            break
-        expected = CIRCLED[i]
+        expected = marker(i + 1)
         if actual != expected:
             fix[actual] = expected
     return fix
 
 
 def apply_fix(text: str, fix_map: dict[str, str]) -> str:
-    """用两遍替换法修复文本中的圈号（避免连锁冲突）。"""
+    """用两遍替换法修复文本中的标记（避免连锁冲突）。"""
     if not fix_map:
         return text
-    # 第一遍：需要修改的圈号 → 临时占位符
+    # 第一遍：需要修改的标记 → 临时占位符
     placeholder_map = {}
     for actual, expected in fix_map.items():
-        ph = f'\x00CIRC{ord(expected)}\x00'
+        ph = f'\x00CIRC{expected}\x00'
         placeholder_map[ph] = expected
         text = text.replace(actual, ph)
-    # 第二遍：占位符 → 正确圈号
+    # 第二遍：占位符 → 正确标记
     for ph, expected in placeholder_map.items():
         text = text.replace(ph, expected)
     return text
@@ -86,9 +86,9 @@ def fix_volume(n: int, dry_run: bool = False) -> list[str]:
     if not fix_map:
         return results  # 无问题，静默
 
-    results.append(f'[{n}] 检测到圈号跳号，{len(fix_map)} 处需修复:')
+    results.append(f'[{n}] 检测到标记跳号，{len(fix_map)} 处需修复:')
     for actual, expected in fix_map.items():
-        results.append(f'       {actual}(第{CIRCLED_INDEX.get(actual,"?")}位) → {expected}(第{CIRCLED_INDEX.get(expected,"?")}位)')
+        results.append(f'       {actual} → {expected}')
 
     if dry_run:
         results.append(f'       [dry-run] 未修改文件')

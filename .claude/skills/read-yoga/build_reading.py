@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-build_reading.py - 由 notes_{N}.json 生成 output/{N}.guide.md（导读）与 output/{N}.notes.md（注释表），并把圈号标注写入 output/{N}.md 的原文。
+build_reading.py - 由 notes_{N}.json 生成 output/{N}.guide.md（导读）与 output/{N}.notes.md（注释表），并把标注写入 output/{N}.md 的原文。
 
 LLM 已写好 notes_{N}.json：{"guide": "...", "terms": [{"term": "...", "note": "..."}, ...]}
 本脚本做全部确定性工作（LLM 不做任何序号与定位）：
 1. 解析 output/{N}.md → 标题 + 原文段（　　 开头，多行颂偈合并为一段）
-2. 校验术语：每 term 必须出现在原文中、≤50 个、无重复、guide 非空
-3. 按首次出现位置分配 ①-㊿（①-⑳=1-20、㉑-㉟=21-35、㊱-㊿=36-50，共 50 个圈号）；重叠冲突自动顺延；右向左插入
-4. 圈号标注写回 output/{N}.md 原文（译文/标题/空行不动）；生成 notes.md（注释表）与 guide.md（导读）
-5. 校验：字符流完整性（标注后-圈号-空白 == 原文-空白）、圈号连续性、注释表与标注一一对应
+2. 校验术语：每 term 必须出现在原文中、无重复、guide 非空（数量不设上限）
+3. 按首次出现位置分配编号（1-50 用圈号 ①-㊿，51 起用〔51〕〔52〕…）；重叠冲突自动顺延；右向左插入
+4. 标注写回 output/{N}.md 原文（译文/标题/空行不动）；生成 notes.md（注释表）与 guide.md（导读）
+5. 校验：字符流完整性（标注后-标记-空白 == 原文-空白）、编号连续性、注释表与标注一一对应
 
 用法：
     python3 build_reading.py <N>            # 单章
@@ -17,18 +17,24 @@ LLM 已写好 notes_{N}.json：{"guide": "...", "terms": [{"term": "...", "note"
 
 from __future__ import annotations
 import json
+import re
 import sys
 from pathlib import Path
 
 OUTPUT_DIR = Path('output')
 
-# 圈号 1-50（①-⑳=1-20, ㉑-㉟=21-35, ㊱-㊿=36-50）
+# 编号统一用〔n〕全角括号样式（无上限）。圈号字符表 ①-㊿ 仍保留，
+# 仅用于剥离历史版本遗留的圈号标注（幂等重跑）。
 CIRCLED = ('①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
            '㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚'
            '㉛㉜㉝㉞㉟'
            '㊱㊲㊳㊴㊵㊶㊷㊸㊹㊺㊻㊼㊽㊾㊿')
-CIRCLED_SET = set(CIRCLED)
-MAX_TERMS = len(CIRCLED)  # 50
+MARKER_RE = re.compile(r'〔\d+〕|[' + ''.join(CIRCLED) + ']')
+
+
+def marker(i: int) -> str:
+    """第 i 个编号对应的标注记号（统一样式）。"""
+    return f'〔{i}〕'
 
 
 def parse_md(n: int):
@@ -52,8 +58,8 @@ def parse_md(n: int):
                 title = line.lstrip('#').strip()
             headings.append(line)
         elif line.startswith('　　'):
-            # 剥离旧圈号（幂等：重跑时先清除上一轮标注）
-            line = ''.join(ch for ch in line if ch not in CIRCLED_SET)
+            # 剥离旧标注（幂等：重跑时先清除上一轮的圈号与〔n〕扩展标记）
+            line = MARKER_RE.sub('', line)
             if cur is None:
                 cur = [line]
             else:
@@ -125,7 +131,7 @@ def assign(paragraphs: list[str], terms_notes: list[tuple[str, str]]):
                          'term': o['term'], 'note': o['note']})
     assigned.sort(key=lambda a: (a['pi'], a['s']))
     for i, a in enumerate(assigned):
-        a['marker'] = CIRCLED[i]
+        a['marker'] = marker(i + 1)
     return assigned, dropped
 
 
@@ -144,19 +150,19 @@ def verify(original: list[str], marked: list[str], assigned: list[dict]) -> list
     """返回问题列表（空 = 全部通过）。"""
     problems = []
 
-    def collapse(paras, drop_circled):
+    def collapse(paras, drop_markers):
         s = ''.join(paras)
-        if drop_circled:
-            return ''.join(ch for ch in s if not ch.isspace() and ch not in CIRCLED_SET)
+        if drop_markers:
+            s = MARKER_RE.sub('', s)
         return ''.join(ch for ch in s if not ch.isspace())
 
     if collapse(marked, True) != collapse(original, False):
         problems.append('字符流校验失败：标注后文本与原文不一致')
 
-    seq = [ch for ch in ''.join(marked) if ch in CIRCLED_SET]
-    expect = list(CIRCLED[:len(assigned)])
+    seq = MARKER_RE.findall(''.join(marked))
+    expect = [marker(i + 1) for i in range(len(assigned))]
     if seq != expect:
-        problems.append(f'圈号顺序不连续：正文出现 {len(seq)} 个，'
+        problems.append(f'编号顺序不连续：正文出现 {len(seq)} 个，'
                         f'应为 {len(expect)} 个且递增无跳号')
 
     if len(assigned) != len(seq):
@@ -167,8 +173,8 @@ def verify(original: list[str], marked: list[str], assigned: list[dict]) -> list
 
 def build_notes_md(title: str, assigned: list[dict]) -> str:
     out = [f'# {title} 词语注释', '']
-    for a in assigned:
-        out.append(f'{a["marker"]} {a["term"]}　{a["note"]}')
+    for i, a in enumerate(assigned):
+        out.append(f'{marker(i + 1)} {a["term"]}　{a["note"]}')
     out.append('')
     return '\n'.join(out)
 
@@ -248,8 +254,6 @@ def load_notes(n: int):
         seen.add(key)
         terms_notes.append((term, note))
 
-    if len(terms_notes) > MAX_TERMS:
-        errors.append(f'术语 {len(terms_notes)} 个超过上限 {MAX_TERMS}，请精简')
     return guide, terms_notes, errors
 
 
@@ -300,8 +304,8 @@ def build_file(n: int):
     # 仅 <400（偏短）或 >1500（异常偏长）时以 ⚠ 提示。
     flag = '' if 400 <= glen <= 1500 else \
         ' ⚠ 导读 ' + str(glen) + ' 字，建议 400-1200'
-    print(f'  [{n}] ✓ {title}: 术语={len(assigned)}, '
-          f'圈号={len(assigned)}, 导读={glen} 字{flag}')
+    print(f'  [{n}] ✓ {title}: 注释={len(assigned)}, '
+          f'编号={len(assigned)}, 导读={glen} 字{flag}')
     return 0
 
 

@@ -4,12 +4,12 @@ verify_reading.py - 校验 output/{N}.md / {N}.guide.md / {N}.notes.md 的完整
 
 检查项：
 1. 三个产物文件存在且非空
-2. 原文段（　　开头）中的圈号字符均在 ①-㊿ 合法范围
-3. 原文中圈号按阅读顺序为 ①②③… 连续递增、无跳号、无重复
-4. 注释表 {N}.notes.md 解析出的圈号集合 == 原文圈号集合
-5. 注释表条目数 == 原文圈号数
-6. 序号-位置对应：注释表中每条 term（去空白）必须紧贴对应圈号左侧出现于原文段中
-7. 圈号只出现在原文段（　　开头），不出现在译文（*）或标题（#）行
+2. 原文段（　　开头）中的标记合法（圈号 ①-㊿ 或扩展〔n〕）
+3. 原文中标记按阅读顺序连续递增、无跳号、无重复
+4. 注释表 {N}.notes.md 解析出的标记集合 == 原文标记集合
+5. 注释表条目数 == 原文标记数
+6. 序号-位置对应：注释表中每条 term（去空白）必须紧贴对应标记左侧出现于原文段中
+7. 标记只出现在原文段（　　开头），不出现在译文（*）或标题（#）行
 8. 导读 {N}.guide.md 含五节标题（一~五），字数 400-1500（仅提示不阻断）
 
 用法：
@@ -27,8 +27,12 @@ CIRCLED = ('①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
            '㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚'
            '㉛㉜㉝㉞㉟'
            '㊱㊲㊳㊴㊵㊶㊷㊸㊹㊺㊻㊼㊽㊾㊿')
-CIRCLED_SET = set(CIRCLED)
-CIRCLED_INDEX = {ch: i + 1 for i, ch in enumerate(CIRCLED)}
+# 编号方案与 build_reading.py 一致：统一样式〔1〕〔2〕…；圈号表仅用于识别历史遗留标注
+MARKER_RE = re.compile(r'〔\d+〕|[' + ''.join(CIRCLED) + ']')
+
+
+def marker(i: int) -> str:
+    return f'〔{i}〕'
 
 GUIDE_SECTIONS = ['## 一、', '## 二、', '## 三、', '## 四、', '## 五、']
 
@@ -115,42 +119,26 @@ def verify_volume(n: int) -> tuple[list[str], list[str]]:
         return problems
     title, paragraphs, all_lines = parsed
 
-    # 2. 圈号字符合法性 + 7. 圈号只出现在原文段
-    bad_chars = set()
+    # 2. 编号合法性 + 7. 编号只出现在原文段
     for line in all_lines:
-        for ch in line:
-            if ch in CIRCLED_SET:
-                continue
-            # 检测任何形似圈号但非合法集的字符（如 ㊿ 之后的、⓪ 等）
-            # 这里只针对原文/注释中出现的可疑圈号字符
-        # 圈号越界检查：标题行/译文行不应含圈号
+        # 编号越界检查：标题行/译文行不应含任何标注记号
         if line.startswith('#') or line.startswith('*'):
-            for ch in line:
-                if ch in CIRCLED_SET:
-                    problems.append(f'圈号越界：{n}.md 标题/译文行含圈号「{ch}」: {line[:40]}')
-                    break
+            hit = MARKER_RE.search(line)
+            if hit:
+                problems.append(f'编号越界：{n}.md 标题/译文行含标记「{hit.group(0)}」: {line[:40]}')
 
-    # 3. 原文圈号连续性（按阅读顺序）
-    seq_in_text = []
-    for pi, para in enumerate(paragraphs):
-        for ch in para:
-            if ch in CIRCLED_SET:
-                seq_in_text.append(ch)
-    # 合法性
-    illegal = [ch for ch in seq_in_text if ch not in CIRCLED_INDEX]
-    if illegal:
-        problems.append(f'原文含非法圈号字符: {illegal[:5]}')
-    # 连续递增
-    expected = list(CIRCLED[:len(seq_in_text)])
+    # 3. 原文编号连续性（按阅读顺序，token 化提取）
+    seq_in_text = MARKER_RE.findall(''.join(paragraphs))
+    expected = [marker(i + 1) for i in range(len(seq_in_text))]
     if seq_in_text != expected:
         # 找出第一个不一致的位置
         first_break = -1
-        for i, ch in enumerate(seq_in_text):
-            if i >= len(expected) or ch != expected[i]:
+        for i, tok in enumerate(seq_in_text):
+            if i >= len(expected) or tok != expected[i]:
                 first_break = i
                 break
         problems.append(
-            f'原文圈号不连续：共 {len(seq_in_text)} 个，'
+            f'原文编号不连续：共 {len(seq_in_text)} 个，'
             f'首次错位在第 {first_break + 1} 位'
             f'（应为 {expected[first_break] if first_break < len(expected) else "无"}, '
             f'实为 {seq_in_text[first_break] if first_break < len(seq_in_text) else "无"}）'
@@ -163,15 +151,15 @@ def verify_volume(n: int) -> tuple[list[str], list[str]]:
         return problems
 
     notes_markers = [m for m, _, _ in notes_items]
-    # 注释表圈号合法性 + 重复
-    notes_illegal = [m for m in notes_markers if m not in CIRCLED_INDEX]
+    # 注释表标记合法性 + 重复
+    notes_illegal = [m for m in notes_markers if not MARKER_RE.fullmatch(m)]
     if notes_illegal:
-        problems.append(f'注释表含非法圈号: {notes_illegal[:5]}')
-    # 注释表圈号应连续 ①②③...
-    expected_notes = list(CIRCLED[:len(notes_markers)])
+        problems.append(f'注释表含非法标记: {notes_illegal[:5]}')
+    # 注释表标记应连续 ①②③…〔51〕〔52〕…
+    expected_notes = [marker(i + 1) for i in range(len(notes_markers))]
     if notes_markers != expected_notes:
         problems.append(
-            f'注释表圈号不连续：共 {len(notes_markers)} 个，'
+            f'注释表标记不连续：共 {len(notes_markers)} 个，'
             f'应为 {expected_notes[:3]}... 递增'
         )
 
@@ -181,38 +169,36 @@ def verify_volume(n: int) -> tuple[list[str], list[str]]:
         only_text = text_set - notes_set
         only_notes = notes_set - text_set
         if only_text:
-            problems.append(f'圈号只在原文出现、注释表缺失: {sorted(only_text, key=lambda c: CIRCLED_INDEX.get(c, 0))}')
+            problems.append(f'标记只在原文出现、注释表缺失: {sorted(only_text)}')
         if only_notes:
-            problems.append(f'圈号只在注释表出现、原文缺失: {sorted(only_notes, key=lambda c: CIRCLED_INDEX.get(c, 0))}')
+            problems.append(f'标记只在注释表出现、原文缺失: {sorted(only_notes)}')
 
     if len(notes_items) != len(seq_in_text):
-        problems.append(f'注释表 {len(notes_items)} 条 与 原文圈号 {len(seq_in_text)} 个 数量不符')
+        problems.append(f'注释表 {len(notes_items)} 条 与 原文标记 {len(seq_in_text)} 个 数量不符')
 
-    # 6. 序号-位置对应：注释表中 term 必须紧贴对应圈号左侧
+    # 6. 序号-位置对应：注释表中 term 必须紧贴对应标记左侧
     # 构建 marker -> term 映射
     marker_to_term = {}
     for m, term, _ in notes_items:
         if m in marker_to_term:
-            problems.append(f'注释表圈号重复: {m}')
+            problems.append(f'注释表标记重复: {m}')
             continue
         marker_to_term[m] = term
 
-    # 对原文中每个圈号，取其左侧文本，检查是否以 term（去空白）结尾
+    # 对原文中每个标记，取其左侧文本，检查是否以 term（去空白）结尾
     for pi, para in enumerate(paragraphs):
-        for ci, ch in enumerate(para):
-            if ch not in CIRCLED_INDEX:
-                continue
-            term = marker_to_term.get(ch)
+        for mt in MARKER_RE.finditer(para):
+            term = marker_to_term.get(mt.group(0))
             if term is None:
                 continue
             term_ws = ws_strip(term)
-            # 取圈号左侧所有非空白字符
-            left = ws_strip(para[:ci])
+            # 取标记左侧所有非空白字符
+            left = ws_strip(para[:mt.start()])
             if not left.endswith(term_ws):
                 # 找出实际左侧结尾
                 tail = left[-min(len(term_ws) + 5, len(left)):]
                 problems.append(
-                    f'序号-位置错乱：{n}.md 第 {pi + 1} 段圈号 {ch} '
+                    f'序号-位置错乱：{n}.md 第 {pi + 1} 段标记 {mt.group(0)} '
                     f'左侧应为「{term}」（去空白 {term_ws}），'
                     f'实为「...{tail}」'
                 )

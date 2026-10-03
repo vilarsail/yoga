@@ -45,57 +45,47 @@ def collect_files(start: int, end: int) -> list[Path]:
     return files
 
 
-# 带圈数字（圈码）1~50，作为原文标注与注释条目的唯一编号依据
-# 顺序即编号：①=1, ⑩=10, ⑳=20, ㉑=21, ㉟=30, ㊱=31, ㊿=50
-CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚㉛㉜㉝㉞㉟㊱㊲㊳㊴㊵㊶㊷㊸㊹㊺㊻㊼㊽㊾㊿'
-CIRCLED_RE = re.compile('[' + CIRCLED + ']')
-
-
-def glyph_index(ch: str) -> int | None:
-    """圈码 → 编号（1 起）。非圈码返回 None。"""
-    i = CIRCLED.find(ch)
-    return (i + 1) if i >= 0 else None
+# 标注编号统一样式〔n〕（1 起无上限），作为原文标注与注释条目的唯一编号依据。
+# 历史版本曾用圈号 ①-㊿，现全部已重排为〔n〕，此处不再处理圈号。
+MARKER_RE = re.compile(r'〔(\d+)〕')
 
 
 def note_indicies(notes_text: str) -> set[int]:
-    """从注释文件提取注释条目的圈码编号集合（以圈码开头的行）。"""
+    """从注释文件提取注释条目的编号集合（以〔n〕开头的行）。"""
     idxs = set()
     for line in notes_text.splitlines():
-        m = re.match(r'^\s*' + CIRCLED_RE.pattern + r'\s', line)
+        m = re.match(r'^\s*〔(\d+)〕\s', line)
         if m:
-            idx = glyph_index(m.group(0).strip()[0])
-            if idx is not None:
-                idxs.add(idx)
+            idxs.add(int(m.group(1)))
     return idxs
 
 
 def add_text_links(text: str, vol: int, note_idxs: set[int]) -> str:
-    """原文：把每个圈码包裹为锚点，并链接到同名注释条目。
-    首次出现的圈码同时作为「回到原文」的锚点目标。"""
+    """原文：把每个〔n〕标记包裹为锚点，并链接到同名注释条目。
+    首次出现的标记同时作为「回到原文」的锚点目标。"""
     seen: set[int] = set()
     def repl(m: re.Match) -> str:
-        ch = m.group(0)
-        idx = glyph_index(ch)
-        if idx is None or idx not in note_idxs:
-            return ch
-        link = f'[^{ch}^](#v{vol}n{idx})'
+        tok = m.group(0)
+        idx = int(m.group(1))
+        if idx not in note_idxs:
+            return tok
+        link = f'[^{tok}^](#v{vol}n{idx})'
         if idx in seen:
             return link
         seen.add(idx)
         return f'<a id="v{vol}t{idx}"></a>{link}'
-    return CIRCLED_RE.sub(repl, text)
+    return MARKER_RE.sub(repl, text)
 
 
 def add_notes_links(text: str, vol: int) -> str:
     """注释：给每个注释条目加锚点，并在行末加「↩ 回原文」链接。"""
-    pat = re.compile(r'^(' + CIRCLED_RE.pattern + r')\s+(.*)$')
+    pat = re.compile(r'^(〔(\d+)〕)\s+(.*)$')
     lines = []
     for line in text.splitlines():
         m = pat.match(line)
         if m:
-            ch, rest = m.group(1), m.group(2)
-            idx = glyph_index(ch)
-            lines.append(f'<a id="v{vol}n{idx}"></a>{ch} {rest}　[↩ 回原文](#v{vol}t{idx})')
+            tok, idx, rest = m.group(1), int(m.group(2)), m.group(3)
+            lines.append(f'<a id="v{vol}n{idx}"></a>{tok} {rest}　[↩ 回原文](#v{vol}t{idx})')
         else:
             lines.append(line)
     return '\n'.join(lines)
