@@ -511,12 +511,10 @@ function zoomAt(px,py,k){
   tx+=scale*px*(1-kk);ty+=scale*py*(1-kk);scale=ns;apply()}
 svg.addEventListener('wheel',e=>{e.preventDefault();
   const unit=e.deltaMode===1?16:1;
-  if(e.ctrlKey){
-    const pt=new DOMPoint(e.clientX,e.clientY).matrixTransform(vp.getScreenCTM().inverse());
-    zoomAt(pt.x,pt.y,Math.exp(-e.deltaY*unit*0.01));
-  }else{
-    tx-=e.deltaX*unit;ty-=e.deltaY*unit;apply();
-  }},{passive:false});
+  if(e.shiftKey&&!e.ctrlKey){tx-=e.deltaY*unit;apply();return}
+  const pt=new DOMPoint(e.clientX,e.clientY).matrixTransform(vp.getScreenCTM().inverse());
+  zoomAt(pt.x,pt.y,Math.exp(-e.deltaY*unit*(e.ctrlKey?0.01:0.002)));
+},{passive:false});
 let gscale=1;
 svg.addEventListener('gesturestart',e=>{e.preventDefault();gscale=scale});
 svg.addEventListener('gesturechange',e=>{e.preventDefault();

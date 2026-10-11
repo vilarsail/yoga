@@ -31,3 +31,30 @@ ul li {
 ol li {
   display: list-item;
 }
+
+/* 译文引用块样式：左侧竖线 + 灰色，与原文正体区分 */
+blockquote {
+  margin: 0.8em 0 0.8em 0.2em;
+  padding: 0.1em 0 0.1em 0.9em;
+  border-left: 3px solid #aaaaaa;
+  color: #555555;
+}
+blockquote p {
+  margin: 0.3em 0;
+}
+
+/* 注释标注：上标数字紧凑显示，去掉下划线；被注释词语保留下划线 */
+sup {
+  font-size: 0.75em;
+  line-height: 0;
+}
+sup a {
+  text-decoration: none;
+  color: inherit;
+}
+a {
+  text-decoration: none;
+}
+a u {
+  text-decoration: underline;
+}

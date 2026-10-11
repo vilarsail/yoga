@@ -20,7 +20,7 @@ description: 通读《瑜伽师地论》一篇 output/*.md 的原文（文言文
 prepare_reading.py → reading_{N}_orig.txt → [LLM] → notes_{N}.json → build_reading.py → output/{N}.guide.md + output/{N}.notes.md + output/{N}.md(写入编号标注)
 ```
 
-- `prepare_reading.py <N>`：从 `output/{N}.md` 提取**原文-only 紧凑文本**（标题 + 带 P 段号的 　　 段，跳过 * 译文行、空行，剥离旧标注）→ `output/reading_{N}_orig.txt`
+- `prepare_reading.py <N>`：从 `output/{N}.md` 提取**原文-only 紧凑文本**（标题 + 带 P 段号的 　　 段，跳过 > 译文行、空行，剥离旧标注）→ `output/reading_{N}_orig.txt`
 - LLM：通读原文，写 `output/notes_{N}.json`（`{"guide": "...", "terms": [{"term": "...", "note": "..."}, ...]}`）
 - `build_reading.py <N>`：校验词条 → 按首次出现位置分配编号 → 在 `output/{N}.md` 的**原文**中插入标注 → 生成 `output/{N}.guide.md`（导读）+ `output/{N}.notes.md`（注释表）→ 字符流/编号/对应校验 → 打印汇总
 
@@ -101,7 +101,7 @@ python3 .claude/skills/read-yoga/build_reading.py <start> <end>
 - **原文 100% 由脚本保留**：LLM 写 JSON 时完全接触不到原文；`output/{N}.md` 仅由脚本插入标注，译文/标题/空行不动。
 - **重跑幂等**：`parse_md` 会先剥离旧标注（圈号与〔n〕扩展标记）再插入新标注，重复运行不会叠加。
 - **编号会因补充而变化**：编号按「全文首次出现位置」统一分配，增量补充新词后，插入点之后的所有编号会顺移。`output/{N}.md` 与 `{N}.notes.md` 由脚本整体重写、编号始终一致；但下游若有引用旧编号的内容（如笔记、教学模块），需以新编号为准自行核对。
-- **与翻译流水线的关系**：`output/{N}.md` 写入标注后，若日后重跑 `translate-yoga`（`merge_translations.py` 会用原始原文覆写该文件），标注会丢失，需重新生成 `notes_{N}.json` 后重跑 `build_reading.py`。`check-yoga`/`fix-yoga` 按 　　/* 行识别段落，标注位于原文段内部，不影响段落识别。
+- **与翻译流水线的关系**：`output/{N}.md` 写入标注后，若日后重跑 `translate-yoga`（`merge_translations.py` 会用原始原文覆写该文件），标注会丢失，需重新生成 `notes_{N}.json` 后重跑 `build_reading.py`。`check-yoga`/`fix-yoga` 按 　　 / "> " 行识别段落，标注位于原文段内部，不影响段落识别。
 - 导读字数 400-1200 均可接受（1200 左右或略超不需精简），脚本会打印实际字数，仅明显偏短（<400）或异常偏长（>1500）时以 ⚠ 提示。**不要为压字数而触发额外的精简轮次**——资源消耗不值得。
 - 编号方案：统一样式全角括号 〔1〕〔2〕〔3〕…，无上限；原文经核查不含〔〕，不会与正文冲突。历史上用过的圈号 ①-㊿ 标注由脚本在重跑时自动剥离。
 

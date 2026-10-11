@@ -11,7 +11,7 @@ apply_fix.py - 合并各批修复判断，对 output/{N}.md 应用 ACCEPT 的修
 - 更新 output/{N}.md（用 new_trans 替换 ACCEPT 的译文段；MISSING 情况在原文段后插入）
 - 生成 output/{N}.fix.md（格式化修复记录）
 
-替换策略：按段落号定位原文段（　　 开头），找到其后紧跟的译文段（* 开头块），
+替换策略：按段落号定位原文段（　　 开头），找到其后紧跟的译文段（"> " 引用块），
 整体替换为 new_trans。MISSING 情况（无译文块）在原文段后插入 new_trans。
 从后往前处理以避免行索引偏移。
 """
@@ -120,20 +120,15 @@ def validate_new_trans(new_trans: str, orig: str) -> tuple[bool, str]:
     """校验 new_trans 格式是否合规。
 
     检查项：
-    1. 非空且长度 >= 2（至少 *x*）
-    2. 以 * 开头且以 * 结尾
+    1. 非空且长度 >= 2（至少 "> x"）
+    2. 每行以 "> " 开头（引用块格式）
     3. 颂偈行数匹配：若原文多行（颂偈），新译文行数必须与原文一致
-       （格式 A 每行 * 和格式 B 整块 * 的行数都与原文相同）
-
-    注：不校验格式 A/B 与原 trans 的一致性--check-yoga 视两种格式均为合法，
-    强制一致会误拒合法的格式转换。仅做基本结构与行数校验。
     """
     if not new_trans or len(new_trans) < 2:
         return False, 'new_trans 为空或过短'
-    if not new_trans.startswith('*'):
-        return False, 'new_trans 未以 * 开头'
-    if not new_trans.endswith('*'):
-        return False, 'new_trans 未以 * 结尾'
+    for ln in new_trans.split('\n'):
+        if not ln.startswith('> '):
+            return False, f'new_trans 存在未以 "> " 开头的行：{ln[:30]}'
     orig_lines = orig.split('\n') if orig else []
     if len(orig_lines) > 1:
         new_lines = new_trans.split('\n')
@@ -148,13 +143,13 @@ def find_trans_block_range(lines: list[str], orig_end_idx: int) -> tuple[int, in
     i = orig_end_idx + 1
     while i < n and lines[i].strip() == '':
         i += 1
-    if i >= n or not lines[i].startswith('*'):
+    if i >= n or not lines[i].startswith('> '):
         return None
     start = i
     i += 1
     while i < n:
         line = lines[i]
-        if line.startswith('*'):
+        if line.startswith('> '):
             i += 1
         elif line.startswith('　　') or line.lstrip().startswith('#'):
             break
@@ -162,12 +157,12 @@ def find_trans_block_range(lines: list[str], orig_end_idx: int) -> tuple[int, in
             j = i
             while j < n and lines[j].strip() == '':
                 j += 1
-            if j < n and lines[j].startswith('*'):
+            if j < n and lines[j].startswith('> '):
                 i = j
             else:
                 break
         else:
-            i += 1
+            break
     return start, i - 1
 
 

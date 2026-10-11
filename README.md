@@ -29,8 +29,8 @@ V3.x：
 
 仓库内已附带打包好的电子书，可直接下载阅读：
 
-- [瑜伽师地论(重译版)-v2.1.epub](瑜伽师地论(重译版)-v2.1.epub)
-- [瑜伽师地论(重译版)-v2.1.pdf](瑜伽师地论(重译版)-v2.1.pdf)
+- [瑜伽师地论(3.0导读注释版).epub](瑜伽师地论(3.0导读注释版).epub)
+- [瑜伽师地论(3.0导读注释版).pdf](瑜伽师地论(3.0导读注释版).pdf)
 
 如需自行打包，见下方[打包脚本](#打包脚本)一节。
 
@@ -66,7 +66,7 @@ V3.x：
 ├── .claude/skills/        # 翻译/校对/修复/导读生成的 AI skill 定义与脚本
 ├── build_epub.py          # epub 打包脚本
 ├── cover.jpg              # epub 封面
-└── 瑜伽师地论(重译版)-v2.1.epub / .pdf  # 打包成品
+└── 瑜伽师地论(3.0导读注释版).epub / .pdf  # 打包成品
 ```
 
 每卷包含三类文件：
@@ -74,22 +74,23 @@ V3.x：
 | 文件 | 内容 |
 |---|---|
 | `N.guide.md` | 导读，约 1200 字，概述本卷主旨与逻辑架构 |
-| `N.md` | 原文与译文，原文段以全角空格缩进、译文段以 `*` 起首，原文段中以 ①②③… 标注术语位置 |
+| `N.md` | 原文与译文，原文段以全角空格缩进、译文段为 `> ` 引用块，原文段中以 〔1〕〔2〕… 标注术语位置 |
 | `N.notes.md` | 词语注释，按圈号顺序列出本卷术语的释义 |
 
 ## 打包脚本
 
-使用 [build_epub.py](build_epub.py) 将 `output/` 下的文件打包为 epub。需先安装 pandoc（macOS: `brew install pandoc`）。
+使用 [build_epub.py](build_epub.py) 将 `output/` 下的文件一键打包为 epub + pdf。需先安装 pandoc（macOS: `brew install pandoc`）与 calibre 的 `ebook-convert`（macOS: `brew install --cask calibre`）。
 
 ```bash
-python3 build_epub.py                  # 打包全部：前言 + 100 卷，封面 cover.jpg
+python3 build_epub.py                  # 一键生成 epub + pdf：前言 + 100 卷，封面 cover.jpg
 python3 build_epub.py 1 50             # 只打包卷 1-50（不含前言）
+python3 build_epub.py --no-pdf         # 只生成 epub
 python3 build_epub.py -o 自定义.epub    # 自定义输出文件名
 python3 build_epub.py -c cover.png     # 自定义封面图片
 python3 build_epub.py -c ""            # 不使用封面
 ```
 
-打包顺序：前言 → 各卷导读 → 原文译文 → 注释，卷间分页。
+打包顺序：前言 → 各卷导读 → 原文译文 → 注释，卷间分页。epub 由 pandoc 生成，pdf 由 calibre 从 epub 转换（同名 .pdf）。
 
 ## AI 工程链路
 
@@ -114,7 +115,7 @@ python3 build_epub.py -c ""            # 不使用封面
 
 ## 版本信息
 
-- 版本：V3.1
+- 版本：V3.0
 - 整理人：君言
 - 辅助 AI：deepseek-v4 / glm5.2 / glm5.3
 - 联系邮箱：[vilarsail@163.com](mailto:vilarsail@163.com)

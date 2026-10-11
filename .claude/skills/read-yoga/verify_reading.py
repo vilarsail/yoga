@@ -9,7 +9,7 @@ verify_reading.py - 校验 output/{N}.md / {N}.guide.md / {N}.notes.md 的完整
 4. 注释表 {N}.notes.md 解析出的标记集合 == 原文标记集合
 5. 注释表条目数 == 原文标记数
 6. 序号-位置对应：注释表中每条 term（去空白）必须紧贴对应标记左侧出现于原文段中
-7. 标记只出现在原文段（　　开头），不出现在译文（*）或标题（#）行
+7. 标记只出现在原文段（　　开头），不出现在译文（> 引用块）或标题（#）行
 8. 导读 {N}.guide.md 含五节标题（一~五），字数 400-1500（仅提示不阻断）
 
 用法：
@@ -122,7 +122,7 @@ def verify_volume(n: int) -> tuple[list[str], list[str]]:
     # 2. 编号合法性 + 7. 编号只出现在原文段
     for line in all_lines:
         # 编号越界检查：标题行/译文行不应含任何标注记号
-        if line.startswith('#') or line.startswith('*'):
+        if line.startswith('#') or line.startswith('> '):
             hit = MARKER_RE.search(line)
             if hit:
                 problems.append(f'编号越界：{n}.md 标题/译文行含标记「{hit.group(0)}」: {line[:40]}')
