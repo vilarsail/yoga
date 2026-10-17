@@ -36,7 +36,7 @@ MAX_LEN = 10
 
 
 def split_segments(text: str) -> list[str]:
-    for ch in '。，、；：？！「」『』（）*…—\n 　　0123456789０１２３４５６７８９⑮⑯⑰⑱⑲⑳㉑㉒㉓㉔㉕':
+    for ch in '。，、；：？！「」『』（）>…—\n 　　0123456789０１２３４５６７８９⑮⑯⑰⑱⑲⑳㉑㉒㉓㉔㉕':
         text = text.replace(ch, ' ')
     return [s for s in text.split(' ') if len(s) >= MIN_LEN]
 
@@ -88,7 +88,7 @@ def main():
                 continue
             for s in common_substrings(v['orig'], v['trans']):
                 # 剔除含标点/数字的
-                if re.search(r'[，。、；：？！（）「」*0-9]', s):
+                if re.search(r'[，。、；：？！（）「」>0-9]', s):
                     continue
                 freq[s] += 1
                 if s not in examples or len(examples[s]) < 2:

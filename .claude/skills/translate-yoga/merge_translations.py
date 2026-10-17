@@ -3,7 +3,7 @@
 merge_translations.py — 将 translations_{N}.json 合并回 output/{N}.md
 
 - 读取原始 output/{N}.md，保持标题行原样
-- 读取 translations_{N}.json（格式: {"1": "*译文*", "2": "*行1*\n*行2*", ...}）
+- 读取 translations_{N}.json（格式: {"1": "> 译文", "2": "> 行1\n> 行2", ...}）
 - 在每段原文后插入对应译文（斜体），中间空一行
 - 原文 100% 保持，无需校验
 """

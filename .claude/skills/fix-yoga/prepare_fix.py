@@ -16,7 +16,7 @@ BATCH = 10  # 每批问题数。修复判断需逐条对照原文/译文/建议�
 
 def extract_pairs(filepath: str) -> dict[str, dict]:
     """从 output/{N}.md 提取 原文段->译文段 对。
-    与 prepare_check.py 完全相同的逻辑：原文段以 　　 开头（可多行颂偈），译文段以 * 开头（可多行）。"""
+    与 prepare_check.py 完全相同的逻辑：原文段以 　　 开头（可多行颂偈），译文段为 "> " 引用块（可多行）。"""
     with open(filepath, 'r', encoding='utf-8') as f:
         lines = f.readlines()
 
@@ -37,7 +37,7 @@ def extract_pairs(filepath: str) -> dict[str, dict]:
             trans_lines = []
             while i < n:
                 line = lines[i]
-                if line.startswith('*'):
+                if line.startswith('> '):
                     trans_lines.append(line.rstrip('\n'))
                     i += 1
                 elif line.startswith('　　') or line.lstrip().startswith('#'):
@@ -46,13 +46,12 @@ def extract_pairs(filepath: str) -> dict[str, dict]:
                     j = i
                     while j < n and lines[j].strip() == '':
                         j += 1
-                    if j < n and lines[j].startswith('*'):
+                    if j < n and lines[j].startswith('> '):
                         i = j
                     else:
                         break
                 else:
-                    trans_lines.append(line.rstrip('\n'))
-                    i += 1
+                    break
             idx += 1
             pairs[str(idx)] = {
                 'orig': '\n'.join(orig_lines),

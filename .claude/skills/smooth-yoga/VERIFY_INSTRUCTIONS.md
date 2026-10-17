@@ -29,10 +29,10 @@
 ## 判定与处理
 
 - **PASS**：无上述问题。输出 `{"verdict": "PASS", "reason": "一句话说明通过依据"}`。
-- **FAIL 且能修复**：问题明确且你知道如何在不改变含义的前提下修正。输出 `{"verdict": "FAIL", "issue": "具体指出错在哪里（引用 new_trans 中的词句对照 orig/old_trans）", "fixed_trans": "修正后的完整译文（含 * 包裹，格式同 new_trans 要求）"}`。
+- **FAIL 且能修复**：问题明确且你知道如何在不改变含义的前提下修正。输出 `{"verdict": "FAIL", "issue": "具体指出错在哪里（引用 new_trans 中的词句对照 orig/old_trans）", "fixed_trans": "修正后的完整译文（每行以 > 开头，格式同 new_trans 要求）"}`。
 - **FAIL 且不能可靠修复**（如对某句含义本身拿不准）：输出 `{"verdict": "FAIL", "issue": "…", "fixed_trans": null}`。该段将被回退为 old_trans——宁可保留晦涩但正确的译文。
 
-**修复纪律**：fixed_trans 必须以 `*` 开头结尾、颂偈行数与 orig 行数一致、内容仍以 old_trans 为基准修正错误点，不得趁机重新发挥。
+**修复纪律**：fixed_trans 每行必须以 `> ` 开头、颂偈行数与 orig 行数一致、内容仍以 old_trans 为基准修正错误点，不得趁机重新发挥。
 
 **绝不要为了挑错而挑错**：连接词补全、主语补全、长句拆短、语序调整都是合法改写手段，不是问题。
 
@@ -44,7 +44,7 @@
 ```json
 {
   "3": {"verdict": "PASS", "reason": "内容与原译文逐句对应，句式已是现代白话。"},
-  "7": {"verdict": "FAIL", "issue": "new_trans 将'或染污或善法'写成'染污法和善法'，改变了或然关系。", "fixed_trans": "*……*"}
+  "7": {"verdict": "FAIL", "issue": "new_trans 将'或染污或善法'写成'染污法和善法'，改变了或然关系。", "fixed_trans": "> ……"}
 }
 ```
 

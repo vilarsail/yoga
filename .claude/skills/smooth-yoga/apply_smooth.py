@@ -12,7 +12,7 @@ apply_smooth.py — 合并各批改写结果，对 output/{N}.md 应用新译文
 - smooth_{N}_applied.json（改写记录 + 状态，供 finalize_smooth.py 生成报告）
 - smooth_{N}_vbatch{b}.json（校验批次文件，供阶段B子 Agent 使用）
 
-本脚本不做任何语义判断；格式校验（* 包裹、颂偈行数）通过后才应用。
+本脚本不做任何语义判断；格式校验（每行 "> " 开头、颂偈行数）通过后才应用。
 """
 
 from __future__ import annotations

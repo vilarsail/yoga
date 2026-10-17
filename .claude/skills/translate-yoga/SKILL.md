@@ -21,9 +21,9 @@ split_paragraphs.py  →  paragraphs_{N}.json  →  [LLM 翻译]  →  translati
 # 核心翻译原则
 1. **信达雅与专业性**：准确理解句读逻辑，将古文转换为现代白话文，精准保留唯识宗法相名词（如：嗢拖南、阿赖耶识、三摩呬多地、等无间依等）。
 2. **免译清单**：**绝对不要翻译任何标题**（即带有 `#`, `##`, `###` 等 Markdown 标记的行）。标题不参与分块、不翻译。
-3. **格式要求**：所有翻译出的正文内容，必须以**斜体**（Markdown 中的 `*翻译内容*`）格式化。**仅包含译文本身，不得添加任何前缀标记**（如"译文"、"翻译"、"译"等）。
-4. **逐段对照**：每段原文后紧跟其译文（斜体），形成"原文段 → 译文段 → 原文段 → 译文段 ..."的交替结构。
-5. **颂偈必须真正翻译**：不要照抄原文，要将偈颂翻译为有韵律的现代白话。多行段落每行单独用 `*` 包裹，行间 `\n` 分隔。
+3. **格式要求**：所有翻译出的正文内容，必须以**引用块**（Markdown 中的 `> 翻译内容`，每行 `> ` 开头）格式化。**仅包含译文本身，不得添加任何前缀标记**（如"译文"、"翻译"、"译"等）。
+4. **逐段对照**：每段原文后紧跟其译文（引用块），形成"原文段 → 译文段 → 原文段 → 译文段 ..."的交替结构。
+5. **颂偈必须真正翻译**：不要照抄原文，要将偈颂翻译为有韵律的现代白话。多行段落每行均以 `> ` 开头，行间 `\n` 分隔。
 
 # 段落定义（重要）
 - **段落 = `output/{N}.md` 中以 `　　` 开头的一个连续文本块**，无论它是单行还是多行（颂偈等多行段也算 1 段）
@@ -50,7 +50,7 @@ python3 .claude/skills/translate-yoga/split_paragraphs.py <N>
 - **翻译目标**：将当前的 5 个段落作为 `<target>` 进行翻译，保持段落数量一一对应（5 段原文 → 5 段译文）。
 - **输出要求**：
   - 确保偈颂等特殊文体真正翻译为富有韵律的现代白话，**不要照抄原文**。
-  - **多行段落（颂偈等）**：译文也是多行，每行单独用 `*` 包裹斜体，行与行之间保持换行（不要把多行段压成一行）。
+  - **多行段落（颂偈等）**：译文也是多行，每行均以 `> ` 开头，行与行之间保持换行（不要把多行段压成一行）。
   - 每段译文独立成段，与原文段落顺序严格对应。
   - **译文仅包含翻译内容本身，不得添加任何前缀文字**（如"译文"、"翻译"等）。
 
@@ -58,15 +58,15 @@ python3 .claude/skills/translate-yoga/split_paragraphs.py <N>
 每翻译完一个 Chunk，将译文以 **JSON 追加**方式写入 `translations_{N}.json`。最终文件格式：
 ```json
 {
-  "1": "*译文段落1*",
-  "2": "*译文行1*\n*译文行2*\n*译文行3*",
-  "3": "*译文段落3*",
+  "1": "> 译文段落1",
+  "2": "> 译文行1\n> 译文行2\n> 译文行3",
+  "3": "> 译文段落3",
   ...
 }
 ```
 - 键为段落编号（字符串），与 `paragraphs_{N}.json` 严格对应
-- 值为完整的斜体 Markdown 字符串（含 `*` 包裹）
-- 多行段落的每一行单独用 `*` 包裹，换行符 `\n` 分隔
+- 值为完整的引用块 Markdown 字符串（每行 `> ` 开头）
+- 多行段落的每一行均以 `> ` 开头，换行符 `\n` 分隔
 
 ## 步骤四：合并（确定性脚本）
 翻译完成后，运行：
@@ -82,14 +82,14 @@ python3 .claude/skills/translate-yoga/merge_translations.py <N>
 ## 小标题（原样保留）
 
 　　原文段落1
-*译文段落1...*
+> 译文段落1...
 
 　　原文段落2（颂偈，多行）
-*译文第1行...*
-*译文第2行...*
+> 译文第1行...
+> 译文第2行...
 
 　　原文段落3
-*译文段落3...*
+> 译文段落3...
 ```
 
 **要点**：
@@ -203,27 +203,29 @@ for key, value in merged.items():
     if not isinstance(value, str):
         print(f'WARNING: paragraph {key} value is not string: {type(value).__name__}')
         continue
-    # 修复1: 去掉 '译文' 等前缀标记
-    value = re.sub(r'^\*译文\*\s*', '*', value)
-    value = re.sub(r'^\*翻译\*\s*', '*', value)
-    value = re.sub(r'^\*译\*\s*', '*', value)
-    # 修复2: 确保每行都以 * 开头和结尾（多行段落的每行）
+    # 修复1: 去掉 '译文' 等前缀标记（兼容引用块与斜体两种写法）
+    value = re.sub(r'^(?:>\s*)?\*译文\*\s*', '', value)
+    value = re.sub(r'^(?:>\s*)?\*翻译\*\s*', '', value)
+    value = re.sub(r'^(?:>\s*)?\*译\*\s*', '', value)
+    value = re.sub(r'^>\s*译文[:：]?\s*', '', value)
+    value = re.sub(r'^>\s*翻译[:：]?\s*', '', value)
+    # 修复2: 确保每行都以 "> " 开头（多行段落的每行）
     if '\n' in value:
         lines = value.split('\n')
         cleaned = []
         for line in lines:
             line = line.strip()
-            if line and not line.startswith('*'):
-                line = '*' + line
-            if line and not line.endswith('*'):
-                line = line + '*'
+            if line.startswith('>') and not line.startswith('> '):
+                line = line[1:].lstrip()
+            if line and not line.startswith('> '):
+                line = '> ' + line
             cleaned.append(line)
         value = '\n'.join(cleaned)
-    # 修复3: 确保以 * 开头结尾
-    if value and not value.startswith('*'):
-        value = '*' + value
-    if value and not value.endswith('*'):
-        value = value + '*'
+    # 修复3: 确保以 "> " 开头
+    if value.startswith('>') and not value.startswith('> '):
+        value = value[1:].lstrip()
+    if value and not value.startswith('> '):
+        value = '> ' + value
     merged[key] = value
     if value != original[key]:
         fixed += 1
@@ -237,7 +239,7 @@ warnings = 0
 for key, value in merged.items():
     if key in paragraphs and isinstance(value, str):
         orig = paragraphs[key].replace('　　', '').replace('。', '').replace('，', '').replace(' ', '')
-        trans = value.replace('*', '').replace('。', '').replace('，', '').replace(' ', '')
+        trans = value.replace('> ', '').replace('*', '').replace('。', '').replace('，', '').replace(' ', '')
         ratio = difflib.SequenceMatcher(None, orig, trans).ratio()
         if ratio > 0.8 and len(orig) > 20:
             print(f'WARNING: paragraph {key} may not be translated (similarity {ratio:.1%})')

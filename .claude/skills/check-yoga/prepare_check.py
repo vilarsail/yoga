@@ -16,7 +16,7 @@ BATCH = 20  # 每批段对数（含上下文）。校对需逐段对比原文与
 
 def extract_pairs(filepath: str) -> dict[str, dict]:
     """从交替结构 output/{N}.md 提取 原文段→译文段 对。
-    原文段以 　　 开头（可多行颂偈），译文段以 * 开头（可多行）。"""
+    原文段以 　　 开头（可多行颂偈），译文段为引用块（每行以 "> " 开头，可多行）。"""
     with open(filepath, 'r', encoding='utf-8') as f:
         lines = f.readlines()
 
@@ -36,32 +36,27 @@ def extract_pairs(filepath: str) -> dict[str, dict]:
             # 跳过空行
             while i < n and lines[i].strip() == '':
                 i += 1
-            # 收集译文段（* 开头的行）。颂偈等译文可能跨多行，有两种合法格式：
-            #   格式A：每行独立以 * 包裹（*行1* / *行2*）
-            #   格式B：整块跨行包裹（首行 *开头，末行 结尾*，中间行无 *）
-            # 因此遇到 * 开头行后，继续收集后续"非空、非 　　原文、非 # 标题"的行（含跨行续行），
-            # 直到遇到空行后非 * 行、或 　　原文、或标题、或文件结束。
+            # 收集译文段（"> " 引用块，可多行偈颂，每行均以 "> " 开头）。
+            # 直到遇到空行后非 "> " 行、或 　　原文、或标题、或文件结束。
             trans_lines = []
             while i < n:
                 line = lines[i]
-                if line.startswith('*'):
+                if line.startswith('> '):
                     trans_lines.append(line.rstrip('\n'))
                     i += 1
                 elif line.startswith('　　') or line.lstrip().startswith('#'):
                     break  # 下一段原文或标题，译文块结束
                 elif line.strip() == '':
-                    # 空行：向后看是否还有 * 行（格式A续行）；跨行续行（格式B）中间通常无空行
+                    # 空行：向后看是否还有 "> " 行（引用块跨空行续写）
                     j = i
                     while j < n and lines[j].strip() == '':
                         j += 1
-                    if j < n and lines[j].startswith('*'):
-                        i = j  # 空行后仍是 * 译文，跳过空行继续
+                    if j < n and lines[j].startswith('> '):
+                        i = j  # 空行后仍是 "> " 译文，跳过空行继续
                     else:
                         break
                 else:
-                    # 非 * 开头、非空、非原文、非标题 → 跨行 *...* 的续行
-                    trans_lines.append(line.rstrip('\n'))
-                    i += 1
+                    break
             idx += 1
             pairs[str(idx)] = {
                 'orig': '\n'.join(orig_lines),

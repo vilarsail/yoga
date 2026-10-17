@@ -138,18 +138,18 @@ def verify_file(n: int, use_git: bool = False):
             issues.append(f'段落 {para_num} 标记已修复但缺少「新译文」字段')
             summary['missing'] += 1
             continue
-        # 正常态：new_trans 以 * 开头，直接做整串匹配
-        if new_trans.startswith('*'):
+        # 正常态：new_trans 为 "> " 引用块，直接做整串匹配
+        if new_trans.startswith('> '):
             if new_trans in md_text:
                 summary['verified'] += 1
             else:
                 summary['missing'] += 1
                 issues.append(f'段落 {para_num} 的新译文未在 {md.name} 中找到')
             continue
-        # 描述态（手动应用，如颂偈行数不匹配）：从描述里提取 *...* 片段，
+        # 描述态（手动应用，如颂偈行数不匹配）：从描述里提取 "> " 开头的片段，
         # 取「改为」之后的作为新译文片段，校验是否出现在 .md 中
         after_change = new_trans.split('改为')[-1]
-        snippets = re.findall(r'\*[^*\n]+\*', after_change)
+        snippets = [ln for ln in after_change.split('\n') if ln.startswith('> ')]
         if snippets and any(s in md_text for s in snippets):
             summary['verified'] += 1
         else:
