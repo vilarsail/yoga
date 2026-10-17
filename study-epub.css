@@ -1,0 +1,80 @@
+/* study-epub.css — 学习模块 EPUB 样式（墨水屏友好：黑白、边框分层、无背景填充） */
+
+body { line-height: 1.8; }
+
+h1 { font-size: 1.4em; text-align: center; margin: 1.2em 0; letter-spacing: .08em; }
+h2 { font-size: 1.2em; margin: 1.6em 0 .8em; border-left: 4px solid #333; padding-left: .5em; }
+h3 { font-size: 1.05em; margin: 1.3em 0 .6em; }
+h4 { font-size: 1em; margin: 1em 0 .4em; }
+
+p { margin: .6em 0; }
+
+/* 卷首 */
+.hero { text-align: center; margin-bottom: 1.5em; }
+.hero .kicker { letter-spacing: .25em; font-size: .85em; color: #444; margin-bottom: .5em; }
+.hero .sub { text-align: left; margin: 1em auto; max-width: 36em; }
+.hero .tagline { display: block; margin: 1em auto 0; padding: .15em 1.2em;
+  border: 1px solid #666; border-radius: 2em; font-size: .9em; color: #333; width: fit-content; }
+
+/* 学习路径静态清单 */
+ol.steps { padding-left: 1.5em; margin: .8em 0; }
+ol li { margin: .5em 0; }
+ol li span { color: #333; }
+
+/* 引文 */
+blockquote { margin: 1em 1.2em; padding: .6em 1em; border-left: 3px solid #888; }
+blockquote span { display: block; text-align: right; font-size: .85em; color: #444; }
+
+/* 偈颂 */
+blockquote.gatha { text-align: center; border-left: none; border-top: 1px solid #888; border-bottom: 1px solid #888; margin: 1.2em 2em; }
+blockquote.gatha p { margin: .4em 0; letter-spacing: .1em; }
+.mean { font-size: .92em; color: #222; margin: .6em 0; }
+
+/* 翻转卡片 → 定义条目 */
+.fn-item { border: 1px solid #999; border-radius: .4em; padding: .6em 1em; margin: .7em 0; page-break-inside: avoid; }
+.fn-item p:first-of-type { margin: 0 0 .3em; }
+.fn-item .fn-head b { font-size: 1.05em; }
+.fn-item .fn-sub { color: #444; font-size: .9em; }
+
+/* 原文比喻条目 */
+.yuan-item { border-left: 3px solid #888; padding: .1em 0 .1em .8em; margin: .8em 0; }
+.yuan-item p:first-child { margin-top: 0; }
+
+/* 时间线 */
+.tl-item { border-left: 3px solid #888; padding: .1em 0 .1em .8em; margin: .9em 0; }
+.tl-item b { display: block; margin-bottom: .15em; }
+
+/* 案例 / 提要 */
+.case { border: 1px solid #999; border-radius: .4em; padding: .6em 1em; margin: 1em 0; page-break-inside: avoid; }
+.plain { border-top: 1px dashed #888; border-bottom: 1px dashed #888; padding: .5em .2em; margin: 1em 0; }
+.plain ul { padding-left: 1.5em; margin: .3em 0; }
+.plain li { margin: .35em 0; }
+.analogy { border-left: 3px double #888; padding-left: .8em; margin: 1em 0; }
+
+/* 模拟器静态化 */
+.sim-outcomes { border: 1px dashed #888; border-radius: .4em; padding: .5em 1em; margin: 1em 0; }
+.sim-outcomes h4 { margin: .2em 0 .4em; }
+.sim-outcomes p { margin: .45em 0; }
+
+/* 测验 */
+.quiz { margin: 1em 0; }
+.quiz-q { margin: .8em 0 .2em; }
+.quiz-a { margin: 0 0 .4em; padding-left: 1.4em; }
+.quiz-a b { font-weight: bold; }
+
+/* 表格 */
+table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: .95em; }
+th, td { border: 1px solid #888; padding: .35em .6em; text-align: left; vertical-align: top; }
+th { font-weight: bold; }
+
+/* 其他 */
+.hint { font-size: .85em; color: #444; }
+.sec-lead { margin: .8em 0 1.2em; }
+.footer-note { margin-top: 2em; border-top: 1px solid #888; padding-top: .6em; font-size: .88em; color: #333; }
+
+/* 思维导图（层级列表） */
+.mindmap-md ul { padding-left: 1.5em; margin: .3em 0; list-style: disc; }
+.mindmap-md ul ul { list-style: circle; }
+.mindmap-md ul ul ul { list-style: square; }
+.mindmap-md li { margin: .45em 0; }
+.mindmap-md > ul { padding-left: 1em; }
